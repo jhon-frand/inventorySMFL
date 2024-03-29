@@ -22,7 +22,10 @@ function Equipos() {
   const [ubicaciones, setUbicaciones] = useState([])
   const [modal, setModal] = useState(false)
   const [modalUpdate, setModalUpdate] = useState(false)
+  const [modalCategory, setModalCategory] = useState(false)
+  const [modalCategoryUpdate, setModalCategoryUpdate] = useState(false)
   const [selectId, setSelectId] = useState(null)
+  const [selectIdCategory, setSelectIdCategory] = useState(null)
 
   const getEquipos = async () => {
     try {
@@ -67,7 +70,17 @@ function Equipos() {
     fk_categoria: "",
     fk_ubicacion: ""
   })
+  const [valoresCategory, setValoresCategory] = useState({
+    nombre_categoria: ""
+  })
 
+  const getDataCategory = (datos) => {
+    setValoresCategory({
+      nombre_categoria: datos[1]
+    })
+    setSelectIdCategory(datos[0])
+    setModalCategoryUpdate(true)
+  }
   const getData = (datos) => {
     const fecha = moment(datos[3]).format('YYYY-MM-DD');
 
@@ -92,6 +105,12 @@ function Equipos() {
       [event.target.name] : event.target.value
     }))
   }
+  const editValorInputCategory = (event) => {
+    setValoresCategory(prevState => ({
+      ...prevState,
+      [event.target.name] : event.target.value
+    }))
+  }
   const putEquipo = async (event) => {
     event.preventDefault();
     try {
@@ -105,9 +124,28 @@ function Equipos() {
       console.log(error);
     }
   }
+  const putCategory = async (event) => {
+    event.preventDefault();
+    try {
+      const respuesta = await axios.put(`${endpointCategory}/${selectIdCategory}`, valoresCategory)
+      if (respuesta.status === 200) {
+        alert(respuesta.data.message)
+        setModalCategoryUpdate(false)
+        getCategorias()
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
   const valorInput = (event) => {
     setValores({
       ...valores,
+       [event.target.name] : event.target.value
+    })
+  }
+  const valorInputCategory = (event) => {
+    setValoresCategory({
+      ...valoresCategory,
        [event.target.name] : event.target.value
     })
   }
@@ -121,6 +159,19 @@ function Equipos() {
     }
     setModal(false);
     getEquipos();
+  } catch (error) {
+    console.log(error);
+  }
+  }
+  const postCategory = async (event) => {
+    event.preventDefault();
+  try {
+    const respuesta = await axios.post(endpointCategory, valoresCategory)
+    if (respuesta.status === 200) {
+      alert (respuesta.data.message);
+    }
+    setModalCategory(false);
+    getCategorias();
   } catch (error) {
     console.log(error);
   }
@@ -206,7 +257,7 @@ function Equipos() {
       options: {
         customBodyRender: (value, tableMeta, updateValue) => {
           return (
-              <ButtonEdit funcion1={() => getData(tableMeta.rowData)} />
+              <ButtonEdit funcion1={() => getDataCategory(tableMeta.rowData)} />
           );
       }
       }
@@ -232,7 +283,13 @@ function Equipos() {
           options={options}
            />
         </MediumContainer>
-        <HeaderPageTwo icon={<CgToolbox/>} titulo="EQUIPOS" textButton1="REGISTRAR EQUIPO" textButton2="REGISTRAR CATEGORÍA" funcion1={() => setModal(true)}/>
+        <HeaderPageTwo 
+        icon={<CgToolbox/>} 
+        titulo="EQUIPOS" 
+        textButton1="REGISTRAR EQUIPO" 
+        textButton2="REGISTRAR CATEGORÍA"
+         funcion1={() => setModal(true)}
+         funcion2={() => setModalCategory(true)}/>
         <Modales>
           <Modal 
           titulo="REGISTRAR EQUIPO"
@@ -388,6 +445,40 @@ function Equipos() {
             <button>ACTUALIZAR</button>
           </form>
           </Modal>
+          <Modal 
+          titulo="REGISTRAR CATEGORÍA"
+          estado={modalCategory}
+          cambiarEstado={setModalCategory}
+          >
+             <form className="formulario" onSubmit={postCategory}>
+            <div className="inputs-data-category">
+              <div className="filas">
+              <div className="contents">
+                <label>NOMBRE: </label>
+              <input name="nombre_categoria" onChange={valorInputCategory} value={valoresCategory.nombre_categoria} type="text" placeholder="Nombre de Catgeoría" required/>
+              </div>
+              </div>
+            </div>
+            <button>REGISTRAR</button>
+          </form>
+          </Modal>
+          <Modal 
+          titulo="ACTUALIZAR CATEGORÍA"
+          estado={modalCategoryUpdate}
+          cambiarEstado={setModalCategoryUpdate}
+          >
+             <form className="formulario" onSubmit={putCategory}>
+            <div className="inputs-data-category">
+              <div className="filas">
+              <div className="contents">
+                <label>NOMBRE: </label>
+              <input name="nombre_categoria" onChange={editValorInputCategory} value={valoresCategory.nombre_categoria} type="text" placeholder="Nombre de Catgeoría" required/>
+              </div>
+              </div>
+            </div>
+            <button>ACTUALIZAR</button>
+          </form>
+          </Modal>
         </Modales>
         <div className="table-mui">
           <MUIDataTable className="table"
@@ -462,6 +553,15 @@ z-index: 30;
   align-items: center;
   flex-direction: column;
 
+    .inputs-data-category{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #38a80030;
+      width: 100%;
+      border-radius: 20px;
+      padding: 10px;
+    }
     .inputs-data{
       display: grid;
       grid-template-columns: 200px 230px 230px;
@@ -472,34 +572,6 @@ z-index: 30;
       border-radius: 20px;
       padding: 10px;
 
-      .filas{
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-
-        .contents{
-          display: flex;
-          flex-direction: column;
-          background: white;
-          padding: 5px;
-          border-radius: 5px;
-          gap: 10px;
-
-          label{
-            font-size: 14px;
-            font-weight: 600;
-          }
-        }
-  
-      }
-
-      input{
-        padding: 5px;
-        width: 180px;
-        border: none;
-        outline: none;
-        border-bottom: 1px solid #38a800;
-      }
       select{
         padding: 4px;
         width: 210px;
@@ -531,6 +603,34 @@ button{
     color: green;
   }
 }
+}
+.filas{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  .contents{
+    display: flex;
+    flex-direction: column;
+    background: white;
+    padding: 5px;
+    border-radius: 5px;
+    gap: 10px;
+
+    label{
+      font-size: 14px;
+      font-weight: 600;
+    }
+  }
+
+}
+
+input{
+  padding: 5px;
+  width: 180px;
+  border: none;
+  outline: none;
+  border-bottom: 1px solid #38a800;
 }
 `;
 export default Equipos

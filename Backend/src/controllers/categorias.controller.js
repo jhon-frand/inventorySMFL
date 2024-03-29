@@ -69,7 +69,7 @@ const getCategoria = async (peticion, respuesta) => {
 
 const getCategorias = async (peticion, respuesta) => {
     try {
-        const sql = "SELECT * FROM categorias"
+        const sql = "SELECT * FROM categorias ORDER BY categorias.id_categoria DESC"
         const [categorias] = await connection.query(sql);
         if (categorias.length > 0) {
             return respuesta.status(200).json(categorias)

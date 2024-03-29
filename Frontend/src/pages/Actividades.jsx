@@ -1,6 +1,5 @@
 import styled from "styled-components"
 import NavBar from "../components/organismos/NavBar";
-import HeaderPage from "../components/organismos/HeaderPage";
 import { options } from "../styles/Styles";
 import axios from "axios";
 import MUIDataTable from "mui-datatables";
@@ -9,7 +8,8 @@ import Modal from "../components/modals/Modal";
 import ButtonEdit from "../components/organismos/ButtonEdit";
 import moment from "moment";
 import { BsListOl } from "react-icons/bs";
-
+import HeaderPageTwo from "../components/organismos/HeaderPageTwo";
+import MediumContainer from "../components/organismos/MediumContainer";
 
 function Actividades() {
 
@@ -22,7 +22,10 @@ function Actividades() {
   const [mantenimientos, setMantenimientos] = useState([])
   const [modal, setModal] = useState(false)
   const [modalUpdate, setModalUpdate] = useState(false)
+  const [modalTecnico, setModalTecnico] = useState(false)
+  const [modalUpdateTecnico, setModalUpdateTecnico] = useState(false)
   const [selectId, setSelectId] = useState(null)
+  const [selectIdTecnico, setSelectIdTecnico] = useState(null)
 
   const getActividades = async () => {
     try {
@@ -61,7 +64,25 @@ function Actividades() {
     fk_mantenimiento: "",
     fk_tecnico: ""
    })
+   const [valoresTecnico, setValoresTecnico] = useState({
+    identificacion: "",
+    nombres: "",
+    apellidos: "",
+    correo: "",
+    telefono: ""
+   })
 
+   const getDataTecnico = (datos) => {
+    setValoresTecnico({
+      identificacion: datos[1],
+      nombres: datos[2],
+      apellidos: datos[3],
+      correo: datos[4],
+      telefono: datos[5]
+    })
+    setSelectIdTecnico(datos[0])
+    setModalUpdateTecnico(true)
+   }
    const getData = (datos) => {
     const fecha = moment(datos[1]).format('YYYY-MM-DD')
     setValores({
@@ -79,12 +100,37 @@ function Actividades() {
       [event.target.name] : event.target.value
     })
    }
+   const valorInputTecnico = (event) => {
+    setValoresTecnico({
+      ...valoresTecnico,
+      [event.target.name] : event.target.value
+    })
+   }
    const editValorInput = (event) => {
     setValores(prevState => ({
       ...prevState,
       [event.target.name]: event.target.value
     }))
    }
+   const editValorInputTecnico = (event) => {
+    setValoresTecnico(prevState => ({
+      ...prevState,
+      [event.target.name]: event.target.value
+    }))
+   }
+  const postTecnico = async (event) => {
+    event.preventDefault();
+    try {
+      const respuesta = await axios.post(endpointTecnico, valoresTecnico)
+      if (respuesta.status === 200) {
+        alert (respuesta.data.message);
+      }
+      setModalTecnico(false);
+      getTecnicos();
+    } catch (error) {
+      console.log(error);
+    }
+  }
   const postActivity = async (event) => {
     event.preventDefault();
     try {
@@ -107,6 +153,19 @@ function Actividades() {
       }
       setModalUpdate(false);
       getActividades();
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  const putTecnico = async (event) => {
+    event.preventDefault();
+    try {
+      const respuesta = await axios.put(`${endpointTecnico}/${selectIdTecnico}`, valoresTecnico)
+      if (respuesta.status === 200) {
+        alert (respuesta.data.message);
+      }
+      setModalUpdateTecnico(false);
+      getTecnicos();
     } catch (error) {
       console.log(error);
     }
@@ -156,7 +215,43 @@ function Actividades() {
       }
     }
   ]
-
+  const columnasTecnicos = [
+    {
+      name: "id_tecnico",
+      label: "ID"
+    },
+    {
+      name: "identificacion",
+      label: "IDENTIFICACIÓN"
+    },
+    {
+      name: "nombres",
+      label: "NOMBRES"
+    },
+    {
+      name: "apellidos",
+      label: "APELLIDOS"
+    },
+    {
+      name: "correo",
+      label: "EMAIL"
+    },
+    {
+      name: "telefono",
+      label: "TELÉFONO"
+    },
+    {
+      name: "editar",
+      label: "ACTIONS",
+      options: {
+        customBodyRender: (value, tableMeta, updateValue) => {
+          return(
+            <ButtonEdit funcion1={() => getDataTecnico(tableMeta.rowData)} />
+          )
+        }
+      }
+    }
+  ]
 
   useEffect(() => {
     getActividades();
@@ -164,14 +259,26 @@ function Actividades() {
     getMantenimientos();
   }, [])
 
-
-
-
   return (
     <Container>
       <NavBar/>
       <div className="contenedor">
-        <HeaderPage icon={<BsListOl/>} titulo="ACTIVIDADES" textButton="REGISTRAR ACTIVIDAD" funcion={()=> setModal(true)}/>
+        <MediumContainer>
+        <MUIDataTable className= "table-medium"
+          title="Técnicos"
+          data={tecnicos}
+          columns={columnasTecnicos}
+          options={options}
+           />
+        </MediumContainer>
+        <HeaderPageTwo 
+        icon={<BsListOl/>} 
+        titulo="ACTIVIDADES Y TÉCNICOS" 
+        textButton1="REGISTRAR ACTIVIDAD" 
+        textButton2="REGISTRAR TÉCNICO"
+        funcion1={()=> setModal(true)}
+        funcion2={() => setModalTecnico(true)}
+        />
       <Modales>
         <Modal
         titulo="RESISTRAR ACTIVIDAD"
@@ -263,6 +370,72 @@ function Actividades() {
             <button>ACTUALIZAR</button>
           </form>
         </Modal>
+        <Modal
+        titulo="REGISTRAR TÉCNICO"
+        estado={modalTecnico}
+        cambiarEstado={setModalTecnico}
+        >
+          <form className="formulario" onSubmit={postTecnico}>
+            <div className="inputs-data-tecnico">
+              <div className="filas">
+                <div className="contents">
+                  <label>Identificación:</label>
+                  <input name="identificacion" value={valoresTecnico.identificacion} onChange={valorInputTecnico} type="number" placeholder="Identificación" required />
+                </div>
+                <div className="contents">
+                  <label>Nombres:</label>
+                  <input name="nombres" value={valoresTecnico.nombres} onChange={valorInputTecnico} type="text" placeholder="Ingrese Nombres" required/>
+                </div>
+                <div className="contents">
+                  <label>Apellidos:</label>
+                  <input name="apellidos" value={valoresTecnico.apellidos} onChange={valorInputTecnico} type="text" placeholder="Ingrese Apellidos" required/>
+                </div>
+                <div className="contents">
+                  <label>Correo:</label>
+                  <input name="correo" value={valoresTecnico.correo} onChange={valorInputTecnico} type="email" placeholder="Ingrese un Correo" required/>
+                </div>
+                <div className="contents">
+                  <label>Teléfono:</label>
+                  <input name="telefono" value={valoresTecnico.telefono} onChange={valorInputTecnico} type="number" placeholder="Teléfono" required/>
+                </div>
+              </div>
+            </div>
+            <button>REGISTRAR</button>
+          </form>
+        </Modal>
+        <Modal
+        titulo="ACTUALIZAR DATOS"
+        estado={modalUpdateTecnico}
+        cambiarEstado={setModalUpdateTecnico}
+        >
+          <form className="formulario" onSubmit={putTecnico}>
+            <div className="inputs-data-tecnico">
+              <div className="filas">
+                <div className="contents">
+                  <label>Identificación:</label>
+                  <input name="identificacion" value={valoresTecnico.identificacion} onChange={editValorInputTecnico} type="number" placeholder="Identificación" required />
+                </div>
+                <div className="contents">
+                  <label>Nombres:</label>
+                  <input name="nombres" value={valoresTecnico.nombres} onChange={editValorInputTecnico} type="text" placeholder="Ingrese Nombres" required/>
+                </div>
+                <div className="contents">
+                  <label>Apellidos:</label>
+                  <input name="apellidos" value={valoresTecnico.apellidos} onChange={editValorInputTecnico} type="text" placeholder="Ingrese Apellidos" required/>
+                </div>
+                <div className="contents">
+                  <label>Correo:</label>
+                  <input name="correo" value={valoresTecnico.correo} onChange={editValorInputTecnico} type="email" placeholder="Ingrese un Correo" required/>
+                </div>
+                <div className="contents">
+                  <label>Teléfono:</label>
+                  <input name="telefono" value={valoresTecnico.telefono} onChange={editValorInputTecnico} type="number" placeholder="Teléfono" required/>
+                </div>
+              </div>
+            </div>
+            <button>REGISTRAR</button>
+          </form>
+        </Modal>
       </Modales>
       <div className="table-mui">
         <MUIDataTable className="table"
@@ -291,6 +464,17 @@ min-width: 100%;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
+  .table-medium{
+    width: 90%;
+    padding: 5px;
+
+    th{
+     background: #38A800;
+     color: white;
+     padding: 5px;
+    }
+  }
 
 }
 
@@ -325,6 +509,16 @@ z-index: 30;
   align-items: center;
   flex-direction: column;
 
+  .inputs-data-tecnico{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #38a80030;
+    width: 100%;
+    border-radius: 20px;
+    padding: 10px;
+  }
+
     .inputs-data{
       display: grid;
       grid-template-columns: 230px 230px;
@@ -335,34 +529,6 @@ z-index: 30;
       border-radius: 20px;
       padding: 10px;
 
-      .filas{
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-
-        .contents{
-          display: flex;
-          flex-direction: column;
-          background: white;
-          padding: 5px;
-          border-radius: 5px;
-          gap: 10px;
-
-          label{
-            font-size: 14px;
-            font-weight: 600;
-          }
-        }
-  
-      }
-
-      input{
-        padding: 5px;
-        width: 180px;
-        border: none;
-        outline: none;
-        border-bottom: 1px solid #38a800;
-      }
       select{
         padding: 4px;
         width: 210px;
@@ -378,6 +544,27 @@ z-index: 30;
       }
     }
 
+
+    .filas{
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+
+      .contents{
+        display: flex;
+        flex-direction: column;
+        background: white;
+        padding: 5px;
+        border-radius: 5px;
+        gap: 10px;
+
+        label{
+          font-size: 14px;
+          font-weight: 600;
+        }
+      }
+
+    }
 button{
   width: 200px;
   height: 40px;
@@ -394,6 +581,13 @@ button{
     color: green;
   }
 }
+}
+input{
+  padding: 5px;
+  width: 180px;
+  border: none;
+  outline: none;
+  border-bottom: 1px solid #38a800;
 }
 `;
 export default Actividades

@@ -47,7 +47,7 @@ const putTecnico = async (peticion, respuesta) => {
 
 const getTecnicos = async (peticion, respuesta) => {
     try {
-        const sql = "SELECT * FROM tecnicos";
+        const sql = "SELECT * FROM tecnicos ORDER BY tecnicos.id_tecnico DESC";
         const [tecnicos] = await connection.query(sql);
         if (tecnicos.length > 0) {
             return respuesta.status(200).json(tecnicos)

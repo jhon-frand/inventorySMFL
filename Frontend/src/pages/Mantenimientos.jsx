@@ -10,7 +10,6 @@ import ButtonEdit from "../components/organismos/ButtonEdit";
 import moment from "moment";
 import { GoTools } from "react-icons/go";
 
-
 function Mantenimientos() {
 
   const endpointManteni = "http://localhost:3000/mantenimientos"
