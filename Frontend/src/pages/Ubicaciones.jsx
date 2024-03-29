@@ -6,6 +6,8 @@ import MUIDatatable from "mui-datatables"
 import { options } from "../styles/Styles";
 import HeaderPage from "../components/organismos/HeaderPage";
 import Modal from "../components/modals/Modal";
+import ButtonEdit from "../components/organismos/ButtonEdit";
+import { BsPinMap } from "react-icons/bs";
 
 function Ubicaciones() {
 
@@ -15,6 +17,8 @@ function Ubicaciones() {
   const [unidades, setUnidades] = useState([])
   const [ubicaciones, setUbicaciones] = useState([])
   const [modal, setModal] = useState(false)
+  const [modalUpdate, setModalUpdate] = useState(false)
+  const [selectId, setSelectId] = useState(null)
 
  const getUnidades = async () => {
   try {
@@ -42,22 +46,49 @@ function Ubicaciones() {
   ambiente: "",
   sitio: ""
  })
-
+ const getData = (datos) => {
+  setValores({
+    fk_unidad_productiva: datos[1],
+    ambiente: datos[2],
+    sitio: datos[3]
+  })
+  setSelectId(datos[0])
+  setModalUpdate(true)
+}
  const valorInput = (event) => {
   setValores({
     ...valores,
     [event.target.name] : event.target.value
   })
  }
+ const editValorInput = (event) => {
+  setValores(prevState => ({
+    ...prevState,
+    [event.target.name] : event.target.value
+  }))
+ }
 
  const postUbication = async (event) => {
   event.preventDefault();
   try {
     const respuesta = await axios.post(endpoint, valores)
-    if (respuesta === 200) {
+    if (respuesta.status === 200) {
       alert(respuesta.data.message) 
     }
     setModal(false);
+    getUbicaciones();
+  } catch (error) {
+    console.log(error);
+  }
+ }
+ const putUbication = async (event) => {
+  event.preventDefault();
+  try {
+    const respuesta = await axios.put(`${endpoint}/${selectId}`, valores)
+    if (respuesta.status === 200) {
+      alert(respuesta.data.message) 
+    }
+    setModalUpdate(false);
     getUbicaciones();
   } catch (error) {
     console.log(error);
@@ -86,17 +117,17 @@ function Ubicaciones() {
           name: "sitio",
           label: "SITIO"
       },
-      // {
-      //   name: "editar",
-      //   label: "ACTIONS",
-      //   options: {
-      //     customBodyRenderLite: () => {
-      //       return (
-      //           <button onClick={() => setOpenModalUpdate(true)}>EDIT</button>
-      //       );
-      //   }
-      //   }
-      // }
+      {
+        name: "editar",
+        label: "ACTIONS",
+        options: {
+          customBodyRender: (value, tableMeta, updateValue) => {
+            return (
+                <ButtonEdit funcion1={() => getData(tableMeta.rowData)}/>
+            );
+        }
+        }
+      }
   ]
 
     //#endregion table
@@ -106,7 +137,7 @@ function Ubicaciones() {
     <Container>
       <NavBar/>
       <div className="contenedor">
-      <HeaderPage titulo="UBICACIONES" textButton="REGISTRAR UBICACIÓN" funcion={() => setModal(true)} />
+      <HeaderPage icon={<BsPinMap/>} titulo="UBICACIONES" textButton="REGISTRAR UBICACIÓN" funcion={() => setModal(true)} />
       <Modales>
         <Modal
         titulo="REGISTRAR UBICACIÓN"
@@ -138,6 +169,38 @@ function Ubicaciones() {
               </div>
             </div>
             <button>REGISTRAR</button>
+          </form>
+        </Modal>
+        <Modal
+        titulo="ACTUALIZAR DATOS"
+        estado={modalUpdate}
+        cambiarEstado={setModalUpdate}
+        >
+          <form className="formulario" onSubmit={putUbication}>
+            <div className="inputs-data">
+              <div className="filas">
+                  <div className="contents">
+                    <label>Unidad Productiva</label>
+                    <select name="fk_unidad_productiva" value={valores.fk_unidad_productiva} onChange={editValorInput}>
+                      <option value="">Selecciona una opción</option>
+                      {
+                        unidades.map((unidades) => (
+                          <option value={unidades.id_unidad} key={unidades.id_unidad}>{unidades.nombre_unidad}</option>
+                        ))
+                      }
+                    </select>
+                  </div>
+                  <div className="contents">
+                    <label>Ambiente:</label>
+                    <input name="ambiente" value={valores.ambiente} onChange={editValorInput} type="text" placeholder="Ambiente" />
+                  </div>
+                  <div className="contents">
+                    <label>Sitio</label>
+                    <input name="sitio" value={valores.sitio} onChange={editValorInput} type="text" placeholder="Sitio" />
+                  </div>
+              </div>
+            </div>
+            <button>ACTUALIZAR</button>
           </form>
         </Modal>
       </Modales>

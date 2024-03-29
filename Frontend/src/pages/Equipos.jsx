@@ -6,6 +6,9 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { options } from "../styles/Styles";
 import Modal from "../components/modals/Modal";
+import ButtonEdit from "../components/organismos/ButtonEdit";
+import moment from "moment"
+import { CgToolbox } from "react-icons/cg";
 
 function Equipos() {
 
@@ -17,6 +20,8 @@ function Equipos() {
   const [categorias, setCategorias] = useState([])
   const [ubicaciones, setUbicaciones] = useState([])
   const [modal, setModal] = useState(false)
+  const [modalUpdate, setModalUpdate] = useState(false)
+  const [selectId, setSelectId] = useState(null)
 
   const getEquipos = async () => {
     try {
@@ -48,7 +53,7 @@ function Equipos() {
       console.log(error);
     }
   }
-
+  
   const [valores, setValores] = useState({
     serial: "",
     nombre_equipo: "",
@@ -61,17 +66,56 @@ function Equipos() {
     fk_categoria: "",
     fk_ubicacion: ""
   })
+
+  const getData = (datos) => {
+    const fecha = moment(datos[3]).format('YYYY-MM-DD');
+
+    setValores({
+      serial: datos[1],
+      nombre_equipo: datos[2],
+      fecha_ingreso: fecha,
+      estado: datos[4],
+      fk_categoria: datos[5],
+      fk_ubicacion: datos[[6],[7],[8]],
+      tipo_equipo: datos[9],
+      marca_equipo: datos[10],
+      modelo_equipo: datos[11],
+      descripcion: datos[12]
+    })
+    setSelectId(datos[0])
+    setModalUpdate(true)
+  }
+  const editValorInput = (event) => {
+    setValores(prevState => ({
+      ...prevState,
+      [event.target.name] : event.target.value
+    }))
+  }
+  const putEquipo = async (event) => {
+    event.preventDefault();
+    try {
+      const respuesta = await axios.put(`${endpointEquipo}/${selectId}`, valores)
+      if (respuesta.status === 200) {
+        alert(respuesta.data.message)
+        setModalUpdate(false)
+        getEquipos()
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
   const valorInput = (event) => {
     setValores({
       ...valores,
        [event.target.name] : event.target.value
     })
   }
+
   const postEquipo = async (event) => {
     event.preventDefault();
   try {
     const respuesta = await axios.post(endpointEquipo, valores)
-    if (respuesta === 200) {
+    if (respuesta.status === 200) {
       alert (respuesta.data.message);
     }
     setModal(false);
@@ -80,7 +124,7 @@ function Equipos() {
     console.log(error);
   }
   }
-
+ 
   const columnas = [
     {
       name: "id_equipo",
@@ -134,6 +178,17 @@ function Equipos() {
       name: "descripcion",
       label: "DESCRIPCIÓN"
     },
+    {
+      name: "editar",
+      label: "ACTIONS",
+      options: {
+        customBodyRender: (value, tableMeta, updateValue) => {
+          return (
+              <ButtonEdit funcion1={() => getData(tableMeta.rowData)} />
+          );
+      }
+      }
+    }
   ]
 
 
@@ -147,7 +202,7 @@ function Equipos() {
     <Container>
       <NavBar/>
       <div className="contenedor">
-        <HeaderPage titulo="EQUIPOS" textButton="REGISTRAR EQUIPO" funcion={() => setModal(true)}/>
+        <HeaderPage icon={<CgToolbox/>} titulo="EQUIPOS" textButton="REGISTRAR EQUIPO" funcion={() => setModal(true)}/>
         <Modales>
           <Modal 
           titulo="REGISTRAR EQUIPO"
@@ -226,6 +281,83 @@ function Equipos() {
             <button>REGISTRAR</button>
           </form>
           </Modal>
+          <Modal 
+          titulo="ACTUALIZAR DATOS"
+          estado={modalUpdate}
+          cambiarEstado={setModalUpdate}
+          >
+             <form className="formulario" onSubmit={putEquipo}>
+            <div className="inputs-data">
+              <div className="filas">
+              <div className="contents">
+                <label>SERIAL: </label>
+              <input name="serial" onChange={editValorInput} value={valores.serial} type="number" placeholder="Serial" required/>
+              </div>
+              <div className="contents">
+              <label>Nombre: </label>
+              <input name="nombre_equipo" onChange={editValorInput} value={valores.nombre_equipo} type="text" placeholder="Nombre equipo" required/>
+              </div>
+              <div className="contents">
+              <label>Marca: </label>
+              <input name="marca_equipo" onChange={editValorInput} value={valores.marca_equipo} type="text" placeholder="Marca del equipo" required/>
+              </div>
+              <div className="contents">
+              <label>Modelo: </label>
+              <input name="modelo_equipo" onChange={editValorInput} value={valores.modelo_equipo} type="text" placeholder="Modelo del equipo" required/>
+              </div>
+              </div>
+              <div className="filas">
+              <div className="contents">
+              <label>Fecha de Ingreso: </label>
+              <input name="fecha_ingreso" onChange={editValorInput} value={valores.fecha_ingreso} type="date" required/>
+              </div>
+              <div className="contents">
+            <label>Tipo de Equipo: </label>
+            <input name="tipo_equipo" onChange={editValorInput} value={valores.tipo_equipo} type="text" placeholder="tipo de equipo" required/>
+              </div>
+              <div className="contents">
+             <label>Categoría: </label>
+             <select name="fk_categoria" onChange={editValorInput} value={valores.fk_categoria}>
+                <option value="">Seleccione una categoría</option>
+            {
+              categorias.map((categorias) => (
+                <option key={categorias.id_categoria} value={categorias.id_categoria}>{categorias.nombre_categoria}</option>
+              ))
+            }
+              </select>
+                </div>
+           <div className="contents">
+           <label>Estado: </label>
+           <select name="estado" onChange={editValorInput} value={valores.estado}>
+                <option value="">Seleccione un estado</option>
+                <option value="activo">Activo</option>
+                <option value="inactivo">Inactivo</option>
+                <option value="mantenimiento">Mantenimiento</option>
+                <option value="excluido">Excluido</option>
+              </select>
+                </div>
+              </div>
+            <div className="filas">
+             <div className="contents">
+             <label>Ubicación: </label>
+             <select name="fk_ubicacion" onChange={editValorInput} value={valores.fk_ubicacion}>
+                <option value="">Seleccione una ubicación</option>
+                {
+                  ubicaciones.map((ubicaciones) => (
+                    <option key={ubicaciones.id_ubicacion} value={ubicaciones.id_ubicacion}>{ubicaciones.nombre_unidad} - {ubicaciones.ambiente} - {ubicaciones.sitio}</option>
+                  ))
+                }
+              </select>
+                </div>
+              <div className="contents">
+              <label>Descripción: </label>
+              <textarea name="descripcion" maxLength={250} onChange={editValorInput} value={valores.descripcion} type="text" placeholder="Agregue una descripción" required/>
+              </div>
+            </div>
+            </div>
+            <button>ACTUALIZAR</button>
+          </form>
+          </Modal>
         </Modales>
         <div className="table-mui">
           <MUIDataTable className="table"
@@ -271,7 +403,7 @@ min-width: 100%;
      th{
       background: #38A800;
       color: white;
-      padding: 10px;
+      padding: 5px;
      }
   }
 }

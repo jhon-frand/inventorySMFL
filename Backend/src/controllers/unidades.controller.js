@@ -30,7 +30,7 @@ const putUnidad = async (peticion, respuesta) => {
         if (actualizar.affectedRows > 0) {
             return respuesta.status(200).json({
                 "status": 200,
-                "message": "Unidad Productiva actualizada"
+                message: "Unidad Productiva actualizada"
                
             });
         } else {

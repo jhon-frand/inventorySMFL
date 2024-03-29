@@ -6,6 +6,9 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { options } from "../styles/Styles";
 import Modal from "../components/modals/Modal";
+import ButtonEdit from "../components/organismos/ButtonEdit";
+import moment from "moment";
+import { GoTools } from "react-icons/go";
 
 
 function Mantenimientos() {
@@ -18,6 +21,8 @@ function Mantenimientos() {
   const [usuarios, setUsuarios] = useState([])
   const [equipos, setEquipos] = useState([])
   const [modal, setModal] = useState(false)
+  const [modalUpdate, setModalUpdate] = useState(false)
+  const [selectId, setSelectId] = useState(null)
 
   const getMantenimientos = async () => {
     try {
@@ -49,7 +54,7 @@ function Mantenimientos() {
       console.log(error);
     }
    }
-
+  
    const [valores, setValores] = useState({
     tipo_mantenimiento: "",
     fecha_mantenimiento: "",
@@ -58,20 +63,54 @@ function Mantenimientos() {
     fk_user_responsable: "",
     fk_equipo: ""
    })
+
+   const getData = (datos) => {
+    const fecha = moment(datos[2]).format('YYYY-MM-DD');
+    setValores({
+    tipo_mantenimiento: datos[1],
+    fecha_mantenimiento: fecha,
+    descripcion: datos[3],
+    fk_user_responsable: datos[4],
+    fk_equipo: datos[5],
+    resultado: datos[6]
+    })
+    setSelectId(datos[0]);
+    setModalUpdate(true);
+    console.log(datos);
+  }
    const valorInput = (event) => {
     setValores({
       ...valores,
       [event.target.name] : event.target.value 
     })
    }
+   const editValorInput = (event) => {
+    setValores(prevState => ({
+      ...prevState,
+      [event.target.name]: event.target.value
+    }))
+   }
    const postMantenimiento = async (event) => {
     event.preventDefault();
     try {
       const respuesta = axios.post(endpointManteni, valores)
-      if (respuesta === 200) {
+      if (respuesta.status === 200) {
         alert(respuesta.data.message);
       }
       setModal(false);
+      getMantenimientos();
+    } catch (error) {
+      console.log(error);
+    }
+   }
+   const putMantenimiento = async (event) => {
+    event.preventDefault();
+    try {
+      const respuesta = await axios.put(`${endpointManteni}/${selectId}`, valores)
+      if (respuesta.status === 200) {
+        alert(respuesta.data.message)
+      }
+      setModalUpdate(false);
       getMantenimientos();
     } catch (error) {
       console.log(error);
@@ -106,6 +145,17 @@ function Mantenimientos() {
     {
       name: "resultado",
       label: "RESULTADO"
+    },
+    {
+      name: "editar",
+      label: "ACTIONS",
+      options: {
+        customBodyRender: (value, tableMeta, updateValue) => {
+          return (
+            <ButtonEdit funcion1={() => getData(tableMeta.rowData)} />
+          )
+        }
+      }
     }
    ]
 
@@ -119,7 +169,7 @@ function Mantenimientos() {
     <Container>
       <NavBar/>
       <div className="contenedor">
-      <HeaderPage titulo="MANTENIMIENTOS" textButton="REGISTRAR MANTENIMIENTO" funcion={() => setModal(true)}/>
+      <HeaderPage icon={<GoTools/>} titulo="MANTENIMIENTOS" textButton="REGISTRAR MANTENIMIENTO" funcion={() => setModal(true)}/>
       <Modales>
         <Modal
         titulo="REGISTRAR MANTENIMIENTO"
@@ -176,6 +226,63 @@ function Mantenimientos() {
               </div>
             </div>
             <button>REGISTRAR</button>
+          </form>
+        </Modal>
+        <Modal
+        titulo="ACTUALIZAR DATOS"
+        estado={modalUpdate}
+        cambiarEstado={setModalUpdate}
+        >
+          <form className="formulario" onSubmit={putMantenimiento}>
+            <div className="inputs-data">
+              <div className="filas">
+                <div className="contents">
+                  <label>Tipo de Mantenimiento:</label>
+                  <select name="tipo_mantenimiento" value={valores.tipo_mantenimiento} onChange={editValorInput} required>
+                    <option value="">Selecciona el tipo</option>
+                    <option value="preventivo">Preventivo</option>
+                    <option value="tecnico">Técnico</option>
+                  </select>
+                </div>
+                <div className="contents">
+                  <label>Fecha de Mantenimiento:</label>
+                  <input name="fecha_mantenimiento" type="date" value={valores.fecha_mantenimiento} onChange={editValorInput} required/>
+                </div>
+                <div className="contents">
+                  <label>Equipo:</label>
+                  <select name="fk_equipo" value={valores.fk_equipo} onChange={editValorInput} required>
+                    <option value="">Selecciona una opción</option>
+                    {
+                      equipos.map((equipos) => (
+                        <option value={equipos.id_equipo} key={equipos.id_equipo}>{equipos.nombre_equipo}</option>
+                      ))
+                    }
+                  </select>
+                </div>
+                <div className="contents">
+                  <label>Responsable:</label>
+                  <select name="fk_user_responsable" value={valores.fk_user_responsable} onChange={editValorInput} required>
+                    <option value="">Selecciona una opción</option>
+                    {
+                      usuarios.map((usuarios) => (
+                        <option value={usuarios.id_usuario} key={usuarios.id_usuario}>{usuarios.nombres} {usuarios.apellidos}</option>
+                      ))
+                    }
+                  </select>
+                </div>
+              </div>
+              <div className="filas">
+              <div className="contents">
+                <label>Descripción:</label>
+                <textarea name="descripcion" value={valores.descripcion} onChange={editValorInput} maxLength={250} placeholder="Ingresa una descripción" required/>
+              </div>
+              <div className="contents">
+                <label>Resultado:</label>
+                <input name="resultado" type="text" value={valores.resultado} onChange={editValorInput} placeholder="Resultado" required/>
+              </div>
+              </div>
+            </div>
+            <button>ACTUALIZAR</button>
           </form>
         </Modal>
       </Modales>

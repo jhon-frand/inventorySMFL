@@ -8,7 +8,7 @@ const postUbicacion = async (peticion, respuesta) => {
         if (registro.affectedRows > 0) {
             return respuesta.status(200).json({
                 "status": 200,
-                "message": "Ubicación registrada"
+                message: "Ubicación registrada"
             })
         } else {
             return respuesta.status(403).json({
@@ -31,7 +31,7 @@ const putUbicacion = async (peticion, respuesta) => {
         if (actualizar.affectedRows> 0) {
             return respuesta.status(200).json({
                 "status": 200,
-                "message": "Categoria actualizada"
+                message: "Categoria actualizada"
             })
         } else {
             return respuesta.status(403).json({

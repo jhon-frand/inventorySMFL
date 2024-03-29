@@ -7,12 +7,13 @@ import { useState, useEffect } from "react";
 import Modal from "../components/modals/Modal";
 import { options } from "../styles/Styles";
 import ButtonEdit from "../components/organismos/ButtonEdit";
+import { FiUsers } from "react-icons/fi";
 
 function Usuarios() {
 
   const [modalRegistro, setModalRegistro] = useState(false)
   const [modalUpdate, setModalUpdate] = useState(false)
-  const [selecId, setSelectId] = useState(null)
+  const [selectId, setSelectId] = useState(null)
 
   const endpointTipo = "http://localhost:3000/tipousuario"
   const [tipousuario, setTipousuario] = useState([])
@@ -43,6 +44,41 @@ function Usuarios() {
 //#endregion unidades
 //#region registro
 
+const getData = (datos) => {
+  console.log(datos);
+  setValores({
+    identificacion: datos[1],
+    nombres: datos[2],
+    apellidos: datos[3],
+    email: datos[4],
+    estado: datos[5],
+    fk_tipo_usuario: datos[6],
+    fk_unidad_productiva: datos[7],
+    telefono: datos[8]
+  })
+  setSelectId(datos[0])
+  setModalUpdate(true)
+}
+const editValorInput = (event) => {
+  setValores(prevState => ({
+    ...prevState,
+    [event.target.name] : event.target.value
+  }))
+}
+const putUsuario = async (event) => {
+  event.preventDefault();
+  try {
+    const respuesta = await axios.put(`${endpointUser}/${selectId}`, valores)
+    if (respuesta.status === 200) {
+      alert(respuesta.data.message)
+      setModalUpdate(false)
+      getUsers()
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 const [valores, setValores] = useState({
   identificacion: "",
   nombres: "",
@@ -64,7 +100,7 @@ const postUser = async (event) => {
   event.preventDefault();
   try {
     const respuesta = await axios.post(endpointUser, valores)
-    if (respuesta === 200) {
+    if (respuesta.status === 200) {
       alert (respuesta.data.message);
     }
     setModalRegistro(false);
@@ -74,10 +110,6 @@ const postUser = async (event) => {
   }
 }
 
-const getData = (datos) => {
-  console.log(datos);
-setModalUpdate(true)
-}
 //#endregion registro
  //#region table
  const endpointUser = "http://localhost:3000/usuarios" 
@@ -156,7 +188,7 @@ setModalUpdate(true)
     <Container>
       <NavBar/>
       <div className="contenedor">
-     <HeaderPage titulo="USUARIOS" textButton="REGISTRAR USUARIO" funcion={() => setModalRegistro(true)} />
+     <HeaderPage icon={<FiUsers/>} titulo="USUARIOS" textButton="REGISTRAR USUARIO" funcion={() => setModalRegistro(true)} />
       <Modales>
         <Modal 
         titulo = "REGISTRAR USUARIO"
@@ -235,34 +267,34 @@ setModalUpdate(true)
         titulo="ACTUALIZAR DATOS"
         estado={modalUpdate}
         cambiarEstado={setModalUpdate} >
-        <form className="formulario" onSubmit={postUser}>
+        <form className="formulario" onSubmit={putUsuario}>
             <div className="inputs-data">
               <div className="filas">
               <div className="contents">
                 <label>Identificación: </label>
-              <input name="identificacion" onChange={valorInput} value={valores.identificacion} type="number" placeholder="Identificación" required/>
+              <input name="identificacion" onChange={editValorInput} value={valores.identificacion} type="number" placeholder="Identificación" required/>
               </div>
               <div className="contents">
               <label>Nombres: </label>
-              <input name="nombres" onChange={valorInput} value={valores.nombres} type="text" placeholder="Nombres" required/>
+              <input name="nombres" onChange={editValorInput} value={valores.nombres} type="text" placeholder="Nombres" required/>
               </div>
               <div className="contents">
               <label>Apellidos: </label>
-              <input name="apellidos" onChange={valorInput} value={valores.apellidos} type="text" placeholder="Apellidos" required/>
+              <input name="apellidos" onChange={editValorInput} value={valores.apellidos} type="text" placeholder="Apellidos" required/>
               </div>
               <div className="contents">
               <label>Email: </label>
-              <input name="email" onChange={valorInput} value={valores.email} type="email" placeholder="Email" required/>
+              <input name="email" onChange={editValorInput} value={valores.email} type="email" placeholder="Email" required/>
               </div>
               </div>
             <div className="filas">
             <div className="contents">
               <label>Teléfono: </label>
-              <input name="telefono" onChange={valorInput} value={valores.telefono} type="number" placeholder="Teléfono" required/>
+              <input name="telefono" onChange={editValorInput} value={valores.telefono} type="number" placeholder="Teléfono" required/>
               </div>
             <div className="contents">
              <label>Rol del Usuario: </label>
-             <select name="fk_tipo_usuario" onChange={valorInput} value={valores.fk_tipo_usuario}>
+             <select name="fk_tipo_usuario" onChange={editValorInput} value={valores.fk_tipo_usuario}>
                 <option value="">Seleccione un rol</option>
             {
               tipousuario.map((tipousuario) => (
@@ -273,7 +305,7 @@ setModalUpdate(true)
                 </div>
            <div className="contents">
            <label>Estado: </label>
-           <select name="estado" onChange={valorInput} value={valores.estado}>
+           <select name="estado" onChange={editValorInput} value={valores.estado}>
                 <option value="">Seleccione un estado</option>
                 <option value="activo">Activo</option>
                 <option value="inactivo">Inactivo</option>
@@ -281,7 +313,7 @@ setModalUpdate(true)
                 </div>
              <div className="contents">
              <label>Unidad Productiva: </label>
-             <select name="fk_unidad_productiva" onChange={valorInput} value={valores.fk_unidad_productiva}>
+             <select name="fk_unidad_productiva" onChange={editValorInput} value={valores.fk_unidad_productiva}>
                 <option value="">Seleccione unidad productiva</option>
                 {
                   unidades.map((unidades) => (

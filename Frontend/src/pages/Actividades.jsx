@@ -6,6 +6,10 @@ import axios from "axios";
 import MUIDataTable from "mui-datatables";
 import { useEffect, useState } from "react";
 import Modal from "../components/modals/Modal";
+import ButtonEdit from "../components/organismos/ButtonEdit";
+import moment from "moment";
+import { BsListOl } from "react-icons/bs";
+
 
 function Actividades() {
 
@@ -17,6 +21,8 @@ function Actividades() {
   const [tecnicos, setTecnicos] = useState([])
   const [mantenimientos, setMantenimientos] = useState([])
   const [modal, setModal] = useState(false)
+  const [modalUpdate, setModalUpdate] = useState(false)
+  const [selectId, setSelectId] = useState(null)
 
   const getActividades = async () => {
     try {
@@ -55,20 +61,51 @@ function Actividades() {
     fk_mantenimiento: "",
     fk_tecnico: ""
    })
+
+   const getData = (datos) => {
+    const fecha = moment(datos[1]).format('YYYY-MM-DD')
+    setValores({
+      fecha_actividad: fecha,
+      descripcion: datos[2],
+      fk_mantenimiento: datos[3],
+      fk_tecnico: datos[4]
+    })
+    setSelectId(datos[0])
+    setModalUpdate(true)
+   }
    const valorInput = (event) => {
     setValores({
       ...valores,
       [event.target.name] : event.target.value
     })
    }
+   const editValorInput = (event) => {
+    setValores(prevState => ({
+      ...prevState,
+      [event.target.name]: event.target.value
+    }))
+   }
   const postActivity = async (event) => {
     event.preventDefault();
     try {
       const respuesta = await axios.post(endpointActividad, valores)
-      if (respuesta === 200) {
+      if (respuesta.status === 200) {
         alert (respuesta.data.message);
       }
       setModal(false);
+      getActividades();
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  const putActivity = async (event) => {
+    event.preventDefault();
+    try {
+      const respuesta = await axios.put(`${endpointActividad}/${selectId}`, valores)
+      if (respuesta.status === 200) {
+        alert (respuesta.data.message);
+      }
+      setModalUpdate(false);
       getActividades();
     } catch (error) {
       console.log(error);
@@ -106,6 +143,17 @@ function Actividades() {
     {
       name: "descripcion_mantenimiento",
       label: "FALLAS DEL EQUIPO"
+    },
+    {
+      name: "editar",
+      label: "ACTIONS",
+      options: {
+        customBodyRender: (value, tableMeta, updateValue) => {
+          return(
+            <ButtonEdit funcion1={() => getData(tableMeta.rowData)} />
+          )
+        }
+      }
     }
   ]
 
@@ -123,7 +171,7 @@ function Actividades() {
     <Container>
       <NavBar/>
       <div className="contenedor">
-        <HeaderPage titulo="ACTIVIDADES" textButton="REGISTRAR ACTIVIDAD" funcion={()=> setModal(true)}/>
+        <HeaderPage icon={<BsListOl/>} titulo="ACTIVIDADES" textButton="REGISTRAR ACTIVIDAD" funcion={()=> setModal(true)}/>
       <Modales>
         <Modal
         titulo="RESISTRAR ACTIVIDAD"
@@ -170,6 +218,51 @@ function Actividades() {
             <button>REGISTRAR</button>
           </form>
         </Modal>
+        <Modal
+        titulo="ACTUALIZAR DATOS"
+        estado={modalUpdate}
+        cambiarEstado={setModalUpdate}
+        >
+          <form className="formulario" onSubmit={putActivity}>
+            <div className="inputs-data">
+              <div className="filas">
+                <div className="contents">
+                  <label>Fecha de Actividad:</label>
+                  <input name="fecha_actividad" value={valores.fecha_actividad} onChange={editValorInput} type="date" required />
+                </div>
+                <div className="contents">
+                  <label>Mantenimiento:</label>
+                  <select name="fk_mantenimiento" value={valores.fk_mantenimiento} onChange={editValorInput} required> 
+                  <option value="">selecciona una opción</option>
+                  {
+                    mantenimientos.map((mantenimientos) => (
+                      <option value={mantenimientos.id_mantenimiento} key={mantenimientos.id_mantenimiento}>{mantenimientos.id_mantenimiento} {mantenimientos.tipo_mantenimiento} {mantenimientos.descripcion}</option>
+                    ))
+                  }
+                  </select>
+                </div>
+                <div className="contents">
+                  <label>Técnico:</label>
+                  <select name="fk_tecnico" value={valores.fk_tecnico} onChange={editValorInput} required> 
+                  <option value="">selecciona una opción</option>
+                  {
+                    tecnicos.map((tecnicos) => (
+                      <option value={tecnicos.id_tecnico} key={tecnicos.id_tecnico}>{tecnicos.nombres} {tecnicos.apellidos}</option>
+                    ))
+                  }
+                  </select>
+                </div>
+              </div>
+              <div className="filas">
+              <div className="contents">
+                  <label>Descripción</label>
+                  <textarea name="descripcion" value={valores.descripcion} onChange={editValorInput} maxLength={250} placeholder="Ingresa una descripción" required></textarea>
+                </div>
+              </div>
+            </div>
+            <button>ACTUALIZAR</button>
+          </form>
+        </Modal>
       </Modales>
       <div className="table-mui">
         <MUIDataTable className="table"
@@ -214,7 +307,7 @@ min-width: 100%;
      th{
       background: #38A800;
       color: white;
-      padding: 10px;
+      padding: 5px;
      }
   }
 }

@@ -31,7 +31,7 @@ const putEquipo = async (peticion, respuesta) => {
         if (actualizar.affectedRows > 0) {
             return respuesta.status(200).json({
                 "status": 200,
-                "message": "Equipo actualizado correctamente"
+                message: "Equipo actualizado correctamente"
             })
         } else {
             return respuesta.status(403).json({
