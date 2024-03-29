@@ -1,14 +1,22 @@
+import { FaUser } from "react-icons/fa";
+import HeaderPageTwo from "../components/organismos/HeaderPageTwo";
 import NavBar from "../components/organismos/NavBar"
 import styled from "styled-components"
+import { useState } from "react";
+import MediumContainer from "../components/organismos/MediumContainer";
 
 
 function Dashboard() {
+  const [show, setShow] = useState(false);
+
   return (
     <>
     <Container>
       <NavBar/>
       <div className="contenedor">
-
+      <HeaderPageTwo icon={<FaUser/>} titulo="UBICACIONES Y UNIDADES PRODUCTIVAS" textButton1="REGISTRAR UNIDAD" textButton2="REGISTRAR UBICACIÓN" />
+        <MediumContainer>
+        </MediumContainer>
       </div>
     </Container>
     </>

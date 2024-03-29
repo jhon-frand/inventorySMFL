@@ -181,7 +181,7 @@ min-width: 100%;
 }
 
 .table-mui{
-  width: 100%;
+  width: 40%;
   display: flex;
   justify-content: center;
   align-items: center;

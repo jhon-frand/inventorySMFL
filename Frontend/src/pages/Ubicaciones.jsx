@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import MUIDatatable from "mui-datatables"
 import { options } from "../styles/Styles";
-import HeaderPage from "../components/organismos/HeaderPage";
+import HeaderPageTwo from "../components/organismos/HeaderPageTwo";
 import Modal from "../components/modals/Modal";
 import ButtonEdit from "../components/organismos/ButtonEdit";
 import { BsPinMap } from "react-icons/bs";
@@ -18,7 +18,10 @@ function Ubicaciones() {
   const [ubicaciones, setUbicaciones] = useState([])
   const [modal, setModal] = useState(false)
   const [modalUpdate, setModalUpdate] = useState(false)
+  const [modalUnit, setModalUnit] = useState(false)
+  const [modalUpdateUnit, setModalUpdateUnit] = useState(false)
   const [selectId, setSelectId] = useState(null)
+  const [selectIdUnit, setSelectIdUnit] = useState(null)
 
  const getUnidades = async () => {
   try {
@@ -46,6 +49,9 @@ function Ubicaciones() {
   ambiente: "",
   sitio: ""
  })
+ const [valoresUnit, setValoresUnit] = useState({
+  nombre_unidad: ""
+})
  const getData = (datos) => {
   setValores({
     fk_unidad_productiva: datos[1],
@@ -55,18 +61,37 @@ function Ubicaciones() {
   setSelectId(datos[0])
   setModalUpdate(true)
 }
+const getDataUnit = (datos) => {
+  setValoresUnit({
+    nombre_unidad: datos[1]
+  })
+  setSelectIdUnit(datos[0]);
+  setModalUpdateUnit(true);
+}
  const valorInput = (event) => {
   setValores({
     ...valores,
     [event.target.name] : event.target.value
   })
  }
+ const valorInputUnit = (event) => {
+  setValoresUnit({
+    ...valoresUnit,
+    [event.target.name] : event.target.value
+  })
+}
  const editValorInput = (event) => {
   setValores(prevState => ({
     ...prevState,
     [event.target.name] : event.target.value
   }))
  }
+ const editValorInputUnit = (event) => {
+  setValoresUnit(prevState => ({
+    ...prevState,
+    [event.target.name]: event.target.value
+  }))
+}
 
  const postUbication = async (event) => {
   event.preventDefault();
@@ -81,6 +106,19 @@ function Ubicaciones() {
     console.log(error);
   }
  }
+ const postUnidad = async (event) => {
+  event.preventDefault();
+  try {
+    const respuesta = await axios.post(endpointUnit, valores)
+    if (respuesta.status === 200) {
+      alert (respuesta.data.message)
+    }
+    setModalUnit(false);
+    getUnidades();
+  } catch (error) {
+    console.log(error);
+  }
+}
  const putUbication = async (event) => {
   event.preventDefault();
   try {
@@ -94,6 +132,19 @@ function Ubicaciones() {
     console.log(error);
   }
  }
+ const putUnidad = async (event) => {
+  event.preventDefault();
+  try {
+    const respuesta = await axios.put(`${endpointUnit}/${selectIdUnit}`, valoresUnit)
+    if (respuesta.status === 200) {
+      alert(respuesta.data.message)
+    }
+    setModalUpdateUnit(false);
+    getUnidades();
+  } catch (error) {
+    console.log(error);
+  }
+}
 
    useEffect(() => {
         getUbicaciones();
@@ -129,7 +180,27 @@ function Ubicaciones() {
         }
       }
   ]
-
+  const columnasUnidades = [
+    {
+        name: "id_unidad",
+        label: "ID"
+    },
+    {
+        name: "nombre_unidad",
+        label: "NOMBRE"
+    },
+     {
+      name: "editar",
+      label: "ACTIONS",
+      options: {
+        customBodyRender: (value, tableMeta, updateValue) => {
+          return (
+              <ButtonEdit funcion1={() => getDataUnit(tableMeta.rowData)} />
+          );
+      }
+      }
+    }
+]
     //#endregion table
 
   return (
@@ -137,7 +208,13 @@ function Ubicaciones() {
     <Container>
       <NavBar/>
       <div className="contenedor">
-      <HeaderPage icon={<BsPinMap/>} titulo="UBICACIONES" textButton="REGISTRAR UBICACIÓN" funcion={() => setModal(true)} />
+      <HeaderPageTwo 
+      icon={<BsPinMap/>} 
+      titulo="UNIDADES Y UBICACIONES" 
+      textButton1="REGISTRAR UBICACIÓN" 
+      textButton2="REGISTRAR UNIDAD" 
+      funcion1={() => setModal(true)} 
+      funcion2={() => setModalUnit(true)} />
       <Modales>
         <Modal
         titulo="REGISTRAR UBICACIÓN"
@@ -203,13 +280,50 @@ function Ubicaciones() {
             <button>ACTUALIZAR</button>
           </form>
         </Modal>
+        <Modal  
+            titulo="REGISTRAR UNIDAD PRODUCTIVA"
+            estado={modalUnit}
+            cambiarEstado={setModalUnit}
+            >
+            <form onSubmit={postUnidad} className="formulario" >
+            <div className="inputs-data">
+              <div className="contents">
+              <label>Nombre de la Unidad: </label>
+              <input value={valoresUnit.nombre_unidad} onChange={valorInputUnit} name="nombre_unidad" type="text" placeholder="Nombre de la Unidad" required/>
+               </div>
+            </div>
+            <button>REGISTRAR</button>
+          </form>
+          </Modal>
+          <Modal 
+            titulo="ACTUALIZAR DATOS"
+            estado={modalUpdateUnit}
+            cambiarEstado={setModalUpdateUnit}
+            >
+               <form onSubmit={putUnidad} className="formulario" >
+            <div className="inputs-data">
+              <div className="contents">
+              <label>Nombre de la Unidad: </label>
+              <input value={valoresUnit.nombre_unidad} onChange={editValorInputUnit} name="nombre_unidad" type="text" placeholder="Nombre de la Unidad" required/>
+               </div>
+            </div>
+            <button>ACTUALIZAR</button>
+          </form>
+            </Modal>
       </Modales>
       <div className="table-mui">
-     <MUIDatatable className="table"
+     <MUIDatatable className="table-one"
+     title="Ubicaciones"
     data={ubicaciones}
     columns={columnas}
     options={options}
     />
+     <MUIDatatable className="table-two" 
+     title="Unidades"
+     data={unidades}
+     columns={columnasUnidades}
+     options={options}
+     />
      </div>
       </div>
     </Container>
@@ -232,17 +346,27 @@ height: 100vh;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-
 }
 
 .table-mui{
   width: 100%;
   display: flex;
-  justify-content: space-around;
+  justify-content: center;
   align-items: center;
+  gap:20px;
 
-  .table{
-     width: 90%;
+  .table-one{
+     width: 48%;
+     padding: 5px;
+
+     th{
+      background: #38A800;
+      color: white;
+      padding: 10px;
+     }
+  }
+  .table-two{
+     width: 40%;
      padding: 5px;
 
      th{
@@ -279,26 +403,12 @@ z-index: 30;
         display: flex;
         flex-direction: column;
         gap: 10px;
-
-        .contents{
-          display: flex;
-          flex-direction: column;
-          background: white;
-          padding: 5px;
-          border-radius: 5px;
-          gap: 10px;
-
-          label{
-            font-size: 14px;
-            font-weight: 600;
-          }
-        }
   
       }
 
       input{
         padding: 5px;
-        width: 180px;
+        width: 200px;
         border: none;
         outline: none;
         border-bottom: 1px solid #38a800;
@@ -327,6 +437,19 @@ button{
     color: green;
   }
 }
+}
+.contents{
+  display: flex;
+  flex-direction: column;
+  background: white;
+  padding: 5px;
+  border-radius: 5px;
+  gap: 10px;
+
+  label{
+    font-size: 14px;
+    font-weight: 600;
+  }
 }
 `;
 

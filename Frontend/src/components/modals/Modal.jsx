@@ -34,8 +34,8 @@ background: rgba(0, 0, 0, .5);
 `;
 
 const ContenedorModal = styled.div`
-    min-width: 500px;
-    min-height: 100px;
+    min-width: 400px;
+    min-height: 200px;
     background: white;
     position: relative;
     border-radius: 10px;

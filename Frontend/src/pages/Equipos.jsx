@@ -1,6 +1,6 @@
 import styled from "styled-components"
 import NavBar from "../components/organismos/NavBar";
-import HeaderPage from "../components/organismos/HeaderPage";
+import HeaderPageTwo from "../components/organismos/HeaderPageTwo";
 import MUIDataTable from "mui-datatables";
 import axios from "axios";
 import { useEffect, useState } from "react";
@@ -9,6 +9,7 @@ import Modal from "../components/modals/Modal";
 import ButtonEdit from "../components/organismos/ButtonEdit";
 import moment from "moment"
 import { CgToolbox } from "react-icons/cg";
+import MediumContainer from "../components/organismos/MediumContainer"
 
 function Equipos() {
 
@@ -190,6 +191,27 @@ function Equipos() {
       }
     }
   ]
+  const columnasCategorias = [
+    {
+      name: "id_categoria",
+      label: "ID"
+    },
+    {
+      name: "nombre_categoria",
+      label: "NOMBRE"
+    },
+    {
+      name: "editar",
+      label: "ACTIONS",
+      options: {
+        customBodyRender: (value, tableMeta, updateValue) => {
+          return (
+              <ButtonEdit funcion1={() => getData(tableMeta.rowData)} />
+          );
+      }
+      }
+    }
+  ]
 
 
   useEffect(() => {
@@ -202,7 +224,15 @@ function Equipos() {
     <Container>
       <NavBar/>
       <div className="contenedor">
-        <HeaderPage icon={<CgToolbox/>} titulo="EQUIPOS" textButton="REGISTRAR EQUIPO" funcion={() => setModal(true)}/>
+        <MediumContainer>
+          <MUIDataTable className= "table-medium"
+          title="Categorías"
+          data={categorias}
+          columns={columnasCategorias}
+          options={options}
+           />
+        </MediumContainer>
+        <HeaderPageTwo icon={<CgToolbox/>} titulo="EQUIPOS" textButton1="REGISTRAR EQUIPO" textButton2="REGISTRAR CATEGORÍA" funcion1={() => setModal(true)}/>
         <Modales>
           <Modal 
           titulo="REGISTRAR EQUIPO"
@@ -387,6 +417,17 @@ min-width: 100%;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
+  .table-medium{
+    width: 90%;
+    padding: 5px;
+
+    th{
+     background: #38A800;
+     color: white;
+     padding: 5px;
+    }
+  }
 
 }
 
