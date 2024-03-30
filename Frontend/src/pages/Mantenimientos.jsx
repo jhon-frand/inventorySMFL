@@ -306,6 +306,7 @@ function Mantenimientos() {
       </Modales>
       <div className="table-mui">
         <MUIDataTable className="table"
+        title="Lista de Mantenimientos"
        data={mantenimientos}
        columns={columnas}
        options={options}

@@ -331,7 +331,7 @@ const getDataUnit = (datos) => {
       </Modales>
       <div className="table-mui">
      <MUIDatatable className="table-one"
-     title="Ubicaciones"
+     title="Lista de Ubicaciones"
     data={ubicaciones}
     columns={columnas}
     options={options}

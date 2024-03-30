@@ -39,9 +39,9 @@ const Category = styled.div`
     left: 2px;
     border: none;
     background: #38a800;
-    width: 25px;
-    height: 25px;
-    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    border-radius: 20px 0 0 20px;
     display: flex;
     justify-content: center;
     align-items: center;

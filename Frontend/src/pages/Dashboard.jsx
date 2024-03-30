@@ -94,6 +94,9 @@ function Dashboard() {
       total={totalUser}
       />
     </div>
+    <div className="content-two">
+
+    </div>
       </div>
     </Container>
     </>
@@ -111,17 +114,27 @@ min-width: 100%;
   width: 100%;
   height: 100%;
   border-radius: 20px;
-  display: flex; 
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  padding: 20px;
+  gap: 10px;
+  display: grid; 
+  grid-template-columns: 280px auto;
 
   .contents{
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: column;
     gap: 20px;
     justify-content: center;
     align-items: center;
+    border-radius: 20px;
+  }
+  .content-two{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+    background: #90b8b0;
+    border-radius: 20px;
   }
 }
 `;

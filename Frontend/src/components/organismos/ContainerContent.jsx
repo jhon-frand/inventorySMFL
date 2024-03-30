@@ -20,7 +20,7 @@ const Content = styled.div`
 display: flex;
 justify-content: center;
 align-items: center;
-width: 250px;
+width: 230px;
 background: #385c57;
 min-height: 100px;
 border-radius: 20px;
@@ -32,17 +32,26 @@ div{
     justify-content: center;
     align-items: center;
     cursor: pointer;
-    padding: 15px;
+    padding: 10px;
     gap: 5px;
 
     h3{
         font-size: 14px;
         text-align: center;
     }
+    
+    span{
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    svg{
+      font-size: 20px;
+    }
 
 }
 &:hover{
-    background: #4e7e77;
+    background: #2c4340;
     color: white;
 }
 `;

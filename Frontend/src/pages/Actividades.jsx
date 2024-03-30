@@ -468,6 +468,7 @@ function Actividades() {
       </Modales>
       <div className="table-mui">
         <MUIDataTable className="table"
+        title="Lista de Actividades"
         data={actividades}
         columns={columnas}
         options={options}

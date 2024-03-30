@@ -67,7 +67,7 @@ function Unidades() {
         <div className="contenedor">
           <div className="contents">
             <MUIDatatable className="table"
-            title="Unidades"
+            title="Unidades Productivas"
             data={unidades}
             columns={columnas}
             options={options}
@@ -102,15 +102,8 @@ min-width: 100%;
 
 }
 
-.table-mui{
-  width: 40%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
 .table{
-  width: 90%;
+  width: 100%;
   padding: 5px;
 
   th{

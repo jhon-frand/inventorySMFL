@@ -349,6 +349,7 @@ const putUsuario = async (event) => {
       </Modales>
        <div className="table-mui">
        <MUIDataTable className="table"
+        title= "Lista de usuarios"
         data= {usuarios}
         columns= {columnas}
         options= {options}

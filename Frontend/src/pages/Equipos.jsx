@@ -510,6 +510,7 @@ function Equipos() {
         </Modales>
         <div className="table-mui">
           <MUIDataTable className="table"
+          title="Lista de Equipos"
           data={equipos}
           columns={columnas}
           options={options}
