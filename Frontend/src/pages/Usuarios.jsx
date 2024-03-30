@@ -43,7 +43,40 @@ function Usuarios() {
   }
 //#endregion unidades
 //#region registro
+const [valores, setValores] = useState({
+  identificacion: "",
+  nombres: "",
+  apellidos: "",
+  email: "",
+  telefono: "",
+  estado: "",
+  fk_tipo_usuario: "",
+  fk_unidad_productiva: "",
+  password: ""
+})
 
+const clearForm = () => {
+  setValores({
+    identificacion: "",
+    nombres: "",
+    apellidos: "",
+    email: "",
+    telefono: "",
+    estado: "",
+    fk_tipo_usuario: "",
+    fk_unidad_productiva: "",
+    password: ""
+  })
+  setSelectId(null);
+  setModalRegistro(false);
+  setModalUpdate(false);
+}
+const valorInput = (event) => {
+  setValores({
+    ...valores,
+     [event.target.name] : event.target.value
+  })
+}
 const getData = (datos) => {
   console.log(datos);
   setValores({
@@ -65,37 +98,7 @@ const editValorInput = (event) => {
     [event.target.name] : event.target.value
   }))
 }
-const putUsuario = async (event) => {
-  event.preventDefault();
-  try {
-    const respuesta = await axios.put(`${endpointUser}/${selectId}`, valores)
-    if (respuesta.status === 200) {
-      alert(respuesta.data.message)
-      setModalUpdate(false)
-      getUsers()
-    }
-  } catch (error) {
-    console.log(error);
-  }
-}
 
-const [valores, setValores] = useState({
-  identificacion: "",
-  nombres: "",
-  apellidos: "",
-  email: "",
-  telefono: "",
-  estado: "",
-  fk_tipo_usuario: "",
-  fk_unidad_productiva: "",
-  password: ""
-})
-const valorInput = (event) => {
-  setValores({
-    ...valores,
-     [event.target.name] : event.target.value
-  })
-}
 const postUser = async (event) => {
   event.preventDefault();
   try {
@@ -103,12 +106,28 @@ const postUser = async (event) => {
     if (respuesta.status === 200) {
       alert (respuesta.data.message);
     }
-    setModalRegistro(false);
+    clearForm();
     getUsers();
   } catch (error) {
     console.log(error);
   }
 }
+
+const putUsuario = async (event) => {
+  event.preventDefault();
+  try {
+    const respuesta = await axios.put(`${endpointUser}/${selectId}`, valores)
+    if (respuesta.status === 200) {
+      alert(respuesta.data.message)
+    }
+    clearForm();
+    getUsers();
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+
 
 //#endregion registro
  //#region table
@@ -193,7 +212,7 @@ const postUser = async (event) => {
         <Modal 
         titulo = "REGISTRAR USUARIO"
         estado={modalRegistro}
-        cambiarEstado={setModalRegistro}
+        cambiarEstado={clearForm}
         >
           <form className="formulario" onSubmit={postUser}>
             <div className="inputs-data">
@@ -266,7 +285,7 @@ const postUser = async (event) => {
         <Modal
         titulo="ACTUALIZAR DATOS"
         estado={modalUpdate}
-        cambiarEstado={setModalUpdate} >
+        cambiarEstado={clearForm} >
         <form className="formulario" onSubmit={putUsuario}>
             <div className="inputs-data">
               <div className="filas">

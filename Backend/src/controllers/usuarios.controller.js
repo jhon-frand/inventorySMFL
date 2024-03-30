@@ -121,13 +121,14 @@ const putEstado = async (peticion, respuesta) => {
     }
 };
 
-const getTipos = async (peticion, respuesta) => {
+const totalUsers = async (peticion, respuesta) => {
     try {
-        const [tipos] = await connection.query("SELECT * FROM tipo_usuario");
-        if (tipos.length > 0) {
-            return respuesta.status(200).json(tipos)
-        }
+        const sql = "SELECT COUNT(*) AS total_usuarios FROM usuarios"
+        const [result] = await connection.query(sql);
+        const total = result[0].total_usuarios;
+            respuesta.status(200).json({totalUsuarios: total})
     } catch (error) {
+        respuesta.status(500);
         respuesta.send(error.message);
     }
 }
@@ -138,5 +139,5 @@ export const usuarios = {
     getUsuario,
     getUsuarios,
     putEstado,
-    getTipos
+    totalUsers
 }

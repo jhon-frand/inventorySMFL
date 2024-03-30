@@ -70,10 +70,34 @@ function Equipos() {
     fk_categoria: "",
     fk_ubicacion: ""
   })
+  const clearFormEquipos = () => {
+    setValores({
+      serial: "",
+      nombre_equipo: "",
+      marca_equipo: "",
+      modelo_equipo: "",
+      fecha_ingreso: "",
+      descripcion: "",
+      tipo_equipo: "",
+      estado: "",
+      fk_categoria: "",
+      fk_ubicacion: ""
+    })
+    setSelectId(null)
+    setModalUpdate(false)
+    setModal(false)
+  }
   const [valoresCategory, setValoresCategory] = useState({
     nombre_categoria: ""
   })
-
+  const clearFormCategory = () => {
+    setValoresCategory({
+      nombre_categoria: ""
+    })
+    setSelectIdCategory(null)
+    setModalCategoryUpdate(false)
+    setModalCategory(false)
+  }
   const getDataCategory = (datos) => {
     setValoresCategory({
       nombre_categoria: datos[1]
@@ -83,7 +107,6 @@ function Equipos() {
   }
   const getData = (datos) => {
     const fecha = moment(datos[3]).format('YYYY-MM-DD');
-
     setValores({
       serial: datos[1],
       nombre_equipo: datos[2],
@@ -117,9 +140,9 @@ function Equipos() {
       const respuesta = await axios.put(`${endpointEquipo}/${selectId}`, valores)
       if (respuesta.status === 200) {
         alert(respuesta.data.message)
-        setModalUpdate(false)
-        getEquipos()
       }
+      clearFormEquipos();
+      getEquipos()
     } catch (error) {
       console.log(error);
     }
@@ -130,9 +153,9 @@ function Equipos() {
       const respuesta = await axios.put(`${endpointCategory}/${selectIdCategory}`, valoresCategory)
       if (respuesta.status === 200) {
         alert(respuesta.data.message)
-        setModalCategoryUpdate(false)
-        getCategorias()
       }
+      clearFormCategory();
+      getCategorias()
     } catch (error) {
       console.log(error);
     }
@@ -157,7 +180,7 @@ function Equipos() {
     if (respuesta.status === 200) {
       alert (respuesta.data.message);
     }
-    setModal(false);
+    clearFormEquipos();
     getEquipos();
   } catch (error) {
     console.log(error);
@@ -170,7 +193,7 @@ function Equipos() {
     if (respuesta.status === 200) {
       alert (respuesta.data.message);
     }
-    setModalCategory(false);
+    clearFormCategory();
     getCategorias();
   } catch (error) {
     console.log(error);
@@ -192,7 +215,13 @@ function Equipos() {
     },
     {
       name: "fecha_ingreso",
-      label: "FECHA INGRESO"
+      label: "FECHA INGRESO",
+      options: {
+        customBodyRender: (value) => {
+          const fecha = moment(value).format('YYYY-MM-DD');
+          return fecha;
+        }
+      }
     },
     {
       name: "estado",
@@ -264,7 +293,6 @@ function Equipos() {
     }
   ]
 
-
   useEffect(() => {
     getEquipos();
     getCategorias();
@@ -294,7 +322,7 @@ function Equipos() {
           <Modal 
           titulo="REGISTRAR EQUIPO"
           estado={modal}
-          cambiarEstado={setModal}
+          cambiarEstado={clearFormEquipos}
           >
              <form className="formulario" onSubmit={postEquipo}>
             <div className="inputs-data">
@@ -327,7 +355,7 @@ function Equipos() {
               </div>
               <div className="contents">
              <label>Categoría: </label>
-             <select name="fk_categoria" onChange={valorInput} value={valores.fk_categoria}>
+             <select name="fk_categoria" onChange={valorInput} value={valores.fk_categoria} required>
                 <option value="">Seleccione una categoría</option>
             {
               categorias.map((categorias) => (
@@ -338,7 +366,7 @@ function Equipos() {
                 </div>
            <div className="contents">
            <label>Estado: </label>
-           <select name="estado" onChange={valorInput} value={valores.estado}>
+           <select name="estado" onChange={valorInput} value={valores.estado} required>
                 <option value="">Seleccione un estado</option>
                 <option value="activo">Activo</option>
                 <option value="inactivo">Inactivo</option>
@@ -350,7 +378,7 @@ function Equipos() {
             <div className="filas">
              <div className="contents">
              <label>Ubicación: </label>
-             <select name="fk_ubicacion" onChange={valorInput} value={valores.fk_ubicacion}>
+             <select name="fk_ubicacion" onChange={valorInput} value={valores.fk_ubicacion} required>
                 <option value="">Seleccione una ubicación</option>
                 {
                   ubicaciones.map((ubicaciones) => (
@@ -371,7 +399,7 @@ function Equipos() {
           <Modal 
           titulo="ACTUALIZAR DATOS"
           estado={modalUpdate}
-          cambiarEstado={setModalUpdate}
+          cambiarEstado={clearFormEquipos}
           >
              <form className="formulario" onSubmit={putEquipo}>
             <div className="inputs-data">
@@ -404,7 +432,7 @@ function Equipos() {
               </div>
               <div className="contents">
              <label>Categoría: </label>
-             <select name="fk_categoria" onChange={editValorInput} value={valores.fk_categoria}>
+             <select name="fk_categoria" onChange={editValorInput} value={valores.fk_categoria} required>
                 <option value="">Seleccione una categoría</option>
             {
               categorias.map((categorias) => (
@@ -415,7 +443,7 @@ function Equipos() {
                 </div>
            <div className="contents">
            <label>Estado: </label>
-           <select name="estado" onChange={editValorInput} value={valores.estado}>
+           <select name="estado" onChange={editValorInput} value={valores.estado} required>
                 <option value="">Seleccione un estado</option>
                 <option value="activo">Activo</option>
                 <option value="inactivo">Inactivo</option>
@@ -427,7 +455,7 @@ function Equipos() {
             <div className="filas">
              <div className="contents">
              <label>Ubicación: </label>
-             <select name="fk_ubicacion" onChange={editValorInput} value={valores.fk_ubicacion}>
+             <select name="fk_ubicacion" onChange={editValorInput} value={valores.fk_ubicacion} required>
                 <option value="">Seleccione una ubicación</option>
                 {
                   ubicaciones.map((ubicaciones) => (
@@ -448,7 +476,7 @@ function Equipos() {
           <Modal 
           titulo="REGISTRAR CATEGORÍA"
           estado={modalCategory}
-          cambiarEstado={setModalCategory}
+          cambiarEstado={clearFormCategory}
           >
              <form className="formulario" onSubmit={postCategory}>
             <div className="inputs-data-category">
@@ -465,7 +493,7 @@ function Equipos() {
           <Modal 
           titulo="ACTUALIZAR CATEGORÍA"
           estado={modalCategoryUpdate}
-          cambiarEstado={setModalCategoryUpdate}
+          cambiarEstado={clearFormCategory}
           >
              <form className="formulario" onSubmit={putCategory}>
             <div className="inputs-data-category">

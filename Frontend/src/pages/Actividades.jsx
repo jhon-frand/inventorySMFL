@@ -64,6 +64,17 @@ function Actividades() {
     fk_mantenimiento: "",
     fk_tecnico: ""
    })
+   const clearFormActivity = () => {
+    setValores({
+      fecha_actividad: "",
+      descripcion: "",
+      fk_mantenimiento: "",
+      fk_tecnico: ""
+    })
+    setSelectId(null)
+    setModal(false)
+    setModalUpdate(false)
+   }
    const [valoresTecnico, setValoresTecnico] = useState({
     identificacion: "",
     nombres: "",
@@ -71,6 +82,18 @@ function Actividades() {
     correo: "",
     telefono: ""
    })
+   const clearFormTecnico = () => {
+    setValoresTecnico({
+      identificacion: "",
+      nombres: "",
+      apellidos: "",
+      correo: "",
+      telefono: ""
+    })
+    setSelectIdTecnico(null)
+    setModalTecnico(false)
+    setModalUpdateTecnico(false)
+   }
 
    const getDataTecnico = (datos) => {
     setValoresTecnico({
@@ -125,7 +148,7 @@ function Actividades() {
       if (respuesta.status === 200) {
         alert (respuesta.data.message);
       }
-      setModalTecnico(false);
+      clearFormTecnico();
       getTecnicos();
     } catch (error) {
       console.log(error);
@@ -138,7 +161,7 @@ function Actividades() {
       if (respuesta.status === 200) {
         alert (respuesta.data.message);
       }
-      setModal(false);
+      clearFormActivity();
       getActividades();
     } catch (error) {
       console.log(error);
@@ -151,7 +174,7 @@ function Actividades() {
       if (respuesta.status === 200) {
         alert (respuesta.data.message);
       }
-      setModalUpdate(false);
+      clearFormActivity();
       getActividades();
     } catch (error) {
       console.log(error);
@@ -164,7 +187,7 @@ function Actividades() {
       if (respuesta.status === 200) {
         alert (respuesta.data.message);
       }
-      setModalUpdateTecnico(false);
+      clearFormTecnico();
       getTecnicos();
     } catch (error) {
       console.log(error);
@@ -177,7 +200,13 @@ function Actividades() {
     },
     {
       name: "fecha_actividad",
-      label: "FECHA"
+      label: "FECHA",
+      options: {
+        customBodyRender: (value) => {
+          const fecha = moment(value).format('YYYY-MM-DD');
+          return fecha;
+        }
+      }
     },
     {
       name: "descripcion",
@@ -283,7 +312,7 @@ function Actividades() {
         <Modal
         titulo="RESISTRAR ACTIVIDAD"
         estado={modal}
-        cambiarEstado={setModal}
+        cambiarEstado={clearFormActivity}
         >
           <form className="formulario" onSubmit={postActivity}>
             <div className="inputs-data">
@@ -328,7 +357,7 @@ function Actividades() {
         <Modal
         titulo="ACTUALIZAR DATOS"
         estado={modalUpdate}
-        cambiarEstado={setModalUpdate}
+        cambiarEstado={clearFormActivity}
         >
           <form className="formulario" onSubmit={putActivity}>
             <div className="inputs-data">
@@ -373,7 +402,7 @@ function Actividades() {
         <Modal
         titulo="REGISTRAR TÉCNICO"
         estado={modalTecnico}
-        cambiarEstado={setModalTecnico}
+        cambiarEstado={clearFormTecnico}
         >
           <form className="formulario" onSubmit={postTecnico}>
             <div className="inputs-data-tecnico">
@@ -406,7 +435,7 @@ function Actividades() {
         <Modal
         titulo="ACTUALIZAR DATOS"
         estado={modalUpdateTecnico}
-        cambiarEstado={setModalUpdateTecnico}
+        cambiarEstado={clearFormTecnico}
         >
           <form className="formulario" onSubmit={putTecnico}>
             <div className="inputs-data-tecnico">

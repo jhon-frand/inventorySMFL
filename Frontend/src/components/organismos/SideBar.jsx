@@ -14,7 +14,7 @@ function SideBar({openSide, setOpenSide}) {
         setOpenSide(!openSide);
     }
   return (
-    <Container isOpen={openSide}>
+    <Container $isOpen={openSide}>
         <button className="sideBarButton"
             onClick={modificarSideBar}>
             <AiOutlineLeft className="cerrarSideBar"/>
@@ -99,7 +99,7 @@ height: 100vh;
     background: #38A800;
     box-shadow: 0 0 5px #38A800;
     transition: all 0.5s;
-    transform: ${({isOpen}) => (isOpen ? ``:`rotate(180deg)`)};
+    transform: ${({$isOpen}) => ($isOpen ? ``:`rotate(180deg)`)};
     display: flex;
     justify-content: center;
     align-items: center;
@@ -120,7 +120,7 @@ height: 100vh;
 
     h2{
         font-size: 18px;
-        display: ${({isOpen}) => (isOpen ? `block` : `none`)};
+        display: ${({$isOpen}) => ($isOpen ? `block` : `none`)};
     }
 }
 
@@ -131,7 +131,7 @@ height: 100vh;
     }
     cursor: pointer;
     transition: all 0.3s ease-in-out;
-    transform: ${({isOpen}) => (isOpen ? `scale(0.9)`:`scale(1.1)`)};
+    transform: ${({$isOpen}) => ($isOpen ? `scale(0.9)`:`scale(1.1)`)};
 }
 
 .linkContainer{

@@ -85,9 +85,40 @@ const getUnidad = async (peticion, respuesta) => {
     }
 };
 
+export const getTotal = async (peticion, respuesta) => {
+    try {
+        const sql = "SELECT COUNT(*) AS total_unidades FROM unidades_productivas";
+        const [result] = await connection.query(sql);
+        const total = result[0].total_unidades;
+        respuesta.status(200).json({totalUnidades: total})
+    } catch (error) {
+        respuesta.status(500);
+        respuesta.send(error.message)
+    }
+}
+
+export const getTotalEquipos = async (peticion, respuesta) => {
+    try {
+        const {unit} = peticion.params;
+        const sql = `
+                    SELECT COUNT(*) AS total_equipos FROM equipos
+                    JOIN ubicaciones ON ubicaciones.id_ubicacion = equipos.fk_ubicacion
+                    JOIN unidades_productivas ON unidades_productivas.id_unidad = ubicaciones.fk_unidad_productiva
+                    WHERE unidades_productivas.nombre_unidad = ?            
+        `;
+        const [result] = await connection.query(sql, unit);
+        respuesta.status(200).json(result[0])
+    } catch (error) {
+        respuesta.status(500);
+        respuesta.send(error.message);
+    }
+}
+
 export const unidades = {
     postUnidad,
     putUnidad,
     getUnidades,
-    getUnidad
+    getUnidad,
+    getTotal,
+    getTotalEquipos
 }

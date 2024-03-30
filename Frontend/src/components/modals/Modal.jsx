@@ -10,7 +10,7 @@ function Modal({children, titulo, estado, cambiarEstado}) {
          <EncabezadoModal>
              <h3>{titulo}</h3>
          </EncabezadoModal>
-         <BotonCerrar onClick={() => cambiarEstado(false)} > <IoMdClose /> </BotonCerrar>
+         <BotonCerrar onClick={() => cambiarEstado()} > <IoMdClose /> </BotonCerrar>
          {children}
      </ContenedorModal>
  </Overlay>

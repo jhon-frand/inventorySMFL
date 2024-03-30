@@ -126,10 +126,24 @@ const putEstadoEquipo = async (peticion, respuesta) => {
         respuesta.send(error.message);
     }
 };
+
+const getTotal = async (peticion, respuesta) => {
+    try {
+        const sql = "SELECT COUNT(*) AS total_equipos FROM equipos";
+        const [result] = await connection.query(sql);
+        const total = result[0].total_equipos;
+        respuesta.status(200).json({totalEquipos: total});
+    } catch (error) {
+        respuesta.status(500);
+        respuesta.send(error.message);
+    }
+}
+
 export const equipos = {
     postEquipo,
     putEquipo,
     getEquipo,
     getEquipos,
-    putEstadoEquipo
+    putEstadoEquipo,
+    getTotal
 }

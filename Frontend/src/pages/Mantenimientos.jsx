@@ -62,6 +62,19 @@ function Mantenimientos() {
     fk_user_responsable: "",
     fk_equipo: ""
    })
+   const clearForm = () => {
+    setValores({
+      tipo_mantenimiento: "",
+      fecha_mantenimiento: "",
+      descripcion: "",
+      resultado: "",
+      fk_user_responsable: "",
+      fk_equipo: ""
+    })
+    setSelectId(null)
+    setModal(false)
+    setModalUpdate(false)
+   }
 
    const getData = (datos) => {
     const fecha = moment(datos[2]).format('YYYY-MM-DD');
@@ -96,7 +109,7 @@ function Mantenimientos() {
       if (respuesta.status === 200) {
         alert(respuesta.data.message);
       }
-      setModal(false);
+      clearForm();
       getMantenimientos();
     } catch (error) {
       console.log(error);
@@ -109,7 +122,7 @@ function Mantenimientos() {
       if (respuesta.status === 200) {
         alert(respuesta.data.message)
       }
-      setModalUpdate(false);
+      clearForm();
       getMantenimientos();
     } catch (error) {
       console.log(error);
@@ -127,7 +140,13 @@ function Mantenimientos() {
     },
     {
       name: "fecha_mantenimiento",
-      label: "FECHA"
+      label: "FECHA",
+      options: {
+        customBodyRender: (value) => {
+          const fecha = moment(value).format('YYYY-MM-DD');
+          return fecha;
+        }
+      }
     },
     {
       name: "descripcion",
@@ -173,7 +192,7 @@ function Mantenimientos() {
         <Modal
         titulo="REGISTRAR MANTENIMIENTO"
         estado={modal}
-        cambiarEstado={setModal}
+        cambiarEstado={clearForm}
         >
           <form className="formulario" onSubmit={postMantenimiento}>
             <div className="inputs-data">
@@ -230,7 +249,7 @@ function Mantenimientos() {
         <Modal
         titulo="ACTUALIZAR DATOS"
         estado={modalUpdate}
-        cambiarEstado={setModalUpdate}
+        cambiarEstado={clearForm}
         >
           <form className="formulario" onSubmit={putMantenimiento}>
             <div className="inputs-data">

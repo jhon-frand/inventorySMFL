@@ -91,9 +91,22 @@ const getMantenimiento = async (peticion, respuesta) => {
     }
 };
 
+const getTotal = async (peticion, respuesta) => {
+    try {
+        const sql = "SELECT COUNT(*) AS total_mantenimientos FROM mantenimientos";
+        const [result] = await connection.query(sql);
+        const total = result[0].total_mantenimientos;
+        respuesta.status(200).json({totalMantenimientos: total})
+    } catch (error) {
+        respuesta.status(500);
+        respuesta.send(error.message);
+    }
+}
+
 export const mantenimientos = {
     postMantenimiento,
     putMantenimiento,
     getMantenimientos,
-    getMantenimiento
+    getMantenimiento,
+    getTotal
 }

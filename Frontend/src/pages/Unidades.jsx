@@ -1,14 +1,80 @@
 import styled from "styled-components"
 import NavBar from "../components/organismos/NavBar";
+import ContainerContent from "../components/organismos/ContainerContent";
+import MUIDatatable from "mui-datatables";
+import { options } from "../styles/Styles"
+import axios from "axios";
+import { useState, useEffect } from "react";
 
 function Unidades() {
+
+  const endpointUnit = "http://localhost:3000/unidades"
+  const [unidades, setUnidades] = useState([])
+
+  const getTotalEquipos = async (nombre_unidad) => {
+    try {
+      const respuesta = await axios.get(`${endpointUnit}/equipos/${nombre_unidad}`)
+      return respuesta.data.total_equipos;
+    } catch (error) {
+      console.log(error);
+      return 0;
+    }
+  }
+
+  const getUnidades = async () => {
+    try {
+      const response = await axios.get(endpointUnit);
+      const units = response.data;
+  
+      // Iterar sobre cada unidad y agregar el total de equipos
+      for (const unidad of units) {
+        const totalEquipos = await getTotalEquipos(unidad.nombre_unidad);
+        unidad.total_equipos = totalEquipos;
+      }
+  
+      // Actualizar el estado con las unidades que ahora tienen el total de equipos
+      setUnidades(units);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+
+  useEffect(() => {
+    getUnidades();
+
+}, [])
+
+  const columnas = [
+    {
+      name: "id_unidad",
+      label: "ID"
+    },
+    {
+      name: "nombre_unidad",
+      label: "NOMBRE"
+    },
+    {
+      name: "total_equipos",
+      label: "EQUIPOS"
+    }
+  ]
 
   return (
   <>
     <Container>
       <NavBar/>
         <div className="contenedor">
-    
+          <div className="contents">
+            <MUIDatatable className="table"
+            title="Unidades"
+            data={unidades}
+            columns={columnas}
+            options={options}
+            />
+          </div>
+          <div className="contents">
+          </div>
         </div>
     </Container>
   </>
@@ -26,10 +92,13 @@ min-width: 100%;
   width: 100%;
   height: 100%;
   border-radius: 20px;
-  display: flex; 
-  flex-direction: column;
+  display: flex;
   justify-content: center;
   align-items: center;
+
+  .contents{
+    width: 40%;
+  }
 
 }
 
@@ -38,17 +107,18 @@ min-width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
+}
 
-  .table{
-     width: 90%;
-     padding: 5px;
+.table{
+  width: 90%;
+  padding: 5px;
 
-     th{
-      background: #38A800;
-      color: white;
-      padding: 10px;
-     }
+  th{
+   background: #38A800;
+   color: white;
+   padding: 10px;
   }
+}
 
 
 `;

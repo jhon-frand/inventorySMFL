@@ -49,9 +49,27 @@ function Ubicaciones() {
   ambiente: "",
   sitio: ""
  })
+ const clearFormUbi = () => {
+  setValores({
+    fk_unidad_productiva: "",
+    ambiente: "",
+    sitio: ""
+  })
+  setSelectId(null)
+  setModalUpdate(false)
+  setModal(false)
+ }
  const [valoresUnit, setValoresUnit] = useState({
   nombre_unidad: ""
 })
+const clearFormUnit = () => {
+  setValoresUnit({
+    nombre_unidad: ""
+  })
+  setSelectIdUnit(null)
+  setModalUpdateUnit(false)
+  setModalUnit(false)
+}
  const getData = (datos) => {
   setValores({
     fk_unidad_productiva: datos[1],
@@ -100,7 +118,7 @@ const getDataUnit = (datos) => {
     if (respuesta.status === 200) {
       alert(respuesta.data.message) 
     }
-    setModal(false);
+    clearFormUbi();
     getUbicaciones();
   } catch (error) {
     console.log(error);
@@ -109,11 +127,11 @@ const getDataUnit = (datos) => {
  const postUnidad = async (event) => {
   event.preventDefault();
   try {
-    const respuesta = await axios.post(endpointUnit, valores)
+    const respuesta = await axios.post(endpointUnit, valoresUnit)
     if (respuesta.status === 200) {
       alert (respuesta.data.message)
     }
-    setModalUnit(false);
+    clearFormUnit();
     getUnidades();
   } catch (error) {
     console.log(error);
@@ -126,7 +144,7 @@ const getDataUnit = (datos) => {
     if (respuesta.status === 200) {
       alert(respuesta.data.message) 
     }
-    setModalUpdate(false);
+    clearFormUbi();
     getUbicaciones();
   } catch (error) {
     console.log(error);
@@ -139,7 +157,7 @@ const getDataUnit = (datos) => {
     if (respuesta.status === 200) {
       alert(respuesta.data.message)
     }
-    setModalUpdateUnit(false);
+    clearFormUnit();
     getUnidades();
   } catch (error) {
     console.log(error);
@@ -219,7 +237,7 @@ const getDataUnit = (datos) => {
         <Modal
         titulo="REGISTRAR UBICACIÓN"
         estado={modal}
-        cambiarEstado={setModal}
+        cambiarEstado={clearFormUbi}
         >
           <form className="formulario" onSubmit={postUbication}>
             <div className="inputs-data">
@@ -251,7 +269,7 @@ const getDataUnit = (datos) => {
         <Modal
         titulo="ACTUALIZAR DATOS"
         estado={modalUpdate}
-        cambiarEstado={setModalUpdate}
+        cambiarEstado={clearFormUbi}
         >
           <form className="formulario" onSubmit={putUbication}>
             <div className="inputs-data">
@@ -283,7 +301,7 @@ const getDataUnit = (datos) => {
         <Modal  
             titulo="REGISTRAR UNIDAD PRODUCTIVA"
             estado={modalUnit}
-            cambiarEstado={setModalUnit}
+            cambiarEstado={clearFormUnit}
             >
             <form onSubmit={postUnidad} className="formulario" >
             <div className="inputs-data">
@@ -298,7 +316,7 @@ const getDataUnit = (datos) => {
           <Modal 
             titulo="ACTUALIZAR DATOS"
             estado={modalUpdateUnit}
-            cambiarEstado={setModalUpdateUnit}
+            cambiarEstado={clearFormUnit}
             >
                <form onSubmit={putUnidad} className="formulario" >
             <div className="inputs-data">
