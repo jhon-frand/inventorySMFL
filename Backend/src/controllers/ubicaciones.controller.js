@@ -31,12 +31,12 @@ const putUbicacion = async (peticion, respuesta) => {
         if (actualizar.affectedRows> 0) {
             return respuesta.status(200).json({
                 "status": 200,
-                message: "Categoria actualizada"
+                message: "Ubicación actualizada"
             })
         } else {
             return respuesta.status(403).json({
                 "status": 403,
-                "message": "Error al actualizar categoria"
+                "message": "Error al actualizar Ubicación"
             })
         }
     } catch (error) {

@@ -462,7 +462,7 @@ function Actividades() {
                 </div>
               </div>
             </div>
-            <button>REGISTRAR</button>
+            <button>ACTUALIZAR</button>
           </form>
         </Modal>
       </Modales>

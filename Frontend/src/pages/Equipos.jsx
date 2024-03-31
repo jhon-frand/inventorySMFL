@@ -13,6 +13,7 @@ import MediumContainer from "../components/organismos/MediumContainer"
 
 function Equipos() {
 
+  //#region funciones
   const endpointEquipo = "http://localhost:3000/equipos"
   const endpointCategory = "http://localhost:3000/categorias"
   const endpointUbication = "http://localhost:3000/ubicaciones"
@@ -299,6 +300,7 @@ function Equipos() {
     getUbicaciones();
   },[])
 
+    //#endregion funciones
   return (
     <Container>
       <NavBar/>
@@ -329,7 +331,7 @@ function Equipos() {
               <div className="filas">
               <div className="contents">
                 <label>SERIAL: </label>
-              <input name="serial" onChange={valorInput} value={valores.serial} type="number" placeholder="Serial" required/>
+              <input name="serial" onChange={valorInput} value={valores.serial} type="text" placeholder="Serial" required/>
               </div>
               <div className="contents">
               <label>Nombre: </label>
@@ -406,7 +408,7 @@ function Equipos() {
               <div className="filas">
               <div className="contents">
                 <label>SERIAL: </label>
-              <input name="serial" onChange={editValorInput} value={valores.serial} type="number" placeholder="Serial" required/>
+              <input name="serial" onChange={editValorInput} value={valores.serial} type="text" placeholder="Serial" required/>
               </div>
               <div className="contents">
               <label>Nombre: </label>

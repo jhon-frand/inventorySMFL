@@ -13,7 +13,7 @@ const postMantenimiento = async (peticion, respuesta) => {
         } else {
             return respuesta.status(403).json({
                 "status": 403,
-                "message": "Error al registrar mantenimiento"
+                message: "Error al registrar mantenimiento"
             })
         }
     } catch (error) {

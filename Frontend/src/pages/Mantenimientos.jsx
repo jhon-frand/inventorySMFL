@@ -11,7 +11,7 @@ import moment from "moment";
 import { GoTools } from "react-icons/go";
 
 function Mantenimientos() {
-
+//#region funciones
   const endpointManteni = "http://localhost:3000/mantenimientos"
   const endpointUser = "http://localhost:3000/usuarios"
   const endpointEquipo = "http://localhost:3000/equipos"
@@ -105,7 +105,7 @@ function Mantenimientos() {
    const postMantenimiento = async (event) => {
     event.preventDefault();
     try {
-      const respuesta = axios.post(endpointManteni, valores)
+      const respuesta = await axios.post(endpointManteni, valores)
       if (respuesta.status === 200) {
         alert(respuesta.data.message);
       }
@@ -182,7 +182,7 @@ function Mantenimientos() {
       getEquipos();
       getUsers();
     },[])
-
+//#endregion funciones
   return (
     <Container>
       <NavBar/>
@@ -201,7 +201,7 @@ function Mantenimientos() {
                   <label>Tipo de Mantenimiento:</label>
                   <select name="tipo_mantenimiento" value={valores.tipo_mantenimiento} onChange={valorInput} required>
                     <option value="">Selecciona el tipo</option>
-                    <option value="preventivo">reventivo</option>
+                    <option value="preventivo">Preventivo</option>
                     <option value="tecnico">Técnico</option>
                   </select>
                 </div>

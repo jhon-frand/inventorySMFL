@@ -93,11 +93,16 @@ const getDataUnit = (datos) => {
   })
  }
  const valorInputUnit = (event) => {
-  setValoresUnit({
-    ...valoresUnit,
-    [event.target.name] : event.target.value
-  })
-}
+  const { name, value } = event.target;
+
+  // Validar que solo se ingresen letras y espacios
+  if (/^[a-zA-Z\s]+$/.test(value) || value === '') {
+    setValoresUnit({
+      ...valoresUnit,
+      [name]: value
+    });
+  }
+};
  const editValorInput = (event) => {
   setValores(prevState => ({
     ...prevState,
@@ -105,10 +110,15 @@ const getDataUnit = (datos) => {
   }))
  }
  const editValorInputUnit = (event) => {
+  const {name, value} = event.target;
+
+   // Validar que solo se ingresen letras y espacios
+   if (/^[a-zA-Z\s]+$/.test(value) || value === '') {
   setValoresUnit(prevState => ({
     ...prevState,
-    [event.target.name]: event.target.value
-  }))
+    [name]: value
+   }))
+}
 }
 
  const postUbication = async (event) => {
