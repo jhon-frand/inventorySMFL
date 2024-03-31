@@ -78,15 +78,22 @@ const valorInput = (event) => {
   })
 }
 const getData = (datos) => {
-  console.log(datos);
+    // Obtener el ID del tipo de usuario
+    const tipoUsuario = tipousuario.find(tipo => tipo.rol === datos[6]);
+    const tipoUsuarioId = tipoUsuario ? tipoUsuario.id_tipo_usuario : "";
+
+    // Obtener el ID de la unidad productiva
+    const unidad = unidades.find(unidad => unidad.nombre_unidad === datos[7]);
+    const unidadId = unidad ? unidad.id_unidad : "";
+
   setValores({
     identificacion: datos[1],
     nombres: datos[2],
     apellidos: datos[3],
     email: datos[4],
     estado: datos[5],
-    fk_tipo_usuario: datos[6],
-    fk_unidad_productiva: datos[7],
+    fk_tipo_usuario: tipoUsuarioId,
+    fk_unidad_productiva: unidadId,
     telefono: datos[8]
   })
   setSelectId(datos[0])

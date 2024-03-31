@@ -106,15 +106,28 @@ function Equipos() {
     setSelectIdCategory(datos[0])
     setModalCategoryUpdate(true)
   }
+  
   const getData = (datos) => {
+
+    const categoriaEquipo = categorias.find(category => category.nombre_categoria == datos[5]);
+    const categoriaEquipoId = categoriaEquipo ? categoriaEquipo.id_categoria: "";
+
     const fecha = moment(datos[3]).format('YYYY-MM-DD');
+      //función para obtener el id de ubicación para que aparezca en el formulario de edición
+  const obtenerIdUbicacion = (nombreUnidad, ambiente, sitio) => {
+    const ubicacionEncontrada = ubicaciones.find(ubicacion => ubicacion.nombre_unidad === nombreUnidad && ubicacion.ambiente === ambiente && ubicacion.sitio === sitio);
+    return ubicacionEncontrada ? ubicacionEncontrada.id_ubicacion : "";
+  };
+
+     // Obtener el ID de la ubicación
+  const ubicacion = obtenerIdUbicacion(datos[6], datos[7], datos[8]);
     setValores({
       serial: datos[1],
       nombre_equipo: datos[2],
       fecha_ingreso: fecha,
       estado: datos[4],
-      fk_categoria: datos[5],
-      fk_ubicacion: datos[[6],[7],[8]],
+      fk_categoria: categoriaEquipoId,
+      fk_ubicacion: ubicacion,
       tipo_equipo: datos[9],
       marca_equipo: datos[10],
       modelo_equipo: datos[11],

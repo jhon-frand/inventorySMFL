@@ -107,12 +107,20 @@ function Actividades() {
     setModalUpdateTecnico(true)
    }
    const getData = (datos) => {
+
+    const tecnicoActividad = tecnicos.find(tenic => tenic.nombres === datos[4]);
+    const tecnicoActividadId = tecnicoActividad ? tecnicoActividad.id_tecnico: "";
+
+    const manteinmentActividad = mantenimientos.find(manteni => manteni.tipo_mantenimiento === datos[3]);
+    const manteinmentActividadId = manteinmentActividad ? manteinmentActividad.id_mantenimiento: "";
+
     const fecha = moment(datos[1]).format('YYYY-MM-DD')
+
     setValores({
       fecha_actividad: fecha,
       descripcion: datos[2],
-      fk_mantenimiento: datos[3],
-      fk_tecnico: datos[4]
+      fk_mantenimiento: manteinmentActividadId,
+      fk_tecnico: tecnicoActividadId
     })
     setSelectId(datos[0])
     setModalUpdate(true)

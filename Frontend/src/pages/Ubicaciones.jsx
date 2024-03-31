@@ -71,8 +71,11 @@ const clearFormUnit = () => {
   setModalUnit(false)
 }
  const getData = (datos) => {
+
+  const unidadProductiva = unidades.find(unit => unit.nombre_unidad === datos[1]);
+  const unidadProductivaId = unidadProductiva ? unidadProductiva.id_unidad: "";
   setValores({
-    fk_unidad_productiva: datos[1],
+    fk_unidad_productiva: unidadProductivaId,
     ambiente: datos[2],
     sitio: datos[3]
   })
@@ -95,13 +98,11 @@ const getDataUnit = (datos) => {
  const valorInputUnit = (event) => {
   const { name, value } = event.target;
 
-  // Validar que solo se ingresen letras y espacios
-  if (/^[a-zA-Z\s]+$/.test(value) || value === '') {
     setValoresUnit({
       ...valoresUnit,
       [name]: value
     });
-  }
+
 };
  const editValorInput = (event) => {
   setValores(prevState => ({

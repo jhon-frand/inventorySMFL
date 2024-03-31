@@ -77,18 +77,25 @@ function Mantenimientos() {
    }
 
    const getData = (datos) => {
+
+    const equipoManteinment = equipos.find(equipment => equipment.nombre_equipo === datos[5]);
+    const equipoManteinmentId = equipoManteinment ? equipoManteinment.id_equipo: "";
+
+    const userResponsable = usuarios.find(user => user.nombres === datos[4]);
+    const userResponsableId = userResponsable ? userResponsable.id_usuario : "";
+    
     const fecha = moment(datos[2]).format('YYYY-MM-DD');
+    console.log(datos);
     setValores({
     tipo_mantenimiento: datos[1],
     fecha_mantenimiento: fecha,
     descripcion: datos[3],
-    fk_user_responsable: datos[4],
-    fk_equipo: datos[5],
+    fk_user_responsable: userResponsableId,
+    fk_equipo: equipoManteinmentId,
     resultado: datos[6]
     })
     setSelectId(datos[0]);
     setModalUpdate(true);
-    console.log(datos);
   }
    const valorInput = (event) => {
     setValores({
