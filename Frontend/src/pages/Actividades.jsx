@@ -335,7 +335,7 @@ function Actividades() {
                   <option value="">selecciona una opción</option>
                   {
                     mantenimientos.map((mantenimientos) => (
-                      <option value={mantenimientos.id_mantenimiento} key={mantenimientos.id_mantenimiento}>{mantenimientos.id_mantenimiento} {mantenimientos.tipo_mantenimiento}</option>
+                      <option value={mantenimientos.id_mantenimiento} key={mantenimientos.id_mantenimiento}>{mantenimientos.id_mantenimiento} {mantenimientos.tipo_mantenimiento} {mantenimientos.resultado}</option>
                     ))
                   }
                   </select>

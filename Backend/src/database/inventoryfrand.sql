@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost:3306
--- Tiempo de generación: 29-03-2024 a las 14:24:47
+-- Tiempo de generación: 01-04-2024 a las 04:11:26
 -- Versión del servidor: 8.0.30
 -- Versión de PHP: 8.1.10
 
@@ -41,8 +41,9 @@ CREATE TABLE `actividades` (
 
 INSERT INTO `actividades` (`id_actividad`, `fecha_actividad`, `descripcion`, `fk_mantenimiento`, `fk_tecnico`) VALUES
 (1, '2024-03-30', 'Se cambió el motor', 3, 1),
-(2, '2024-03-31', 'Se cambiaron poleas', 3, 2),
-(3, '2024-03-14', 'ddddd', 6, 2);
+(2, '2024-03-31', 'Se cambiaron poleass', 14, 4),
+(4, '2024-03-27', 'prueba actividad tecnico descricpcion', 18, 7),
+(5, '2024-03-02', 'se cambio en la pagina actividades el formulario', 18, 4);
 
 -- --------------------------------------------------------
 
@@ -61,7 +62,8 @@ CREATE TABLE `categorias` (
 
 INSERT INTO `categorias` (`id_categoria`, `nombre_categoria`) VALUES
 (38, 'Laboratorio'),
-(39, 'Maquinaria');
+(39, 'Maquinaria'),
+(44, 'PruebaCategory');
 
 -- --------------------------------------------------------
 
@@ -71,7 +73,7 @@ INSERT INTO `categorias` (`id_categoria`, `nombre_categoria`) VALUES
 
 CREATE TABLE `equipos` (
   `id_equipo` int NOT NULL,
-  `serial` int NOT NULL,
+  `serial` varchar(20) NOT NULL,
   `nombre_equipo` varchar(50) NOT NULL,
   `marca_equipo` varchar(50) NOT NULL,
   `modelo_equipo` varchar(50) NOT NULL,
@@ -88,10 +90,9 @@ CREATE TABLE `equipos` (
 --
 
 INSERT INTO `equipos` (`id_equipo`, `serial`, `nombre_equipo`, `marca_equipo`, `modelo_equipo`, `fecha_ingreso`, `descripcion`, `tipo_equipo`, `estado`, `fk_categoria`, `fk_ubicacion`) VALUES
-(25, 111, 'Molino', 'MWQ', 'A2023L', '2024-02-13', 'molino triturador', 'eléctrico', 'activo', 38, 14),
-(26, 222, 'Microscopio', 'MCC', 'CC023L', '2024-04-13', 'detector de bacterias', 'manual', 'inactivo', 39, 15),
-(27, 123, 'bb', 'bb', 'dafvdf', '2024-03-28', 'jjjjjj', 'd', 'inactivo', 38, 16),
-(28, 555, 'hhh', 'hhh', 'hhhh', '2024-03-22', 'hhhhhhh', 'hhhh', 'activo', 38, 28);
+(25, '111', 'Molino', 'MWQ', 'A2023L', '2024-02-13', 'molino triturador', 'eléctrico', 'activo', 38, 14),
+(30, '23233', 'bb', 'bb', 'v', '2024-03-08', '2222', '222', 'inactivo', 39, 14),
+(36, '12gh3g', 'pruebaequipo', 'pruebamarca', 'pruebamodelo', '2024-03-15', 'minimo 20 caracteres paradescripcion', 'manual', 'activo', 44, 46);
 
 -- --------------------------------------------------------
 
@@ -114,12 +115,9 @@ CREATE TABLE `mantenimientos` (
 --
 
 INSERT INTO `mantenimientos` (`id_mantenimiento`, `tipo_mantenimiento`, `fecha_mantenimiento`, `descripcion`, `resultado`, `fk_user_responsable`, `fk_equipo`) VALUES
-(2, 'preventivo', '2024-02-21', 'fallo en el funcionamiento interno', 'necesita mantenimiento técnico', 3, 25),
-(3, 'tecnico', '2024-02-25', 'fallo en el funcionamiento interno', 'equipo reparado', 3, 25),
-(4, 'preventivo', '2024-03-27', 'fffff', 'fffff', 3, 26),
-(5, 'preventivo', '2024-03-27', 'fffff', 'fffff', 3, 26),
-(6, 'preventivo', '2024-03-28', 'dddddd', 'ddd', 4, 28),
-(7, 'tecnico', '2024-03-16', 'www', 'www', 3, 25);
+(3, 'tecnico', '2024-02-25', 'fallo en el funcionamiento interno', 'equipo reparado', 9, 25),
+(14, 'preventivo', '2024-03-09', 'sddsfdsfdsfdsfdsfdsfsssssssss', 'equipo reparado correctamente', 4, 30),
+(18, 'preventivo', '2024-03-14', 'minimo 20 caracteres mantenimiento', 'necesita mantenimiento técnico', 14, 36);
 
 -- --------------------------------------------------------
 
@@ -141,8 +139,9 @@ CREATE TABLE `tecnicos` (
 --
 
 INSERT INTO `tecnicos` (`id_tecnico`, `identificacion`, `nombres`, `apellidos`, `correo`, `telefono`) VALUES
-(1, 123456, 'Juan', 'Cuellar', 'cuellar@gmail.com', '32134566'),
-(2, 909090, 'Fredd', 'Castro', 'castror@gmail.com', '3212236');
+(1, 123456, 'Juanete', 'Cuellar', 'cuellar@gmail.com', '32134566'),
+(4, 1004268668, 'Juan Frand', 'lebaza', 'frad@gmail.com', '3213570619'),
+(7, 6754983, 'pruebaTecnico', 'apeliiTecnico', 'tecniupdate@gmail.com', '3212312222');
 
 -- --------------------------------------------------------
 
@@ -182,26 +181,11 @@ CREATE TABLE `ubicaciones` (
 
 INSERT INTO `ubicaciones` (`id_ubicacion`, `fk_unidad_productiva`, `ambiente`, `sitio`) VALUES
 (14, 12, 'G-12', 'Mesón'),
-(15, 13, 'F-12', 'Mesa-4'),
-(16, 12, 'Frand', '3'),
-(17, 13, 'qq', 'qq'),
-(18, 12, 'ee', 'ee'),
-(19, 12, 'ff', 'ff'),
-(20, 13, 'yy', 'yy'),
-(21, 12, 'vv', 'vvv'),
-(22, 13, 'mm', 'mm'),
-(23, 12, 'bb', 'bb'),
-(24, 13, 'tt', 'tt'),
-(25, 13, 'cc', 'cc'),
-(26, 13, 'rtrt', 'rtrt'),
-(27, 12, 'juan', 'juan'),
-(28, 13, 'motato', 'motato'),
-(29, 13, 'cara', 'cara'),
-(30, 12, 'www', 'www'),
-(31, 13, 'kk', 'kk'),
-(32, 12, 'wer', 'wer'),
-(33, 13, 'fff', 'ff'),
-(34, 21, 'Four', 'Piso');
+(28, 15, 'motato', 'motato'),
+(37, 25, 'w', 'w'),
+(38, 24, 'gg', 'gg'),
+(44, 28, 'sss', 'ssd'),
+(46, 34, 'pruebaproyect', 'prueba');
 
 -- --------------------------------------------------------
 
@@ -220,18 +204,13 @@ CREATE TABLE `unidades_productivas` (
 
 INSERT INTO `unidades_productivas` (`id_unidad`, `nombre_unidad`) VALUES
 (12, 'Agroindustria'),
-(13, 'Gastronomía'),
-(14, 'TICS'),
 (15, 'TICS'),
-(16, 'TICS'),
-(17, 'Café'),
-(18, 'frand'),
-(19, 'miller'),
-(20, 'motato'),
+(17, 'Cafe'),
 (21, 'PAE'),
-(22, 'sadfsaddfd'),
-(23, 'frand'),
-(24, 'centro de acopio');
+(24, 'centro de acopio'),
+(25, 'BIO'),
+(28, 'jhon jhon'),
+(34, 'PruebaProyecto');
 
 -- --------------------------------------------------------
 
@@ -258,10 +237,11 @@ CREATE TABLE `usuarios` (
 
 INSERT INTO `usuarios` (`id_usuario`, `identificacion`, `nombres`, `apellidos`, `email`, `telefono`, `password`, `estado`, `fk_tipo_usuario`, `fk_unidad_productiva`) VALUES
 (3, 10042, 'Santiago', 'Motato', 'motato@gmail.com', '322330619', 'putin', 'inactivo', 1, 12),
-(4, 333, 'cvc', 'ccc', 'cc@gmail.com', '3333', 'eee', 'activo', 2, 12),
-(5, 333, 'cvc', 'ccc', 'cc@gmail.com', '3333', 'eee', 'activo', 2, 12),
-(6, 333, 'cvc', 'ccc', 'cc@gmail.com', '3333', 'eee', 'activo', 2, 12),
-(7, 333, 'gggg', 'ccc', 'cc@gmail.com', '3333', 'eee', 'activo', 2, 12);
+(4, 333, 'Frand', 'Lebaza', 'frand@gmail.com', '3333', 'eee', 'activo', 1, 15),
+(9, 1111, 'Juanete', 'cervantes', 'cervantes@gmail.com', '434343', 'juan', 'activo', 1, 15),
+(11, 33, 'sss', 'ss', 'cc@gmail.com', '444', 'xx', 'activo', 2, 24),
+(13, 123443, 'yber', 'yber', 'yber@gmail.com', '123423', 'yberer', 'inactivo', 2, 15),
+(14, 10029448, 'Miguelon', 'Perdomo', 'migue@gmail.com', '3213213214', 'miguel', 'activo', 2, 34);
 
 --
 -- Índices para tablas volcadas
@@ -301,7 +281,8 @@ ALTER TABLE `mantenimientos`
 -- Indices de la tabla `tecnicos`
 --
 ALTER TABLE `tecnicos`
-  ADD PRIMARY KEY (`id_tecnico`);
+  ADD PRIMARY KEY (`id_tecnico`),
+  ADD UNIQUE KEY `identificacion` (`identificacion`);
 
 --
 -- Indices de la tabla `tipo_usuario`
@@ -327,6 +308,9 @@ ALTER TABLE `unidades_productivas`
 --
 ALTER TABLE `usuarios`
   ADD PRIMARY KEY (`id_usuario`),
+  ADD UNIQUE KEY `identificacion` (`identificacion`),
+  ADD UNIQUE KEY `email` (`email`),
+  ADD UNIQUE KEY `password` (`password`),
   ADD KEY `ser` (`fk_tipo_usuario`),
   ADD KEY `pertenecer` (`fk_unidad_productiva`);
 
@@ -338,31 +322,31 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de la tabla `actividades`
 --
 ALTER TABLE `actividades`
-  MODIFY `id_actividad` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_actividad` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `categorias`
 --
 ALTER TABLE `categorias`
-  MODIFY `id_categoria` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+  MODIFY `id_categoria` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
 
 --
 -- AUTO_INCREMENT de la tabla `equipos`
 --
 ALTER TABLE `equipos`
-  MODIFY `id_equipo` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `id_equipo` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- AUTO_INCREMENT de la tabla `mantenimientos`
 --
 ALTER TABLE `mantenimientos`
-  MODIFY `id_mantenimiento` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id_mantenimiento` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT de la tabla `tecnicos`
 --
 ALTER TABLE `tecnicos`
-  MODIFY `id_tecnico` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_tecnico` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `tipo_usuario`
@@ -374,19 +358,19 @@ ALTER TABLE `tipo_usuario`
 -- AUTO_INCREMENT de la tabla `ubicaciones`
 --
 ALTER TABLE `ubicaciones`
-  MODIFY `id_ubicacion` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `id_ubicacion` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
 
 --
 -- AUTO_INCREMENT de la tabla `unidades_productivas`
 --
 ALTER TABLE `unidades_productivas`
-  MODIFY `id_unidad` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id_unidad` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id_usuario` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id_usuario` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- Restricciones para tablas volcadas
