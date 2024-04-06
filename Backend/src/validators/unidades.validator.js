@@ -12,7 +12,10 @@ export const validationUnidad = () => {
             const errors = validationResult(req);
 
             if (!errors.isEmpty()) {
-                const checkError = errors.array().map(error => error.msg);
+                const checkError = errors.array().map(error => [
+                    error.path,
+                    error.msg
+    ]);;
                 res.status(400).json({msg:checkError})
                 return;
             }

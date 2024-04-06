@@ -1,10 +1,11 @@
 import styled from "styled-components"
 import NavBar from "../components/organismos/NavBar";
-import ContainerContent from "../components/organismos/ContainerContent";
 import MUIDatatable from "mui-datatables";
 import { options } from "../styles/Styles"
 import axios from "axios";
 import { useState, useEffect } from "react";
+import Alert from '@mui/material/Alert';
+
 
 function Unidades() {
 
@@ -74,6 +75,10 @@ function Unidades() {
             />
           </div>
           <div className="contents">
+          <Alert severity="success">This is a success Alert.</Alert>
+          <Alert severity="info">This is an info Alert.</Alert>
+          <Alert severity="warning">This is a warning Alert.</Alert>
+          <Alert severity="error">This is an error Alert.</Alert>
           </div>
         </div>
     </Container>

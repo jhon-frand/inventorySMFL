@@ -9,6 +9,7 @@ import Modal from "../components/modals/Modal";
 import ButtonEdit from "../components/organismos/ButtonEdit";
 import moment from "moment";
 import { GoTools } from "react-icons/go";
+import { Alert } from "@mui/material";
 
 function Mantenimientos() {
 //#region funciones
@@ -22,6 +23,7 @@ function Mantenimientos() {
   const [modal, setModal] = useState(false)
   const [modalUpdate, setModalUpdate] = useState(false)
   const [selectId, setSelectId] = useState(null)
+  const [errores, setErrores] = useState("")
 
   const getMantenimientos = async () => {
     try {
@@ -71,6 +73,7 @@ function Mantenimientos() {
       fk_user_responsable: "",
       fk_equipo: ""
     })
+    setErrores("")
     setSelectId(null)
     setModal(false)
     setModalUpdate(false)
@@ -119,6 +122,7 @@ function Mantenimientos() {
       clearForm();
       getMantenimientos();
     } catch (error) {
+      setErrores(error.response.data.msg)
       console.log(error);
     }
    }
@@ -132,6 +136,7 @@ function Mantenimientos() {
       clearForm();
       getMantenimientos();
     } catch (error) {
+      setErrores(error.response.data.msg)
       console.log(error);
     }
    }
@@ -243,10 +248,24 @@ function Mantenimientos() {
               <div className="contents">
                 <label>Descripción:</label>
                 <textarea name="descripcion" value={valores.descripcion} onChange={valorInput} maxLength={250} placeholder="Ingresa una descripción" required/>
+                {
+                  errores && errores.some(([campo]) => campo === "descripcion") && (
+                    <Alert severity="error" icon={false}>
+                      {errores.find(([campo]) => campo === "descripcion")[1]}
+                    </Alert>
+                  )
+                }
               </div>
               <div className="contents">
                 <label>Resultado:</label>
                 <input name="resultado" type="text" value={valores.resultado} onChange={valorInput} placeholder="Resultado" required/>
+                {
+                  errores && errores.some(([campo]) => campo === "resultado") && (
+                    <Alert severity="error" icon={false}>
+                      {errores.find(([campo]) => campo === "resultado")[1]}
+                    </Alert>
+                  )
+                }
               </div>
               </div>
             </div>
@@ -300,10 +319,24 @@ function Mantenimientos() {
               <div className="contents">
                 <label>Descripción:</label>
                 <textarea name="descripcion" value={valores.descripcion} onChange={editValorInput} maxLength={250} placeholder="Ingresa una descripción" required/>
+                {
+                  errores && errores.some(([campo]) => campo === "descripcion") && (
+                    <Alert severity="error" icon={false}>
+                      {errores.find(([campo]) => campo === "descripcion")[1]}
+                    </Alert>
+                  )
+                }
               </div>
               <div className="contents">
                 <label>Resultado:</label>
                 <input name="resultado" type="text" value={valores.resultado} onChange={editValorInput} placeholder="Resultado" required/>
+                {
+                  errores && errores.some(([campo]) => campo === "resultado") && (
+                    <Alert severity="error" icon={false}>
+                      {errores.find(([campo]) => campo === "resultado")[1]}
+                    </Alert>
+                  )
+                }
               </div>
               </div>
             </div>
@@ -373,8 +406,7 @@ z-index: 30;
   flex-direction: column;
 
     .inputs-data{
-      display: grid;
-      grid-template-columns: 230px 230px;
+      display: flex;
       justify-content: center;
       align-items: center;
       gap: 10px;
@@ -405,14 +437,14 @@ z-index: 30;
 
       input{
         padding: 5px;
-        width: 180px;
+        min-width: 180px;
         border: none;
         outline: none;
         border-bottom: 1px solid #38a800;
       }
       select{
         padding: 4px;
-        width: 210px;
+        min-width: 210px;
         border: none;
         outline: none;
       }

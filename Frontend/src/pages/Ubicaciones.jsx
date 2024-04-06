@@ -8,6 +8,9 @@ import HeaderPageTwo from "../components/organismos/HeaderPageTwo";
 import Modal from "../components/modals/Modal";
 import ButtonEdit from "../components/organismos/ButtonEdit";
 import { BsPinMap } from "react-icons/bs";
+import Alert from "@mui/material/Alert";
+import AlertTitle from '@mui/material/AlertTitle';
+
 
 function Ubicaciones() {
 
@@ -22,6 +25,7 @@ function Ubicaciones() {
   const [modalUpdateUnit, setModalUpdateUnit] = useState(false)
   const [selectId, setSelectId] = useState(null)
   const [selectIdUnit, setSelectIdUnit] = useState(null)
+  const [errores, setErrores] = useState("")
 
  const getUnidades = async () => {
   try {
@@ -55,6 +59,7 @@ function Ubicaciones() {
     ambiente: "",
     sitio: ""
   })
+  setErrores("")
   setSelectId(null)
   setModalUpdate(false)
   setModal(false)
@@ -66,6 +71,7 @@ const clearFormUnit = () => {
   setValoresUnit({
     nombre_unidad: ""
   })
+  setErrores("")
   setSelectIdUnit(null)
   setModalUpdateUnit(false)
   setModalUnit(false)
@@ -132,7 +138,8 @@ const getDataUnit = (datos) => {
     clearFormUbi();
     getUbicaciones();
   } catch (error) {
-    console.log(error);
+    setErrores(error.response.data.msg)
+    console.log(error.response.data.msg);
   }
  }
  const postUnidad = async (event) => {
@@ -145,6 +152,7 @@ const getDataUnit = (datos) => {
     clearFormUnit();
     getUnidades();
   } catch (error) {
+    setErrores(error.response.data.msg)
     console.log(error);
   }
 }
@@ -158,6 +166,7 @@ const getDataUnit = (datos) => {
     clearFormUbi();
     getUbicaciones();
   } catch (error) {
+    setErrores(error.response.data.msg)
     console.log(error);
   }
  }
@@ -171,6 +180,7 @@ const getDataUnit = (datos) => {
     clearFormUnit();
     getUnidades();
   } catch (error) {
+    setErrores(error.response.data.msg)
     console.log(error);
   }
 }
@@ -255,7 +265,7 @@ const getDataUnit = (datos) => {
               <div className="filas">
                   <div className="contents">
                     <label>Unidad Productiva</label>
-                    <select name="fk_unidad_productiva" value={valores.fk_unidad_productiva} onChange={valorInput}>
+                    <select name="fk_unidad_productiva" value={valores.fk_unidad_productiva} onChange={valorInput} required>
                       <option value="">Selecciona una opción</option>
                       {
                         unidades.map((unidades) => (
@@ -266,12 +276,26 @@ const getDataUnit = (datos) => {
                   </div>
                   <div className="contents">
                     <label>Ambiente:</label>
-                    <input name="ambiente" value={valores.ambiente} onChange={valorInput} type="text" placeholder="Ambiente" />
+                    <input name="ambiente" value={valores.ambiente} onChange={valorInput} type="text" placeholder="Ambiente" required />
                   </div>
+                  {
+                  errores && errores.some(([campo]) => campo === "ambiente") && (
+                  <Alert severity="error" icon={false}>
+                    {errores.find(([campo]) => campo === "ambiente")[1]}
+                  </Alert>
+                    )
+                  }
                   <div className="contents">
                     <label>Sitio</label>
-                    <input name="sitio" value={valores.sitio} onChange={valorInput} type="text" placeholder="Sitio" />
+                    <input name="sitio" value={valores.sitio} onChange={valorInput} type="text" placeholder="Sitio" required/>
                   </div>
+                  {
+                     errores && errores.some(([campo]) => campo === "sitio") && (
+                      <Alert severity="error" icon={false}>
+                          {errores.find(([campo]) => campo === "sitio")[1]}
+                      </Alert>
+                      )
+                  }
               </div>
             </div>
             <button>REGISTRAR</button>
@@ -300,10 +324,24 @@ const getDataUnit = (datos) => {
                     <label>Ambiente:</label>
                     <input name="ambiente" value={valores.ambiente} onChange={editValorInput} type="text" placeholder="Ambiente" />
                   </div>
+                  {
+                  errores && errores.some(([campo]) => campo === "ambiente") && (
+                  <Alert severity="error" icon={false}>
+                    {errores.find(([campo]) => campo === "ambiente")[1]}
+                  </Alert>
+                    )
+                  }
                   <div className="contents">
                     <label>Sitio</label>
                     <input name="sitio" value={valores.sitio} onChange={editValorInput} type="text" placeholder="Sitio" />
                   </div>
+                  {
+                     errores && errores.some(([campo]) => campo === "sitio") && (
+                      <Alert severity="error" icon={false}>
+                          {errores.find(([campo]) => campo === "sitio")[1]}
+                      </Alert>
+                      )
+                  }
               </div>
             </div>
             <button>ACTUALIZAR</button>
@@ -319,6 +357,13 @@ const getDataUnit = (datos) => {
               <div className="contents">
               <label>Nombre de la Unidad: </label>
               <input value={valoresUnit.nombre_unidad} onChange={valorInputUnit} name="nombre_unidad" type="text" placeholder="Nombre de la Unidad" required/>
+              {
+                  errores && errores.some(([campo]) => campo === "nombre_unidad") && (
+                  <Alert severity="error" icon={false}>
+                    {errores.find(([campo]) => campo === "nombre_unidad")[1]}
+                  </Alert>
+                    )
+                  }
                </div>
             </div>
             <button>REGISTRAR</button>
@@ -334,6 +379,13 @@ const getDataUnit = (datos) => {
               <div className="contents">
               <label>Nombre de la Unidad: </label>
               <input value={valoresUnit.nombre_unidad} onChange={editValorInputUnit} name="nombre_unidad" type="text" placeholder="Nombre de la Unidad" required/>
+              {
+                  errores && errores.some(([campo]) => campo === "nombre_unidad") && (
+                  <Alert severity="error" icon={false}>
+                    {errores.find(([campo]) => campo === "nombre_unidad")[1]}
+                  </Alert>
+                    )
+                  }
                </div>
             </div>
             <button>ACTUALIZAR</button>
@@ -437,14 +489,14 @@ z-index: 30;
 
       input{
         padding: 5px;
-        width: 200px;
+        min-width: 200px;
         border: none;
         outline: none;
         border-bottom: 1px solid #38a800;
       }
       select{
         padding: 4px;
-        width: 210px;
+        min-width: 210px;
         border: none;
         outline: none;
       }

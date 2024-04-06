@@ -138,13 +138,6 @@ height: 100vh;
     display: flex;
     justify-content: center;
     flex-direction: column;
-    &:hover{
-            border-radius: 10px;
-            margin-left: 5px;
-            margin-right: 5px;
-            color: #006400;
-            background: #38A80060;
-    }
 
     .links{
         display: flex;
@@ -153,10 +146,15 @@ height: 100vh;
         color: black;
         padding: 10px;
         margin: 2px;
+
+        &:hover{
+            border-radius: 10px;
+            color: #006400;
+            background: #38A80060;
+                 }
         
         span{
             width: 150px;
-           ;
         }
         .linkIcon{
             width: 50px;
@@ -168,8 +166,6 @@ height: 100vh;
         }
         &.active{
             border-radius: 10px;
-            margin-left: 5px;
-            margin-right: 5px;
             color: #006400;
             font-weight: 700;
             background: #38A80060; 

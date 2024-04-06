@@ -10,6 +10,7 @@ import ButtonEdit from "../components/organismos/ButtonEdit";
 import moment from "moment"
 import { CgToolbox } from "react-icons/cg";
 import MediumContainer from "../components/organismos/MediumContainer"
+import { Alert } from "@mui/material";
 
 function Equipos() {
 
@@ -27,6 +28,7 @@ function Equipos() {
   const [modalCategoryUpdate, setModalCategoryUpdate] = useState(false)
   const [selectId, setSelectId] = useState(null)
   const [selectIdCategory, setSelectIdCategory] = useState(null)
+  const [errores, setErrores] = useState("")
 
   const getEquipos = async () => {
     try {
@@ -84,6 +86,7 @@ function Equipos() {
       fk_categoria: "",
       fk_ubicacion: ""
     })
+    setErrores("")
     setSelectId(null)
     setModalUpdate(false)
     setModal(false)
@@ -95,6 +98,7 @@ function Equipos() {
     setValoresCategory({
       nombre_categoria: ""
     })
+    setErrores("")
     setSelectIdCategory(null)
     setModalCategoryUpdate(false)
     setModalCategory(false)
@@ -158,6 +162,7 @@ function Equipos() {
       clearFormEquipos();
       getEquipos()
     } catch (error) {
+      setErrores(error.response.data.msg)
       console.log(error);
     }
   }
@@ -171,6 +176,7 @@ function Equipos() {
       clearFormCategory();
       getCategorias()
     } catch (error) {
+      setErrores(error.response.data.msg)
       console.log(error);
     }
   }
@@ -197,7 +203,8 @@ function Equipos() {
     clearFormEquipos();
     getEquipos();
   } catch (error) {
-    console.log(error);
+    setErrores(error.response.data.msg)
+    console.log(error.response.data.msg);
   }
   }
   const postCategory = async (event) => {
@@ -210,6 +217,7 @@ function Equipos() {
     clearFormCategory();
     getCategorias();
   } catch (error) {
+    setErrores(error.response.data.msg)
     console.log(error);
   }
   }
@@ -345,28 +353,70 @@ function Equipos() {
               <div className="contents">
                 <label>SERIAL: </label>
               <input name="serial" onChange={valorInput} value={valores.serial} type="text" placeholder="Serial" required/>
+              {
+                errores && errores.some(([campo]) => campo === "serial") && (
+                  <Alert severity="error" icon={false}>
+                    {errores.find(([campo]) => campo === "serial")[1]}
+                  </Alert>
+                )
+              }
               </div>
               <div className="contents">
               <label>Nombre: </label>
               <input name="nombre_equipo" onChange={valorInput} value={valores.nombre_equipo} type="text" placeholder="Nombre equipo" required/>
+              {
+                errores && errores.some(([campo]) => campo === "nombre_equipo") && (
+                  <Alert severity="error" icon={false}>
+                    {errores.find(([campo]) => campo === "nombre_equipo")[1]}
+                  </Alert>
+                )
+              }
               </div>
               <div className="contents">
               <label>Marca: </label>
               <input name="marca_equipo" onChange={valorInput} value={valores.marca_equipo} type="text" placeholder="Marca del equipo" required/>
+              {
+                errores && errores.some(([campo]) => campo === "marca_equipo") && (
+                  <Alert severity="error" icon={false}>
+                    {errores.find(([campo]) => campo === "marca_equipo")[1]}
+                  </Alert>
+                )
+              }
               </div>
               <div className="contents">
               <label>Modelo: </label>
               <input name="modelo_equipo" onChange={valorInput} value={valores.modelo_equipo} type="text" placeholder="Modelo del equipo" required/>
+              {
+                errores && errores.some(([campo]) => campo === "modelo_equipo") && (
+                  <Alert severity="error" icon={false}>
+                    {errores.find(([campo]) => campo === "modelo_equipo")[1]}
+                  </Alert>
+                )
+              }
               </div>
               </div>
               <div className="filas">
               <div className="contents">
               <label>Fecha de Ingreso: </label>
               <input name="fecha_ingreso" onChange={valorInput} value={valores.fecha_ingreso} type="date" required/>
+              {
+                errores && errores.some(([campo]) => campo === "fecha_ingreso") && (
+                  <Alert severity="error" icon={false}>
+                    {errores.find(([campo]) => campo === "fecha_ingreso")[1]}
+                  </Alert>
+                )
+              }
               </div>
               <div className="contents">
             <label>Tipo de Equipo: </label>
             <input name="tipo_equipo" onChange={valorInput} value={valores.tipo_equipo} type="text" placeholder="tipo de equipo" required/>
+            {
+                errores && errores.some(([campo]) => campo === "tipo_equipo") && (
+                  <Alert severity="error" icon={false}>
+                    {errores.find(([campo]) => campo === "tipo_equipo")[1]}
+                  </Alert>
+                )
+              }
               </div>
               <div className="contents">
              <label>Categoría: </label>
@@ -405,6 +455,13 @@ function Equipos() {
               <div className="contents">
               <label>Descripción: </label>
               <textarea name="descripcion" maxLength={250} onChange={valorInput} value={valores.descripcion} type="text" placeholder="Agregue una descripción" required/>
+              {
+                errores && errores.some(([campo]) => campo === "descripcion") && (
+                  <Alert severity="error" icon={false}>
+                    {errores.find(([campo]) => campo === "descripcion")[1]}
+                  </Alert>
+                )
+              }
               </div>
             </div>
             </div>
@@ -422,28 +479,70 @@ function Equipos() {
               <div className="contents">
                 <label>SERIAL: </label>
               <input name="serial" onChange={editValorInput} value={valores.serial} type="text" placeholder="Serial" required/>
+              {
+                errores && errores.some(([campo]) => campo === "serial") && (
+                  <Alert severity="error" icon={false}>
+                    {errores.find(([campo]) => campo === "serial")[1]}
+                  </Alert>
+                )
+              }
               </div>
               <div className="contents">
               <label>Nombre: </label>
               <input name="nombre_equipo" onChange={editValorInput} value={valores.nombre_equipo} type="text" placeholder="Nombre equipo" required/>
+              {
+                errores && errores.some(([campo]) => campo === "nombre_equipo") && (
+                  <Alert severity="error" icon={false}>
+                    {errores.find(([campo]) => campo === "nombre_equipo")[1]}
+                  </Alert>
+                )
+              }
               </div>
               <div className="contents">
               <label>Marca: </label>
               <input name="marca_equipo" onChange={editValorInput} value={valores.marca_equipo} type="text" placeholder="Marca del equipo" required/>
+              {
+                errores && errores.some(([campo]) => campo === "marca_equipo") && (
+                  <Alert severity="error" icon={false}>
+                    {errores.find(([campo]) => campo === "marca_equipo")[1]}
+                  </Alert>
+                )
+              }
               </div>
               <div className="contents">
               <label>Modelo: </label>
               <input name="modelo_equipo" onChange={editValorInput} value={valores.modelo_equipo} type="text" placeholder="Modelo del equipo" required/>
+               {
+                errores && errores.some(([campo]) => campo === "modelo_equipo") && (
+                  <Alert severity="error" icon={false}>
+                    {errores.find(([campo]) => campo === "modelo_equipo")[1]}
+                  </Alert>
+                )
+              }
               </div>
               </div>
               <div className="filas">
               <div className="contents">
               <label>Fecha de Ingreso: </label>
               <input name="fecha_ingreso" onChange={editValorInput} value={valores.fecha_ingreso} type="date" required/>
+              {
+                errores && errores.some(([campo]) => campo === "fecha_ingreso") && (
+                  <Alert severity="error" icon={false}>
+                    {errores.find(([campo]) => campo === "fecha_ingreso")[1]}
+                  </Alert>
+                )
+              }
               </div>
               <div className="contents">
             <label>Tipo de Equipo: </label>
             <input name="tipo_equipo" onChange={editValorInput} value={valores.tipo_equipo} type="text" placeholder="tipo de equipo" required/>
+            {
+                errores && errores.some(([campo]) => campo === "tipo_equipo") && (
+                  <Alert severity="error" icon={false}>
+                    {errores.find(([campo]) => campo === "tipo_equipo")[1]}
+                  </Alert>
+                )
+              }
               </div>
               <div className="contents">
              <label>Categoría: </label>
@@ -482,6 +581,13 @@ function Equipos() {
               <div className="contents">
               <label>Descripción: </label>
               <textarea name="descripcion" maxLength={250} onChange={editValorInput} value={valores.descripcion} type="text" placeholder="Agregue una descripción" required/>
+              {
+                errores && errores.some(([campo]) => campo === "descripcion") && (
+                  <Alert severity="error" icon={false}>
+                    {errores.find(([campo]) => campo === "descripcion")[1]}
+                  </Alert>
+                )
+              }
               </div>
             </div>
             </div>
@@ -499,6 +605,13 @@ function Equipos() {
               <div className="contents">
                 <label>NOMBRE: </label>
               <input name="nombre_categoria" onChange={valorInputCategory} value={valoresCategory.nombre_categoria} type="text" placeholder="Nombre de Catgeoría" required/>
+              {
+                errores && errores.some(([campo]) => campo === "nombre_categoria") && (
+                  <Alert severity="error" icon={false} >
+                    {errores.find(([campo]) => campo === "nombre_categoria")[1]}
+                  </Alert>
+                )
+              }
               </div>
               </div>
             </div>
@@ -516,6 +629,14 @@ function Equipos() {
               <div className="contents">
                 <label>NOMBRE: </label>
               <input name="nombre_categoria" onChange={editValorInputCategory} value={valoresCategory.nombre_categoria} type="text" placeholder="Nombre de Catgeoría" required/>
+              {
+                errores && errores.some(([campo]) => campo === "nombre_categoria") && (
+                  <Alert severity="error" icon={false}>
+                    {errores.find(([campo]) => campo === "nombre_categoria")[1]}
+                  </Alert>
+                )
+
+              }
               </div>
               </div>
             </div>
@@ -607,8 +728,7 @@ z-index: 30;
       padding: 10px;
     }
     .inputs-data{
-      display: grid;
-      grid-template-columns: 200px 230px 230px;
+      display: flex;
       justify-content: center;
       align-items: center;
       gap: 10px;
@@ -618,12 +738,12 @@ z-index: 30;
 
       select{
         padding: 4px;
-        width: 210px;
+        min-width: 150px;
         border: none;
         outline: none;
       }
       textarea{
-        width: 220px;
+        min-width: 150px;
         height: 170px;
         border: none;
         outline: none;
@@ -660,6 +780,7 @@ button{
     padding: 5px;
     border-radius: 5px;
     gap: 10px;
+    min-width: 200px;
 
     label{
       font-size: 14px;
@@ -671,7 +792,7 @@ button{
 
 input{
   padding: 5px;
-  width: 180px;
+  min-width: 180px;
   border: none;
   outline: none;
   border-bottom: 1px solid #38a800;
