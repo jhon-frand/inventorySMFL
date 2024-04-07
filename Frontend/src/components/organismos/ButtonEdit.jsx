@@ -1,8 +1,8 @@
 import styled from "styled-components"
 
-function ButtonEdit({funcion1}) {
+function ButtonEdit({funcion1, titulo}) {
   return (
-    <Styledbutton className="button-edit" onClick={() => funcion1()} >EDIT</Styledbutton>
+    <Styledbutton className="button-edit" onClick={() => funcion1()} >{titulo}</Styledbutton>
   )
 }
 
@@ -10,13 +10,14 @@ const Styledbutton = styled.button`
 display: flex;
 justify-content: center;
 align-items: center;
-width: 80px;
-padding: 8px;
+min-width: 80px;
+padding: 5px;
 background: #385c57;
 color: white;
 font-weight: 600;
 border: none;
 border-radius: 5px;
+font-size: 12px;
 
 &:hover {
   cursor: pointer;

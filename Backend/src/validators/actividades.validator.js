@@ -9,7 +9,7 @@ export const validationActividad = () => {
         check('descripcion')
         .isString().withMessage('la descripción deben ser texto')
         .notEmpty().withMessage('la descripción no puede estar vacía')
-        .isLength({min: 20}).withMessage('la descripción debe tener al menos 20 caracteres'),
+        .isLength({min: 20}).withMessage('Debe tener al menos 20 caracteres'),
 
         check('fk_mantenimiento')
         .isNumeric().withMessage('la fk_mantenimiento deben ser numérica')
@@ -19,17 +19,18 @@ export const validationActividad = () => {
         .isNumeric().withMessage('la fk_tecnico debe ser numérica')
         .notEmpty().withMessage('la fk_tecnico no puede estar vacía'),
 
-        (peticion, respuesta, next) => {
-            const errores = validationResult(peticion);
+        (req, res, next) => {
+            const errors = validationResult(req);
 
-            if (!errores.isEmpty()) {
-                const checkError = errores.array().map(errores => errores.msg)
-                respuesta.status(400).json({
-                    msg: checkError
-                })
+            if (!errors.isEmpty()) {
+                const checkError = errors.array().map(error => [
+                    error.path,
+                    error.msg
+                ]);
+                res.status(400).json({msg:checkError})
                 return;
             }
-            next()
+            next();
         }
     ]
 }

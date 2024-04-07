@@ -213,7 +213,7 @@ const getDataUnit = (datos) => {
         options: {
           customBodyRender: (value, tableMeta, updateValue) => {
             return (
-                <ButtonEdit funcion1={() => getData(tableMeta.rowData)}/>
+                <ButtonEdit titulo="EDIT" funcion1={() => getData(tableMeta.rowData)}/>
             );
         }
         }
@@ -234,7 +234,7 @@ const getDataUnit = (datos) => {
       options: {
         customBodyRender: (value, tableMeta, updateValue) => {
           return (
-              <ButtonEdit funcion1={() => getDataUnit(tableMeta.rowData)} />
+              <ButtonEdit titulo="EDIT"  funcion1={() => getDataUnit(tableMeta.rowData)} />
           );
       }
       }

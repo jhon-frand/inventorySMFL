@@ -287,7 +287,7 @@ function Equipos() {
       options: {
         customBodyRender: (value, tableMeta, updateValue) => {
           return (
-              <ButtonEdit funcion1={() => getData(tableMeta.rowData)} />
+              <ButtonEdit titulo="EDIT" funcion1={() => getData(tableMeta.rowData)} />
           );
       }
       }
@@ -308,7 +308,7 @@ function Equipos() {
       options: {
         customBodyRender: (value, tableMeta, updateValue) => {
           return (
-              <ButtonEdit funcion1={() => getDataCategory(tableMeta.rowData)} />
+              <ButtonEdit titulo="EDIT" funcion1={() => getDataCategory(tableMeta.rowData)} />
           );
       }
       }

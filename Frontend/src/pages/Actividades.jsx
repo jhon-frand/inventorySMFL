@@ -246,7 +246,7 @@ function Actividades() {
       options: {
         customBodyRender: (value, tableMeta, updateValue) => {
           return(
-            <ButtonEdit funcion1={() => getData(tableMeta.rowData)} />
+            <ButtonEdit titulo="EDIT"  funcion1={() => getData(tableMeta.rowData)} />
           )
         }
       }
@@ -283,7 +283,7 @@ function Actividades() {
       options: {
         customBodyRender: (value, tableMeta, updateValue) => {
           return(
-            <ButtonEdit funcion1={() => getDataTecnico(tableMeta.rowData)} />
+            <ButtonEdit titulo="EDIT"  funcion1={() => getDataTecnico(tableMeta.rowData)} />
           )
         }
       }

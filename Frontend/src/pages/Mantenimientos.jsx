@@ -16,12 +16,16 @@ function Mantenimientos() {
   const endpointManteni = "http://localhost:3000/mantenimientos"
   const endpointUser = "http://localhost:3000/usuarios"
   const endpointEquipo = "http://localhost:3000/equipos"
+  const endpointActividad = "http://localhost:3000/actividades"
+  const endpointTecnico = "http://localhost:3000/tecnicos"
 
   const [mantenimientos, setMantenimientos] = useState([])
   const [usuarios, setUsuarios] = useState([])
   const [equipos, setEquipos] = useState([])
+  const [tecnicos, setTecnicos] = useState([])
   const [modal, setModal] = useState(false)
   const [modalUpdate, setModalUpdate] = useState(false)
+  const [modalActividad, setModalActividad] = useState(false)
   const [selectId, setSelectId] = useState(null)
   const [errores, setErrores] = useState("")
 
@@ -55,7 +59,16 @@ function Mantenimientos() {
       console.log(error);
     }
    }
-  
+  const getTecnicos = async () => {
+    try {
+      await axios.get(endpointTecnico).then((response) => {
+        const technic = response.data;
+        setTecnicos(technic);
+      })
+    } catch (error) {
+      console.log(error);
+    }
+  }
    const [valores, setValores] = useState({
     tipo_mantenimiento: "",
     fecha_mantenimiento: "",
@@ -63,6 +76,12 @@ function Mantenimientos() {
     resultado: "",
     fk_user_responsable: "",
     fk_equipo: ""
+   })
+   const [valoresActividad, setValoresActividad] = useState({
+    fecha_actividad: "",
+    descripcion: "",
+    fk_mantenimiento: "",
+    fk_tecnico: ""
    })
    const clearForm = () => {
     setValores({
@@ -78,7 +97,16 @@ function Mantenimientos() {
     setModal(false)
     setModalUpdate(false)
    }
-
+   const clearFormActivity = () => {
+    setValoresActividad({
+      fecha_actividad: "",
+      descripcion: "",
+      fk_mantenimiento: "",
+      fk_tecnico: ""
+    })
+    setErrores("")
+    setModalActividad(false)
+   }
    const getData = (datos) => {
 
     const equipoManteinment = equipos.find(equipment => equipment.nombre_equipo === datos[5]);
@@ -100,10 +128,27 @@ function Mantenimientos() {
     setSelectId(datos[0]);
     setModalUpdate(true);
   }
+  const getIdMantenimiento = (datos) => {
+    try {
+      setValoresActividad(prevState => ({
+        ...prevState,
+        fk_mantenimiento: datos[0]
+      }));
+      setModalActividad(true)
+    } catch (error) {
+      console.log(error);
+    }
+  }
    const valorInput = (event) => {
     setValores({
       ...valores,
       [event.target.name] : event.target.value 
+    })
+   }
+   const valorInputActividad = (event) => {
+    setValoresActividad({
+      ...valoresActividad,
+      [event.target.name] : event.target.value
     })
    }
    const editValorInput = (event) => {
@@ -140,7 +185,19 @@ function Mantenimientos() {
       console.log(error);
     }
    }
-
+   const postActivity = async (event) => {
+    event.preventDefault();
+    try {
+      const respuesta = await axios.post(endpointActividad, valoresActividad)
+      if (respuesta.status === 200) {
+        alert(respuesta.data.message);
+      }
+      clearFormActivity()
+    } catch (error) {
+      setErrores(error.response.data.msg)
+      console.log(error);
+    }
+   }
    const columnas =[
     {
       name: "id_mantenimiento",
@@ -178,11 +235,22 @@ function Mantenimientos() {
     },
     {
       name: "editar",
-      label: "ACTIONS",
+      label: "EDITAR",
       options: {
         customBodyRender: (value, tableMeta, updateValue) => {
           return (
-            <ButtonEdit funcion1={() => getData(tableMeta.rowData)} />
+            <ButtonEdit titulo="EDIT" funcion1={() => getData(tableMeta.rowData)} />
+          )
+        }
+      }
+    },
+    {
+      name: "editar",
+      label: "ACTIVIDAD",
+      options: {
+        customBodyRender: (value, tableMeta, updateValue) => {
+          return (
+            <ButtonEdit titulo="REGISTRAR ACTIVIDAD" funcion1={() => getIdMantenimiento(tableMeta.rowData)} />
           )
         }
       }
@@ -193,6 +261,7 @@ function Mantenimientos() {
       getMantenimientos();
       getEquipos();
       getUsers();
+      getTecnicos();
     },[])
 //#endregion funciones
   return (
@@ -343,6 +412,51 @@ function Mantenimientos() {
             <button>ACTUALIZAR</button>
           </form>
         </Modal>
+        <Modal
+        titulo="REGISTRAR ACTIVIDAD"
+        estado={modalActividad}
+        cambiarEstado={clearFormActivity}
+        >
+          <form className="formulario" onSubmit={postActivity}>
+            <div className="inputs-data">
+              <div className="filas">
+                <div className="contents">
+                  <label>Fecha de Actividad:</label>
+                  <input value={valoresActividad.fecha_actividad} onChange={valorInputActividad}  name="fecha_actividad" type="date" required />
+                </div>
+                <div className="input-manteinment">
+                  <label>ID Mantenimiento:</label>
+                 <input name="fk_mantenimiento" value={valoresActividad.fk_mantenimiento}  onChange={valorInputActividad}/>
+                </div>
+                <div className="contents">
+                  <label>Técnico:</label>
+                  <select name="fk_tecnico" value={valoresActividad.fk_tecnico} onChange={valorInputActividad}  required> 
+                  <option value="">selecciona una opción</option>
+                 {
+                  tecnicos.map((tecnicos) => (
+                    <option value={tecnicos.id_tecnico} key={tecnicos.id_tecnico}>{tecnicos.nombres} {tecnicos.apellidos}</option>
+                   ) )
+                 }
+                  </select>
+                </div>
+              </div>
+              <div className="filas">
+              <div className="contents">
+                  <label>Descripción</label>
+                  <textarea name="descripcion" value={valoresActividad.descripcion} onChange={valorInputActividad} maxLength={250} placeholder="Ingresa una descripción" required></textarea>
+                </div>
+                {
+                  errores && errores.some(([campo]) => campo === "descripcion") && (
+                    <Alert severity="error" icon={false}>
+                      {errores.find(([campo]) => campo === "descripcion")[1]}
+                    </Alert>
+                  )
+                }
+              </div>
+            </div>
+            <button>REGISTRAR</button>
+          </form>
+        </Modal>
       </Modales>
       <div className="table-mui">
         <MUIDataTable className="table"
@@ -433,6 +547,19 @@ z-index: 30;
           }
         }
   
+      }
+
+      .input-manteinment{
+        display: flex;
+        flex-direction: column;
+        padding: 5px;
+        border-radius: 5px;
+        gap: 10px;
+        background: #90b8b0;
+
+        input{
+          background: #90b8b0;
+        }
       }
 
       input{
