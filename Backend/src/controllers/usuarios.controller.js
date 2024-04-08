@@ -8,7 +8,7 @@ const postUsuario = async (peticion, respuesta) => {
         if (registro.affectedRows > 0) {
             return respuesta.status(200).json({
                 "status": 200,
-                message: "Usuario registrado correctamente"
+                message: "Usuario registrado"
             })
         } else {
             return respuesta.status(403).json({
@@ -31,7 +31,7 @@ const putUsuario = async (peticion, respuesta) => {
             if (actualizar.affectedRows > 0) {
                 return respuesta.status(200).json({
                     "status": 200,
-                    message: "Usuario actualizado correctamente"
+                    message: "Usuario actualizado"
                 })
             } else {
                 return respuesta.status(404).json({

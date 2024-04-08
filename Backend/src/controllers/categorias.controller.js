@@ -8,7 +8,7 @@ const postCategoria = async (peticion, respuesta) => {
         if (registro.affectedRows > 0) {
             return respuesta.status(200).json({
                 "status": 200,
-                message: "Categoria registrada"
+                message: "Categoría registrada"
             })
         } else {
             return respuesta.status(403).json({
@@ -31,7 +31,7 @@ const putCategoria = async (peticion, respuesta) => {
         if (actualizar.affectedRows> 0) {
             return respuesta.status(200).json({
                 "status": 200,
-                message: "Categoria actualizada"
+                message: "Categoría actualizada"
             })
         } else {
             return respuesta.status(403).json({

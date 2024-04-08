@@ -196,16 +196,15 @@ function Mantenimientos() {
 
     const tecnicoActividad = tecnicos.find(tenic => tenic.nombres === datos[4]);
     const tecnicoActividadId = tecnicoActividad ? tecnicoActividad.id_tecnico: "";
-
-    const manteinmentActividad = mantenimientos.find(manteni => manteni.tipo_mantenimiento === datos[3]);
-    const manteinmentActividadId = manteinmentActividad ? manteinmentActividad.id_mantenimiento: "";
+    // const manteinmentActividad = mantenimientos.find(manteni => manteni.fk_mantenimiento === datos[3]);
+    // const manteinmentActividadId = manteinmentActividad ? manteinmentActividad.id_mantenimiento: "";
 
     const fecha = moment(datos[1]).format('YYYY-MM-DD')
 
     setValoresActividad({
       fecha_actividad: fecha,
       descripcion: datos[2],
-      fk_mantenimiento: manteinmentActividadId,
+      fk_mantenimiento: datos[3],
       fk_tecnico: tecnicoActividadId
     })
     setSelectIdActividad(datos[0])
@@ -287,7 +286,8 @@ function Mantenimientos() {
         const msg = respuesta.data.message;
          AlertSucces(msg);
       }
-      clearFormActivity()
+      clearFormActivity();
+      getActividades();
     } catch (error) {
       AlertError();
       setErrores(error.response.data.msg)
@@ -670,7 +670,7 @@ function Mantenimientos() {
                 </div>
                 <div className="input-manteinment">
                   <label>ID Mantenimiento:</label>
-                 <input name="fk_mantenimiento" value={valoresActividad.fk_mantenimiento}  onChange={valorInputActividad}/>
+                 <input name="fk_mantenimiento" value={valoresActividad.fk_mantenimiento}  onChange={valorInputActividad} readOnly/>
                 </div>
                 <div className="contents">
                   <label>Técnico:</label>
@@ -713,16 +713,9 @@ function Mantenimientos() {
                   <label>Fecha de Actividad:</label>
                   <input name="fecha_actividad" value={valoresActividad.fecha_actividad} onChange={editValorInputActividad} type="date" required />
                 </div>
-                <div className="contents">
+                <div className="input-manteinment">
                   <label>Mantenimiento:</label>
-                  <select name="fk_mantenimiento" value={valoresActividad.fk_mantenimiento} onChange={editValorInputActividad} required> 
-                  <option value="">selecciona una opción</option>
-                  {
-                    mantenimientos.map((mantenimientos) => (
-                      <option value={mantenimientos.id_mantenimiento} key={mantenimientos.id_mantenimiento}>{mantenimientos.id_mantenimiento} {mantenimientos.tipo_mantenimiento} {mantenimientos.descripcion}</option>
-                    ))
-                  }
-                  </select>
+                  <input name="fk_mantenimiento" value={valoresActividad.fk_mantenimiento} onChange={editValorInputActividad} required readOnly/> 
                 </div>
                 <div className="contents">
                   <label>Técnico:</label>
@@ -919,7 +912,6 @@ flex-direction: column;
 
 .table-medium{
     width: 90%;
-    padding: 5px;
 
     th{
      background: #38A800;
@@ -935,7 +927,6 @@ flex-direction: column;
 
   .table{
      width: 90%;
-     padding: 5px;
 
      th{
       background: #38A800;

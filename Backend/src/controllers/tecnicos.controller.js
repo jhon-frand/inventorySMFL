@@ -8,7 +8,7 @@ const postTecnico = async (peticion, respuesta) => {
         if (registro.affectedRows > 0) {
             return respuesta.status(200).json({
                 "status": 200,
-                message: "Técnico registrado correctamente"
+                message: "Técnico registrado"
             })
         } else {
             return respuesta.status(403).json({
@@ -31,7 +31,7 @@ const putTecnico = async (peticion, respuesta) => {
         if (actualizar.affectedRows > 0) {
             return respuesta.status(200).json({
                 "status": 200,
-                message: "Técnico actualizado correctamente"
+                message: "Técnico actualizado"
             })
         } else {
             return respuesta.status(403).json({

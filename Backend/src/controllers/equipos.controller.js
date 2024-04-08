@@ -8,7 +8,7 @@ const postEquipo = async (peticion, respuesta) => {
         if (registro.affectedRows > 0) {
             return respuesta.status(200).json({
                 "status": 200,
-                message: "Equipo registrado correctamente"
+                message: "Equipo registrado"
             })
         } else {
             return respuesta.status(403).json({
@@ -31,7 +31,7 @@ const putEquipo = async (peticion, respuesta) => {
         if (actualizar.affectedRows > 0) {
             return respuesta.status(200).json({
                 "status": 200,
-                message: "Equipo actualizado correctamente"
+                message: "Equipo actualizado"
             })
         } else {
             return respuesta.status(403).json({

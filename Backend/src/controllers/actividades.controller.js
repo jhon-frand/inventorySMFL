@@ -8,7 +8,7 @@ const postActividad = async (peticion, respuesta) => {
         if (registro.affectedRows > 0) {
             return respuesta.status(200).json({
                 "status": 200,
-                message: "Actividad registrada correctamente"
+                message: "Actividad registrada"
             })
         } else {
             return respuesta.status(403).json({
@@ -31,7 +31,7 @@ const putActividad = async (peticion, respuesta) => {
         if (actualizar.affectedRows > 0) {
             return respuesta.status(200).json({
                 "status": 200,
-                message: "Actividad actualizada correctamente"
+                message: "Actividad actualizada"
             })
         } else {
             return respuesta.status(403).json({
