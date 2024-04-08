@@ -1,15 +1,16 @@
 import styled from "styled-components"
-import NavBar from "../components/organismos/NavBar";
 import HeaderPage from "../components/organismos/HeaderPage";
 import MUIDataTable from "mui-datatables";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { options } from "../styles/Styles";
+import { options } from "../components/styles/Table";
 import Modal from "../components/modals/Modal";
 import ButtonEdit from "../components/organismos/ButtonEdit";
 import moment from "moment";
 import { GoTools } from "react-icons/go";
 import { Alert } from "@mui/material";
+import { Contenedor } from "../components/styles/StylesPages";
+import { AlertSucces, AlertError } from "../components/alerts/Alerts";
 
 function Mantenimientos() {
 //#region funciones
@@ -162,11 +163,13 @@ function Mantenimientos() {
     try {
       const respuesta = await axios.post(endpointManteni, valores)
       if (respuesta.status === 200) {
-        alert(respuesta.data.message);
+        const msg = respuesta.data.message;
+        AlertSucces(msg);
       }
       clearForm();
       getMantenimientos();
     } catch (error) {
+      AlertError();
       setErrores(error.response.data.msg)
       console.log(error);
     }
@@ -176,11 +179,13 @@ function Mantenimientos() {
     try {
       const respuesta = await axios.put(`${endpointManteni}/${selectId}`, valores)
       if (respuesta.status === 200) {
-        alert(respuesta.data.message)
+        const msg = respuesta.data.message;
+         AlertSucces(msg);
       }
       clearForm();
       getMantenimientos();
     } catch (error) {
+      AlertError();
       setErrores(error.response.data.msg)
       console.log(error);
     }
@@ -190,10 +195,12 @@ function Mantenimientos() {
     try {
       const respuesta = await axios.post(endpointActividad, valoresActividad)
       if (respuesta.status === 200) {
-        alert(respuesta.data.message);
+        const msg = respuesta.data.message;
+         AlertSucces(msg);
       }
       clearFormActivity()
     } catch (error) {
+      AlertError();
       setErrores(error.response.data.msg)
       console.log(error);
     }
@@ -266,8 +273,7 @@ function Mantenimientos() {
 //#endregion funciones
   return (
     <Container>
-      <NavBar/>
-      <div className="contenedor">
+      <Contenedor>
       <HeaderPage icon={<GoTools/>} titulo="MANTENIMIENTOS" textButton="REGISTRAR MANTENIMIENTO" funcion={() => setModal(true)}/>
       <Modales>
         <Modal
@@ -466,7 +472,7 @@ function Mantenimientos() {
        options={options}
         />
       </div>
-      </div>
+      </Contenedor>
     </Container>
   )
 }
@@ -476,18 +482,6 @@ display: flex;
 flex-direction: column;
 align-items: center;
 min-width: 100%;
-
-.contenedor{
-  background: #38A80020;
-  width: 100%;
-  height: 100%;
-  border-radius: 20px;
-  display: flex; 
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-
-}
 
 .table-mui{
   width: 100%;

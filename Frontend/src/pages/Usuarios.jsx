@@ -1,19 +1,22 @@
 import styled from "styled-components"
-import NavBar from "../components/organismos/NavBar";
 import MUIDataTable from "mui-datatables";
 import HeaderPage from "../components/organismos/HeaderPage";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import Modal from "../components/modals/Modal";
-import { options } from "../styles/Styles";
+import { options } from "../components/styles/Table";
 import ButtonEdit from "../components/organismos/ButtonEdit";
 import { FiUsers } from "react-icons/fi";
+import { Contenedor } from "../components/styles/StylesPages"
+import Alert from "@mui/material/Alert"
+import { AlertSucces, AlertError } from "../components/alerts/Alerts";
 
 function Usuarios() {
 
   const [modalRegistro, setModalRegistro] = useState(false)
   const [modalUpdate, setModalUpdate] = useState(false)
   const [selectId, setSelectId] = useState(null)
+  const [errores, setErrores] = useState("")
 
   const endpointTipo = "http://localhost:3000/tipousuario"
   const [tipousuario, setTipousuario] = useState([])
@@ -67,6 +70,7 @@ const clearForm = () => {
     fk_unidad_productiva: "",
     password: ""
   })
+  setErrores("")
   setSelectId(null);
   setModalRegistro(false);
   setModalUpdate(false);
@@ -111,11 +115,14 @@ const postUser = async (event) => {
   try {
     const respuesta = await axios.post(endpointUser, valores)
     if (respuesta.status === 200) {
-      alert (respuesta.data.message);
+      const msg = respuesta.data.message;
+      AlertSucces(msg);
     }
     clearForm();
     getUsers();
   } catch (error) {
+    AlertError();
+    setErrores(error.response.data.msg);
     console.log(error);
   }
 }
@@ -125,11 +132,14 @@ const putUsuario = async (event) => {
   try {
     const respuesta = await axios.put(`${endpointUser}/${selectId}`, valores)
     if (respuesta.status === 200) {
-      alert(respuesta.data.message)
+      const msg = respuesta.data.message;
+      AlertSucces(msg);
     }
     clearForm();
     getUsers();
   } catch (error) {
+    AlertError();
+    setErrores(error.response.data.msg);
     console.log(error);
   }
 }
@@ -212,8 +222,7 @@ const putUsuario = async (event) => {
 
   return (
     <Container>
-      <NavBar/>
-      <div className="contenedor">
+      <Contenedor>
      <HeaderPage icon={<FiUsers/>} titulo="USUARIOS" textButton="REGISTRAR USUARIO" funcion={() => setModalRegistro(true)} />
       <Modales>
         <Modal 
@@ -227,22 +236,57 @@ const putUsuario = async (event) => {
               <div className="contents">
                 <label>Identificación: </label>
               <input name="identificacion" onChange={valorInput} value={valores.identificacion} type="number" placeholder="Identificación" required/>
+              {
+                errores && errores.some(([campo]) => campo === "identificacion") && (
+                  <Alert severity="error" icon={false} >
+                    {errores.find(([campo]) => campo === "identificacion")[1]}
+                  </Alert>
+                )
+              }
               </div>
               <div className="contents">
               <label>Nombres: </label>
               <input name="nombres" onChange={valorInput} value={valores.nombres} type="text" placeholder="Nombres" required/>
+              {
+                errores && errores.some(([campo]) => campo === "nombres") && (
+                  <Alert severity="error" icon={false}>
+                    {errores.find(([campo]) => campo === "nombres")[1]}
+                  </Alert>
+                )
+              }
               </div>
               <div className="contents">
               <label>Apellidos: </label>
               <input name="apellidos" onChange={valorInput} value={valores.apellidos} type="text" placeholder="Apellidos" required/>
+              {
+                errores && errores.some(([campo]) => campo === "apellidos") && (
+                  <Alert severity="error" icon={false}>
+                    {errores.find(([campo]) => campo === "apellidos")[1]}
+                  </Alert>
+                )
+              }
               </div>
               <div className="contents">
               <label>Email: </label>
               <input name="email" onChange={valorInput} value={valores.email} type="email" placeholder="Email" required/>
+              {
+                errores && errores.some(([campo]) => campo === "email") && (
+                  <Alert severity="error" icon={false}>
+                    {errores.find(([campo]) => campo === "email")[1]}
+                  </Alert>
+                )
+              }
               </div>
               <div className="contents">
               <label>Teléfono: </label>
               <input name="telefono" onChange={valorInput} value={valores.telefono} type="number" placeholder="Teléfono" required/>
+              {
+                errores && errores.some(([campo]) => campo === "telefono") && (
+                  <Alert severity="error" icon={false}>
+                    {errores.find(([campo]) => campo === "telefono")[1]}
+                  </Alert>
+                )
+              }
               </div>
               </div>
             <div className="filas">
@@ -279,6 +323,13 @@ const putUsuario = async (event) => {
             <div className="contents">
             <label>Contraseña: </label>
             <input name="password" onChange={valorInput} value={valores.password} type="password" placeholder="Contraseña" required/>
+            {
+                errores && errores.some(([campo]) => campo === "password") && (
+                  <Alert severity="error" icon={false}>
+                    {errores.find(([campo]) => campo === "password")[1]}
+                  </Alert>
+                )
+              }
               </div>
               <div className="contents">
               <label>Confirmar Contraseña: </label>
@@ -299,28 +350,63 @@ const putUsuario = async (event) => {
               <div className="contents">
                 <label>Identificación: </label>
               <input name="identificacion" onChange={editValorInput} value={valores.identificacion} type="number" placeholder="Identificación" required/>
+              {
+                errores && errores.some(([campo]) => campo === "identificacion") && (
+                  <Alert severity="error" icon={false} >
+                    {errores.find(([campo]) => campo === "identificacion")[1]}
+                  </Alert>
+                )
+              }
               </div>
               <div className="contents">
               <label>Nombres: </label>
               <input name="nombres" onChange={editValorInput} value={valores.nombres} type="text" placeholder="Nombres" required/>
+              {
+                errores && errores.some(([campo]) => campo === "nombres") && (
+                  <Alert severity="error" icon={false}>
+                    {errores.find(([campo]) => campo === "nombres")[1]}
+                  </Alert>
+                )
+              }
               </div>
               <div className="contents">
               <label>Apellidos: </label>
               <input name="apellidos" onChange={editValorInput} value={valores.apellidos} type="text" placeholder="Apellidos" required/>
+              {
+                errores && errores.some(([campo]) => campo === "apellidos") && (
+                  <Alert severity="error" icon={false}>
+                    {errores.find(([campo]) => campo === "apellidos")[1]}
+                  </Alert>
+                )
+              }
               </div>
               <div className="contents">
               <label>Email: </label>
               <input name="email" onChange={editValorInput} value={valores.email} type="email" placeholder="Email" required/>
+              {
+                errores && errores.some(([campo]) => campo === "email") && (
+                  <Alert severity="error" icon={false}>
+                    {errores.find(([campo]) => campo === "email")[1]}
+                  </Alert>
+                )
+              }
               </div>
               </div>
             <div className="filas">
             <div className="contents">
               <label>Teléfono: </label>
               <input name="telefono" onChange={editValorInput} value={valores.telefono} type="number" placeholder="Teléfono" required/>
+              {
+                errores && errores.some(([campo]) => campo === "telefono") && (
+                  <Alert severity="error" icon={false}>
+                    {errores.find(([campo]) => campo === "telefono")[1]}
+                  </Alert>
+                )
+              }
               </div>
             <div className="contents">
              <label>Rol del Usuario: </label>
-             <select name="fk_tipo_usuario" onChange={editValorInput} value={valores.fk_tipo_usuario}>
+             <select name="fk_tipo_usuario" onChange={editValorInput} value={valores.fk_tipo_usuario} required>
                 <option value="">Seleccione un rol</option>
             {
               tipousuario.map((tipousuario) => (
@@ -331,7 +417,7 @@ const putUsuario = async (event) => {
                 </div>
            <div className="contents">
            <label>Estado: </label>
-           <select name="estado" onChange={editValorInput} value={valores.estado}>
+           <select name="estado" onChange={editValorInput} value={valores.estado} required>
                 <option value="">Seleccione un estado</option>
                 <option value="activo">Activo</option>
                 <option value="inactivo">Inactivo</option>
@@ -339,7 +425,7 @@ const putUsuario = async (event) => {
                 </div>
              <div className="contents">
              <label>Unidad Productiva: </label>
-             <select name="fk_unidad_productiva" onChange={editValorInput} value={valores.fk_unidad_productiva}>
+             <select name="fk_unidad_productiva" onChange={editValorInput} value={valores.fk_unidad_productiva} required>
                 <option value="">Seleccione unidad productiva</option>
                 {
                   unidades.map((unidades) => (
@@ -363,7 +449,7 @@ const putUsuario = async (event) => {
         >
         </MUIDataTable>
        </div>
-      </div>
+      </Contenedor>
     </Container>
   )
 }
@@ -373,18 +459,6 @@ display: flex;
 flex-direction: column;
 align-items: center;
 min-width: 100%;
-
-.contenedor{
-  background: #38A80020;
-  width: 100%;
-  height: 100%;
-  border-radius: 20px;
-  display: flex; 
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-
-}
 
 .table-mui{
   width: 100%;

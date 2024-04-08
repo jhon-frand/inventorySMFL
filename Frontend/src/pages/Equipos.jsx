@@ -1,16 +1,17 @@
 import styled from "styled-components"
-import NavBar from "../components/organismos/NavBar";
 import HeaderPageTwo from "../components/organismos/HeaderPageTwo";
 import MUIDataTable from "mui-datatables";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { options } from "../styles/Styles";
+import { options } from "../components/styles/Table";
 import Modal from "../components/modals/Modal";
 import ButtonEdit from "../components/organismos/ButtonEdit";
 import moment from "moment"
 import { CgToolbox } from "react-icons/cg";
 import MediumContainer from "../components/organismos/MediumContainer"
 import { Alert } from "@mui/material";
+import { Contenedor } from "../components/styles/StylesPages";
+import { AlertSucces, AlertError } from "../components/alerts/Alerts";
 
 function Equipos() {
 
@@ -157,11 +158,13 @@ function Equipos() {
     try {
       const respuesta = await axios.put(`${endpointEquipo}/${selectId}`, valores)
       if (respuesta.status === 200) {
-        alert(respuesta.data.message)
+        const msg = respuesta.data.message;
+        AlertSucces(msg); 
       }
       clearFormEquipos();
       getEquipos()
     } catch (error) {
+      AlertError();
       setErrores(error.response.data.msg)
       console.log(error);
     }
@@ -171,11 +174,13 @@ function Equipos() {
     try {
       const respuesta = await axios.put(`${endpointCategory}/${selectIdCategory}`, valoresCategory)
       if (respuesta.status === 200) {
-        alert(respuesta.data.message)
+        const msg = respuesta.data.message;
+        AlertSucces(msg); 
       }
       clearFormCategory();
       getCategorias()
     } catch (error) {
+      AlertError();
       setErrores(error.response.data.msg)
       console.log(error);
     }
@@ -198,11 +203,13 @@ function Equipos() {
   try {
     const respuesta = await axios.post(endpointEquipo, valores)
     if (respuesta.status === 200) {
-      alert (respuesta.data.message);
+      const msg = respuesta.data.message;
+      AlertSucces(msg); 
     }
     clearFormEquipos();
     getEquipos();
   } catch (error) {
+    AlertError();
     setErrores(error.response.data.msg)
     console.log(error.response.data.msg);
   }
@@ -212,11 +219,13 @@ function Equipos() {
   try {
     const respuesta = await axios.post(endpointCategory, valoresCategory)
     if (respuesta.status === 200) {
-      alert (respuesta.data.message);
+      const msg = respuesta.data.message;
+      AlertSucces(msg); 
     }
     clearFormCategory();
     getCategorias();
   } catch (error) {
+    AlertError();
     setErrores(error.response.data.msg)
     console.log(error);
   }
@@ -324,8 +333,7 @@ function Equipos() {
     //#endregion funciones
   return (
     <Container>
-      <NavBar/>
-      <div className="contenedor">
+      <Contenedor>
         <MediumContainer>
           <MUIDataTable className= "table-medium"
           title="Categorías"
@@ -653,7 +661,7 @@ function Equipos() {
           />
 
         </div>
-      </div>
+      </Contenedor>
     </Container>
   )
 }
@@ -663,16 +671,6 @@ display: flex;
 flex-direction: column;
 align-items: center;
 min-width: 100%;
-
-.contenedor{
-  background: #38A80020;
-  width: 100%;
-  height: 100%;
-  border-radius: 20px;
-  display: flex; 
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
 
   .table-medium{
     width: 90%;
@@ -684,8 +682,6 @@ min-width: 100%;
      padding: 5px;
     }
   }
-
-}
 
 .table-mui{
   width: 100%;

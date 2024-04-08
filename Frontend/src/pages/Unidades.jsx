@@ -1,10 +1,10 @@
 import styled from "styled-components"
-import NavBar from "../components/organismos/NavBar";
 import MUIDatatable from "mui-datatables";
-import { options } from "../styles/Styles"
+import { options } from "../components/styles/Table"
 import axios from "axios";
 import { useState, useEffect } from "react";
 import Alert from '@mui/material/Alert';
+import { Contenedor } from "../components/styles/StylesPages";
 
 
 function Unidades() {
@@ -64,8 +64,7 @@ function Unidades() {
   return (
   <>
     <Container>
-      <NavBar/>
-        <div className="contenedor">
+        <Contenedor>
           <div className="contents">
             <MUIDatatable className="table"
             title="Unidades Productivas"
@@ -74,13 +73,7 @@ function Unidades() {
             options={options}
             />
           </div>
-          <div className="contents">
-          <Alert severity="success">This is a success Alert.</Alert>
-          <Alert severity="info">This is an info Alert.</Alert>
-          <Alert severity="warning">This is a warning Alert.</Alert>
-          <Alert severity="error">This is an error Alert.</Alert>
-          </div>
-        </div>
+        </Contenedor>
     </Container>
   </>
   )
@@ -92,23 +85,11 @@ flex-direction: column;
 align-items: center;
 min-width: 100%;
 
-.contenedor{
-  background: #38A80020;
-  width: 100%;
-  height: 100%;
-  border-radius: 20px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
   .contents{
     width: 40%;
   }
 
-}
-
 .table{
-  width: 100%;
   padding: 5px;
 
   th{
@@ -117,8 +98,6 @@ min-width: 100%;
    padding: 10px;
   }
 }
-
-
 `;
 
 const Modales = styled.div`

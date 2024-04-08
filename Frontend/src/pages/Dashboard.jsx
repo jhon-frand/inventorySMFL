@@ -1,4 +1,3 @@
-import NavBar from "../components/organismos/NavBar"
 import styled from "styled-components"
 import ContainerContent from "../components/organismos/ContainerContent";
 import { PiBoundingBox } from "react-icons/pi"
@@ -12,6 +11,7 @@ import {
   getTotalUnits,
   getTotalEquipment,
   getTotalManteinment } from "../functions/FunctionsDashboard";
+import { Contenedor } from "../components/styles/StylesPages";
 
 function Dashboard() {
 
@@ -66,8 +66,7 @@ function Dashboard() {
   return (
     <>
     <Container>
-      <NavBar/>
-      <div className="contenedor">
+      <Contenedor>
     <div className="contents">
     <ContainerContent  
       titulo="UNIDADES PRODUCTIVAS"
@@ -97,7 +96,7 @@ function Dashboard() {
     <div className="content-two">
 
     </div>
-      </div>
+      </Contenedor>
     </Container>
     </>
   )
@@ -105,23 +104,10 @@ function Dashboard() {
 
 const Container = styled.div`
 display: flex;
-flex-direction: column;
-align-items: center;
 min-width: 100%;
-
-.contenedor{
-  background: #38A80020;
-  width: 100%;
-  height: 100%;
-  border-radius: 20px;
-  padding: 20px;
-  gap: 10px;
-  display: grid; 
-  grid-template-columns: 280px auto;
 
   .contents{
     display: flex;
-    flex-direction: column;
     gap: 20px;
     justify-content: center;
     align-items: center;
@@ -136,6 +122,5 @@ min-width: 100%;
     background: #90b8b0;
     border-radius: 20px;
   }
-}
 `;
 export default Dashboard

@@ -20,13 +20,13 @@ function MediumContainer({children}) {
 }
 
 const Category = styled.div`
-  height: 450px;
-  width: ${({ $show }) => ($show ? "500px" : "35px")};
+  height: 550px;
+  width: ${({ $show }) => ($show ? "50%" : "35px")};
   border-radius: 5px;
   position: absolute;
   right: 0;
   transition: width 0.8s;
-  z-index: 30;
+  z-index: 20;
   display: flex;
   justify-content: center;
   align-items: center;

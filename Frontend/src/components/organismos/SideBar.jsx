@@ -85,8 +85,11 @@ const linksArray = [
 
 //#endregion links
 const Container = styled.div`
-position: sticky;
+position: fixed;
+width: ${({ $isOpen }) => ($isOpen ? "250px" : "80px")}; 
+transition: width 0.3s;
 height: 100vh;
+background: white;
 
 .sideBarButton{
     position: absolute;

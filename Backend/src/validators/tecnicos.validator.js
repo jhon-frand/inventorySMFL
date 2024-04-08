@@ -23,12 +23,16 @@ export const validationTecnico = () => {
 
         check('telefono')
         .isString().withMessage('el teléfono debe ser un string')
-        .notEmpty().withMessage('el teléfono no puede estar vacío'),
+        .notEmpty().withMessage('el teléfono no puede estar vacío')
+        .isLength({min: 10}).withMessage('Debe tener al menos diez números'),
 
         (peticion, respuesta, next) => {
             const errors = validationResult(peticion);
             if (!errors.isEmpty()) {
-                const checkError = errors.array().map(errors => errors.msg);
+                const checkError = errors.array().map(errors => [
+                    errors.path,
+                    errors.msg
+                ]);
                 respuesta.status(400).json({
                     msg: checkError
                 })

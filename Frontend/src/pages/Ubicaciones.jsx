@@ -1,19 +1,20 @@
 import styled from "styled-components"
-import NavBar from "../components/organismos/NavBar";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import MUIDatatable from "mui-datatables"
-import { options } from "../styles/Styles";
+import { options } from "../components/styles/Table";
 import HeaderPageTwo from "../components/organismos/HeaderPageTwo";
 import Modal from "../components/modals/Modal";
 import ButtonEdit from "../components/organismos/ButtonEdit";
 import { BsPinMap } from "react-icons/bs";
 import Alert from "@mui/material/Alert";
-import AlertTitle from '@mui/material/AlertTitle';
+import { Contenedor } from "../components/styles/StylesPages";
+import { AlertSucces, AlertError } from "../components/alerts/Alerts";
 
 
 function Ubicaciones() {
 
+  //#region funciones
   const endpoint = "http://localhost:3000/ubicaciones"
   const endpointUnit = "http://localhost:3000/unidades"
   
@@ -133,11 +134,13 @@ const getDataUnit = (datos) => {
   try {
     const respuesta = await axios.post(endpoint, valores)
     if (respuesta.status === 200) {
-      alert(respuesta.data.message) 
+      const msg = respuesta.data.message;
+      AlertSucces(msg); 
     }
     clearFormUbi();
     getUbicaciones();
   } catch (error) {
+    AlertError();
     setErrores(error.response.data.msg)
     console.log(error.response.data.msg);
   }
@@ -147,11 +150,13 @@ const getDataUnit = (datos) => {
   try {
     const respuesta = await axios.post(endpointUnit, valoresUnit)
     if (respuesta.status === 200) {
-      alert (respuesta.data.message)
+      const msg = respuesta.data.message;
+      AlertSucces(msg);
     }
     clearFormUnit();
     getUnidades();
   } catch (error) {
+    AlertError();
     setErrores(error.response.data.msg)
     console.log(error);
   }
@@ -161,11 +166,13 @@ const getDataUnit = (datos) => {
   try {
     const respuesta = await axios.put(`${endpoint}/${selectId}`, valores)
     if (respuesta.status === 200) {
-      alert(respuesta.data.message) 
+      const msg = respuesta.data.message;
+      AlertSucces(msg); 
     }
     clearFormUbi();
     getUbicaciones();
   } catch (error) {
+    AlertError();
     setErrores(error.response.data.msg)
     console.log(error);
   }
@@ -175,11 +182,13 @@ const getDataUnit = (datos) => {
   try {
     const respuesta = await axios.put(`${endpointUnit}/${selectIdUnit}`, valoresUnit)
     if (respuesta.status === 200) {
-      alert(respuesta.data.message)
+      const msg = respuesta.data.message;
+      AlertSucces(msg); 
     }
     clearFormUnit();
     getUnidades();
   } catch (error) {
+    AlertError();
     setErrores(error.response.data.msg)
     console.log(error);
   }
@@ -241,12 +250,11 @@ const getDataUnit = (datos) => {
     }
 ]
     //#endregion table
-
+//#endregion funciones
   return (
     <>
     <Container>
-      <NavBar/>
-      <div className="contenedor">
+      <Contenedor>
       <HeaderPageTwo 
       icon={<BsPinMap/>} 
       titulo="UNIDADES Y UBICACIONES" 
@@ -280,7 +288,7 @@ const getDataUnit = (datos) => {
                   </div>
                   {
                   errores && errores.some(([campo]) => campo === "ambiente") && (
-                  <Alert severity="error" icon={false}>
+                  <Alert severity="error" icon={false} >
                     {errores.find(([campo]) => campo === "ambiente")[1]}
                   </Alert>
                     )
@@ -406,7 +414,7 @@ const getDataUnit = (datos) => {
      options={options}
      />
      </div>
-      </div>
+      </Contenedor>
     </Container>
     </>
   )
@@ -414,20 +422,6 @@ const getDataUnit = (datos) => {
 
 const Container = styled.div`
 display: flex;
-flex-direction: column;
-align-items: center;
-height: 100vh;
-
-.contenedor{
-  background: #38A80020;
-  width: 100%;
-  height: 100%;
-  border-radius: 20px;
-  display: flex; 
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
 
 .table-mui{
   width: 100%;

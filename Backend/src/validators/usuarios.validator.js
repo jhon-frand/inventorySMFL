@@ -6,7 +6,7 @@ export const validationUsuario = () => {
         check('identificacion')
         .isNumeric().withMessage('la identificación debe ser numérica')
         .notEmpty().withMessage('la identificación no puede estar vacía')
-        .isLength({min: 6}).withMessage('la identificación debe tener al menos 6 caracteres'),
+        .isLength({min: 6}).withMessage('Debe tener al menos 6 caracteres'),
         
         check('nombres')
         .isString().withMessage('los nombres deben ser texto')
@@ -24,7 +24,9 @@ export const validationUsuario = () => {
 
         check('telefono')
         .isString().withMessage('el teléfono debe ser un string')
-        .notEmpty().withMessage('el teléfono no puede estar vacío'),
+        .notEmpty().withMessage('el teléfono no puede estar vacío')
+        .isLength({min: 10}).withMessage('Debe tener al menos 10 números'),
+
 
         check('estado')
         .isString().withMessage('el estado debe ser texto')
@@ -48,7 +50,10 @@ export const validationUsuario = () => {
             const errores = validationResult(peticion);
 
             if (!errores.isEmpty()) {
-                const chekError = errores.array().map(errores => errores.msg)
+                const chekError = errores.array().map(errores => [
+                    errores.path,
+                    errores.msg
+                ])
                 respuesta.status(400).json({
                     msg: chekError
                 })
@@ -64,17 +69,17 @@ export const validationPutUsuario = () => {
         check('identificacion')
         .isNumeric().withMessage('la identificación debe ser numérica')
         .notEmpty().withMessage('la identificación no puede estar vacía')
-        .isLength({min: 6}).withMessage('la identificación debe tener al menos 6 caracteres'),
+        .isLength({min: 6}).withMessage('Debe tener al menos 6 caracteres'),
         
         check('nombres')
         .isString().withMessage('los nombres deben ser texto')
         .notEmpty().withMessage('los nombres no pueden estar vacíos')
-        .isLength({min: 3}).withMessage('los nombres deben tener al menos tres caracteres'),
+        .isLength({min: 3}).withMessage('Deben tener al menos tres caracteres'),
 
         check('apellidos')
         .isString().withMessage('los apellidos deben ser texto')
         .notEmpty().withMessage('los apellidos no pueden estar vacíos')
-        .isLength({min: 3}).withMessage('los apellidos deben tener al menos tres caracteres'),
+        .isLength({min: 3}).withMessage('Deben tener al menos tres caracteres'),
 
         check('email')
         .isEmail().withMessage('el correo no es válido')
@@ -82,7 +87,8 @@ export const validationPutUsuario = () => {
 
         check('telefono')
         .isString().withMessage('el teléfono debe ser un string')
-        .notEmpty().withMessage('el teléfono no puede estar vacío'),
+        .notEmpty().withMessage('el teléfono no puede estar vacío')
+        .isLength({min: 10}).withMessage('Debe tener al menos diez números'),
 
         check('estado')
         .isString().withMessage('el estado debe ser texto')
@@ -101,7 +107,10 @@ export const validationPutUsuario = () => {
             const errores = validationResult(peticion);
 
             if (!errores.isEmpty()) {
-                const chekError = errores.array().map(errores => errores.msg)
+                const chekError = errores.array().map(errores => [
+                    errores.path,
+                    errores.msg
+                ])
                 respuesta.status(400).json({
                     msg: chekError
                 })

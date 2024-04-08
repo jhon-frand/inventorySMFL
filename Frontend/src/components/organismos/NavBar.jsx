@@ -33,6 +33,7 @@ justify-content: space-between;
 align-items: center;
 padding: 20px;
 background: white;
+box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.3);
 
 p{
   background: #385c57;

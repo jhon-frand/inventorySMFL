@@ -1,6 +1,5 @@
 import styled from "styled-components"
-import NavBar from "../components/organismos/NavBar";
-import { options } from "../styles/Styles";
+import { options } from "../components/styles/Table";
 import axios from "axios";
 import MUIDataTable from "mui-datatables";
 import { useEffect, useState } from "react";
@@ -10,6 +9,9 @@ import moment from "moment";
 import { BsListOl } from "react-icons/bs";
 import HeaderPageTwo from "../components/organismos/HeaderPageTwo";
 import MediumContainer from "../components/organismos/MediumContainer";
+import { Contenedor } from "../components/styles/StylesPages";
+import Alert from "@mui/material/Alert"
+import { AlertSucces } from "../components/alerts/Alerts";
 
 function Actividades() {
 
@@ -26,6 +28,7 @@ function Actividades() {
   const [modalUpdateTecnico, setModalUpdateTecnico] = useState(false)
   const [selectId, setSelectId] = useState(null)
   const [selectIdTecnico, setSelectIdTecnico] = useState(null)
+  const [errores, setErrores] = useState("")
 
   const getActividades = async () => {
     try {
@@ -71,6 +74,7 @@ function Actividades() {
       fk_mantenimiento: "",
       fk_tecnico: ""
     })
+    setErrores("")
     setSelectId(null)
     setModal(false)
     setModalUpdate(false)
@@ -90,6 +94,7 @@ function Actividades() {
       correo: "",
       telefono: ""
     })
+    setErrores("")
     setSelectIdTecnico(null)
     setModalTecnico(false)
     setModalUpdateTecnico(false)
@@ -154,11 +159,13 @@ function Actividades() {
     try {
       const respuesta = await axios.post(endpointTecnico, valoresTecnico)
       if (respuesta.status === 200) {
-        alert (respuesta.data.message);
+        const msg = respuesta.data.message;
+        AlertSucces(msg);
       }
       clearFormTecnico();
       getTecnicos();
     } catch (error) {
+      setErrores(error.response.data.msg);
       console.log(error);
     }
   }
@@ -167,11 +174,13 @@ function Actividades() {
     try {
       const respuesta = await axios.post(endpointActividad, valores)
       if (respuesta.status === 200) {
-        alert (respuesta.data.message);
+        const msg = respuesta.data.message;
+        AlertSucces(msg);
       }
       clearFormActivity();
       getActividades();
     } catch (error) {
+      setErrores(error.response.data.msg);
       console.log(error);
     }
   }
@@ -180,11 +189,13 @@ function Actividades() {
     try {
       const respuesta = await axios.put(`${endpointActividad}/${selectId}`, valores)
       if (respuesta.status === 200) {
-        alert (respuesta.data.message);
+        const msg = respuesta.data.message;
+        AlertSucces(msg);
       }
       clearFormActivity();
       getActividades();
     } catch (error) {
+      setErrores(error.response.data.msg);
       console.log(error);
     }
   }
@@ -193,11 +204,13 @@ function Actividades() {
     try {
       const respuesta = await axios.put(`${endpointTecnico}/${selectIdTecnico}`, valoresTecnico)
       if (respuesta.status === 200) {
-        alert (respuesta.data.message);
+        const msg = respuesta.data.message;
+        AlertSucces(msg);
       }
       clearFormTecnico();
       getTecnicos();
     } catch (error) {
+      setErrores(error.response.data.msg);
       console.log(error);
     }
   }
@@ -298,8 +311,7 @@ function Actividades() {
 
   return (
     <Container>
-      <NavBar/>
-      <div className="contenedor">
+      <Contenedor>
         <MediumContainer>
         <MUIDataTable className= "table-medium"
           title="Técnicos"
@@ -418,22 +430,57 @@ function Actividades() {
                 <div className="contents">
                   <label>Identificación:</label>
                   <input name="identificacion" value={valoresTecnico.identificacion} onChange={valorInputTecnico} type="number" placeholder="Identificación" required />
+                  {
+                  errores && errores.some(([campo]) => campo === "identificacion") && (
+                    <Alert severity="error" icon={false}>
+                      {errores.find(([campo]) => campo === "identificacion")[1]}
+                    </Alert>
+                  )
+                }
                 </div>
                 <div className="contents">
                   <label>Nombres:</label>
                   <input name="nombres" value={valoresTecnico.nombres} onChange={valorInputTecnico} type="text" placeholder="Ingrese Nombres" required/>
+                  {
+                  errores && errores.some(([campo]) => campo === "nombres") && (
+                    <Alert severity="error" icon={false}>
+                      {errores.find(([campo]) => campo === "nombres")[1]}
+                    </Alert>
+                  )
+                }
                 </div>
                 <div className="contents">
                   <label>Apellidos:</label>
                   <input name="apellidos" value={valoresTecnico.apellidos} onChange={valorInputTecnico} type="text" placeholder="Ingrese Apellidos" required/>
+                  {
+                  errores && errores.some(([campo]) => campo === "apellidos") && (
+                    <Alert severity="error" icon={false}>
+                      {errores.find(([campo]) => campo === "apellidos")[1]}
+                    </Alert>
+                  )
+                }
                 </div>
                 <div className="contents">
                   <label>Correo:</label>
                   <input name="correo" value={valoresTecnico.correo} onChange={valorInputTecnico} type="email" placeholder="Ingrese un Correo" required/>
+                  {
+                  errores && errores.some(([campo]) => campo === "correo") && (
+                    <Alert severity="error" icon={false}>
+                      {errores.find(([campo]) => campo === "correo")[1]}
+                    </Alert>
+                  )
+                }
                 </div>
                 <div className="contents">
                   <label>Teléfono:</label>
                   <input name="telefono" value={valoresTecnico.telefono} onChange={valorInputTecnico} type="number" placeholder="Teléfono" required/>
+                  {
+                  errores && errores.some(([campo]) => campo === "telefono") && (
+                    <Alert severity="error" icon={false}>
+                      {errores.find(([campo]) => campo === "telefono")[1]}
+                    </Alert>
+                  )
+                }
                 </div>
               </div>
             </div>
@@ -451,22 +498,57 @@ function Actividades() {
                 <div className="contents">
                   <label>Identificación:</label>
                   <input name="identificacion" value={valoresTecnico.identificacion} onChange={editValorInputTecnico} type="number" placeholder="Identificación" required />
+                {
+                  errores && errores.some(([campo]) => campo === "identificacion") && (
+                    <Alert severity="error" icon={false}>
+                      {errores.find(([campo]) => campo === "identificacion")[1]}
+                    </Alert>
+                  )
+                }
                 </div>
                 <div className="contents">
                   <label>Nombres:</label>
                   <input name="nombres" value={valoresTecnico.nombres} onChange={editValorInputTecnico} type="text" placeholder="Ingrese Nombres" required/>
+                  {
+                  errores && errores.some(([campo]) => campo === "nombres") && (
+                    <Alert severity="error" icon={false}>
+                      {errores.find(([campo]) => campo === "nombres")[1]}
+                    </Alert>
+                  )
+                }
                 </div>
                 <div className="contents">
                   <label>Apellidos:</label>
                   <input name="apellidos" value={valoresTecnico.apellidos} onChange={editValorInputTecnico} type="text" placeholder="Ingrese Apellidos" required/>
+                  {
+                  errores && errores.some(([campo]) => campo === "apellidos") && (
+                    <Alert severity="error" icon={false}>
+                      {errores.find(([campo]) => campo === "apellidos")[1]}
+                    </Alert>
+                  )
+                }
                 </div>
                 <div className="contents">
                   <label>Correo:</label>
                   <input name="correo" value={valoresTecnico.correo} onChange={editValorInputTecnico} type="email" placeholder="Ingrese un Correo" required/>
+                  {
+                  errores && errores.some(([campo]) => campo === "correo") && (
+                    <Alert severity="error" icon={false}>
+                      {errores.find(([campo]) => campo === "correo")[1]}
+                    </Alert>
+                  )
+                }
                 </div>
                 <div className="contents">
                   <label>Teléfono:</label>
                   <input name="telefono" value={valoresTecnico.telefono} onChange={editValorInputTecnico} type="number" placeholder="Teléfono" required/>
+                  {
+                  errores && errores.some(([campo]) => campo === "telefono") && (
+                    <Alert severity="error" icon={false}>
+                      {errores.find(([campo]) => campo === "telefono")[1]}
+                    </Alert>
+                  )
+                }
                 </div>
               </div>
             </div>
@@ -482,26 +564,13 @@ function Actividades() {
         options={options}
         />
       </div>
-      </div>
+      </Contenedor>
     </Container>
   )
 }
 
 const Container = styled.div`
 display: flex;
-flex-direction: column;
-align-items: center;
-min-width: 100%;
-
-.contenedor{
-  background: #38A80020;
-  width: 100%;
-  height: 100%;
-  border-radius: 20px;
-  display: flex; 
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
 
   .table-medium{
     width: 90%;
@@ -514,7 +583,6 @@ min-width: 100%;
     }
   }
 
-}
 
 .table-mui{
   width: 100%;
