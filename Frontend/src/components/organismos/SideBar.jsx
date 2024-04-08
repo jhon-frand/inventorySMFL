@@ -75,11 +75,6 @@ const linksArray = [
         label: "Ubicaciones",
         icon: <BsPinMap />,
         to: "/ubicaciones"
-    },
-    {
-        label: "Actividades",
-        icon: <BsListOl />,
-        to: "/actividades"
     }
 ];
 

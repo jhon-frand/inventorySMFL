@@ -21,6 +21,7 @@ function MediumContainer({children}) {
 
 const Category = styled.div`
   height: 550px;
+  top: 100px;
   width: ${({ $show }) => ($show ? "50%" : "35px")};
   border-radius: 5px;
   position: absolute;

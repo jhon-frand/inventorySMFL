@@ -76,7 +76,7 @@ const BotonCerrar = styled.button`
     border-radius: 5px;
 
     &:hover{
-        background: #38a800;
+        background: #ff0000c3;
         color: white;
     }
 `;

@@ -1,5 +1,4 @@
 import styled from "styled-components"
-import HeaderPage from "../components/organismos/HeaderPage";
 import MUIDataTable from "mui-datatables";
 import axios from "axios";
 import { useEffect, useState } from "react";
@@ -11,28 +10,48 @@ import { GoTools } from "react-icons/go";
 import { Alert } from "@mui/material";
 import { Contenedor } from "../components/styles/StylesPages";
 import { AlertSucces, AlertError } from "../components/alerts/Alerts";
+import HeaderPageMante from "../components/organismos/HeaderPageMante";
+import { 
+  endpointMantenimiento, 
+  endpointTecnico, 
+  endpointActividad, 
+  endpointEquipo,
+  endpointUser
+} from "../components/endpoints/Endpoints";
+import MediumContainer from "../components/organismos/MediumContainer";
 
 function Mantenimientos() {
 //#region funciones
-  const endpointManteni = "http://localhost:3000/mantenimientos"
-  const endpointUser = "http://localhost:3000/usuarios"
-  const endpointEquipo = "http://localhost:3000/equipos"
-  const endpointActividad = "http://localhost:3000/actividades"
-  const endpointTecnico = "http://localhost:3000/tecnicos"
 
   const [mantenimientos, setMantenimientos] = useState([])
   const [usuarios, setUsuarios] = useState([])
   const [equipos, setEquipos] = useState([])
   const [tecnicos, setTecnicos] = useState([])
+  const [actividades, setActividades] = useState([])
   const [modal, setModal] = useState(false)
   const [modalUpdate, setModalUpdate] = useState(false)
   const [modalActividad, setModalActividad] = useState(false)
+  const [modalActividadUpdate, setModalActividadUpdate] = useState(false)
+  const [modalTecnico, setModalTecnico] = useState(false)
+  const [modalUpdateTecnico, setModalUpdateTecnico] = useState(false)
   const [selectId, setSelectId] = useState(null)
+  const [selectIdActividad, setSelectIdActividad] = useState(null)
+  const [selectIdTecnico, setSelectIdTecnico] = useState(null)
   const [errores, setErrores] = useState("")
 
+  const getActividades = async () => {
+    try {
+      await axios.get(endpointActividad).then((response) => {
+        const activities = response.data;
+        setActividades(activities);
+      })
+    } catch (error) {
+      console.log(error);
+    }
+  }
   const getMantenimientos = async () => {
     try {
-      await axios.get(endpointManteni).then((response) => {
+      await axios.get(endpointMantenimiento).then((response) => {
         const manteinments = response.data;
         setMantenimientos(manteinments);
       })
@@ -98,6 +117,38 @@ function Mantenimientos() {
     setModal(false)
     setModalUpdate(false)
    }
+   const [valoresTecnico, setValoresTecnico] = useState({
+    identificacion: "",
+    nombres: "",
+    apellidos: "",
+    correo: "",
+    telefono: ""
+   })
+   const clearFormTecnico = () => {
+    setValoresTecnico({
+      identificacion: "",
+      nombres: "",
+      apellidos: "",
+      correo: "",
+      telefono: ""
+    })
+    setErrores("")
+    setSelectIdTecnico(null)
+    setModalTecnico(false)
+    setModalUpdateTecnico(false)
+   }
+
+   const getDataTecnico = (datos) => {
+    setValoresTecnico({
+      identificacion: datos[1],
+      nombres: datos[2],
+      apellidos: datos[3],
+      correo: datos[4],
+      telefono: datos[5]
+    })
+    setSelectIdTecnico(datos[0])
+    setModalUpdateTecnico(true)
+   }
    const clearFormActivity = () => {
     setValoresActividad({
       fecha_actividad: "",
@@ -107,6 +158,7 @@ function Mantenimientos() {
     })
     setErrores("")
     setModalActividad(false)
+    setModalActividadUpdate(false)
    }
    const getData = (datos) => {
 
@@ -140,6 +192,25 @@ function Mantenimientos() {
       console.log(error);
     }
   }
+  const getDataActividad = (datos) => {
+
+    const tecnicoActividad = tecnicos.find(tenic => tenic.nombres === datos[4]);
+    const tecnicoActividadId = tecnicoActividad ? tecnicoActividad.id_tecnico: "";
+
+    const manteinmentActividad = mantenimientos.find(manteni => manteni.tipo_mantenimiento === datos[3]);
+    const manteinmentActividadId = manteinmentActividad ? manteinmentActividad.id_mantenimiento: "";
+
+    const fecha = moment(datos[1]).format('YYYY-MM-DD')
+
+    setValoresActividad({
+      fecha_actividad: fecha,
+      descripcion: datos[2],
+      fk_mantenimiento: manteinmentActividadId,
+      fk_tecnico: tecnicoActividadId
+    })
+    setSelectIdActividad(datos[0])
+    setModalActividadUpdate(true)
+   }
    const valorInput = (event) => {
     setValores({
       ...valores,
@@ -158,10 +229,28 @@ function Mantenimientos() {
       [event.target.name]: event.target.value
     }))
    }
+   const editValorInputActividad = (event) => {
+    setValoresActividad(prevState => ({
+      ...prevState,
+      [event.target.name]: event.target.value
+    }))
+   }
+   const valorInputTecnico = (event) => {
+    setValoresTecnico({
+      ...valoresTecnico,
+      [event.target.name] : event.target.value
+    })
+   }
+   const editValorInputTecnico = (event) => {
+    setValoresTecnico(prevState => ({
+      ...prevState,
+      [event.target.name]: event.target.value
+    }))
+   }
    const postMantenimiento = async (event) => {
     event.preventDefault();
     try {
-      const respuesta = await axios.post(endpointManteni, valores)
+      const respuesta = await axios.post(endpointMantenimiento, valores)
       if (respuesta.status === 200) {
         const msg = respuesta.data.message;
         AlertSucces(msg);
@@ -177,7 +266,7 @@ function Mantenimientos() {
    const putMantenimiento = async (event) => {
     event.preventDefault();
     try {
-      const respuesta = await axios.put(`${endpointManteni}/${selectId}`, valores)
+      const respuesta = await axios.put(`${endpointMantenimiento}/${selectId}`, valores)
       if (respuesta.status === 200) {
         const msg = respuesta.data.message;
          AlertSucces(msg);
@@ -205,6 +294,54 @@ function Mantenimientos() {
       console.log(error);
     }
    }
+   const putActivity = async (event) => {
+    event.preventDefault();
+    try {
+      const respuesta = await axios.put(`${endpointActividad}/${selectIdActividad}`, valoresActividad)
+      if (respuesta.status === 200) {
+        const msg = respuesta.data.message;
+        AlertSucces(msg);
+      }
+      clearFormActivity();
+      getActividades();
+    } catch (error) {
+      AlertError();
+      setErrores(error.response.data.msg);
+      console.log(error);
+    }
+  }
+   const postTecnico = async (event) => {
+    event.preventDefault();
+    try {
+      const respuesta = await axios.post(endpointTecnico, valoresTecnico)
+      if (respuesta.status === 200) {
+        const msg = respuesta.data.message;
+        AlertSucces(msg);
+      }
+      clearFormTecnico();
+      getTecnicos();
+    } catch (error) {
+      AlertError();
+      setErrores(error.response.data.msg);
+      console.log(error);
+    }
+  }
+  const putTecnico = async (event) => {
+    event.preventDefault();
+    try {
+      const respuesta = await axios.put(`${endpointTecnico}/${selectIdTecnico}`, valoresTecnico)
+      if (respuesta.status === 200) {
+        const msg = respuesta.data.message;
+        AlertSucces(msg);
+      }
+      clearFormTecnico();
+      getTecnicos();
+    } catch (error) {
+      AlertError();
+      setErrores(error.response.data.msg);
+      console.log(error);
+    }
+  }
    const columnas =[
     {
       name: "id_mantenimiento",
@@ -263,18 +400,119 @@ function Mantenimientos() {
       }
     }
    ]
+   const columnasTecnicos = [
+    {
+      name: "id_tecnico",
+      label: "ID"
+    },
+    {
+      name: "identificacion",
+      label: "IDENTIFICACIÓN"
+    },
+    {
+      name: "nombres",
+      label: "NOMBRES"
+    },
+    {
+      name: "apellidos",
+      label: "APELLIDOS"
+    },
+    {
+      name: "correo",
+      label: "EMAIL"
+    },
+    {
+      name: "telefono",
+      label: "TELÉFONO"
+    },
+    {
+      name: "editar",
+      label: "ACTIONS",
+      options: {
+        customBodyRender: (value, tableMeta, updateValue) => {
+          return(
+            <ButtonEdit titulo="EDIT"  funcion1={() => getDataTecnico(tableMeta.rowData)} />
+          )
+        }
+      }
+    }
+  ]
+  const columnasActividad = [
+    {
+      name: "id_actividad",
+      label: "ID"
+    },
+    {
+      name: "fecha_actividad",
+      label: "FECHA",
+      options: {
+        customBodyRender: (value) => {
+          const fecha = moment(value).format('YYYY-MM-DD');
+          return fecha;
+        }
+      }
+    },
+    {
+      name: "descripcion",
+      label: "DESCRIPCION"
+    },
+    {
+      name: "fk_mantenimiento",
+      label: "MANTENIMIENTO"
+    },
+    {
+      name: "nombre_tecnico",
+      label: "TECNICO"
+    },
+    {
+      name: "nombre_equipo",
+      label: "EQUIPO"
+    },
+    {
+      name: "responsable",
+      label: "RESPONSABLE"
+    },
+    {
+      name: "editar",
+      label: "ACTIONS",
+      options: {
+        customBodyRender: (value, tableMeta, updateValue) => {
+          return(
+            <ButtonEdit titulo="EDIT"  funcion1={() => getDataActividad(tableMeta.rowData)} />
+          )
+        }
+      }
+    }
+  ]
 
     useEffect(()=> {
       getMantenimientos();
       getEquipos();
       getUsers();
       getTecnicos();
+      getActividades();
     },[])
 //#endregion funciones
   return (
     <Container>
       <Contenedor>
-      <HeaderPage icon={<GoTools/>} titulo="MANTENIMIENTOS" textButton="REGISTRAR MANTENIMIENTO" funcion={() => setModal(true)}/>
+      <HeaderPageMante icon={<GoTools/>} 
+      titulo="MANTENIMIENTOS Y ACTIVIDADES" 
+      textButton1="REGISTRAR MANTENIMIENTO" 
+      textButton2="REGISTRAR TÉCNICO" 
+      textButton3="VER ACTIVIDADES" 
+      funcion1={() => setModal(true)}
+      funcion2={() => setModalTecnico(true)}
+      identificador="#actividades"
+      />
+      <MediumContainer>
+      <MUIDataTable className= "table-medium"
+          title="Técnicos"
+          data={tecnicos}
+          columns={columnasTecnicos}
+          options={options}
+           />
+      </MediumContainer>
       <Modales>
         <Modal
         titulo="REGISTRAR MANTENIMIENTO"
@@ -463,6 +701,194 @@ function Mantenimientos() {
             <button>REGISTRAR</button>
           </form>
         </Modal>
+        <Modal
+        titulo="ACTUALIZAR DATOS"
+        estado={modalActividadUpdate}
+        cambiarEstado={clearFormActivity}
+        >
+          <form className="formulario" onSubmit={putActivity}>
+            <div className="inputs-data">
+              <div className="filas">
+                <div className="contents">
+                  <label>Fecha de Actividad:</label>
+                  <input name="fecha_actividad" value={valoresActividad.fecha_actividad} onChange={editValorInputActividad} type="date" required />
+                </div>
+                <div className="contents">
+                  <label>Mantenimiento:</label>
+                  <select name="fk_mantenimiento" value={valoresActividad.fk_mantenimiento} onChange={editValorInputActividad} required> 
+                  <option value="">selecciona una opción</option>
+                  {
+                    mantenimientos.map((mantenimientos) => (
+                      <option value={mantenimientos.id_mantenimiento} key={mantenimientos.id_mantenimiento}>{mantenimientos.id_mantenimiento} {mantenimientos.tipo_mantenimiento} {mantenimientos.descripcion}</option>
+                    ))
+                  }
+                  </select>
+                </div>
+                <div className="contents">
+                  <label>Técnico:</label>
+                  <select name="fk_tecnico" value={valoresActividad.fk_tecnico} onChange={editValorInputActividad} required> 
+                  <option value="">selecciona una opción</option>
+                  {
+                    tecnicos.map((tecnicos) => (
+                      <option value={tecnicos.id_tecnico} key={tecnicos.id_tecnico}>{tecnicos.nombres} {tecnicos.apellidos}</option>
+                    ))
+                  }
+                  </select>
+                </div>
+              </div>
+              <div className="filas">
+              <div className="contents">
+                  <label>Descripción</label>
+                  <textarea name="descripcion" value={valoresActividad.descripcion} onChange={editValorInputActividad} maxLength={250} placeholder="Ingresa una descripción" required></textarea>
+                {
+                  errores && errores.some(([campo]) => campo === "descripcion") && (
+                    <Alert severity="error" icon={false}>
+                      {errores.find(([campo]) => campo === "descripcion")[1]}
+                    </Alert>
+                  )
+                }
+                </div>
+              </div>
+            </div>
+            <button>ACTUALIZAR</button>
+          </form>
+        </Modal>
+        <Modal
+        titulo="REGISTRAR TÉCNICO"
+        estado={modalTecnico}
+        cambiarEstado={clearFormTecnico}
+        >
+          <form className="formulario" onSubmit={postTecnico}>
+            <div className="inputs-data-tecnico">
+              <div className="filas">
+                <div className="contents">
+                  <label>Identificación:</label>
+                  <input name="identificacion" value={valoresTecnico.identificacion} onChange={valorInputTecnico} type="number" placeholder="Identificación" required />
+                  {
+                  errores && errores.some(([campo]) => campo === "identificacion") && (
+                    <Alert severity="error" icon={false}>
+                      {errores.find(([campo]) => campo === "identificacion")[1]}
+                    </Alert>
+                  )
+                }
+                </div>
+                <div className="contents">
+                  <label>Nombres:</label>
+                  <input name="nombres" value={valoresTecnico.nombres} onChange={valorInputTecnico} type="text" placeholder="Ingrese Nombres" required/>
+                  {
+                  errores && errores.some(([campo]) => campo === "nombres") && (
+                    <Alert severity="error" icon={false}>
+                      {errores.find(([campo]) => campo === "nombres")[1]}
+                    </Alert>
+                  )
+                }
+                </div>
+                <div className="contents">
+                  <label>Apellidos:</label>
+                  <input name="apellidos" value={valoresTecnico.apellidos} onChange={valorInputTecnico} type="text" placeholder="Ingrese Apellidos" required/>
+                  {
+                  errores && errores.some(([campo]) => campo === "apellidos") && (
+                    <Alert severity="error" icon={false}>
+                      {errores.find(([campo]) => campo === "apellidos")[1]}
+                    </Alert>
+                  )
+                }
+                </div>
+                <div className="contents">
+                  <label>Correo:</label>
+                  <input name="correo" value={valoresTecnico.correo} onChange={valorInputTecnico} type="email" placeholder="Ingrese un Correo" required/>
+                  {
+                  errores && errores.some(([campo]) => campo === "correo") && (
+                    <Alert severity="error" icon={false}>
+                      {errores.find(([campo]) => campo === "correo")[1]}
+                    </Alert>
+                  )
+                }
+                </div>
+                <div className="contents">
+                  <label>Teléfono:</label>
+                  <input name="telefono" value={valoresTecnico.telefono} onChange={valorInputTecnico} type="number" placeholder="Teléfono" required/>
+                  {
+                  errores && errores.some(([campo]) => campo === "telefono") && (
+                    <Alert severity="error" icon={false}>
+                      {errores.find(([campo]) => campo === "telefono")[1]}
+                    </Alert>
+                  )
+                }
+                </div>
+              </div>
+            </div>
+            <button>REGISTRAR</button>
+          </form>
+        </Modal>
+        <Modal
+        titulo="ACTUALIZAR DATOS"
+        estado={modalUpdateTecnico}
+        cambiarEstado={clearFormTecnico}
+        >
+          <form className="formulario" onSubmit={putTecnico}>
+            <div className="inputs-data-tecnico">
+              <div className="filas">
+                <div className="contents">
+                  <label>Identificación:</label>
+                  <input name="identificacion" value={valoresTecnico.identificacion} onChange={editValorInputTecnico} type="number" placeholder="Identificación" required />
+                {
+                  errores && errores.some(([campo]) => campo === "identificacion") && (
+                    <Alert severity="error" icon={false}>
+                      {errores.find(([campo]) => campo === "identificacion")[1]}
+                    </Alert>
+                  )
+                }
+                </div>
+                <div className="contents">
+                  <label>Nombres:</label>
+                  <input name="nombres" value={valoresTecnico.nombres} onChange={editValorInputTecnico} type="text" placeholder="Ingrese Nombres" required/>
+                  {
+                  errores && errores.some(([campo]) => campo === "nombres") && (
+                    <Alert severity="error" icon={false}>
+                      {errores.find(([campo]) => campo === "nombres")[1]}
+                    </Alert>
+                  )
+                }
+                </div>
+                <div className="contents">
+                  <label>Apellidos:</label>
+                  <input name="apellidos" value={valoresTecnico.apellidos} onChange={editValorInputTecnico} type="text" placeholder="Ingrese Apellidos" required/>
+                  {
+                  errores && errores.some(([campo]) => campo === "apellidos") && (
+                    <Alert severity="error" icon={false}>
+                      {errores.find(([campo]) => campo === "apellidos")[1]}
+                    </Alert>
+                  )
+                }
+                </div>
+                <div className="contents">
+                  <label>Correo:</label>
+                  <input name="correo" value={valoresTecnico.correo} onChange={editValorInputTecnico} type="email" placeholder="Ingrese un Correo" required/>
+                  {
+                  errores && errores.some(([campo]) => campo === "correo") && (
+                    <Alert severity="error" icon={false}>
+                      {errores.find(([campo]) => campo === "correo")[1]}
+                    </Alert>
+                  )
+                }
+                </div>
+                <div className="contents">
+                  <label>Teléfono:</label>
+                  <input name="telefono" value={valoresTecnico.telefono} onChange={editValorInputTecnico} type="number" placeholder="Teléfono" required/>
+                  {
+                  errores && errores.some(([campo]) => campo === "telefono") && (
+                    <Alert severity="error" icon={false}>
+                      {errores.find(([campo]) => campo === "telefono")[1]}
+                    </Alert>
+                  )
+                }
+                </div>
+              </div>
+            </div>
+            <button>ACTUALIZAR</button>
+          </form>
+        </Modal>
       </Modales>
       <div className="table-mui">
         <MUIDataTable className="table"
@@ -473,6 +899,16 @@ function Mantenimientos() {
         />
       </div>
       </Contenedor>
+      <Contenedor>
+      <div className="table-mui" id="actividades">
+        <MUIDataTable className="table" 
+        title="Lista de Actividades"
+        data={actividades}
+        columns={columnasActividad}
+        options={options}
+        />
+      </div>
+      </Contenedor>
     </Container>
   )
 }
@@ -480,9 +916,17 @@ function Mantenimientos() {
 const Container = styled.div`
 display: flex;
 flex-direction: column;
-align-items: center;
-min-width: 100%;
 
+.table-medium{
+    width: 90%;
+    padding: 5px;
+
+    th{
+     background: #38A800;
+     color: white;
+     padding: 5px;
+    }
+  }
 .table-mui{
   width: 100%;
   display: flex;
@@ -513,6 +957,15 @@ z-index: 30;
   align-items: center;
   flex-direction: column;
 
+  .inputs-data-tecnico{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #38a80030;
+    width: 100%;
+    border-radius: 20px;
+    padding: 10px;
+  }
     .inputs-data{
       display: flex;
       justify-content: center;
@@ -522,7 +975,35 @@ z-index: 30;
       border-radius: 20px;
       padding: 10px;
 
-      .filas{
+
+      .input-manteinment{
+        display: flex;
+        flex-direction: column;
+        padding: 5px;
+        border-radius: 5px;
+        gap: 10px;
+        background: #90b8b0;
+
+        input{
+          background: #90b8b0;
+        }
+      }
+
+      select{
+        padding: 4px;
+        min-width: 210px;
+        border: none;
+        outline: none;
+      }
+      textarea{
+        width: 220px;
+        height: 170px;
+        border: none;
+        outline: none;
+        resize: none;
+      }
+    }
+    .filas{
         display: flex;
         flex-direction: column;
         gap: 10px;
@@ -543,19 +1024,6 @@ z-index: 30;
   
       }
 
-      .input-manteinment{
-        display: flex;
-        flex-direction: column;
-        padding: 5px;
-        border-radius: 5px;
-        gap: 10px;
-        background: #90b8b0;
-
-        input{
-          background: #90b8b0;
-        }
-      }
-
       input{
         padding: 5px;
         min-width: 180px;
@@ -563,20 +1031,6 @@ z-index: 30;
         outline: none;
         border-bottom: 1px solid #38a800;
       }
-      select{
-        padding: 4px;
-        min-width: 210px;
-        border: none;
-        outline: none;
-      }
-      textarea{
-        width: 220px;
-        height: 170px;
-        border: none;
-        outline: none;
-        resize: none;
-      }
-    }
 
 button{
   width: 200px;
