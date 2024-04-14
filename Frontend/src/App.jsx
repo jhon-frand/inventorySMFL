@@ -11,7 +11,7 @@ function App() {
   return (
     <>
       <BrowserRouter>
-        <Container>
+        <Container className={sideBarOpen ? "active" : ""}>
           <SideBarContainer>
             <SideBar openSide={sideBarOpen} setOpenSide={setSideBarOpen} />
           </SideBarContainer>
