@@ -10,7 +10,7 @@ function NavBar() {
   const navigate = useNavigate();
   const closeSesion = () => {
     localStorage.removeItem("token");
-    // navigate('/')
+    // navigate("/")
   }
 
   return (

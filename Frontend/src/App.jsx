@@ -34,7 +34,6 @@ function App() {
           <Login setLogin={setLogin}/>
         )
       }
-        
       </BrowserRouter>
     </>
   );

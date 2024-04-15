@@ -20,7 +20,7 @@ export const validationEquipo = () => {
         check('modelo_equipo')
         .isString().withMessage('el modelo debe ser texto')
         .notEmpty().withMessage('el modelo no puede estar vacío')
-        .isLength({min: 3}).withMessage('el modelo debe tener al menos 3 caracteres'),
+        .isLength({min: 3}).withMessage('Debe tener al menos 3 caracteres'),
 
         check('fecha_ingreso')
         .isISO8601().withMessage('la fecha debe ser en formato YYYY-MM-DD')
@@ -29,7 +29,7 @@ export const validationEquipo = () => {
         check('descripcion')
         .isString().withMessage('la decripción debe ser texto')
         .notEmpty().withMessage('la descripción no puede estar vacía')
-        .isLength({min: 20}).withMessage('la descripció debe tener al menos 20 caracteres'),
+        .isLength({min: 20}).withMessage('Debe tener al menos 20 caracteres'),
 
         check('tipo_equipo')
         .isString().withMessage('el tipo debe ser un texto')

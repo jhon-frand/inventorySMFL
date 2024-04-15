@@ -6,7 +6,7 @@ export const validationUnidad = () => {
         check('nombre_unidad')
         .notEmpty().withMessage('El nombre está vacío')
         .isString().withMessage('El nombre debe ser texto')
-        .isLength({min: 3}).withMessage('El nombre debe tener al menos tres caracteres'),
+        .isLength({min: 3}).withMessage('Debe tener al menos tres caracteres'),
 
         (req, res, next) => {
             const errors = validationResult(req);
