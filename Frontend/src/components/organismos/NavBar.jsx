@@ -3,8 +3,16 @@ import logo from "../../assets/inventoryview.png"
 import { FiSettings } from "react-icons/fi";
 import { FaUserCircle } from "react-icons/fa";
 import { FiBell } from "react-icons/fi";
+import { useNavigate } from "react-router-dom"
 
 function NavBar() {
+
+  const navigate = useNavigate();
+  const closeSesion = () => {
+    localStorage.removeItem("token");
+    // navigate('/')
+  }
+
   return (
     <Container>
         <p>Admin</p>
@@ -16,6 +24,9 @@ function NavBar() {
           <div className="notify">
           <FiBell />
           </div>
+          {/* <div>
+            <button onClick={closeSesion}>CERRAR SESIÓN</button>
+          </div> */}
         <div className="users">
         <FaUserCircle />
         <FiSettings />

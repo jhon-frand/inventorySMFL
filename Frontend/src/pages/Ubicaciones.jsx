@@ -7,7 +7,6 @@ import HeaderPageTwo from "../components/organismos/HeaderPageTwo";
 import Modal from "../components/modals/Modal";
 import ButtonEdit from "../components/organismos/ButtonEdit";
 import { BsPinMap } from "react-icons/bs";
-import Alert from "@mui/material/Alert";
 import { Contenedor } from "../components/styles/StylesPages";
 import { AlertSucces, AlertError } from "../components/alerts/Alerts";
 
@@ -27,6 +26,8 @@ function Ubicaciones() {
   const [selectId, setSelectId] = useState(null)
   const [selectIdUnit, setSelectIdUnit] = useState(null)
   const [errores, setErrores] = useState("")
+
+  const token = localStorage.getItem("token");
 
  const getUnidades = async () => {
   try {
@@ -132,7 +133,11 @@ const getDataUnit = (datos) => {
  const postUbication = async (event) => {
   event.preventDefault();
   try {
-    const respuesta = await axios.post(endpoint, valores)
+    const respuesta = await axios.post(endpoint, valores, {
+      headers: {
+        "token": token 
+      }
+    })
     if (respuesta.status === 200) {
       const msg = respuesta.data.message;
       AlertSucces(msg); 
@@ -148,7 +153,11 @@ const getDataUnit = (datos) => {
  const postUnidad = async (event) => {
   event.preventDefault();
   try {
-    const respuesta = await axios.post(endpointUnit, valoresUnit)
+    const respuesta = await axios.post(endpointUnit, valoresUnit,{
+      headers: {
+        "token": token
+      }
+    })
     if (respuesta.status === 200) {
       const msg = respuesta.data.message;
       AlertSucces(msg);
@@ -164,7 +173,11 @@ const getDataUnit = (datos) => {
  const putUbication = async (event) => {
   event.preventDefault();
   try {
-    const respuesta = await axios.put(`${endpoint}/${selectId}`, valores)
+    const respuesta = await axios.put(`${endpoint}/${selectId}`, valores, {
+      headers: {
+        "token": token 
+      }
+    })
     if (respuesta.status === 200) {
       const msg = respuesta.data.message;
       AlertSucces(msg); 
@@ -180,7 +193,11 @@ const getDataUnit = (datos) => {
  const putUnidad = async (event) => {
   event.preventDefault();
   try {
-    const respuesta = await axios.put(`${endpointUnit}/${selectIdUnit}`, valoresUnit)
+    const respuesta = await axios.put(`${endpointUnit}/${selectIdUnit}`, valoresUnit,{
+      headers: {
+        "token": token 
+      }
+    })
     if (respuesta.status === 200) {
       const msg = respuesta.data.message;
       AlertSucces(msg); 
@@ -285,25 +302,25 @@ const getDataUnit = (datos) => {
                   <div className="contents">
                     <label>Ambiente:</label>
                     <input name="ambiente" value={valores.ambiente} onChange={valorInput} type="text" placeholder="Ambiente" required />
-                  </div>
-                  {
+                    {
                   errores && errores.some(([campo]) => campo === "ambiente") && (
-                  <Alert severity="error" icon={false} >
+                  <p>
                     {errores.find(([campo]) => campo === "ambiente")[1]}
-                  </Alert>
+                  </p>
                     )
                   }
+                  </div>
                   <div className="contents">
                     <label>Sitio</label>
                     <input name="sitio" value={valores.sitio} onChange={valorInput} type="text" placeholder="Sitio" required/>
-                  </div>
-                  {
+                    {
                      errores && errores.some(([campo]) => campo === "sitio") && (
-                      <Alert severity="error" icon={false}>
+                      <p>
                           {errores.find(([campo]) => campo === "sitio")[1]}
-                      </Alert>
+                      </p>
                       )
                   }
+                  </div>
               </div>
             </div>
             <button>REGISTRAR</button>
@@ -331,25 +348,25 @@ const getDataUnit = (datos) => {
                   <div className="contents">
                     <label>Ambiente:</label>
                     <input name="ambiente" value={valores.ambiente} onChange={editValorInput} type="text" placeholder="Ambiente" />
-                  </div>
-                  {
+                    {
                   errores && errores.some(([campo]) => campo === "ambiente") && (
-                  <Alert severity="error" icon={false}>
+                  <p>
                     {errores.find(([campo]) => campo === "ambiente")[1]}
-                  </Alert>
+                  </p>
                     )
                   }
+                  </div>
                   <div className="contents">
                     <label>Sitio</label>
                     <input name="sitio" value={valores.sitio} onChange={editValorInput} type="text" placeholder="Sitio" />
-                  </div>
-                  {
+                    {
                      errores && errores.some(([campo]) => campo === "sitio") && (
-                      <Alert severity="error" icon={false}>
+                      <p>
                           {errores.find(([campo]) => campo === "sitio")[1]}
-                      </Alert>
+                      </p>
                       )
                   }
+                  </div>
               </div>
             </div>
             <button>ACTUALIZAR</button>
@@ -367,9 +384,9 @@ const getDataUnit = (datos) => {
               <input value={valoresUnit.nombre_unidad} onChange={valorInputUnit} name="nombre_unidad" type="text" placeholder="Nombre de la Unidad" required/>
               {
                   errores && errores.some(([campo]) => campo === "nombre_unidad") && (
-                  <Alert severity="error" icon={false}>
+                  <p>
                     {errores.find(([campo]) => campo === "nombre_unidad")[1]}
-                  </Alert>
+                  </p>
                     )
                   }
                </div>
@@ -389,9 +406,9 @@ const getDataUnit = (datos) => {
               <input value={valoresUnit.nombre_unidad} onChange={editValorInputUnit} name="nombre_unidad" type="text" placeholder="Nombre de la Unidad" required/>
               {
                   errores && errores.some(([campo]) => campo === "nombre_unidad") && (
-                  <Alert severity="error" icon={false}>
+                  <p>
                     {errores.find(([campo]) => campo === "nombre_unidad")[1]}
-                  </Alert>
+                  </p>
                     )
                   }
                </div>
@@ -483,7 +500,7 @@ z-index: 30;
 
       input{
         padding: 5px;
-        min-width: 200px;
+        min-width: 240px;
         border: none;
         outline: none;
         border-bottom: 1px solid #38a800;
@@ -493,6 +510,7 @@ z-index: 30;
         min-width: 210px;
         border: none;
         outline: none;
+        border-bottom: 1px solid #38a800;
       }
     }
 
@@ -517,9 +535,15 @@ button{
   display: flex;
   flex-direction: column;
   background: white;
-  padding: 5px;
+  padding: 4px;
   border-radius: 5px;
-  gap: 10px;
+  gap: 4px;
+  height: 70px;
+
+  p{
+    font-size: 12px;
+    color: red;
+  }
 
   label{
     font-size: 14px;

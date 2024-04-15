@@ -9,9 +9,8 @@ import ButtonEdit from "../components/organismos/ButtonEdit";
 import moment from "moment"
 import { CgToolbox } from "react-icons/cg";
 import MediumContainer from "../components/organismos/MediumContainer"
-import { Alert } from "@mui/material";
 import { Contenedor } from "../components/styles/StylesPages";
-import { AlertSucces, AlertError } from "../components/alerts/Alerts";
+import { AlertSucces, AlertError, AlertUser } from "../components/alerts/Alerts";
 
 function Equipos() {
 
@@ -30,6 +29,8 @@ function Equipos() {
   const [selectId, setSelectId] = useState(null)
   const [selectIdCategory, setSelectIdCategory] = useState(null)
   const [errores, setErrores] = useState("")
+
+  const token = localStorage.getItem("token");
 
   const getEquipos = async () => {
     try {
@@ -156,7 +157,11 @@ function Equipos() {
   const putEquipo = async (event) => {
     event.preventDefault();
     try {
-      const respuesta = await axios.put(`${endpointEquipo}/${selectId}`, valores)
+      const respuesta = await axios.put(`${endpointEquipo}/${selectId}`, valores, {
+        headers: {
+          "token": token
+        }
+      })
       if (respuesta.status === 200) {
         const msg = respuesta.data.message;
         AlertSucces(msg); 
@@ -172,7 +177,11 @@ function Equipos() {
   const putCategory = async (event) => {
     event.preventDefault();
     try {
-      const respuesta = await axios.put(`${endpointCategory}/${selectIdCategory}`, valoresCategory)
+      const respuesta = await axios.put(`${endpointCategory}/${selectIdCategory}`, valoresCategory, {
+        headers: {
+          "token": token
+        }
+      })
       if (respuesta.status === 200) {
         const msg = respuesta.data.message;
         AlertSucces(msg); 
@@ -201,7 +210,11 @@ function Equipos() {
   const postEquipo = async (event) => {
     event.preventDefault();
   try {
-    const respuesta = await axios.post(endpointEquipo, valores)
+    const respuesta = await axios.post(endpointEquipo, valores, {
+      headers: {
+        "token": token
+      }
+    })
     if (respuesta.status === 200) {
       const msg = respuesta.data.message;
       AlertSucces(msg); 
@@ -217,11 +230,15 @@ function Equipos() {
   const postCategory = async (event) => {
     event.preventDefault();
   try {
-    const respuesta = await axios.post(endpointCategory, valoresCategory)
+    const respuesta = await axios.post(endpointCategory, valoresCategory, {
+      headers: {
+        "token": token
+      }
+    })
     if (respuesta.status === 200) {
       const msg = respuesta.data.message;
       AlertSucces(msg); 
-    }
+    } 
     clearFormCategory();
     getCategorias();
   } catch (error) {
@@ -363,9 +380,9 @@ function Equipos() {
               <input name="serial" onChange={valorInput} value={valores.serial} type="text" placeholder="Serial" required/>
               {
                 errores && errores.some(([campo]) => campo === "serial") && (
-                  <Alert severity="error" icon={false}>
+                  <p>
                     {errores.find(([campo]) => campo === "serial")[1]}
-                  </Alert>
+                  </p>
                 )
               }
               </div>
@@ -374,9 +391,9 @@ function Equipos() {
               <input name="nombre_equipo" onChange={valorInput} value={valores.nombre_equipo} type="text" placeholder="Nombre equipo" required/>
               {
                 errores && errores.some(([campo]) => campo === "nombre_equipo") && (
-                  <Alert severity="error" icon={false}>
+                  <p>
                     {errores.find(([campo]) => campo === "nombre_equipo")[1]}
-                  </Alert>
+                  </p>
                 )
               }
               </div>
@@ -385,9 +402,9 @@ function Equipos() {
               <input name="marca_equipo" onChange={valorInput} value={valores.marca_equipo} type="text" placeholder="Marca del equipo" required/>
               {
                 errores && errores.some(([campo]) => campo === "marca_equipo") && (
-                  <Alert severity="error" icon={false}>
+                  <p>
                     {errores.find(([campo]) => campo === "marca_equipo")[1]}
-                  </Alert>
+                  </p>
                 )
               }
               </div>
@@ -396,9 +413,9 @@ function Equipos() {
               <input name="modelo_equipo" onChange={valorInput} value={valores.modelo_equipo} type="text" placeholder="Modelo del equipo" required/>
               {
                 errores && errores.some(([campo]) => campo === "modelo_equipo") && (
-                  <Alert severity="error" icon={false}>
+                  <p>
                     {errores.find(([campo]) => campo === "modelo_equipo")[1]}
-                  </Alert>
+                  </p>
                 )
               }
               </div>
@@ -409,9 +426,9 @@ function Equipos() {
               <input name="fecha_ingreso" onChange={valorInput} value={valores.fecha_ingreso} type="date" required/>
               {
                 errores && errores.some(([campo]) => campo === "fecha_ingreso") && (
-                  <Alert severity="error" icon={false}>
+                  <p>
                     {errores.find(([campo]) => campo === "fecha_ingreso")[1]}
-                  </Alert>
+                  </p>
                 )
               }
               </div>
@@ -420,9 +437,9 @@ function Equipos() {
             <input name="tipo_equipo" onChange={valorInput} value={valores.tipo_equipo} type="text" placeholder="tipo de equipo" required/>
             {
                 errores && errores.some(([campo]) => campo === "tipo_equipo") && (
-                  <Alert severity="error" icon={false}>
+                  <p>
                     {errores.find(([campo]) => campo === "tipo_equipo")[1]}
-                  </Alert>
+                  </p>
                 )
               }
               </div>
@@ -460,14 +477,14 @@ function Equipos() {
                 }
               </select>
                 </div>
-              <div className="contents">
+              <div className="description">
               <label>Descripción: </label>
               <textarea name="descripcion" maxLength={250} onChange={valorInput} value={valores.descripcion} type="text" placeholder="Agregue una descripción" required/>
               {
                 errores && errores.some(([campo]) => campo === "descripcion") && (
-                  <Alert severity="error" icon={false}>
+                  <p>
                     {errores.find(([campo]) => campo === "descripcion")[1]}
-                  </Alert>
+                  </p>
                 )
               }
               </div>
@@ -489,9 +506,9 @@ function Equipos() {
               <input name="serial" onChange={editValorInput} value={valores.serial} type="text" placeholder="Serial" required/>
               {
                 errores && errores.some(([campo]) => campo === "serial") && (
-                  <Alert severity="error" icon={false}>
+                  <p>
                     {errores.find(([campo]) => campo === "serial")[1]}
-                  </Alert>
+                  </p>
                 )
               }
               </div>
@@ -500,9 +517,9 @@ function Equipos() {
               <input name="nombre_equipo" onChange={editValorInput} value={valores.nombre_equipo} type="text" placeholder="Nombre equipo" required/>
               {
                 errores && errores.some(([campo]) => campo === "nombre_equipo") && (
-                  <Alert severity="error" icon={false}>
+                  <p>
                     {errores.find(([campo]) => campo === "nombre_equipo")[1]}
-                  </Alert>
+                  </p>
                 )
               }
               </div>
@@ -511,9 +528,9 @@ function Equipos() {
               <input name="marca_equipo" onChange={editValorInput} value={valores.marca_equipo} type="text" placeholder="Marca del equipo" required/>
               {
                 errores && errores.some(([campo]) => campo === "marca_equipo") && (
-                  <Alert severity="error" icon={false}>
+                  <p>
                     {errores.find(([campo]) => campo === "marca_equipo")[1]}
-                  </Alert>
+                  </p>
                 )
               }
               </div>
@@ -522,9 +539,9 @@ function Equipos() {
               <input name="modelo_equipo" onChange={editValorInput} value={valores.modelo_equipo} type="text" placeholder="Modelo del equipo" required/>
                {
                 errores && errores.some(([campo]) => campo === "modelo_equipo") && (
-                  <Alert severity="error" icon={false}>
+                  <p>
                     {errores.find(([campo]) => campo === "modelo_equipo")[1]}
-                  </Alert>
+                  </p>
                 )
               }
               </div>
@@ -535,9 +552,9 @@ function Equipos() {
               <input name="fecha_ingreso" onChange={editValorInput} value={valores.fecha_ingreso} type="date" required/>
               {
                 errores && errores.some(([campo]) => campo === "fecha_ingreso") && (
-                  <Alert severity="error" icon={false}>
+                  <p>
                     {errores.find(([campo]) => campo === "fecha_ingreso")[1]}
-                  </Alert>
+                  </p>
                 )
               }
               </div>
@@ -546,9 +563,9 @@ function Equipos() {
             <input name="tipo_equipo" onChange={editValorInput} value={valores.tipo_equipo} type="text" placeholder="tipo de equipo" required/>
             {
                 errores && errores.some(([campo]) => campo === "tipo_equipo") && (
-                  <Alert severity="error" icon={false}>
+                  <p>
                     {errores.find(([campo]) => campo === "tipo_equipo")[1]}
-                  </Alert>
+                  </p>
                 )
               }
               </div>
@@ -586,14 +603,14 @@ function Equipos() {
                 }
               </select>
                 </div>
-              <div className="contents">
+              <div className="description">
               <label>Descripción: </label>
               <textarea name="descripcion" maxLength={250} onChange={editValorInput} value={valores.descripcion} type="text" placeholder="Agregue una descripción" required/>
               {
                 errores && errores.some(([campo]) => campo === "descripcion") && (
-                  <Alert severity="error" icon={false}>
+                  <p>
                     {errores.find(([campo]) => campo === "descripcion")[1]}
-                  </Alert>
+                  </p>
                 )
               }
               </div>
@@ -611,13 +628,13 @@ function Equipos() {
             <div className="inputs-data-category">
               <div className="filas">
               <div className="contents">
-                <label>NOMBRE: </label>
-              <input name="nombre_categoria" onChange={valorInputCategory} value={valoresCategory.nombre_categoria} type="text" placeholder="Nombre de Catgeoría" required/>
+                <label>Nombre: </label>
+              <input name="nombre_categoria" onChange={valorInputCategory} value={valoresCategory.nombre_categoria} type="text" placeholder="Nombre de Categoría" required/>
               {
                 errores && errores.some(([campo]) => campo === "nombre_categoria") && (
-                  <Alert severity="error" icon={false} >
+                  <p>
                     {errores.find(([campo]) => campo === "nombre_categoria")[1]}
-                  </Alert>
+                  </p>
                 )
               }
               </div>
@@ -635,13 +652,13 @@ function Equipos() {
             <div className="inputs-data-category">
               <div className="filas">
               <div className="contents">
-                <label>NOMBRE: </label>
-              <input name="nombre_categoria" onChange={editValorInputCategory} value={valoresCategory.nombre_categoria} type="text" placeholder="Nombre de Catgeoría" required/>
+                <label>Nombre: </label>
+              <input name="nombre_categoria" onChange={editValorInputCategory} value={valoresCategory.nombre_categoria} type="text" placeholder="Nombre de Categoría" required/>
               {
                 errores && errores.some(([campo]) => campo === "nombre_categoria") && (
-                  <Alert severity="error" icon={false}>
+                  <p>
                     {errores.find(([campo]) => campo === "nombre_categoria")[1]}
-                  </Alert>
+                  </p>
                 )
 
               }
@@ -720,7 +737,7 @@ z-index: 30;
       align-items: center;
       background: #38a80030;
       width: 100%;
-      border-radius: 20px;
+      border-radius: 10px;
       padding: 10px;
     }
     .inputs-data{
@@ -769,14 +786,20 @@ button{
   flex-direction: column;
   gap: 10px;
 
-  .contents{
+  .description{
     display: flex;
     flex-direction: column;
     background: white;
+    width: 300px;
+    height: 230px;
     padding: 5px;
     border-radius: 5px;
-    gap: 10px;
-    min-width: 200px;
+    gap: 5px;
+    
+    p{
+      color: red;
+      font-size: 12px;
+    }
 
     label{
       font-size: 14px;
@@ -786,9 +809,29 @@ button{
 
 }
 
+  .contents{
+    display: flex;
+    flex-direction: column;
+    background: white;
+    width: 300px;
+    height: 70px;
+    padding: 5px;
+    border-radius: 5px;
+    gap: 5px;
+    
+    p{
+      color: red;
+      font-size: 12px;
+    }
+
+    label{
+      font-size: 14px;
+      font-weight: 600;
+    }
+  }
+
 input{
-  padding: 5px;
-  min-width: 180px;
+  padding: 4px;
   border: none;
   outline: none;
   border-bottom: 1px solid #38a800;

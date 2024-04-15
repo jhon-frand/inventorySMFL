@@ -4,24 +4,37 @@ import MyRoutes from "./routers/routes";
 import SideBar from "./components/organismos/SideBar";
 import { useState } from "react";
 import NavBar from "./components/organismos/NavBar";
+import Login from "./pages/Login";
 
 function App() {
-  const [sideBarOpen, setSideBarOpen] = useState(true);
 
+  const [sideBarOpen, setSideBarOpen] = useState(true);
+  const [login, setLogin] = useState(false)
+ 
   return (
     <>
       <BrowserRouter>
-        <Container>
-          <SideBarContainer>
-            <SideBar openSide={sideBarOpen} setOpenSide={setSideBarOpen} />
-          </SideBarContainer>
-          <Content $sideBarOpen={sideBarOpen}>
-          <NavBarContainer $sideBarOpen={sideBarOpen}>
-           <NavBar/>
-        </NavBarContainer>
-            <MyRoutes />
-          </Content>
+      {
+        login && (
+          <Container>
+              <SideBarContainer>
+                <SideBar openSide={sideBarOpen} setOpenSide={setSideBarOpen} />
+              </SideBarContainer>
+              <Content $sideBarOpen={sideBarOpen}>
+                <NavBarContainer $sideBarOpen={sideBarOpen}>
+                  <NavBar/>
+                </NavBarContainer>
+                <MyRoutes />
+              </Content>
         </Container>
+        )
+      }
+      {
+        login === false && (
+          <Login setLogin={setLogin}/>
+        )
+      }
+        
       </BrowserRouter>
     </>
   );

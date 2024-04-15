@@ -19,4 +19,13 @@ export const AlertError = () => {
         timer: 1500
       })
     };
+export const AlertUser = () => { 
+      Swal.fire({
+        position: "center",
+        icon: "error",
+        title: "Usuario no autorizado",
+        showConfirmButton: false,
+        timer: 1500
+      })
+    };
 

@@ -2,7 +2,7 @@ import styled from "styled-components"
 import logo from "../../assets/sena.png"
 import { AiOutlineLeft, AiOutlineHome } from "react-icons/ai"
 import { GoTools} from "react-icons/go";
-import { BsPinMap, BsListOl } from "react-icons/bs";
+import { BsPinMap } from "react-icons/bs";
 import { FiUsers } from "react-icons/fi";
 import { PiBoundingBox } from "react-icons/pi";
 import { CgToolbox } from "react-icons/cg";
@@ -49,7 +49,7 @@ const linksArray = [
     {
         label: "Dashboard",
         icon: <AiOutlineHome/>,
-        to: "/"
+        to: "/dashboard"
     },
     {
         label: "Unidades",

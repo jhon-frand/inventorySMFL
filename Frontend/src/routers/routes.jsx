@@ -9,7 +9,7 @@ import Unidades from "../pages/Unidades"
 function MyRoutes() {
   return (
     <Routes>
-        <Route path="/" element={<Dashboard/>} />
+        <Route path="/dashboard" element={<Dashboard/>} />
         <Route path="/equipos" element={<Equipos/>} />
         <Route path="/mantenimientos" element={<Mantenimientos/>} />
         <Route path="/ubicaciones" element={<Ubicaciones/>} />

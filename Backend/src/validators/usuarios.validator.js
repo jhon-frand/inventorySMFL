@@ -11,27 +11,27 @@ export const validationUsuario = () => {
         check('nombres')
         .isString().withMessage('los nombres deben ser texto')
         .notEmpty().withMessage('los nombres no pueden estar vacíos')
-        .isLength({min: 3}).withMessage('los nombres deben tener al menos tres caracteres'),
+        .isLength({min: 3}).withMessage('Deben tener al menos tres caracteres'),
 
         check('apellidos')
         .isString().withMessage('los apellidos deben ser texto')
         .notEmpty().withMessage('los apellidos no pueden estar vacíos')
-        .isLength({min: 3}).withMessage('los apellidos deben tener al menos tres caracteres'),
+        .isLength({min: 3}).withMessage('Deben tener al menos tres caracteres'),
 
         check('email')
-        .isEmail().withMessage('el correo no es válido')
-        .notEmpty().withMessage('el correo no puede estar vacío'),
+        .isEmail().withMessage('El correo no es válido')
+        .notEmpty().withMessage('El correo no puede estar vacío'),
 
         check('telefono')
-        .isString().withMessage('el teléfono debe ser un string')
-        .notEmpty().withMessage('el teléfono no puede estar vacío')
+        .isString().withMessage('El teléfono debe ser un string')
+        .notEmpty().withMessage('El teléfono no puede estar vacío')
         .isLength({min: 10}).withMessage('Debe tener al menos 10 números'),
 
 
         check('estado')
-        .isString().withMessage('el estado debe ser texto')
-        .notEmpty().withMessage('el estado no puede estar vacíos')
-        .isLength({min: 6}).withMessage('el estado debe tener al menos seis caracteres'),
+        .isString().withMessage('El estado debe ser texto')
+        .notEmpty().withMessage('El estado no puede estar vacíos')
+        .isLength({min: 6}).withMessage('El estado debe tener al menos seis caracteres'),
 
         check('fk_tipo_usuario')
         .isNumeric().withMessage('la fk_tipo_usuario debe ser numérica')
@@ -44,7 +44,7 @@ export const validationUsuario = () => {
         check('password')
         .isString().withMessage('la contraseña debe ser texto')
         .notEmpty().withMessage('la contraseña no puede estar vacíos')
-        .isLength({min: 6}).withMessage('la contraseña debe tener al menos seis caracteres'),
+        .isLength({min: 6}).withMessage('Debe tener al menos seis caracteres'),
 
         (peticion, respuesta, next) => {
             const errores = validationResult(peticion);
@@ -82,8 +82,8 @@ export const validationPutUsuario = () => {
         .isLength({min: 3}).withMessage('Deben tener al menos tres caracteres'),
 
         check('email')
-        .isEmail().withMessage('el correo no es válido')
-        .notEmpty().withMessage('el correo no puede estar vacío'),
+        .isEmail().withMessage('El correo no es válido')
+        .notEmpty().withMessage('El correo no puede estar vacío'),
 
         check('telefono')
         .isString().withMessage('el teléfono debe ser un string')
