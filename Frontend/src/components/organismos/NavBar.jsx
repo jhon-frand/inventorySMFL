@@ -3,8 +3,19 @@ import logo from "../../assets/inventoryview.png"
 import { FiSettings } from "react-icons/fi";
 import { FaUserCircle } from "react-icons/fa";
 import { FiBell } from "react-icons/fi";
+import { useNavigate } from "react-router-dom"
+import { LuLogOut } from "react-icons/lu";
 
 function NavBar() {
+
+  const navigate = useNavigate();
+  const closeSesion = () => {
+    alert("¿Quieres cerrar sesión?");
+    localStorage.removeItem("token");
+    navigate('/')
+    window.location.reload()
+  }
+
   return (
     <Container>
         <p>Admin</p>
@@ -16,10 +27,13 @@ function NavBar() {
           <div className="notify">
           <FiBell />
           </div>
-        <div className="users">
+          <div className="users">
         <FaUserCircle />
         <FiSettings />
         </div>
+          <div className="closed-btn">
+            <button onClick={closeSesion}><LuLogOut /></button>
+          </div>
         </div>
     </Container>
   )
@@ -60,8 +74,8 @@ p{
 .menu-user{
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  width: 150px;
+  justify-content: space-around;
+  width: 200px;
   border-radius: 10px;
 
   .users{
@@ -93,6 +107,20 @@ p{
     svg{
       font-size: 20px;
       color: white;
+    }
+  }
+
+  .closed-btn{
+    button{
+      padding: 5px;
+      border-radius: 10px;
+      border: none;
+      background: #00324d;
+      color: white;
+
+      svg{
+        font-size: 25px;
+      }
     }
   }
 }

@@ -9,12 +9,12 @@ export const validationUbicacion = () => {
         check('ambiente')
         .isString().withMessage('el ambiente debe ser un texto')
         .notEmpty().withMessage('el ambiente no puede estar vacío')
-        .isLength({min: 2}).withMessage('el ambiente debe tener al menos dos caracteres'),   
+        .isLength({min: 2}).withMessage('Debe tener al menos dos caracteres'),   
 
         check('sitio')
         .isString().withMessage('el sitio debe ser un string')
         .notEmpty().withMessage('el sitio no puede estar vacío')
-        .isLength({min: 3}).withMessage('el sitio debe tener al menos tres caracteres'),
+        .isLength({min: 3}).withMessage('Debe tener al menos tres caracteres'),
 
         (req, res, next) => {
             const errors = validationResult(req);

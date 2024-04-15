@@ -1,43 +1,56 @@
-import { connection } from '../database/database.js';
-import jswt from 'jsonwebtoken';
+import { connection } from "../database/database.js";
+import jwt from "jsonwebtoken";
 
-
-export const ValidarUsuario = async (req, res) => {
+export const validationUser = async (peticion, respuesta) => {
     try {
-        let { email, password } = req.body;
-        let sql = `select id_usuario, nombres from usuarios where email = '${email}' and password = '${password}'`;
-        let [rows] = await connection.query(sql);
+        const {email, password} = peticion.body;
+        const sql = `
+                    SELECT*, t.rol FROM usuarios JOIN tipo_usuario t ON fk_tipo_usuario = t.id_tipo_usuario 
+                    WHERE email = '${email}' and password = '${password}'
+        `;
+        const [resultado] = await connection.query(sql);
+        if (resultado.length > 0) 
 
-        console.log([rows])
-
-        if (rows.length > 0) {
-            let token = jswt.sign({ user: rows[0] }, process.env.SECRET, { expiresIn: process.env.TIME });
-            return res.status(200).json({ "message": "Usuario autorizado", "token": token });
+       
+        {
+            console.log(resultado[0].rol)
+            const token = jwt.sign({user: resultado}, process.env.SECRET, {expiresIn: process.env.TIME});
+            return respuesta.status(200).json({
+                "message": "Usuario autorizado",
+                "token": token,
+                "user":resultado[0].rol 
+            })
         } else {
-            return res.status(404).json({ "message": "Usuario no autorizadooo" });
+            return respuesta.status(400).json({
+                "message": "Usuario no autorizado"
+            })
         }
-    } catch (e) {
-        return res.status(500).json({ "message": e.message });
+    } catch (error) {
+        respuesta.status(500);
+        respuesta.send(error.message);
     }
 };
 
-
-export const validarToken = async(req, res, next) => {
+export const validationToken = async (peticion, respuesta, next) => {
     try {
-        let token_cliente = req.headers['token'];
-        if (!token_cliente) {
-            return res.status(402).json({"message": "el token es requerido"});
+        const token_user = peticion.headers["token"];
+        if (!token_user) {
+            return respuesta.status(402).json({
+                "message": "Token requerido"
+            })
         } else {
-            let decode = jswt.verify(token_cliente, process.env.SECRET, (error, decoded) => {
+            jwt.verify(token_user, process.env.SECRET, (error, decoded) => {
                 if (error) {
-                    return res.status(402).json({"message": "el token invalido"});
+                    return respuesta.status(402).json({
+                        "message": "Token no valido"
+                    })
                 } else {
-                    req.user = decoded.user;
                     next();
                 }
-            });
+            })
         }
     } catch (error) {
-        return res.status(500).json({"message": error.message});
+        respuesta.status(500);
+        respuesta.send(error.message);
     }
-}
+};

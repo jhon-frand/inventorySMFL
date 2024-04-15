@@ -5,7 +5,7 @@ export const validationCategory = () => {
         check('nombre_categoria')
         .isString().withMessage('la categoría debe ser un texto')
         .notEmpty().withMessage('la categoría no puede estar vacía')
-        .isLength({min: 5}).withMessage('la categoría debe tener al menos cinco caracteres'),
+        .isLength({min: 5}).withMessage('Debe tener al menos cinco caracteres'),
 
         (req, res, next) => {
             const errors = validationResult(req);

@@ -8,7 +8,6 @@ import { options } from "../components/styles/Table";
 import ButtonEdit from "../components/organismos/ButtonEdit";
 import { FiUsers } from "react-icons/fi";
 import { Contenedor } from "../components/styles/StylesPages"
-import Alert from "@mui/material/Alert"
 import { AlertSucces, AlertError } from "../components/alerts/Alerts";
 
 function Usuarios() {
@@ -17,6 +16,8 @@ function Usuarios() {
   const [modalUpdate, setModalUpdate] = useState(false)
   const [selectId, setSelectId] = useState(null)
   const [errores, setErrores] = useState("")
+
+  const token= localStorage.getItem("token");
 
   const endpointTipo = "http://localhost:3000/tipousuario"
   const [tipousuario, setTipousuario] = useState([])
@@ -113,7 +114,11 @@ const editValorInput = (event) => {
 const postUser = async (event) => {
   event.preventDefault();
   try {
-    const respuesta = await axios.post(endpointUser, valores)
+    const respuesta = await axios.post(endpointUser, valores, {
+      headers: {
+        "token": token
+      }
+    })
     if (respuesta.status === 200) {
       const msg = respuesta.data.message;
       AlertSucces(msg);
@@ -130,7 +135,11 @@ const postUser = async (event) => {
 const putUsuario = async (event) => {
   event.preventDefault();
   try {
-    const respuesta = await axios.put(`${endpointUser}/${selectId}`, valores)
+    const respuesta = await axios.put(`${endpointUser}/${selectId}`, valores, {
+      headers: {
+        "token": token
+      }
+    })
     if (respuesta.status === 200) {
       const msg = respuesta.data.message;
       AlertSucces(msg);
@@ -238,9 +247,9 @@ const putUsuario = async (event) => {
               <input name="identificacion" onChange={valorInput} value={valores.identificacion} type="number" placeholder="Identificación" required/>
               {
                 errores && errores.some(([campo]) => campo === "identificacion") && (
-                  <Alert severity="error" icon={false} >
+                  <p>
                     {errores.find(([campo]) => campo === "identificacion")[1]}
-                  </Alert>
+                  </p>
                 )
               }
               </div>
@@ -249,9 +258,9 @@ const putUsuario = async (event) => {
               <input name="nombres" onChange={valorInput} value={valores.nombres} type="text" placeholder="Nombres" required/>
               {
                 errores && errores.some(([campo]) => campo === "nombres") && (
-                  <Alert severity="error" icon={false}>
+                  <p>
                     {errores.find(([campo]) => campo === "nombres")[1]}
-                  </Alert>
+                  </p>
                 )
               }
               </div>
@@ -260,9 +269,9 @@ const putUsuario = async (event) => {
               <input name="apellidos" onChange={valorInput} value={valores.apellidos} type="text" placeholder="Apellidos" required/>
               {
                 errores && errores.some(([campo]) => campo === "apellidos") && (
-                  <Alert severity="error" icon={false}>
+                  <p>
                     {errores.find(([campo]) => campo === "apellidos")[1]}
-                  </Alert>
+                  </p>
                 )
               }
               </div>
@@ -271,9 +280,9 @@ const putUsuario = async (event) => {
               <input name="email" onChange={valorInput} value={valores.email} type="email" placeholder="Email" required/>
               {
                 errores && errores.some(([campo]) => campo === "email") && (
-                  <Alert severity="error" icon={false}>
+                  <p>
                     {errores.find(([campo]) => campo === "email")[1]}
-                  </Alert>
+                  </p>
                 )
               }
               </div>
@@ -282,9 +291,9 @@ const putUsuario = async (event) => {
               <input name="telefono" onChange={valorInput} value={valores.telefono} type="number" placeholder="Teléfono" required/>
               {
                 errores && errores.some(([campo]) => campo === "telefono") && (
-                  <Alert severity="error" icon={false}>
+                  <p>
                     {errores.find(([campo]) => campo === "telefono")[1]}
-                  </Alert>
+                  </p>
                 )
               }
               </div>
@@ -325,9 +334,9 @@ const putUsuario = async (event) => {
             <input name="password" onChange={valorInput} value={valores.password} type="password" placeholder="Contraseña" required/>
             {
                 errores && errores.some(([campo]) => campo === "password") && (
-                  <Alert severity="error" icon={false}>
+                  <p>
                     {errores.find(([campo]) => campo === "password")[1]}
-                  </Alert>
+                  </p>
                 )
               }
               </div>
@@ -352,9 +361,9 @@ const putUsuario = async (event) => {
               <input name="identificacion" onChange={editValorInput} value={valores.identificacion} type="number" placeholder="Identificación" required/>
               {
                 errores && errores.some(([campo]) => campo === "identificacion") && (
-                  <Alert severity="error" icon={false} >
+                 <p>
                     {errores.find(([campo]) => campo === "identificacion")[1]}
-                  </Alert>
+                  </p>
                 )
               }
               </div>
@@ -363,9 +372,9 @@ const putUsuario = async (event) => {
               <input name="nombres" onChange={editValorInput} value={valores.nombres} type="text" placeholder="Nombres" required/>
               {
                 errores && errores.some(([campo]) => campo === "nombres") && (
-                  <Alert severity="error" icon={false}>
+                  <p>
                     {errores.find(([campo]) => campo === "nombres")[1]}
-                  </Alert>
+                  </p>
                 )
               }
               </div>
@@ -374,9 +383,9 @@ const putUsuario = async (event) => {
               <input name="apellidos" onChange={editValorInput} value={valores.apellidos} type="text" placeholder="Apellidos" required/>
               {
                 errores && errores.some(([campo]) => campo === "apellidos") && (
-                  <Alert severity="error" icon={false}>
+                  <p>
                     {errores.find(([campo]) => campo === "apellidos")[1]}
-                  </Alert>
+                  </p>
                 )
               }
               </div>
@@ -385,9 +394,9 @@ const putUsuario = async (event) => {
               <input name="email" onChange={editValorInput} value={valores.email} type="email" placeholder="Email" required/>
               {
                 errores && errores.some(([campo]) => campo === "email") && (
-                  <Alert severity="error" icon={false}>
+                  <p>
                     {errores.find(([campo]) => campo === "email")[1]}
-                  </Alert>
+                  </p>
                 )
               }
               </div>
@@ -398,9 +407,9 @@ const putUsuario = async (event) => {
               <input name="telefono" onChange={editValorInput} value={valores.telefono} type="number" placeholder="Teléfono" required/>
               {
                 errores && errores.some(([campo]) => campo === "telefono") && (
-                  <Alert severity="error" icon={false}>
+                  <p>
                     {errores.find(([campo]) => campo === "telefono")[1]}
-                  </Alert>
+                  </p>
                 )
               }
               </div>
@@ -492,7 +501,7 @@ z-index: 30;
 
     .inputs-data{
       display: grid;
-      grid-template-columns: 200px 230px;
+      grid-template-columns: 260px 260px;
       justify-content: center;
       align-items: center;
       gap: 10px;
@@ -509,9 +518,16 @@ z-index: 30;
           display: flex;
           flex-direction: column;
           background: white;
+          height: 70px;
           padding: 5px;
           border-radius: 5px;
-          gap: 10px;
+          gap: 3px;
+          
+
+          p{
+            font-size: 12px;
+            color: red;
+          }
 
           label{
             font-size: 14px;
@@ -523,16 +539,15 @@ z-index: 30;
 
       input{
         padding: 5px;
-        width: 180px;
         border: none;
         outline: none;
         border-bottom: 1px solid #38a800;
       }
       select{
         padding: 4px;
-        width: 210px;
         border: none;
         outline: none;
+        border-bottom: 1px solid #38a800;
       }
     }
 

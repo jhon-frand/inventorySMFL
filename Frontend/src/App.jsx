@@ -4,25 +4,37 @@ import MyRoutes from "./routers/routes";
 import SideBar from "./components/organismos/SideBar";
 import { useState } from "react";
 import NavBar from "./components/organismos/NavBar";
+import Login from "./pages/Login";
 
 function App() {
+
   const [sideBarOpen, setSideBarOpen] = useState(true);
 
+  let token = localStorage.getItem('token')
+
+
+  const login = token !== null;
+ 
   return (
     <>
-      <BrowserRouter>
-        <Container className={sideBarOpen ? "active" : ""}>
-          <SideBarContainer>
-            <SideBar openSide={sideBarOpen} setOpenSide={setSideBarOpen} />
-          </SideBarContainer>
-          <Content $sideBarOpen={sideBarOpen}>
-          <NavBarContainer $sideBarOpen={sideBarOpen}>
-           <NavBar/>
+     <BrowserRouter>
+  {login ? (
+    <Container>
+      <SideBarContainer>
+        <SideBar openSide={sideBarOpen} setOpenSide={setSideBarOpen} />
+      </SideBarContainer>
+      <Content $sideBarOpen={sideBarOpen}>
+        <NavBarContainer $sideBarOpen={sideBarOpen}>
+          <NavBar />
         </NavBarContainer>
-            <MyRoutes />
-          </Content>
-        </Container>
-      </BrowserRouter>
+        <MyRoutes />
+      </Content>
+    </Container>
+  ) : (
+    <Login />
+  )}
+</BrowserRouter>
+
     </>
   );
 }

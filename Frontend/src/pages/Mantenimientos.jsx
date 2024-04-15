@@ -39,6 +39,8 @@ function Mantenimientos() {
   const [selectIdTecnico, setSelectIdTecnico] = useState(null)
   const [errores, setErrores] = useState("")
 
+  const token = localStorage.getItem("token");
+
   const getActividades = async () => {
     try {
       await axios.get(endpointActividad).then((response) => {
@@ -196,8 +198,6 @@ function Mantenimientos() {
 
     const tecnicoActividad = tecnicos.find(tenic => tenic.nombres === datos[4]);
     const tecnicoActividadId = tecnicoActividad ? tecnicoActividad.id_tecnico: "";
-    // const manteinmentActividad = mantenimientos.find(manteni => manteni.fk_mantenimiento === datos[3]);
-    // const manteinmentActividadId = manteinmentActividad ? manteinmentActividad.id_mantenimiento: "";
 
     const fecha = moment(datos[1]).format('YYYY-MM-DD')
 
@@ -249,7 +249,11 @@ function Mantenimientos() {
    const postMantenimiento = async (event) => {
     event.preventDefault();
     try {
-      const respuesta = await axios.post(endpointMantenimiento, valores)
+      const respuesta = await axios.post(endpointMantenimiento, valores, {
+        headers: {
+          "token": token
+        }
+      })
       if (respuesta.status === 200) {
         const msg = respuesta.data.message;
         AlertSucces(msg);
@@ -265,7 +269,11 @@ function Mantenimientos() {
    const putMantenimiento = async (event) => {
     event.preventDefault();
     try {
-      const respuesta = await axios.put(`${endpointMantenimiento}/${selectId}`, valores)
+      const respuesta = await axios.put(`${endpointMantenimiento}/${selectId}`, valores, {
+        headers: {
+          "token": token
+        }
+      })
       if (respuesta.status === 200) {
         const msg = respuesta.data.message;
          AlertSucces(msg);
@@ -281,7 +289,11 @@ function Mantenimientos() {
    const postActivity = async (event) => {
     event.preventDefault();
     try {
-      const respuesta = await axios.post(endpointActividad, valoresActividad)
+      const respuesta = await axios.post(endpointActividad, valoresActividad, {
+        headers: {
+          "token": token
+        }
+      })
       if (respuesta.status === 200) {
         const msg = respuesta.data.message;
          AlertSucces(msg);
@@ -297,7 +309,11 @@ function Mantenimientos() {
    const putActivity = async (event) => {
     event.preventDefault();
     try {
-      const respuesta = await axios.put(`${endpointActividad}/${selectIdActividad}`, valoresActividad)
+      const respuesta = await axios.put(`${endpointActividad}/${selectIdActividad}`, valoresActividad, {
+        headers: {
+          "token": token
+        }
+      })
       if (respuesta.status === 200) {
         const msg = respuesta.data.message;
         AlertSucces(msg);
@@ -313,7 +329,11 @@ function Mantenimientos() {
    const postTecnico = async (event) => {
     event.preventDefault();
     try {
-      const respuesta = await axios.post(endpointTecnico, valoresTecnico)
+      const respuesta = await axios.post(endpointTecnico, valoresTecnico, {
+        headers: {
+          "token": token
+        }
+      })
       if (respuesta.status === 200) {
         const msg = respuesta.data.message;
         AlertSucces(msg);
@@ -329,7 +349,11 @@ function Mantenimientos() {
   const putTecnico = async (event) => {
     event.preventDefault();
     try {
-      const respuesta = await axios.put(`${endpointTecnico}/${selectIdTecnico}`, valoresTecnico)
+      const respuesta = await axios.put(`${endpointTecnico}/${selectIdTecnico}`, valoresTecnico, {
+        headers: {
+          "token": token
+        }
+      })
       if (respuesta.status === 200) {
         const msg = respuesta.data.message;
         AlertSucces(msg);
@@ -558,14 +582,14 @@ function Mantenimientos() {
                 </div>
               </div>
               <div className="filas">
-              <div className="contents">
+              <div className="description">
                 <label>Descripción:</label>
                 <textarea name="descripcion" value={valores.descripcion} onChange={valorInput} maxLength={250} placeholder="Ingresa una descripción" required/>
                 {
                   errores && errores.some(([campo]) => campo === "descripcion") && (
-                    <Alert severity="error" icon={false}>
+                    <p>
                       {errores.find(([campo]) => campo === "descripcion")[1]}
-                    </Alert>
+                    </p>
                   )
                 }
               </div>
@@ -574,9 +598,9 @@ function Mantenimientos() {
                 <input name="resultado" type="text" value={valores.resultado} onChange={valorInput} placeholder="Resultado" required/>
                 {
                   errores && errores.some(([campo]) => campo === "resultado") && (
-                    <Alert severity="error" icon={false}>
+                    <p>
                       {errores.find(([campo]) => campo === "resultado")[1]}
-                    </Alert>
+                    </p>
                   )
                 }
               </div>
@@ -629,14 +653,14 @@ function Mantenimientos() {
                 </div>
               </div>
               <div className="filas">
-              <div className="contents">
+              <div className="description">
                 <label>Descripción:</label>
                 <textarea name="descripcion" value={valores.descripcion} onChange={editValorInput} maxLength={250} placeholder="Ingresa una descripción" required/>
                 {
                   errores && errores.some(([campo]) => campo === "descripcion") && (
-                    <Alert severity="error" icon={false}>
+                    <p>
                       {errores.find(([campo]) => campo === "descripcion")[1]}
-                    </Alert>
+                    </p>
                   )
                 }
               </div>
@@ -645,9 +669,9 @@ function Mantenimientos() {
                 <input name="resultado" type="text" value={valores.resultado} onChange={editValorInput} placeholder="Resultado" required/>
                 {
                   errores && errores.some(([campo]) => campo === "resultado") && (
-                    <Alert severity="error" icon={false}>
+                    <p>
                       {errores.find(([campo]) => campo === "resultado")[1]}
-                    </Alert>
+                    </p>
                   )
                 }
               </div>
@@ -685,17 +709,17 @@ function Mantenimientos() {
                 </div>
               </div>
               <div className="filas">
-              <div className="contents">
+              <div className="description">
                   <label>Descripción</label>
                   <textarea name="descripcion" value={valoresActividad.descripcion} onChange={valorInputActividad} maxLength={250} placeholder="Ingresa una descripción" required></textarea>
-                </div>
-                {
+                  {
                   errores && errores.some(([campo]) => campo === "descripcion") && (
-                    <Alert severity="error" icon={false}>
+                    <p>
                       {errores.find(([campo]) => campo === "descripcion")[1]}
-                    </Alert>
+                    </p>
                   )
                 }
+                </div>
               </div>
             </div>
             <button>REGISTRAR</button>
@@ -730,14 +754,14 @@ function Mantenimientos() {
                 </div>
               </div>
               <div className="filas">
-              <div className="contents">
+              <div className="description">
                   <label>Descripción</label>
                   <textarea name="descripcion" value={valoresActividad.descripcion} onChange={editValorInputActividad} maxLength={250} placeholder="Ingresa una descripción" required></textarea>
                 {
                   errores && errores.some(([campo]) => campo === "descripcion") && (
-                    <Alert severity="error" icon={false}>
+                    <p>
                       {errores.find(([campo]) => campo === "descripcion")[1]}
-                    </Alert>
+                    </p>
                   )
                 }
                 </div>
@@ -759,9 +783,9 @@ function Mantenimientos() {
                   <input name="identificacion" value={valoresTecnico.identificacion} onChange={valorInputTecnico} type="number" placeholder="Identificación" required />
                   {
                   errores && errores.some(([campo]) => campo === "identificacion") && (
-                    <Alert severity="error" icon={false}>
+                    <p>
                       {errores.find(([campo]) => campo === "identificacion")[1]}
-                    </Alert>
+                    </p>
                   )
                 }
                 </div>
@@ -770,9 +794,9 @@ function Mantenimientos() {
                   <input name="nombres" value={valoresTecnico.nombres} onChange={valorInputTecnico} type="text" placeholder="Ingrese Nombres" required/>
                   {
                   errores && errores.some(([campo]) => campo === "nombres") && (
-                    <Alert severity="error" icon={false}>
+                    <p>
                       {errores.find(([campo]) => campo === "nombres")[1]}
-                    </Alert>
+                    </p>
                   )
                 }
                 </div>
@@ -781,9 +805,9 @@ function Mantenimientos() {
                   <input name="apellidos" value={valoresTecnico.apellidos} onChange={valorInputTecnico} type="text" placeholder="Ingrese Apellidos" required/>
                   {
                   errores && errores.some(([campo]) => campo === "apellidos") && (
-                    <Alert severity="error" icon={false}>
+                    <p>
                       {errores.find(([campo]) => campo === "apellidos")[1]}
-                    </Alert>
+                    </p>
                   )
                 }
                 </div>
@@ -792,9 +816,9 @@ function Mantenimientos() {
                   <input name="correo" value={valoresTecnico.correo} onChange={valorInputTecnico} type="email" placeholder="Ingrese un Correo" required/>
                   {
                   errores && errores.some(([campo]) => campo === "correo") && (
-                    <Alert severity="error" icon={false}>
+                    <p>
                       {errores.find(([campo]) => campo === "correo")[1]}
-                    </Alert>
+                    </p>
                   )
                 }
                 </div>
@@ -803,9 +827,9 @@ function Mantenimientos() {
                   <input name="telefono" value={valoresTecnico.telefono} onChange={valorInputTecnico} type="number" placeholder="Teléfono" required/>
                   {
                   errores && errores.some(([campo]) => campo === "telefono") && (
-                    <Alert severity="error" icon={false}>
+                    <p>
                       {errores.find(([campo]) => campo === "telefono")[1]}
-                    </Alert>
+                    </p>
                   )
                 }
                 </div>
@@ -827,9 +851,9 @@ function Mantenimientos() {
                   <input name="identificacion" value={valoresTecnico.identificacion} onChange={editValorInputTecnico} type="number" placeholder="Identificación" required />
                 {
                   errores && errores.some(([campo]) => campo === "identificacion") && (
-                    <Alert severity="error" icon={false}>
+                    <p>
                       {errores.find(([campo]) => campo === "identificacion")[1]}
-                    </Alert>
+                    </p>
                   )
                 }
                 </div>
@@ -838,9 +862,9 @@ function Mantenimientos() {
                   <input name="nombres" value={valoresTecnico.nombres} onChange={editValorInputTecnico} type="text" placeholder="Ingrese Nombres" required/>
                   {
                   errores && errores.some(([campo]) => campo === "nombres") && (
-                    <Alert severity="error" icon={false}>
+                    <p>
                       {errores.find(([campo]) => campo === "nombres")[1]}
-                    </Alert>
+                    </p>
                   )
                 }
                 </div>
@@ -849,9 +873,9 @@ function Mantenimientos() {
                   <input name="apellidos" value={valoresTecnico.apellidos} onChange={editValorInputTecnico} type="text" placeholder="Ingrese Apellidos" required/>
                   {
                   errores && errores.some(([campo]) => campo === "apellidos") && (
-                    <Alert severity="error" icon={false}>
+                    <p>
                       {errores.find(([campo]) => campo === "apellidos")[1]}
-                    </Alert>
+                    </p>
                   )
                 }
                 </div>
@@ -860,9 +884,9 @@ function Mantenimientos() {
                   <input name="correo" value={valoresTecnico.correo} onChange={editValorInputTecnico} type="email" placeholder="Ingrese un Correo" required/>
                   {
                   errores && errores.some(([campo]) => campo === "correo") && (
-                    <Alert severity="error" icon={false}>
+                    <p>
                       {errores.find(([campo]) => campo === "correo")[1]}
-                    </Alert>
+                    </p>
                   )
                 }
                 </div>
@@ -871,9 +895,9 @@ function Mantenimientos() {
                   <input name="telefono" value={valoresTecnico.telefono} onChange={editValorInputTecnico} type="number" placeholder="Teléfono" required/>
                   {
                   errores && errores.some(([campo]) => campo === "telefono") && (
-                    <Alert severity="error" icon={false}>
+                    <p>
                       {errores.find(([campo]) => campo === "telefono")[1]}
-                    </Alert>
+                    </p>
                   )
                 }
                 </div>
@@ -985,13 +1009,15 @@ z-index: 30;
         min-width: 210px;
         border: none;
         outline: none;
+        border-bottom: 1px solid #38a800;
       }
       textarea{
-        width: 220px;
+        width: 270px;
         height: 170px;
         border: none;
         outline: none;
         resize: none;
+        border-bottom: 1px solid #38a800;
       }
     }
     .filas{
@@ -999,13 +1025,40 @@ z-index: 30;
         flex-direction: column;
         gap: 10px;
 
-        .contents{
+        .description{
           display: flex;
           flex-direction: column;
           background: white;
           padding: 5px;
+          height: 230px;
           border-radius: 5px;
           gap: 10px;
+
+          p{
+            font-size: 12px;
+            color: red;
+          }
+
+          label{
+            font-size: 14px;
+            font-weight: 600;
+          }
+        }
+        
+        .contents{
+          display: flex;
+          flex-direction: column;
+          background: white;
+          padding: 4px;
+          width: 280px;
+          height: 70px;
+          border-radius: 5px;
+          gap: 4px;
+
+          p{
+            font-size: 12px;
+            color: red;
+          }
 
           label{
             font-size: 14px;
