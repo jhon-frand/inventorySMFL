@@ -45,6 +45,7 @@ function Mantenimientos() {
   const user = localStorage.getItem("user");
   const nombresUser = localStorage.getItem("nombres")
   const unidadUser = localStorage.getItem("unidad");
+  const idUser = localStorage.getItem("usuario");
   
 
   const getActividades = async () => {
@@ -209,7 +210,6 @@ function Mantenimientos() {
     const userResponsableId = userResponsable ? userResponsable.id_usuario : "";
     
     const fecha = moment(datos[2]).format('YYYY-MM-DD');
-    console.log(datos);
     setValores({
     tipo_mantenimiento: datos[1],
     fecha_mantenimiento: fecha,
@@ -232,7 +232,17 @@ function Mantenimientos() {
       console.log(error);
     }
   }
-
+  const getIdUser = () => {
+    try {
+      setValores(prevState => ({
+        ...prevState,
+        fk_user_responsable: idUser
+      }))
+      setModal(true)
+    } catch (error) {
+      console.log(error);
+    }
+  }
   const getDataActividad = (datos) => {
 
     const tecnicoActividad = tecnicos.find(tenic => tenic.nombres === datos[4]);
@@ -299,6 +309,7 @@ function Mantenimientos() {
       }
       clearForm();
       getMantenimientos();
+      getMantenimientosUnidad();
     } catch (error) {
       AlertError();
       setErrores(error.response.data.msg)
@@ -319,6 +330,7 @@ function Mantenimientos() {
       }
       clearForm();
       getMantenimientos();
+      getMantenimientosUnidad();
     } catch (error) {
       AlertError();
       setErrores(error.response.data.msg)
@@ -567,7 +579,7 @@ function Mantenimientos() {
       textButton1="REGISTRAR MANTENIMIENTO" 
       textButton2="REGISTRAR TÉCNICO" 
       textButton3="VER ACTIVIDADES" 
-      funcion1={() => setModal(true)}
+      funcion1={() => getIdUser()}
       funcion2={() => setModalTecnico(true)}
       identificador="#actividades"
       />
@@ -628,7 +640,10 @@ function Mantenimientos() {
                   <label>Responsable:</label>
                   {
                     user && user === "2" ? (
+                    <div>
                       <input name="fk_user_responsable" type="number" value={valores.fk_user_responsable} onChange={valorInput} readOnly />
+                      <input type="text" value={nombresUser}  readOnly/>
+                    </div>
                     ) : (
                       <select name="fk_user_responsable" value={valores.fk_user_responsable} onChange={valorInput} required>
                       <option value="">Selecciona una opción</option>
@@ -695,7 +710,7 @@ function Mantenimientos() {
                   <label>Equipo:</label>
                   {
                   user && user === "1" ? (
-                    <select name="fk_equipo" value={valores.fk_equipo} onChange={valorInput} required>
+                    <select name="fk_equipo" value={valores.fk_equipo} onChange={editValorInput} required>
                     <option value="">Selecciona una opción</option>
                     {
                       equipos.map((equipos) => (
@@ -704,7 +719,7 @@ function Mantenimientos() {
                     }
                   </select>
                   ):( 
-                  <select name="fk_equipo" value={valores.fk_equipo} onChange={valorInput} required>
+                  <select name="fk_equipo" value={valores.fk_equipo} onChange={editValorInput} required>
                   <option value="">Selecciona una opción</option>
                   {
                     equiposUnidad.map((equipos) => (
@@ -719,9 +734,12 @@ function Mantenimientos() {
                   <label>Responsable:</label>
                   {
                     user && user === "2" ? (
-                      <input type="text" value={nombresUser} readOnly />
+                      <div>
+                      <input name="fk_user_responsable" type="number" value={valores.fk_user_responsable} onChange={editValorInput} readOnly />
+                      <input type="text" value={nombresUser}  readOnly/>
+                    </div>
                     ) : (
-                      <select name="fk_user_responsable" value={valores.fk_user_responsable} onChange={valorInput} required>
+                      <select name="fk_user_responsable" value={valores.fk_user_responsable} onChange={editValorInput} required>
                       <option value="">Selecciona una opción</option>
                       {
                         usuarios.map((usuarios) => (

@@ -8,8 +8,8 @@ const rutas = Router();
 rutas.post("/", validationMantenimiento(), validationToken, mantenimientos.postMantenimiento);
 rutas.put("/:id", validationMantenimiento(), validationToken, mantenimientos.putMantenimiento);
 rutas.get("/", mantenimientos.getMantenimientos);
-rutas.get("/:unidad", mantenimientos.getMantenimientoUnidad);
 rutas.get("/total", mantenimientos.getTotal);
+rutas.get("/:unidad", mantenimientos.getMantenimientoUnidad);
 rutas.get("/:id", mantenimientos.getMantenimiento);
 
 export default rutas;

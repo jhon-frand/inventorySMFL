@@ -107,7 +107,7 @@ const putEstado = async (peticion, respuesta) => {
         if (updateState.affectedRows > 0) {
             return respuesta.status(200).json({
                 "status": 200,
-                "message": "Estado de Usuario actualizado correctamente"
+                "message": "Estado de Usuario actualizado"
             })
         } else {
             return respuesta.status(404).json({

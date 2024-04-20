@@ -1,59 +1,83 @@
 import styled from "styled-components"
 import logo from "../../assets/sena.png"
 import { AiOutlineLeft, AiOutlineHome } from "react-icons/ai"
-import { GoTools} from "react-icons/go";
+import { GoTools } from "react-icons/go";
 import { BsPinMap } from "react-icons/bs";
 import { FiUsers } from "react-icons/fi";
 import { PiBoundingBox } from "react-icons/pi";
 import { CgToolbox } from "react-icons/cg";
-import { NavLink } from "react-router-dom"
+import { NavLink, useNavigate } from "react-router-dom"
+import { LuLogOut } from "react-icons/lu";
 
-function SideBar({openSide, setOpenSide}) {
+function SideBar({ openSide, setOpenSide }) {
 
     const user = localStorage.getItem("user");
 
-    const filteredLinksArray = user === "2" 
-    ? linksArray.filter(link => link.label !== "Usuarios" && link.label !== "Unidades")
-    : linksArray;
+    const navigate = useNavigate();
+    const closeSesion = () => {
+      alert('quieres cerrar sesión?')
+      localStorage.removeItem("token");
+      navigate("/")
+      window.location.reload()
+    }
+
+    const filteredLinksArray = user === "2"
+        ? linksArray.filter(link => link.label !== "Usuarios" && link.label !== "Unidades")
+        : linksArray;
     const modificarSideBar = () => {
         setOpenSide(!openSide);
     }
-  return (
-    <Container $isOpen={openSide}>
-        <button className="sideBarButton"
-            onClick={modificarSideBar}>
-            <AiOutlineLeft className="cerrarSideBar"/>
-        </button>
-        <div className="logoContent">
-            <div className="imgContent">
-                <img src={logo} alt="Logo Inventory" />
+    return (
+        <Container $isOpen={openSide}>
+            <button className="sideBarButton"
+                onClick={modificarSideBar}>
+                <AiOutlineLeft className="cerrarSideBar" />
+            </button>
+            <div className="logoContent">
+                <div className="imgContent">
+                    <img src={logo} alt="Logo Inventory" />
+                </div>
+                <h2>SENA - YAMBORÓ</h2>
             </div>
-            <h2>SENA - YAMBORÓ</h2>
-        </div>
-    {
-        filteredLinksArray.map(({icon, label, to}) => (
-            <div className="linkContainer" key={label}>
-                <NavLink to={to} className={({isActive}) => `links ${isActive ? `active` : ``}`}>
-                    <div className="linkIcon">
-                        {icon}
+            {
+                filteredLinksArray.map(({ icon, label, to }) => (
+                    <div className="linkContainer" key={label}>
+                        <NavLink to={to} className={({ isActive }) => `links ${isActive ? `active` : ``}`}>
+                            <div className="linkIcon">
+                                {icon}
+                            </div>
+                            {
+                                openSide && (
+                                    <span>{label}</span>
+                                )
+                            }
+                        </NavLink>
                     </div>
-                    {
-                        openSide && (
-                            <span>{label}</span>
-                        )
-                    }
-                </NavLink>
-            </div>
-        ))
-    }
-    </Container>
-  )
+                ))
+            }
+            <footer>
+             <div className="content-footer">
+             {
+                    user && user === "1" && (
+                        <p>Administrador</p>
+                    )
+                }
+                {
+                    user && user === "2" && (
+                        <p>Encargado</p>
+                    )
+                }
+                <button onClick={closeSesion}><LuLogOut /><p>Cerrar Sesión</p></button>
+             </div>
+            </footer>
+        </Container>
+    )
 }
 //#region links
 const linksArray = [
     {
         label: "Dashboard",
-        icon: <AiOutlineHome/>,
+        icon: <AiOutlineHome />,
         to: "/dashboard"
     },
     {
@@ -63,7 +87,7 @@ const linksArray = [
     },
     {
         label: "Usuarios",
-        icon: <FiUsers/>,
+        icon: <FiUsers />,
         to: "/usuarios"
     },
     {
@@ -73,7 +97,7 @@ const linksArray = [
     },
     {
         label: "Mantenimientos",
-        icon: <GoTools/>,
+        icon: <GoTools />,
         to: "/mantenimientos"
     },
     {
@@ -91,6 +115,50 @@ transition: width 0.3s;
 height: 100vh;
 background: white;
 
+.content-footer{
+    padding: 5px;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    button{
+      padding: 10px;
+      border-radius: 10px;
+      border: none;
+      color: #23500d;
+      background: #beccca87;
+      font-weight: bold;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      font-size: 15px;
+      cursor: pointer;
+
+      p{
+        color: #23500d;
+      }
+
+      &:hover{
+        background: #38A80050;
+      }
+
+      svg{
+        font-size: 25px;
+      }
+    }
+
+    p{
+    display: ${({$isOpen}) => ($isOpen ? "block" : "none")};
+    font-weight: bold;
+    text-align: center;
+    color: #23500d;
+}
+}
+
 .sideBarButton{
     position: absolute;
     top: 80px;
@@ -102,7 +170,7 @@ background: white;
     background: #38A800;
     box-shadow: 0 0 5px #38A800;
     transition: all 0.5s;
-    transform: ${({$isOpen}) => ($isOpen ? ``:`rotate(180deg)`)};
+    transform: ${({ $isOpen }) => ($isOpen ? `` : `rotate(180deg)`)};
     display: flex;
     justify-content: center;
     align-items: center;
@@ -123,7 +191,7 @@ background: white;
 
     h2{
         font-size: 18px;
-        display: ${({$isOpen}) => ($isOpen ? `block` : `none`)};
+        display: ${({ $isOpen }) => ($isOpen ? `block` : `none`)};
     }
 }
 
@@ -134,7 +202,7 @@ background: white;
     }
     cursor: pointer;
     transition: all 0.3s ease-in-out;
-    transform: ${({$isOpen}) => ($isOpen ? `scale(0.9)`:`scale(1.1)`)};
+    transform: ${({ $isOpen }) => ($isOpen ? `scale(0.9)` : `scale(1.1)`)};
 }
 
 .linkContainer{

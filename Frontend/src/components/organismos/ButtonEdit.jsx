@@ -2,7 +2,7 @@ import styled from "styled-components"
 
 function ButtonEdit({funcion1, titulo}) {
   return (
-    <Styledbutton className="button-edit" onClick={() => funcion1()} >{titulo}</Styledbutton>
+    <Styledbutton  onClick={() => funcion1()} >{titulo}</Styledbutton>
   )
 }
 

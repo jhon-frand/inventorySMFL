@@ -8,7 +8,8 @@ import { options } from "../components/styles/Table";
 import ButtonEdit from "../components/organismos/ButtonEdit";
 import { FiUsers } from "react-icons/fi";
 import { Contenedor } from "../components/styles/StylesPages"
-import { AlertSucces, AlertError } from "../components/alerts/Alerts";
+import { AlertSucces, AlertError, AlertConfirmation } from "../components/alerts/Alerts";
+import ButtonStatus from "../components/organismos/ButtonStatus";
 
 function Usuarios() {
 
@@ -153,6 +154,37 @@ const putUsuario = async (event) => {
   }
 }
 
+const changeStatus = async (datos) => {
+  try {
+    const id_usuario = datos[0];
+    const estadoUser = datos[8];
+    // Determinar el nuevo estado
+    const nuevoEstado = estadoUser === "activo" ? "inactivo" : "activo";
+    
+    const respuesta = await axios.put(`${endpointUser}/estado/${id_usuario}`, {
+      estado: nuevoEstado
+    });
+    
+    if (respuesta.status === 200) {
+      // Busca el usuario por ID en la lista de usuarios y actualiza su estado
+      const updatedUsers = usuarios.map((usuario) => {
+        if (usuario.id_usuario === id_usuario) {
+          return {
+            ...usuario,
+            estado: nuevoEstado
+          };
+        }
+        return usuario; // Retorna el usuario sin cambios si no es el usuario con el id al que queremos cambiar el estado
+      });
+  
+      setUsuarios(updatedUsers);
+      AlertSucces(respuesta.data.message)
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 
 
 //#endregion registro
@@ -193,10 +225,6 @@ const putUsuario = async (event) => {
      label: "EMAIL"
    },
    {
-     name: "estado",
-     label: "ESTADO"
-   },
-   {
      name: "rol",
      label: "ROL"
    },
@@ -208,6 +236,18 @@ const putUsuario = async (event) => {
     name: "telefono",
     label: "TELEFONO"
    },
+   {
+    name: "estado",
+    label: "ESTADO",
+    options: {
+      customBodyRender: (value, tableMeta, updateValue) => {
+        return (
+          // <ButtonStatus text={tableMeta.rowData[8]} funcion={() => changeStatus(tableMeta.rowData)}/>
+          <ButtonStatus text={tableMeta.rowData[8]} funcion={() => AlertConfirmation(() => changeStatus(tableMeta.rowData))}/>
+        )
+      }
+    }
+  },
    {
     name: "editar",
     label: "ACTIONS",
