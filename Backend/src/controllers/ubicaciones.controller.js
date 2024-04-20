@@ -92,10 +92,34 @@ const getUbicaciones = async (peticion, respuesta) => {
         respuesta.send(error.message);
     }
 };
+const getUbicacionesUnidad = async (peticion, respuesta) => {
+    try {
+        const {unidad} = peticion.params;
+        const sql = `SELECT ubicaciones.*, 
+                    unidades_productivas.nombre_unidad
+                    FROM ubicaciones
+                    JOIN unidades_productivas ON unidades_productivas.id_unidad = ubicaciones.fk_unidad_productiva 
+                    WHERE nombre_unidad = ?
+                    ORDER BY ubicaciones.id_ubicacion DESC`
+        const [ubicaciones] = await connection.query(sql, unidad);
+        if (ubicaciones.length > 0) {
+            return respuesta.status(200).json(ubicaciones)
+        } else {
+            return respuesta.status(404).json({
+                "status": 404,
+                "message": "No se encontraron la ubicaciones"
+            })
+        } 
+    } catch (error) {
+        respuesta.status(500);
+        respuesta.send(error.message);
+    }
+};
 
 export const ubicaciones = {
     postUbicacion,
     putUbicacion,
     getUbicacion,
-    getUbicaciones
+    getUbicaciones,
+    getUbicacionesUnidad
 }

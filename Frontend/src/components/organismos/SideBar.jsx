@@ -10,6 +10,11 @@ import { NavLink } from "react-router-dom"
 
 function SideBar({openSide, setOpenSide}) {
 
+    const user = localStorage.getItem("user");
+
+    const filteredLinksArray = user === "2" 
+    ? linksArray.filter(link => link.label !== "Usuarios" && link.label !== "Unidades")
+    : linksArray;
     const modificarSideBar = () => {
         setOpenSide(!openSide);
     }
@@ -26,7 +31,7 @@ function SideBar({openSide, setOpenSide}) {
             <h2>SENA - YAMBORÓ</h2>
         </div>
     {
-        linksArray.map(({icon, label, to}) => (
+        filteredLinksArray.map(({icon, label, to}) => (
             <div className="linkContainer" key={label}>
                 <NavLink to={to} className={({isActive}) => `links ${isActive ? `active` : ``}`}>
                     <div className="linkIcon">

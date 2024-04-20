@@ -4,18 +4,33 @@ import { FiSettings } from "react-icons/fi";
 import { FaUserCircle } from "react-icons/fa";
 import { FiBell } from "react-icons/fi";
 import { useNavigate } from "react-router-dom"
+import { LuLogOut } from "react-icons/lu";
 
 function NavBar() {
 
+    const user = localStorage.getItem("user")
+
   const navigate = useNavigate();
   const closeSesion = () => {
+    alert('quieres cerrar sesión?')
     localStorage.removeItem("token");
-    // navigate("/")
+    navigate("/")
+    window.location.reload()
   }
 
   return (
     <Container>
-        <p>Admin</p>
+          {
+             user && user === "1" &&(
+              <p>Administrador</p>
+             )
+          }
+          {
+          user && user === "2" && (
+          <p>Encargado</p>
+          )
+          }
+
         <div className="logo">
           <img src={logo} alt="logo sena" />
           <h1>INVENTORY</h1>
@@ -24,13 +39,13 @@ function NavBar() {
           <div className="notify">
           <FiBell />
           </div>
-          {/* <div>
-            <button onClick={closeSesion}>CERRAR SESIÓN</button>
-          </div> */}
         <div className="users">
         <FaUserCircle />
         <FiSettings />
         </div>
+        <div className="closed-btn">
+            <button onClick={closeSesion}><LuLogOut /></button>
+          </div>
         </div>
     </Container>
   )
@@ -71,8 +86,8 @@ p{
 .menu-user{
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  width: 150px;
+  justify-content: space-around;
+  width: 200px;
   border-radius: 10px;
 
   .users{
@@ -104,6 +119,19 @@ p{
     svg{
       font-size: 20px;
       color: white;
+    }
+  }
+  .closed-btn{
+    button{
+      padding: 5px;
+      border-radius: 10px;
+      border: none;
+      background: #00324d;
+      color: white;
+
+      svg{
+        font-size: 25px;
+      }
     }
   }
 }

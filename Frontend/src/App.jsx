@@ -9,13 +9,16 @@ import Login from "./pages/Login";
 function App() {
 
   const [sideBarOpen, setSideBarOpen] = useState(true);
-  const [login, setLogin] = useState(false)
+
+  const token = localStorage.getItem('token')
+
+  const login = token !== null;
  
   return (
     <>
       <BrowserRouter>
       {
-        login && (
+        login ? (
           <Container>
               <SideBarContainer>
                 <SideBar openSide={sideBarOpen} setOpenSide={setSideBarOpen} />
@@ -27,11 +30,8 @@ function App() {
                 <MyRoutes />
               </Content>
         </Container>
-        )
-      }
-      {
-        login === false && (
-          <Login setLogin={setLogin}/>
+        ) : (
+          <Login />
         )
       }
       </BrowserRouter>

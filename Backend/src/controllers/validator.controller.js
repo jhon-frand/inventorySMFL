@@ -5,15 +5,32 @@ export const validationUser = async (peticion, respuesta) => {
     try {
         const {email, password} = peticion.body;
         const sql = `
-                    SELECT * FROM usuarios
+                    SELECT *,
+                    fk_tipo_usuario as rol,
+                    nombres,
+                    unidades_productivas.nombre_unidad as unidad,
+                    unidades_productivas.id_unidad
+                    FROM usuarios
+                    JOIN unidades_productivas ON unidades_productivas.id_unidad = usuarios.fk_unidad_productiva
                     WHERE email = '${email}' and password = '${password}'
         `;
         const [resultado] = await connection.query(sql);
+        
         if (resultado.length > 0) {
+            const user = resultado[0].rol
+            const unidad = resultado[0].unidad
+            const nombres = resultado[0].nombres
+            const idUnidad = resultado[0].id_unidad
+            const idUser = resultado[0].id_usuario
             const token = jwt.sign({user: resultado}, process.env.SECRET, {expiresIn: process.env.TIME});
             return respuesta.status(200).json({
                 "message": "Usuario autorizado",
-                "token": token
+                "token": token,
+                "usuario": idUser,
+                "user": user,
+                "unidad": unidad,
+                "nombres": nombres,
+                "id_unidad": idUnidad
             })
         } else {
             return respuesta.status(400).json({

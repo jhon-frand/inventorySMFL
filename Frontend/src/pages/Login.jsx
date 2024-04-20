@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { AiOutlineMail, AiOutlineLock } from "react-icons/ai";
 import { AlertSucces, AlertUser } from '../components/alerts/Alerts';
 
-function Login({ setLogin }) {
+function Login() {
 
   const navigate = useNavigate();
 
@@ -33,10 +33,14 @@ function Login({ setLogin }) {
       if (login.status === 200) {
         console.log(login.data)
         localStorage.setItem("token", login.data.token)
-        setLogin(true);
+        localStorage.setItem("user", login.data.user)
+        localStorage.setItem("unidad", login.data.unidad)
+        localStorage.setItem("nombres", login.data.nombres)
+        localStorage.setItem("idunidad", login.data.id_unidad)
+        localStorage.setItem("usuario", login.data.usuario)
         AlertSucces("Bienvenido a Inventory")
-        // Redirigir al usuario al dashboard
         navigate('/dashboard');
+        window.location.reload()
 
       }
     } catch (error) {

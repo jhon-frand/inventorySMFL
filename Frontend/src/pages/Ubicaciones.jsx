@@ -4,6 +4,7 @@ import axios from "axios";
 import MUIDatatable from "mui-datatables"
 import { options } from "../components/styles/Table";
 import HeaderPageTwo from "../components/organismos/HeaderPageTwo";
+import HeaderPage from "../components/organismos/HeaderPage";
 import Modal from "../components/modals/Modal";
 import ButtonEdit from "../components/organismos/ButtonEdit";
 import { BsPinMap } from "react-icons/bs";
@@ -16,9 +17,10 @@ function Ubicaciones() {
   //#region funciones
   const endpoint = "http://localhost:3000/ubicaciones"
   const endpointUnit = "http://localhost:3000/unidades"
-  
+
   const [unidades, setUnidades] = useState([])
   const [ubicaciones, setUbicaciones] = useState([])
+  const [ubicacionesUnidad, setUbicacionesUnidad] = useState([])
   const [modal, setModal] = useState(false)
   const [modalUpdate, setModalUpdate] = useState(false)
   const [modalUnit, setModalUnit] = useState(false)
@@ -28,411 +30,505 @@ function Ubicaciones() {
   const [errores, setErrores] = useState("")
 
   const token = localStorage.getItem("token");
+  const unidad = localStorage.getItem("unidad")
+  const user = localStorage.getItem("user")
+  const idunidad = localStorage.getItem("idunidad")
 
- const getUnidades = async () => {
-  try {
-    await axios.get(endpointUnit).then((response) => {
-      const units = response.data;
-      setUnidades(units);
-    })
-  } catch (error) {
-    console.log(error);
+  const getUnidades = async () => {
+    try {
+      await axios.get(endpointUnit).then((response) => {
+        const units = response.data;
+        setUnidades(units);
+      })
+    } catch (error) {
+      console.log(error);
+    }
   }
-}
- const getUbicaciones = async () => {
-     try {
-         await axios.get(endpoint).then((response) => {
-             const ubications = response.data;
-             setUbicaciones(ubications);
-         })
-     } catch (error) {
-         console.log(error);
-     }
- }
-
- const [valores, setValores] = useState({
-  fk_unidad_productiva: "",
-  ambiente: "",
-  sitio: ""
- })
- const clearFormUbi = () => {
-  setValores({
+  const getUbicaciones = async () => {
+    try {
+      await axios.get(endpoint).then((response) => {
+        const ubications = response.data;
+        setUbicaciones(ubications);
+      })
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  const getUbicacionesUnidad = async () => {
+    try {
+      await axios.get(`${endpoint}/${unidad}`).then((response) => {
+        const ubications = response.data;
+        setUbicacionesUnidad(ubications);
+      })
+    } catch (error) {
+      console.log(error);
+    }
+  }
+ const getIdUnidad = () => {
+    try {
+      setValores(prevState => ({
+        ...prevState,
+        fk_unidad_productiva: idunidad
+      }));
+      setModal(true);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  const [valores, setValores] = useState({
     fk_unidad_productiva: "",
     ambiente: "",
     sitio: ""
   })
-  setErrores("")
-  setSelectId(null)
-  setModalUpdate(false)
-  setModal(false)
- }
- const [valoresUnit, setValoresUnit] = useState({
-  nombre_unidad: ""
-})
-const clearFormUnit = () => {
-  setValoresUnit({
+  const clearFormUbi = () => {
+    setValores({
+      fk_unidad_productiva: "",
+      ambiente: "",
+      sitio: ""
+    })
+    setErrores("")
+    setSelectId(null)
+    setModalUpdate(false)
+    setModal(false)
+  }
+  const [valoresUnit, setValoresUnit] = useState({
     nombre_unidad: ""
   })
-  setErrores("")
-  setSelectIdUnit(null)
-  setModalUpdateUnit(false)
-  setModalUnit(false)
-}
- const getData = (datos) => {
+  const clearFormUnit = () => {
+    setValoresUnit({
+      nombre_unidad: ""
+    })
+    setErrores("")
+    setSelectIdUnit(null)
+    setModalUpdateUnit(false)
+    setModalUnit(false)
+  }
+  const getData = (datos) => {
 
-  const unidadProductiva = unidades.find(unit => unit.nombre_unidad === datos[1]);
-  const unidadProductivaId = unidadProductiva ? unidadProductiva.id_unidad: "";
-  setValores({
-    fk_unidad_productiva: unidadProductivaId,
-    ambiente: datos[2],
-    sitio: datos[3]
-  })
-  setSelectId(datos[0])
-  setModalUpdate(true)
-}
-const getDataUnit = (datos) => {
-  setValoresUnit({
-    nombre_unidad: datos[1]
-  })
-  setSelectIdUnit(datos[0]);
-  setModalUpdateUnit(true);
-}
- const valorInput = (event) => {
-  setValores({
-    ...valores,
-    [event.target.name] : event.target.value
-  })
- }
- const valorInputUnit = (event) => {
-  const { name, value } = event.target;
+    const unidadProductiva = unidades.find(unit => unit.nombre_unidad === datos[1]);
+    const unidadProductivaId = unidadProductiva ? unidadProductiva.id_unidad : "";
+    setValores({
+      fk_unidad_productiva: unidadProductivaId,
+      ambiente: datos[2],
+      sitio: datos[3]
+    })
+    setSelectId(datos[0])
+    setModalUpdate(true)
+  }
+  const getDataUnit = (datos) => {
+    setValoresUnit({
+      nombre_unidad: datos[1]
+    })
+    setSelectIdUnit(datos[0]);
+    setModalUpdateUnit(true);
+  }
+  const valorInput = (event) => {
+    setValores({
+      ...valores,
+      [event.target.name]: event.target.value
+    })
+  }
+  const valorInputUnit = (event) => {
+    const { name, value } = event.target;
 
     setValoresUnit({
       ...valoresUnit,
       [name]: value
     });
 
-};
- const editValorInput = (event) => {
-  setValores(prevState => ({
-    ...prevState,
-    [event.target.name] : event.target.value
-  }))
- }
- const editValorInputUnit = (event) => {
-  const {name, value} = event.target;
-
-   // Validar que solo se ingresen letras y espacios
-   if (/^[a-zA-Z\s]+$/.test(value) || value === '') {
-  setValoresUnit(prevState => ({
-    ...prevState,
-    [name]: value
-   }))
-}
-}
-
- const postUbication = async (event) => {
-  event.preventDefault();
-  try {
-    const respuesta = await axios.post(endpoint, valores, {
-      headers: {
-        "token": token 
-      }
-    })
-    if (respuesta.status === 200) {
-      const msg = respuesta.data.message;
-      AlertSucces(msg); 
-    }
-    clearFormUbi();
-    getUbicaciones();
-  } catch (error) {
-    AlertError();
-    setErrores(error.response.data.msg)
-    console.log(error.response.data.msg);
+  };
+  const editValorInput = (event) => {
+    setValores(prevState => ({
+      ...prevState,
+      [event.target.name]: event.target.value
+    }))
   }
- }
- const postUnidad = async (event) => {
-  event.preventDefault();
-  try {
-    const respuesta = await axios.post(endpointUnit, valoresUnit,{
-      headers: {
-        "token": token
-      }
-    })
-    if (respuesta.status === 200) {
-      const msg = respuesta.data.message;
-      AlertSucces(msg);
-    }
-    clearFormUnit();
-    getUnidades();
-  } catch (error) {
-    AlertError();
-    setErrores(error.response.data.msg)
-    console.log(error);
-  }
-}
- const putUbication = async (event) => {
-  event.preventDefault();
-  try {
-    const respuesta = await axios.put(`${endpoint}/${selectId}`, valores, {
-      headers: {
-        "token": token 
-      }
-    })
-    if (respuesta.status === 200) {
-      const msg = respuesta.data.message;
-      AlertSucces(msg); 
-    }
-    clearFormUbi();
-    getUbicaciones();
-  } catch (error) {
-    AlertError();
-    setErrores(error.response.data.msg)
-    console.log(error);
-  }
- }
- const putUnidad = async (event) => {
-  event.preventDefault();
-  try {
-    const respuesta = await axios.put(`${endpointUnit}/${selectIdUnit}`, valoresUnit,{
-      headers: {
-        "token": token 
-      }
-    })
-    if (respuesta.status === 200) {
-      const msg = respuesta.data.message;
-      AlertSucces(msg); 
-    }
-    clearFormUnit();
-    getUnidades();
-  } catch (error) {
-    AlertError();
-    setErrores(error.response.data.msg)
-    console.log(error);
-  }
-}
+  const editValorInputUnit = (event) => {
+    const { name, value } = event.target;
 
-   useEffect(() => {
-        getUbicaciones();
-        getUnidades();
-    }, [])
+    // Validar que solo se ingresen letras y espacios
+    if (/^[a-zA-Z\s]+$/.test(value) || value === '') {
+      setValoresUnit(prevState => ({
+        ...prevState,
+        [name]: value
+      }))
+    }
+  }
 
-    const columnas = [
-      {
-          name: "id_ubicacion",
-          label: "ID"
-      },
-      {
-          name: "nombre_unidad",
-          label: "UNIDAD"
-      },
-      {
-          name: "ambiente",
-          label: "AMBIENTE"
-      },
-      {
-          name: "sitio",
-          label: "SITIO"
-      },
-      {
-        name: "editar",
-        label: "ACTIONS",
-        options: {
-          customBodyRender: (value, tableMeta, updateValue) => {
-            return (
-                <ButtonEdit titulo="EDIT" funcion1={() => getData(tableMeta.rowData)}/>
-            );
+  const postUbication = async (event) => {
+    event.preventDefault();
+    try {
+      const respuesta = await axios.post(endpoint, valores, {
+        headers: {
+          "token": token
         }
-        }
+      })
+      if (respuesta.status === 200) {
+        const msg = respuesta.data.message;
+        AlertSucces(msg);
       }
-  ]
-  const columnasUnidades = [
+      clearFormUbi();
+      getUbicaciones();
+      getUbicacionesUnidad();
+    } catch (error) {
+      AlertError();
+      setErrores(error.response.data.msg)
+      console.log(error.response.data.msg);
+    }
+  }
+  const postUnidad = async (event) => {
+    event.preventDefault();
+    try {
+      const respuesta = await axios.post(endpointUnit, valoresUnit, {
+        headers: {
+          "token": token
+        }
+      })
+      if (respuesta.status === 200) {
+        const msg = respuesta.data.message;
+        AlertSucces(msg);
+      }
+      clearFormUnit();
+      getUnidades();
+    } catch (error) {
+      AlertError();
+      setErrores(error.response.data.msg)
+      console.log(error);
+    }
+  }
+  const putUbication = async (event) => {
+    event.preventDefault();
+    try {
+      const respuesta = await axios.put(`${endpoint}/${selectId}`, valores, {
+        headers: {
+          "token": token
+        }
+      })
+      if (respuesta.status === 200) {
+        const msg = respuesta.data.message;
+        AlertSucces(msg);
+      }
+      clearFormUbi();
+      getUbicaciones();
+      getUbicacionesUnidad();
+    } catch (error) {
+      AlertError();
+      setErrores(error.response.data.msg)
+      console.log(error);
+    }
+  }
+  const putUnidad = async (event) => {
+    event.preventDefault();
+    try {
+      const respuesta = await axios.put(`${endpointUnit}/${selectIdUnit}`, valoresUnit, {
+        headers: {
+          "token": token
+        }
+      })
+      if (respuesta.status === 200) {
+        const msg = respuesta.data.message;
+        AlertSucces(msg);
+      }
+      clearFormUnit();
+      getUnidades();
+    } catch (error) {
+      AlertError();
+      setErrores(error.response.data.msg)
+      console.log(error);
+    }
+  }
+
+  useEffect(() => {
+    getUbicaciones();
+    getUbicacionesUnidad();
+    getUnidades();
+  }, [])
+
+  const columnas = [
     {
-        name: "id_unidad",
-        label: "ID"
+      name: "id_ubicacion",
+      label: "ID"
     },
     {
-        name: "nombre_unidad",
-        label: "NOMBRE"
+      name: "nombre_unidad",
+      label: "UNIDAD"
     },
-     {
+    {
+      name: "ambiente",
+      label: "AMBIENTE"
+    },
+    {
+      name: "sitio",
+      label: "SITIO"
+    },
+    {
       name: "editar",
       label: "ACTIONS",
       options: {
         customBodyRender: (value, tableMeta, updateValue) => {
           return (
-              <ButtonEdit titulo="EDIT"  funcion1={() => getDataUnit(tableMeta.rowData)} />
+            <ButtonEdit titulo="EDIT" funcion1={() => getData(tableMeta.rowData)} />
           );
-      }
+        }
       }
     }
-]
-    //#endregion table
-//#endregion funciones
+  ]
+  const columnasUnidades = [
+    {
+      name: "id_unidad",
+      label: "ID"
+    },
+    {
+      name: "nombre_unidad",
+      label: "NOMBRE"
+    },
+    {
+      name: "editar",
+      label: "ACTIONS",
+      options: {
+        customBodyRender: (value, tableMeta, updateValue) => {
+          return (
+            <ButtonEdit titulo="EDIT" funcion1={() => getDataUnit(tableMeta.rowData)} />
+          );
+        }
+      }
+    }
+  ]
+  //#endregion table
+  //#endregion funciones
   return (
     <>
-    <Container>
-      <Contenedor>
-      <HeaderPageTwo 
-      icon={<BsPinMap/>} 
-      titulo="UNIDADES Y UBICACIONES" 
-      textButton1="REGISTRAR UBICACIÓN" 
-      textButton2="REGISTRAR UNIDAD" 
-      funcion1={() => setModal(true)} 
-      funcion2={() => setModalUnit(true)} />
-      <Modales>
-        <Modal
-        titulo="REGISTRAR UBICACIÓN"
-        estado={modal}
-        cambiarEstado={clearFormUbi}
-        >
-          <form className="formulario" onSubmit={postUbication}>
-            <div className="inputs-data">
-              <div className="filas">
-                  <div className="contents">
-                    <label>Unidad Productiva</label>
-                    <select name="fk_unidad_productiva" value={valores.fk_unidad_productiva} onChange={valorInput} required>
-                      <option value="">Selecciona una opción</option>
-                      {
-                        unidades.map((unidades) => (
-                          <option value={unidades.id_unidad} key={unidades.id_unidad}>{unidades.nombre_unidad}</option>
-                        ))
-                      }
-                    </select>
-                  </div>
-                  <div className="contents">
-                    <label>Ambiente:</label>
-                    <input name="ambiente" value={valores.ambiente} onChange={valorInput} type="text" placeholder="Ambiente" required />
-                    {
-                  errores && errores.some(([campo]) => campo === "ambiente") && (
-                  <p>
-                    {errores.find(([campo]) => campo === "ambiente")[1]}
-                  </p>
-                    )
-                  }
-                  </div>
-                  <div className="contents">
-                    <label>Sitio</label>
-                    <input name="sitio" value={valores.sitio} onChange={valorInput} type="text" placeholder="Sitio" required/>
-                    {
-                     errores && errores.some(([campo]) => campo === "sitio") && (
-                      <p>
-                          {errores.find(([campo]) => campo === "sitio")[1]}
-                      </p>
-                      )
-                  }
-                  </div>
-              </div>
-            </div>
-            <button>REGISTRAR</button>
-          </form>
-        </Modal>
-        <Modal
-        titulo="ACTUALIZAR DATOS"
-        estado={modalUpdate}
-        cambiarEstado={clearFormUbi}
-        >
-          <form className="formulario" onSubmit={putUbication}>
-            <div className="inputs-data">
-              <div className="filas">
-                  <div className="contents">
-                    <label>Unidad Productiva</label>
-                    <select name="fk_unidad_productiva" value={valores.fk_unidad_productiva} onChange={editValorInput}>
-                      <option value="">Selecciona una opción</option>
-                      {
-                        unidades.map((unidades) => (
-                          <option value={unidades.id_unidad} key={unidades.id_unidad}>{unidades.nombre_unidad}</option>
-                        ))
-                      }
-                    </select>
-                  </div>
-                  <div className="contents">
-                    <label>Ambiente:</label>
-                    <input name="ambiente" value={valores.ambiente} onChange={editValorInput} type="text" placeholder="Ambiente" />
-                    {
-                  errores && errores.some(([campo]) => campo === "ambiente") && (
-                  <p>
-                    {errores.find(([campo]) => campo === "ambiente")[1]}
-                  </p>
-                    )
-                  }
-                  </div>
-                  <div className="contents">
-                    <label>Sitio</label>
-                    <input name="sitio" value={valores.sitio} onChange={editValorInput} type="text" placeholder="Sitio" />
-                    {
-                     errores && errores.some(([campo]) => campo === "sitio") && (
-                      <p>
-                          {errores.find(([campo]) => campo === "sitio")[1]}
-                      </p>
-                      )
-                  }
-                  </div>
-              </div>
-            </div>
-            <button>ACTUALIZAR</button>
-          </form>
-        </Modal>
-        <Modal  
-            titulo="REGISTRAR UNIDAD PRODUCTIVA"
-            estado={modalUnit}
-            cambiarEstado={clearFormUnit}
+      <Container>
+        <Contenedor>
+          {
+            user && user === "2" ? (
+              <HeaderPage
+                icon={<BsPinMap />}
+                funcion={() => getIdUnidad()}
+                titulo="UBICACIONES"
+                textButton="REGISTRAR UBICACIÓN"
+              />
+            ) : (
+              <HeaderPageTwo
+                icon={<BsPinMap />}
+                titulo="UNIDADES Y UBICACIONES"
+                textButton1="REGISTRAR UBICACIÓN"
+                textButton2="REGISTRAR UNIDAD"
+                funcion1={() => setModal(true)}
+                funcion2={() => setModalUnit(true)} />
+            )
+          }
+          <Modales>
+            <Modal
+              titulo="REGISTRAR UBICACIÓN"
+              estado={modal}
+              cambiarEstado={clearFormUbi}
             >
-            <form onSubmit={postUnidad} className="formulario" >
-            <div className="inputs-data">
-              <div className="contents">
-              <label>Nombre de la Unidad: </label>
-              <input value={valoresUnit.nombre_unidad} onChange={valorInputUnit} name="nombre_unidad" type="text" placeholder="Nombre de la Unidad" required/>
-              {
-                  errores && errores.some(([campo]) => campo === "nombre_unidad") && (
-                  <p>
-                    {errores.find(([campo]) => campo === "nombre_unidad")[1]}
-                  </p>
-                    )
-                  }
-               </div>
-            </div>
-            <button>REGISTRAR</button>
-          </form>
-          </Modal>
-          <Modal 
-            titulo="ACTUALIZAR DATOS"
-            estado={modalUpdateUnit}
-            cambiarEstado={clearFormUnit}
-            >
-               <form onSubmit={putUnidad} className="formulario" >
-            <div className="inputs-data">
-              <div className="contents">
-              <label>Nombre de la Unidad: </label>
-              <input value={valoresUnit.nombre_unidad} onChange={editValorInputUnit} name="nombre_unidad" type="text" placeholder="Nombre de la Unidad" required/>
-              {
-                  errores && errores.some(([campo]) => campo === "nombre_unidad") && (
-                  <p>
-                    {errores.find(([campo]) => campo === "nombre_unidad")[1]}
-                  </p>
-                    )
-                  }
-               </div>
-            </div>
-            <button>ACTUALIZAR</button>
-          </form>
+              <form className="formulario" onSubmit={postUbication}>
+                <div className="inputs-data">
+                  <div className="filas">
+                    <div className="contents">
+                      <label>Unidad Productiva</label>
+                      {
+                        user && user === "1" ? (
+                          <select name="fk_unidad_productiva" value={valores.fk_unidad_productiva} onChange={valorInput} required>
+                            <option value="">Selecciona una opción</option>
+                            {
+                              unidades.map((unidades) => (
+                                <option value={unidades.id_unidad} key={unidades.id_unidad}>{unidades.nombre_unidad}</option>
+                              ))
+                            }
+                          </select>
+                        ) : (
+                          <div className="inputs-encar">
+                            <input className="idunidad"
+                              name="fk_unidad_productiva"
+                              value={valores.fk_unidad_productiva}
+                              onChange={valorInput}
+                              readOnly
+                              type="number"
+                              required
+                            />
+                            <input
+                              value={unidad}
+                              readOnly
+                              required
+                            />
+                          </div>
+                        )
+                      }
+
+                    </div>
+                    <div className="contents">
+                      <label>Ambiente:</label>
+                      <input name="ambiente" value={valores.ambiente} onChange={valorInput} type="text" placeholder="Ambiente" required />
+                      {
+                        errores && errores.some(([campo]) => campo === "ambiente") && (
+                          <p>
+                            {errores.find(([campo]) => campo === "ambiente")[1]}
+                          </p>
+                        )
+                      }
+                    </div>
+                    <div className="contents">
+                      <label>Sitio</label>
+                      <input name="sitio" value={valores.sitio} onChange={valorInput} type="text" placeholder="Sitio" required />
+                      {
+                        errores && errores.some(([campo]) => campo === "sitio") && (
+                          <p>
+                            {errores.find(([campo]) => campo === "sitio")[1]}
+                          </p>
+                        )
+                      }
+                    </div>
+                  </div>
+                </div>
+                <button>REGISTRAR</button>
+              </form>
             </Modal>
-      </Modales>
-      <div className="table-mui">
-     <MUIDatatable className="table-one"
-     title="Lista de Ubicaciones"
-    data={ubicaciones}
-    columns={columnas}
-    options={options}
-    />
-     <MUIDatatable className="table-two" 
-     title="Unidades"
-     data={unidades}
-     columns={columnasUnidades}
-     options={options}
-     />
-     </div>
-      </Contenedor>
-    </Container>
+            <Modal
+              titulo="ACTUALIZAR DATOS"
+              estado={modalUpdate}
+              cambiarEstado={clearFormUbi}
+            >
+              <form className="formulario" onSubmit={putUbication}>
+                <div className="inputs-data">
+                  <div className="filas">
+                    <div className="contents">
+                      <label>Unidad Productiva</label>
+                      {
+                        user && user === "1" ? (
+                          <select name="fk_unidad_productiva" value={valores.fk_unidad_productiva} onChange={editValorInput} required>
+                            <option value="">Selecciona una opción</option>
+                            {
+                              unidades.map((unidades) => (
+                                <option value={unidades.id_unidad} key={unidades.id_unidad}>{unidades.nombre_unidad}</option>
+                              ))
+                            }
+                          </select>
+                        ) : (
+                          <div className="inputs-encar">
+                            <input className="idunidad"
+                              name="fk_unidad_productiva"
+                              value={valores.fk_unidad_productiva}
+                              onChange={editValorInput}
+                              readOnly
+                              type="number"
+                              required
+                            />
+                            <input
+                              value={unidad}
+                              readOnly
+                              required
+                            />
+                          </div>
+                        )
+                      }
+                    </div>
+                    <div className="contents">
+                      <label>Ambiente:</label>
+                      <input name="ambiente" value={valores.ambiente} onChange={editValorInput} type="text" placeholder="Ambiente" />
+                      {
+                        errores && errores.some(([campo]) => campo === "ambiente") && (
+                          <p>
+                            {errores.find(([campo]) => campo === "ambiente")[1]}
+                          </p>
+                        )
+                      }
+                    </div>
+                    <div className="contents">
+                      <label>Sitio</label>
+                      <input name="sitio" value={valores.sitio} onChange={editValorInput} type="text" placeholder="Sitio" />
+                      {
+                        errores && errores.some(([campo]) => campo === "sitio") && (
+                          <p>
+                            {errores.find(([campo]) => campo === "sitio")[1]}
+                          </p>
+                        )
+                      }
+                    </div>
+                  </div>
+                </div>
+                <button>ACTUALIZAR</button>
+              </form>
+            </Modal>
+            <Modal
+              titulo="REGISTRAR UNIDAD PRODUCTIVA"
+              estado={modalUnit}
+              cambiarEstado={clearFormUnit}
+            >
+              <form onSubmit={postUnidad} className="formulario" >
+                <div className="inputs-data">
+                  <div className="contents">
+                    <label>Nombre de la Unidad: </label>
+                    <input value={valoresUnit.nombre_unidad} onChange={valorInputUnit} name="nombre_unidad" type="text" placeholder="Nombre de la Unidad" required />
+                    {
+                      errores && errores.some(([campo]) => campo === "nombre_unidad") && (
+                        <p>
+                          {errores.find(([campo]) => campo === "nombre_unidad")[1]}
+                        </p>
+                      )
+                    }
+                  </div>
+                </div>
+                <button>REGISTRAR</button>
+              </form>
+            </Modal>
+            <Modal
+              titulo="ACTUALIZAR DATOS"
+              estado={modalUpdateUnit}
+              cambiarEstado={clearFormUnit}
+            >
+              <form onSubmit={putUnidad} className="formulario" >
+                <div className="inputs-data">
+                  <div className="contents">
+                    <label>Nombre de la Unidad: </label>
+                    <input value={valoresUnit.nombre_unidad} onChange={editValorInputUnit} name="nombre_unidad" type="text" placeholder="Nombre de la Unidad" required />
+                    {
+                      errores && errores.some(([campo]) => campo === "nombre_unidad") && (
+                        <p>
+                          {errores.find(([campo]) => campo === "nombre_unidad")[1]}
+                        </p>
+                      )
+                    }
+                  </div>
+                </div>
+                <button>ACTUALIZAR</button>
+              </form>
+            </Modal>
+          </Modales>
+          <div className="table-mui">
+          {
+            user && user === "1" ? (
+              <MUIDatatable className="table-one"
+              title="Lista de Ubicaciones"
+              data={ubicaciones}
+              columns={columnas}
+              options={options}
+            />
+            ): (
+              <MUIDatatable className="table-one"
+              title="Lista de Ubicaciones"
+              data={ubicacionesUnidad}
+              columns={columnas}
+              options={options}
+            />
+            )
+          }
+
+           {
+            user && user === "1" && (
+              <MUIDatatable className="table-two"
+              title="Unidades"
+              data={unidades}
+              columns={columnasUnidades}
+              options={options}
+            />
+            )
+           }
+          </div>
+        </Contenedor>
+      </Container>
     </>
   )
 }
@@ -500,7 +596,7 @@ z-index: 30;
 
       input{
         padding: 5px;
-        min-width: 240px;
+        min-width: 40px;
         border: none;
         outline: none;
         border-bottom: 1px solid #38a800;
@@ -548,6 +644,14 @@ button{
   label{
     font-size: 14px;
     font-weight: 600;
+  }
+
+  .inputs-encar{
+    display: flex;
+    
+    .idunidad {
+      width: 40px;
+    }
   }
 }
 `;

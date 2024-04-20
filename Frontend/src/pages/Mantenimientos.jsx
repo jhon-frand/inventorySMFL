@@ -7,7 +7,6 @@ import Modal from "../components/modals/Modal";
 import ButtonEdit from "../components/organismos/ButtonEdit";
 import moment from "moment";
 import { GoTools } from "react-icons/go";
-import { Alert } from "@mui/material";
 import { Contenedor } from "../components/styles/StylesPages";
 import { AlertSucces, AlertError } from "../components/alerts/Alerts";
 import HeaderPageMante from "../components/organismos/HeaderPageMante";
@@ -24,10 +23,13 @@ function Mantenimientos() {
 //#region funciones
 
   const [mantenimientos, setMantenimientos] = useState([])
+  const [mantenimientosUnit, setMantenimientosUnit] = useState([])
   const [usuarios, setUsuarios] = useState([])
   const [equipos, setEquipos] = useState([])
+  const [equiposUnidad, setEquiposUnidad] = useState([])
   const [tecnicos, setTecnicos] = useState([])
   const [actividades, setActividades] = useState([])
+  const [actividadesUnit, setActividadesUnit] = useState([])
   const [modal, setModal] = useState(false)
   const [modalUpdate, setModalUpdate] = useState(false)
   const [modalActividad, setModalActividad] = useState(false)
@@ -40,12 +42,26 @@ function Mantenimientos() {
   const [errores, setErrores] = useState("")
 
   const token = localStorage.getItem("token");
+  const user = localStorage.getItem("user");
+  const nombresUser = localStorage.getItem("nombres")
+  const unidadUser = localStorage.getItem("unidad");
+  
 
   const getActividades = async () => {
     try {
       await axios.get(endpointActividad).then((response) => {
         const activities = response.data;
         setActividades(activities);
+      })
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  const getActividadesUnidad = async () => {
+    try {
+      await axios.get(`${endpointActividad}/${unidadUser}`).then((response) => {
+        const activities = response.data;
+        setActividadesUnit(activities);
       })
     } catch (error) {
       console.log(error);
@@ -61,11 +77,33 @@ function Mantenimientos() {
       console.log(error);
     }
    }
+
+   const getMantenimientosUnidad = async () => {
+    try {
+      await axios.get(`${endpointMantenimiento}/${unidadUser}`).then((response) => {
+        const manteinmentUnit = response.data;
+        setMantenimientosUnit(manteinmentUnit);
+      })
+     
+    } catch (error) {
+      console.log(error);
+    }
+   }
    const getEquipos = async () => {
     try {
       await axios.get(endpointEquipo).then((response) => {
         const equipment = response.data;
         setEquipos(equipment);
+      })
+    } catch (error) {
+      console.log(error);
+    }
+   }
+   const getEquiposUnidad = async () => {
+    try {
+      await axios.get(`${endpointEquipo}/${unidadUser}`).then((response) => {
+        const equipment = response.data;
+        setEquiposUnidad(equipment);
       })
     } catch (error) {
       console.log(error);
@@ -194,6 +232,7 @@ function Mantenimientos() {
       console.log(error);
     }
   }
+
   const getDataActividad = (datos) => {
 
     const tecnicoActividad = tecnicos.find(tenic => tenic.nombres === datos[4]);
@@ -511,10 +550,13 @@ function Mantenimientos() {
 
     useEffect(()=> {
       getMantenimientos();
+      getMantenimientosUnidad();
       getEquipos();
+      getEquiposUnidad();
       getUsers();
       getTecnicos();
       getActividades();
+      getActividadesUnidad();
     },[])
 //#endregion funciones
   return (
@@ -560,7 +602,9 @@ function Mantenimientos() {
                 </div>
                 <div className="contents">
                   <label>Equipo:</label>
-                  <select name="fk_equipo" value={valores.fk_equipo} onChange={valorInput} required>
+                 {
+                  user && user === "1" ? (
+                    <select name="fk_equipo" value={valores.fk_equipo} onChange={valorInput} required>
                     <option value="">Selecciona una opción</option>
                     {
                       equipos.map((equipos) => (
@@ -568,17 +612,35 @@ function Mantenimientos() {
                       ))
                     }
                   </select>
+                  ):( 
+                  <select name="fk_equipo" value={valores.fk_equipo} onChange={valorInput} required>
+                  <option value="">Selecciona una opción</option>
+                  {
+                    equiposUnidad.map((equipos) => (
+                      <option value={equipos.id_equipo} key={equipos.id_equipo}>{equipos.nombre_equipo}</option>
+                    ))
+                  }
+                </select>
+                )
+                 }
                 </div>
                 <div className="contents">
                   <label>Responsable:</label>
-                  <select name="fk_user_responsable" value={valores.fk_user_responsable} onChange={valorInput} required>
-                    <option value="">Selecciona una opción</option>
-                    {
-                      usuarios.map((usuarios) => (
-                        <option value={usuarios.id_usuario} key={usuarios.id_usuario}>{usuarios.nombres} {usuarios.apellidos}</option>
-                      ))
-                    }
-                  </select>
+                  {
+                    user && user === "2" ? (
+                      <input name="fk_user_responsable" type="number" value={valores.fk_user_responsable} onChange={valorInput} readOnly />
+                    ) : (
+                      <select name="fk_user_responsable" value={valores.fk_user_responsable} onChange={valorInput} required>
+                      <option value="">Selecciona una opción</option>
+                      {
+                        usuarios.map((usuarios) => (
+                          <option value={usuarios.id_usuario} key={usuarios.id_usuario}>{usuarios.nombres} {usuarios.apellidos}</option>
+                        ))
+                      }
+                    </select>
+                    )
+                  }
+                 
                 </div>
               </div>
               <div className="filas">
@@ -631,7 +693,9 @@ function Mantenimientos() {
                 </div>
                 <div className="contents">
                   <label>Equipo:</label>
-                  <select name="fk_equipo" value={valores.fk_equipo} onChange={editValorInput} required>
+                  {
+                  user && user === "1" ? (
+                    <select name="fk_equipo" value={valores.fk_equipo} onChange={valorInput} required>
                     <option value="">Selecciona una opción</option>
                     {
                       equipos.map((equipos) => (
@@ -639,17 +703,34 @@ function Mantenimientos() {
                       ))
                     }
                   </select>
+                  ):( 
+                  <select name="fk_equipo" value={valores.fk_equipo} onChange={valorInput} required>
+                  <option value="">Selecciona una opción</option>
+                  {
+                    equiposUnidad.map((equipos) => (
+                      <option value={equipos.id_equipo} key={equipos.id_equipo}>{equipos.nombre_equipo}</option>
+                    ))
+                  }
+                </select>
+                )
+                 }
                 </div>
                 <div className="contents">
                   <label>Responsable:</label>
-                  <select name="fk_user_responsable" value={valores.fk_user_responsable} onChange={editValorInput} required>
-                    <option value="">Selecciona una opción</option>
-                    {
-                      usuarios.map((usuarios) => (
-                        <option value={usuarios.id_usuario} key={usuarios.id_usuario}>{usuarios.nombres} {usuarios.apellidos}</option>
-                      ))
-                    }
-                  </select>
+                  {
+                    user && user === "2" ? (
+                      <input type="text" value={nombresUser} readOnly />
+                    ) : (
+                      <select name="fk_user_responsable" value={valores.fk_user_responsable} onChange={valorInput} required>
+                      <option value="">Selecciona una opción</option>
+                      {
+                        usuarios.map((usuarios) => (
+                          <option value={usuarios.id_usuario} key={usuarios.id_usuario}>{usuarios.nombres} {usuarios.apellidos}</option>
+                        ))
+                      }
+                    </select>
+                    )
+                  }
                 </div>
               </div>
               <div className="filas">
@@ -908,22 +989,45 @@ function Mantenimientos() {
         </Modal>
       </Modales>
       <div className="table-mui">
-        <MUIDataTable className="table"
-        title="Lista de Mantenimientos"
-       data={mantenimientos}
-       columns={columnas}
-       options={options}
-        />
+        {
+          user && user === "1" ? (
+            <MUIDataTable className="table"
+            title="Lista de Mantenimientos"
+           data={mantenimientos}
+           columns={columnas}
+           options={options}
+            />
+          ):(
+            <MUIDataTable className="table"
+            title="Lista de Mantenimientos"
+           data={mantenimientosUnit}
+           columns={columnas}
+           options={options}
+            />
+          )
+        }
+       
       </div>
       </Contenedor>
       <Contenedor>
       <div className="table-mui" id="actividades">
-        <MUIDataTable className="table" 
-        title="Lista de Actividades"
-        data={actividades}
-        columns={columnasActividad}
-        options={options}
-        />
+       {
+        user && user === "1" ? (
+          <MUIDataTable className="table" 
+          title="Lista de Actividades"
+          data={actividades}
+          columns={columnasActividad}
+          options={options}
+          />
+        ): (
+          <MUIDataTable className="table" 
+          title="Lista de Actividades"
+          data={actividadesUnit}
+          columns={columnasActividad}
+          options={options}
+          />
+        )
+       }
       </div>
       </Contenedor>
     </Container>

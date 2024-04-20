@@ -69,6 +69,31 @@ const getMantenimientos = async (peticion, respuesta) => {
     }
 };
 
+const getMantenimientoUnidad = async (peticion, respuesta) => {
+    try {
+        const {unidad} = peticion.params;
+        const sql = `
+                    SELECT mantenimientos.*,
+                    usuarios.nombres AS usuario,
+                    equipos.nombre_equipo,
+                    unidades_productivas.nombre_unidad AS nombre_unidad
+                    FROM mantenimientos 
+                    JOIN usuarios ON usuarios.id_usuario = mantenimientos.fk_user_responsable
+                    JOIN equipos ON equipos.id_equipo = mantenimientos.fk_equipo
+                    JOIN unidades_productivas ON unidades_productivas.id_unidad = usuarios.fk_unidad_productiva
+                    WHERE nombre_unidad = ? 
+                    ORDER BY mantenimientos.id_mantenimiento DESC           
+        `;
+        const [resultado] = await connection.query(sql, unidad)
+        if (resultado.length > 0) {
+           return  respuesta.status(200).json(resultado)
+        }
+    } catch (error) {
+        respuesta.status(500);
+        respuesta.send(error.message);
+    }
+}
+
 const getMantenimiento = async (peticion, respuesta) => {
     try {
         const {id} = peticion.params;
@@ -107,6 +132,7 @@ export const mantenimientos = {
     postMantenimiento,
     putMantenimiento,
     getMantenimientos,
+    getMantenimientoUnidad,
     getMantenimiento,
     getTotal
 }

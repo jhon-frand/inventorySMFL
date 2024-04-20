@@ -73,6 +73,38 @@ const getActividades = async (peticion, respuesta) => {
         respuesta.send(error.message);
     }
 };
+const getActividadesUnit = async (peticion, respuesta) => {
+    try {
+        const {unidad} = peticion.params;
+        const sql = `SELECT actividades.*,
+                    mantenimientos.tipo_mantenimiento,
+                    mantenimientos.descripcion AS descripcion_mantenimiento,
+                    tecnicos.nombres AS nombre_tecnico,
+                    equipos.nombre_equipo,
+                    usuarios.nombres AS responsable,
+                    unidades_productivas.nombre_unidad
+                    FROM actividades
+                    JOIN mantenimientos ON mantenimientos.id_mantenimiento = actividades.fk_mantenimiento
+                    JOIN tecnicos ON tecnicos.id_tecnico = actividades.fk_tecnico
+                    JOIN equipos ON equipos.id_equipo = mantenimientos.fk_equipo
+                    JOIN usuarios ON usuarios.id_usuario = mantenimientos.fk_user_responsable
+                    JOIN unidades_productivas ON unidades_productivas.id_unidad = usuarios.fk_unidad_productiva
+                    WHERE nombre_unidad = ?
+                    ORDER BY actividades.id_actividad DESC`;
+        const [actividades] = await connection.query(sql, unidad);
+        if (actividades.length > 0) {
+            return respuesta.status(200).json(actividades)
+        } else {
+            return respuesta.status(404).json({
+                "status": 404,
+                "message": "No se encontraron Actividades"
+            })
+        }
+    } catch (error) {
+        respuesta.status(500);
+        respuesta.send(error.message);
+    }
+};
 
 const getActividad = async (peticion, respuesta) => {
     try {
@@ -111,5 +143,6 @@ export const actividades = {
    postActividad,
    putActividad,
    getActividades,
+   getActividadesUnit,
    getActividad
 }

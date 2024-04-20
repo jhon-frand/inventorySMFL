@@ -75,6 +75,34 @@ const getEquipo = async (peticion, respuesta) => {
         respuesta.send(error.message);
     }
 };
+const getEquiposUnidad = async (peticion, respuesta) => {
+    try {
+        const {unidad} = peticion.params;
+        const sql = `SELECT equipos.*,
+                     categorias.nombre_categoria,
+                     ubicaciones.ambiente,
+                     ubicaciones.sitio,
+                     unidades_productivas.nombre_unidad
+                     FROM equipos
+                     JOIN categorias ON categorias.id_categoria = equipos.fk_categoria
+                     JOIN ubicaciones ON ubicaciones.id_ubicacion = equipos.fk_ubicacion
+                     JOIN unidades_productivas ON unidades_productivas.id_unidad = ubicaciones.fk_unidad_productiva
+                     WHERE nombre_unidad = ?
+                     ORDER BY equipos.id_equipo DESC`;
+        const [equipo] = await connection.query(sql, unidad);
+        if (equipo.length > 0) {
+            return respuesta.status(200).json(equipo)
+        } else {
+            return respuesta.status(404).json({
+                "status": 404,
+                "message": "No se encontró el equipo"
+            }) 
+        }
+    } catch (error) {
+        respuesta.status(500);
+        respuesta.send(error.message);
+    }
+};
 
 const getEquipos = async (peticion, respuesta) => {
     try {
@@ -144,6 +172,7 @@ export const equipos = {
     putEquipo,
     getEquipo,
     getEquipos,
+    getEquiposUnidad,
     putEstadoEquipo,
     getTotal
 }

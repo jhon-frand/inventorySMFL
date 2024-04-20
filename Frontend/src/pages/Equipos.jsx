@@ -20,8 +20,10 @@ function Equipos() {
   const endpointUbication = "http://localhost:3000/ubicaciones"
 
   const [equipos, setEquipos] = useState([])
+  const [equiposUnidad, setEquiposUnidad] = useState([])
   const [categorias, setCategorias] = useState([])
   const [ubicaciones, setUbicaciones] = useState([])
+  const [ubicacionesUnidad, setUbicacionesUnidad] = useState([])
   const [modal, setModal] = useState(false)
   const [modalUpdate, setModalUpdate] = useState(false)
   const [modalCategory, setModalCategory] = useState(false)
@@ -31,12 +33,24 @@ function Equipos() {
   const [errores, setErrores] = useState("")
 
   const token = localStorage.getItem("token");
+  const user = localStorage.getItem("user");
+  const unidadUser = localStorage.getItem("unidad");
 
   const getEquipos = async () => {
     try {
         await axios.get(endpointEquipo).then((response) =>{
         const equipment = response.data;
         setEquipos(equipment);
+      })
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  const getEquiposUnidad = async () => {
+    try {
+        await axios.get(`${endpointEquipo}/${unidadUser}`).then((response) =>{
+        const equipment = response.data;
+        setEquiposUnidad(equipment);
       })
     } catch (error) {
       console.log(error);
@@ -57,6 +71,16 @@ function Equipos() {
       await axios.get(endpointUbication).then((response) => {
         const ubication = response.data;
         setUbicaciones(ubication);
+      })
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  const getUbicacionesUnidad = async () => {
+    try {
+      await axios.get(`${endpointUbication}/${unidadUser}`).then((response) => {
+        const ubication = response.data;
+        setUbicacionesUnidad(ubication);
       })
     } catch (error) {
       console.log(error);
@@ -343,8 +367,10 @@ function Equipos() {
 
   useEffect(() => {
     getEquipos();
+    getEquiposUnidad();
     getCategorias();
     getUbicaciones();
+    getUbicacionesUnidad();
   },[])
 
     //#endregion funciones
@@ -468,7 +494,9 @@ function Equipos() {
             <div className="filas">
              <div className="contents">
              <label>Ubicación: </label>
-             <select name="fk_ubicacion" onChange={valorInput} value={valores.fk_ubicacion} required>
+            {
+              user && user === "1" ? (
+                <select name="fk_ubicacion" onChange={valorInput} value={valores.fk_ubicacion} required>
                 <option value="">Seleccione una ubicación</option>
                 {
                   ubicaciones.map((ubicaciones) => (
@@ -476,6 +504,17 @@ function Equipos() {
                   ))
                 }
               </select>
+              ):(
+                <select name="fk_ubicacion" onChange={valorInput} value={valores.fk_ubicacion} required>
+                <option value="">Seleccione una ubicación</option>
+                {
+                  ubicacionesUnidad.map((ubicaciones) => (
+                    <option key={ubicaciones.id_ubicacion} value={ubicaciones.id_ubicacion}>{ubicaciones.nombre_unidad} - {ubicaciones.ambiente} - {ubicaciones.sitio}</option>
+                  ))
+                }
+              </select>
+              )
+            }
                 </div>
               <div className="description">
               <label>Descripción: </label>
@@ -594,7 +633,9 @@ function Equipos() {
             <div className="filas">
              <div className="contents">
              <label>Ubicación: </label>
-             <select name="fk_ubicacion" onChange={editValorInput} value={valores.fk_ubicacion} required>
+             {
+              user && user === "1" ? (
+                <select name="fk_ubicacion" onChange={valorInput} value={valores.fk_ubicacion} required>
                 <option value="">Seleccione una ubicación</option>
                 {
                   ubicaciones.map((ubicaciones) => (
@@ -602,6 +643,17 @@ function Equipos() {
                   ))
                 }
               </select>
+              ):(
+                <select name="fk_ubicacion" onChange={valorInput} value={valores.fk_ubicacion} required>
+                <option value="">Seleccione una ubicación</option>
+                {
+                  ubicacionesUnidad.map((ubicaciones) => (
+                    <option key={ubicaciones.id_ubicacion} value={ubicaciones.id_ubicacion}>{ubicaciones.nombre_unidad} - {ubicaciones.ambiente} - {ubicaciones.sitio}</option>
+                  ))
+                }
+              </select>
+              )
+            }
                 </div>
               <div className="description">
               <label>Descripción: </label>
@@ -670,12 +722,23 @@ function Equipos() {
           </Modal>
         </Modales>
         <div className="table-mui">
-          <MUIDataTable className="table"
-          title="Lista de Equipos"
-          data={equipos}
-          columns={columnas}
-          options={options}
-          />
+         {
+          user && user === "1" ? (
+            <MUIDataTable className="table"
+            title="Lista de Equipos"
+            data={equipos}
+            columns={columnas}
+            options={options}
+            />
+          ):(
+            <MUIDataTable className="table"
+            title="Lista de Equipos"
+            data={equiposUnidad}
+            columns={columnas}
+            options={options}
+            />
+          )
+         }
 
         </div>
       </Contenedor>
