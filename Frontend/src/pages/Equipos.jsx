@@ -191,7 +191,8 @@ function Equipos() {
         AlertSucces(msg); 
       }
       clearFormEquipos();
-      getEquipos()
+      getEquipos();
+      getEquiposUnidad();
     } catch (error) {
       AlertError();
       setErrores(error.response.data.msg)
@@ -245,6 +246,7 @@ function Equipos() {
     }
     clearFormEquipos();
     getEquipos();
+    getEquiposUnidad();
   } catch (error) {
     AlertError();
     setErrores(error.response.data.msg)

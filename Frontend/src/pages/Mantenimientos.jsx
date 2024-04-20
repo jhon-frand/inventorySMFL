@@ -351,6 +351,7 @@ function Mantenimientos() {
       }
       clearFormActivity();
       getActividades();
+      getActividadesUnidad();
     } catch (error) {
       AlertError();
       setErrores(error.response.data.msg)
@@ -371,6 +372,7 @@ function Mantenimientos() {
       }
       clearFormActivity();
       getActividades();
+      getActividadesUnidad();
     } catch (error) {
       AlertError();
       setErrores(error.response.data.msg);

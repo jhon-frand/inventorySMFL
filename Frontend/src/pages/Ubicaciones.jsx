@@ -32,7 +32,7 @@ function Ubicaciones() {
   const token = localStorage.getItem("token");
   const unidad = localStorage.getItem("unidad")
   const user = localStorage.getItem("user")
-  const idunidad = localStorage.getItem("idunidad")
+  const idunidad = localStorage.getItem("id_unidad")
 
   const getUnidades = async () => {
     try {

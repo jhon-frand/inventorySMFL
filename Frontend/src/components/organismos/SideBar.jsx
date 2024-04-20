@@ -135,7 +135,6 @@ background: white;
       justify-content: center;
       align-items: center;
       gap: 10px;
-      font-size: 15px;
       cursor: pointer;
 
       p{
@@ -154,6 +153,7 @@ background: white;
     p{
     display: ${({$isOpen}) => ($isOpen ? "block" : "none")};
     font-weight: bold;
+    font-size: 15px;
     text-align: center;
     color: #23500d;
 }

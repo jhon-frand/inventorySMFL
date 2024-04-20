@@ -49,6 +49,7 @@ const getMantenimientos = async (peticion, respuesta) => {
     try {
         const sql = `SELECT mantenimientos.*,
                     usuarios.nombres AS usuario,
+                    usuarios.apellidos AS apellidos,
                     equipos.nombre_equipo
                     FROM mantenimientos
                     JOIN usuarios ON usuarios.id_usuario = mantenimientos.fk_user_responsable
@@ -75,6 +76,7 @@ const getMantenimientoUnidad = async (peticion, respuesta) => {
         const sql = `
                     SELECT mantenimientos.*,
                     usuarios.nombres AS usuario,
+                    usuarios.apellidos AS apellidos,
                     equipos.nombre_equipo,
                     unidades_productivas.nombre_unidad AS nombre_unidad
                     FROM mantenimientos 

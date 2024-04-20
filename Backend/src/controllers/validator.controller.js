@@ -22,6 +22,8 @@ export const validationUser = async (peticion, respuesta) => {
             const nombres = resultado[0].nombres
             const idUnidad = resultado[0].id_unidad
             const idUser = resultado[0].id_usuario
+            const estadoUser = resultado[0].estado
+
             const token = jwt.sign({user: resultado}, process.env.SECRET, {expiresIn: process.env.TIME});
             return respuesta.status(200).json({
                 "message": "Usuario autorizado",
@@ -30,7 +32,8 @@ export const validationUser = async (peticion, respuesta) => {
                 "user": user,
                 "unidad": unidad,
                 "nombres": nombres,
-                "id_unidad": idUnidad
+                "id_unidad": idUnidad,
+                "estado": estadoUser
             })
         } else {
             return respuesta.status(400).json({

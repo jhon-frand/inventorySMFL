@@ -22,32 +22,38 @@ function Login() {
   const loginUser = async (event) => {
     event.preventDefault();
     try {
-      const login = await axios("http://localhost:3000/login",
-        {
-          method: "POST",
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          data: valores
-        })
-      if (login.status === 200) {
-        console.log(login.data)
-        localStorage.setItem("token", login.data.token)
-        localStorage.setItem("user", login.data.user)
-        localStorage.setItem("unidad", login.data.unidad)
-        localStorage.setItem("nombres", login.data.nombres)
-        localStorage.setItem("idunidad", login.data.id_unidad)
-        localStorage.setItem("usuario", login.data.usuario)
-        AlertSucces("Bienvenido a Inventory")
-        navigate('/dashboard');
-        window.location.reload()
+      const response = await axios.post("http://localhost:3000/login", valores, {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
 
+      if (response.status === 200) {
+        const { token, user, unidad, nombres, id_unidad, usuario, estado } = response.data;
+
+        // Verificar el estado del usuario
+        if (estado === 'inactivo') {
+          AlertUser();
+        } else {
+          localStorage.setItem("token", token);
+          localStorage.setItem("user", user);
+          localStorage.setItem("unidad", unidad);
+          localStorage.setItem("nombres", nombres);
+          localStorage.setItem("id_unidad", id_unidad);
+          localStorage.setItem("usuario", usuario);
+          localStorage.setItem("estado", estado);
+
+          AlertSucces("Bienvenido a Inventory");
+          navigate('/dashboard');
+          window.location.reload();
+        }
       }
     } catch (error) {
       AlertUser();
       console.log(error);
     }
-  }
+  };
+
 
   return (
     <Container>
@@ -55,11 +61,11 @@ function Login() {
         <form onSubmit={loginUser} className="form">
           <h1 className="title">¡Hola de nuevo!</h1>
           <div className="inp">
-          <AiOutlineMail />
+            <AiOutlineMail />
             <input name="email" className='input' value={valores.email} onChange={valorInput} type="email" placeholder='email' />
           </div>
           <div className="inp">
-          <AiOutlineLock />
+            <AiOutlineLock />
             <input name="password" className='input' value={valores.password} onChange={valorInput} type="password" placeholder='password' />
           </div>
           <button className="submit">Iniciar sesión</button>
