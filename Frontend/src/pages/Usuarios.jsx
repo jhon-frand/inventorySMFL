@@ -84,12 +84,13 @@ const valorInput = (event) => {
   })
 }
 const getData = (datos) => {
+
     // Obtener el ID del tipo de usuario
-    const tipoUsuario = tipousuario.find(tipo => tipo.rol === datos[6]);
+    const tipoUsuario = tipousuario.find(tipo => tipo.rol === datos[5]);
     const tipoUsuarioId = tipoUsuario ? tipoUsuario.id_tipo_usuario : "";
 
     // Obtener el ID de la unidad productiva
-    const unidad = unidades.find(unidad => unidad.nombre_unidad === datos[7]);
+    const unidad = unidades.find(unidad => unidad.nombre_unidad === datos[6]);
     const unidadId = unidad ? unidad.id_unidad : "";
 
   setValores({
@@ -97,10 +98,10 @@ const getData = (datos) => {
     nombres: datos[2],
     apellidos: datos[3],
     email: datos[4],
-    estado: datos[5],
+    estado: datos[8],
     fk_tipo_usuario: tipoUsuarioId,
     fk_unidad_productiva: unidadId,
-    telefono: datos[8]
+    telefono: datos[7]
   })
   setSelectId(datos[0])
   setModalUpdate(true)
@@ -115,7 +116,13 @@ const editValorInput = (event) => {
 const postUser = async (event) => {
   event.preventDefault();
   try {
-    const respuesta = await axios.post(endpointUser, valores, {
+    //establecer contraseña por default
+    const defaultPassword = {
+      ...valores,
+      password: valores.identificacion
+    };
+
+    const respuesta = await axios.post(endpointUser, defaultPassword, {
       headers: {
         "token": token
       }
@@ -174,7 +181,8 @@ const changeStatus = async (datos) => {
             estado: nuevoEstado
           };
         }
-        return usuario; // Retorna el usuario sin cambios si no es el usuario con el id al que queremos cambiar el estado
+        // Retorna el usuario sin cambios si no es el usuario con el id al que queremos cambiar el estado
+        return usuario; 
       });
   
       setUsuarios(updatedUsers);
@@ -326,7 +334,9 @@ const changeStatus = async (datos) => {
                 )
               }
               </div>
-              <div className="contents">
+              </div>
+            <div className="filas">
+            <div className="contents">
               <label>Teléfono: </label>
               <input name="telefono" onChange={valorInput} value={valores.telefono} type="number" placeholder="Teléfono" required/>
               {
@@ -337,8 +347,6 @@ const changeStatus = async (datos) => {
                 )
               }
               </div>
-              </div>
-            <div className="filas">
             <div className="contents">
              <label>Rol del Usuario: </label>
              <select name="fk_tipo_usuario" onChange={valorInput} value={valores.fk_tipo_usuario}>
@@ -369,21 +377,6 @@ const changeStatus = async (datos) => {
                 }
               </select>
                 </div>
-            <div className="contents">
-            <label>Contraseña: </label>
-            <input name="password" onChange={valorInput} value={valores.password} type="password" placeholder="Contraseña" required/>
-            {
-                errores && errores.some(([campo]) => campo === "password") && (
-                  <p>
-                    {errores.find(([campo]) => campo === "password")[1]}
-                  </p>
-                )
-              }
-              </div>
-              <div className="contents">
-              <label>Confirmar Contraseña: </label>
-              <input type="password" placeholder="Confirmar Contraseña" required/>
-              </div>
             </div>
             </div>
             <button>REGISTRAR</button>

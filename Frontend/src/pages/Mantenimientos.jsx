@@ -2,7 +2,7 @@ import styled from "styled-components"
 import MUIDataTable from "mui-datatables";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { options } from "../components/styles/Table";
+import { options, optionsMedium } from "../components/styles/Table";
 import Modal from "../components/modals/Modal";
 import ButtonEdit from "../components/organismos/ButtonEdit";
 import moment from "moment";
@@ -590,7 +590,7 @@ function Mantenimientos() {
           title="Técnicos"
           data={tecnicos}
           columns={columnasTecnicos}
-          options={options}
+          options={optionsMedium}
            />
       </MediumContainer>
       <Modales>
@@ -638,13 +638,19 @@ function Mantenimientos() {
                 )
                  }
                 </div>
-                <div className="contents">
+                <div className={`${user === "1" ? 'contents' : 'onlyRead'}`}>
                   <label>Responsable:</label>
                   {
                     user && user === "2" ? (
-                    <div>
-                      <input name="fk_user_responsable" type="number" value={valores.fk_user_responsable} onChange={valorInput} readOnly />
-                      <input type="text" value={nombresUser}  readOnly/>
+                    <div className="inputs-encar">
+                      <input 
+                      className="idunidad" 
+                      name="fk_user_responsable" 
+                      type="number" 
+                      value={valores.fk_user_responsable} 
+                      onChange={valorInput} readOnly
+                       />
+                      <input className="idnombreUser" value={nombresUser}  readOnly/>
                     </div>
                     ) : (
                       <select name="fk_user_responsable" value={valores.fk_user_responsable} onChange={valorInput} required>
@@ -732,13 +738,13 @@ function Mantenimientos() {
                 )
                  }
                 </div>
-                <div className="contents">
+                <div className={`${user === "1" ? 'contents' : 'onlyRead'}`}>
                   <label>Responsable:</label>
                   {
                     user && user === "2" ? (
-                      <div>
-                      <input name="fk_user_responsable" type="number" value={valores.fk_user_responsable} onChange={editValorInput} readOnly />
-                      <input type="text" value={nombresUser}  readOnly/>
+                      <div className="inputs-encar">
+                      <input className="idunidad" name="fk_user_responsable" type="number" value={valores.fk_user_responsable} onChange={editValorInput} readOnly />
+                      <input className="idnombreUser" type="text" value={nombresUser}  readOnly/>
                     </div>
                     ) : (
                       <select name="fk_user_responsable" value={valores.fk_user_responsable} onChange={editValorInput} required>
@@ -1168,11 +1174,20 @@ z-index: 30;
             font-weight: 600;
           }
         }
-        
+        .onlyRead{
+          background: #38a80067;
+
+          input{
+            font-weight: bold;
+          }
+        }
         .contents{
+          background: white;
+        }
+
+        .contents, .onlyRead{
           display: flex;
           flex-direction: column;
-          background: white;
           padding: 4px;
           width: 280px;
           height: 70px;
@@ -1194,7 +1209,8 @@ z-index: 30;
 
       input{
         padding: 5px;
-        min-width: 180px;
+        min-width: 40px;
+        background: none;
         border: none;
         outline: none;
         border-bottom: 1px solid #38a800;
@@ -1216,6 +1232,17 @@ button{
     color: green;
   }
 }
+.inputs-encar{
+    display: flex;
+    
+  .idnombreUser{
+  width: 100%;
+  }
+    .idunidad {
+      width: 40px;
+    }
+  }
 }
+
 `;
 export default Mantenimientos

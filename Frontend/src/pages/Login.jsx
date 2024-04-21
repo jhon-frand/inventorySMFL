@@ -110,7 +110,7 @@ height: 100vh;
   padding-left: 40px;
   width: 100%;
   height: 12%;
-  box-shadow: 0 0 5px gray;
+  box-shadow: 0 0 10px gray;
   background: linear-gradient(to right, rgba(43, 202, 37, 0.37), #38a800);
 
   img{

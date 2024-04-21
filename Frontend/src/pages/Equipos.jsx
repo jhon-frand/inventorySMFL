@@ -3,7 +3,7 @@ import HeaderPageTwo from "../components/organismos/HeaderPageTwo";
 import MUIDataTable from "mui-datatables";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { options } from "../components/styles/Table";
+import { options, optionsMedium } from "../components/styles/Table";
 import Modal from "../components/modals/Modal";
 import ButtonEdit from "../components/organismos/ButtonEdit";
 import moment from "moment"
@@ -384,7 +384,7 @@ function Equipos() {
           title="Categorías"
           data={categorias}
           columns={columnasCategorias}
-          options={options}
+          options={optionsMedium}
            />
         </MediumContainer>
         <HeaderPageTwo 

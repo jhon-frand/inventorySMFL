@@ -500,14 +500,14 @@ function Ubicaciones() {
           <div className="table-mui">
           {
             user && user === "1" ? (
-              <MUIDatatable className="table-one"
+              <MUIDatatable  className={`table-one ${user === '1' ? 'width-48' : ''}`}
               title="Lista de Ubicaciones"
               data={ubicaciones}
               columns={columnas}
               options={options}
             />
             ): (
-              <MUIDatatable className="table-one"
+              <MUIDatatable  className={`table-one ${user !== '1' ? 'width-90' : ''}`}
               title="Lista de Ubicaciones"
               data={ubicacionesUnidad}
               columns={columnas}
@@ -543,8 +543,14 @@ display: flex;
   align-items: center;
   gap:20px;
 
+  .width-48 {
+  width: 48%;
+}
+
+.width-90 {
+  width: 90%;
+}
   .table-one{
-     width: 48%;
      padding: 5px;
 
      th{

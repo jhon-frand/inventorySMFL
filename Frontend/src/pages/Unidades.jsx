@@ -58,7 +58,7 @@ function Unidades() {
     {
       name: "total_equipos",
       label: "EQUIPOS"
-    }
+    }  
   ]
 
   return (
@@ -86,7 +86,7 @@ align-items: center;
 min-width: 100%;
 
   .contents{
-    width: 40%;
+    width: 80%;
   }
 
 .table{

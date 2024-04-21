@@ -7,7 +7,7 @@ export const validationUsuario = () => {
         check('identificacion')
         .isNumeric().withMessage('la identificación debe ser numérica')
         .notEmpty().withMessage('la identificación no puede estar vacía')
-        .isLength({min: 6, max: 10}).withMessage('Debe tener 6 y 10 caracteres')
+        .isLength({min: 6, max: 10}).withMessage('Debe tener entre 6 y 10 caracteres')
         .custom( async (value) => {
             const sql = "SELECT * FROM usuarios WHERE identificacion = ?";
             const [result] = await connection.query(sql, [value]);
