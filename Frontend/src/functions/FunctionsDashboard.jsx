@@ -43,3 +43,25 @@ export const getTotalManteinment = async () => {
     return 0;
   }
 }
+
+export const getTotalEquiposUnit = async (unidad) => {
+  try {
+    const endpoint = `http://localhost:3000/equipos/total/${unidad}`;
+    const response = await axios.get(endpoint);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    return 0;
+  }
+}
+
+export const getTotalMantenimientoUnit = async (unidad) => {
+  try {
+    const endpoint = `http://localhost:3000/mantenimientos/total/${unidad}`;
+    const response = await axios.get(endpoint);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    return 0;
+  }
+}

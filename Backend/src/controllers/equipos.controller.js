@@ -103,6 +103,25 @@ const getEquiposUnidad = async (peticion, respuesta) => {
         respuesta.send(error.message);
     }
 };
+const getTotalEquiposUnidad = async (peticion, respuesta) => {
+    try {
+        const {unidad} = peticion.params;
+        const sql = `
+                    SELECT COUNT(*) AS totalEquipos,
+                     unidades_productivas.nombre_unidad
+                     FROM equipos
+                     JOIN ubicaciones ON ubicaciones.id_ubicacion = equipos.fk_ubicacion
+                     JOIN unidades_productivas ON unidades_productivas.id_unidad = ubicaciones.fk_unidad_productiva
+                     WHERE unidades_productivas.nombre_unidad = ?
+                    `;
+        const [equipos] = await connection.query(sql, unidad);
+        const total = equipos[0].totalEquipos;
+        respuesta.status(200).json(total);
+    } catch (error) {
+        respuesta.status(500);
+        respuesta.send(error.message);
+    }
+}
 
 const getEquipos = async (peticion, respuesta) => {
     try {
@@ -173,6 +192,7 @@ export const equipos = {
     getEquipo,
     getEquipos,
     getEquiposUnidad,
+    getTotalEquiposUnidad,
     putEstadoEquipo,
     getTotal
 }

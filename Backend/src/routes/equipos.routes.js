@@ -10,6 +10,7 @@ rutas.put("/:id", validationEquipo(), validationToken, equipos.putEquipo);
 rutas.get("/", equipos.getEquipos);
 rutas.get("/total", equipos.getTotal);
 rutas.get("/:unidad", equipos.getEquiposUnidad);
+rutas.get("/total/:unidad", equipos.getTotalEquiposUnidad);
 rutas.get("/:id", equipos.getEquipo);
 rutas.put("/estado/:id", equipos.putEstadoEquipo);
 

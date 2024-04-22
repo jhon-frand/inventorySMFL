@@ -9,6 +9,7 @@ rutas.post("/", validationMantenimiento(), validationToken, mantenimientos.postM
 rutas.put("/:id", validationMantenimiento(), validationToken, mantenimientos.putMantenimiento);
 rutas.get("/", mantenimientos.getMantenimientos);
 rutas.get("/total", mantenimientos.getTotal);
+rutas.get("/total/:unidad", mantenimientos.getTotalMantenimientoUnidad)
 rutas.get("/:unidad", mantenimientos.getMantenimientoUnidad);
 rutas.get("/:id", mantenimientos.getMantenimiento);
 

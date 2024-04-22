@@ -96,6 +96,25 @@ const getMantenimientoUnidad = async (peticion, respuesta) => {
     }
 }
 
+const getTotalMantenimientoUnidad = async (peticion, respuesta) => {
+    try {
+        const {unidad} = peticion.params;
+        const sql = `
+                    SELECT COUNT(*) AS totalMantenimientos,
+                    unidades_productivas.nombre_unidad
+                    FROM  mantenimientos
+                    JOIN usuarios ON usuarios.id_usuario = mantenimientos.fk_user_responsable
+                    JOIN unidades_productivas ON unidades_productivas.id_unidad = usuarios.fk_unidad_productiva
+                    WHERE unidades_productivas.nombre_unidad = ?
+        `;
+        const [mantenimientos] = await connection.query(sql, unidad);
+        const total = mantenimientos[0].totalMantenimientos;
+        respuesta.status(200).json(total);
+    } catch (error) {
+        respuesta.status(500);
+        respuesta.send(error.message);
+    }
+}
 const getMantenimiento = async (peticion, respuesta) => {
     try {
         const {id} = peticion.params;
@@ -135,6 +154,7 @@ export const mantenimientos = {
     putMantenimiento,
     getMantenimientos,
     getMantenimientoUnidad,
+    getTotalMantenimientoUnidad,
     getMantenimiento,
     getTotal
 }

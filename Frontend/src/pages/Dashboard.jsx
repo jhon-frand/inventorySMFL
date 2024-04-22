@@ -10,7 +10,10 @@ import {
   getTotalUsers,
   getTotalUnits,
   getTotalEquipment,
-  getTotalManteinment } from "../functions/FunctionsDashboard";
+  getTotalManteinment,
+  getTotalEquiposUnit,
+  getTotalMantenimientoUnit
+ } from "../functions/FunctionsDashboard";
 import { Contenedor } from "../components/styles/StylesPages";
 
 function Dashboard() {
@@ -19,6 +22,11 @@ function Dashboard() {
  const [totalUnits, setTotalUnits] = useState(0)
  const [totalEquipos, setTotalEquipos] = useState(0)
  const [totalMantenimientos, setTotalMantenimientos] = useState(0)
+ const [totalEquiposUnidad, setTotalEquiposUnidad] = useState(0)
+ const [totalMantenimientosUnidad, setTotalMantenimientosUnidad] = useState(0)
+
+ const user = localStorage.getItem("user");
+ const unidad = localStorage.getItem("unidad");
 
   const getTotalUsuarios = async () => {
     try {
@@ -47,6 +55,15 @@ function Dashboard() {
     }
   } 
 
+  const getTotalEquiposUnidad = async () => {
+    try {
+      const result = await getTotalEquiposUnit(unidad);
+      setTotalEquiposUnidad(result);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   const getTotalMantenimientos = async () => {
     try {
       const result = await getTotalManteinment();
@@ -56,11 +73,22 @@ function Dashboard() {
     }
   }
 
+  const getTotalMantenimientosUnidad = async () => {
+    try {
+      const result = await getTotalMantenimientoUnit(unidad);
+      setTotalMantenimientosUnidad(result);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   useEffect(() => {
     getTotalUsuarios();
     getTotalUnidades();
     getTotalEquipos();
+    getTotalEquiposUnidad();
     getTotalMantenimientos();
+    getTotalMantenimientosUnidad();
   }, [])
 
   return (
@@ -68,23 +96,14 @@ function Dashboard() {
     <Container>
       <Contenedor>
     <div className="contents">
-    <ContainerContent  
+   {
+    user && user === "1" && (
+      <>
+   <ContainerContent  
       titulo="UNIDADES PRODUCTIVAS"
       icon = {<PiBoundingBox/>}
       to={"/unidades"}
       total={totalUnits}
-      />
-      <ContainerContent  
-      titulo="EQUIPOS TOTALES"
-      icon = {<CgToolbox/>}
-      to={"/equipos"}
-      total={totalEquipos}
-      />
-      <ContainerContent  
-      titulo="MANTENIMIENTOS"
-      icon = {<GoTools/>}
-      to={"/mantenimientos"}
-      total={totalMantenimientos}
       />
       <ContainerContent  
       titulo="ENCARGADOS"
@@ -92,6 +111,22 @@ function Dashboard() {
       to={"/usuarios"}
       total={totalUser}
       />
+   </>
+    )
+   }
+      <ContainerContent  
+      titulo="EQUIPOS TOTALES"
+      icon = {<CgToolbox/>}
+      to={"/equipos"}
+      total={user && user === "1" ? totalEquipos : totalEquiposUnidad}
+      />
+      <ContainerContent  
+      titulo="MANTENIMIENTOS"
+      icon = {<GoTools/>}
+      to={"/mantenimientos"}
+      total={user && user === "1" ? totalMantenimientos : totalMantenimientosUnidad}
+      />
+      
     </div>
     <div className="content-two">
 

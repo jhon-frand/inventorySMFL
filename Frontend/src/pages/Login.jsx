@@ -59,7 +59,7 @@ function Login() {
 
   return (
     <Container>
-      <div className="navbar">
+      {/* <div className="navbar">
       <img src={logoInventory} alt="logo Inventory" />
         <h3>INVENTORY</h3>
       </div>
@@ -91,90 +91,42 @@ function Login() {
             </div>
           </div>
         </div>
-    </div>
+    </div> */}
+
+    
+            <form onSubmit={loginUser} className="form">
+              <div className='content-form'>
+              <h1 className="title">¡Hola de nuevo!</h1>
+              <div className="inp">
+                <AiOutlineMail />
+                <input name="email" className='input' value={valores.email} onChange={valorInput} type="email" placeholder='email' />
+              </div>
+              <div className="inp">
+                <AiOutlineLock />
+                <input name="password" className='input' value={valores.password} onChange={valorInput} type="password" placeholder='password' />
+              </div>
+              <button className="submit">Iniciar sesión</button>
+              <p className="footer">¿Olvidó su contraseña?<a href="" className='linkRegister' >¡Recuperar!</a></p>
+            
+              </div>
+              </form>
+            <div className="banner">
+              <h1 className="wel_text">Bienvenido</h1>
+              <p className="para">A INVENTORY</p>
+              <img src={logoInventory} alt="" />
+            </div>
+         
     </Container>
   )
 }
 
 const Container = styled.div`
-display: flex;
-flex-direction: column;
-height: 100vh;
-
-.navbar{
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  gap: 10px;
-  padding-left: 40px;
-  width: 100%;
-  height: 12%;
-  box-shadow: 0 0 10px gray;
-  background: linear-gradient(to right, rgba(43, 202, 37, 0.37), #38a800);
-
-  img{
-    width: 60px;
-    height: 60px;
-  }
-
-  h3{
-    color: #00324d;
-    font-size: 24px;
-  }
-}
-.content{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 50px;
-  height: 88%;
-}
-.left-content{
-  width: 30%;
-  padding: 20px;
-  align-content: center;
-
-  .text-content{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-
-    p{
-      border-left: 2px solid #38a800;
-      text-align: center;
-      font-size: 20px;
-      padding-left: 10px;
-      color: #0000009e;
-      font-weight: bold;
-    }
-  }
-
-  img{
-    width: 220px;
-    height: 220px;
-  }
-
-}
+      display: flex;
+      height: 100vh;
 
 ::-webkit-input-placeholder {
   color: gray;
 }
-.right-content{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 70%;
-
-    .wrapper {
-      width: 90%;
-      display: flex;
-      height: 65vh;
-      padding-left: 50px;
-      border: 3px solid #38a800;
-      box-shadow: 0 0 20px 0 #38a7009d;
-      background: white;
-
-        }
 
         .form {
        display: flex;
@@ -182,19 +134,37 @@ height: 100vh;
        justify-content: center;
        align-items: center;
        width: 40%;
+
+       .content-form{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        border-radius: 15px;
+        box-shadow: 0 0 5px gray;
+        width: 50%;
+        height: 500px;
+        padding: 20px;
+       }
               }
+              
 .banner {
   width: 60%;
   background: linear-gradient(to right, rgba(43, 202, 37, 0.37), #38a800);
   clip-path: polygon(0 0, 100% 0, 100% 100%, 60% 100%);
-  padding-right: 40px;
+  padding-right: 100px;
+  gap: 50px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: end;
-  
-}
+
+  img{
+    width: 200px;
+    height: 200px;
   }
+}
+  
 
 .title {
   font-size: 30px;
@@ -227,14 +197,14 @@ height: 100vh;
 
 
 .wel_text {
-  font-size: 40px;
+  font-size: 100px;
   line-height: 50px;
   color: #ECF3F6;
 
 }
 
 .para {
-  font-size: 18px;
+  font-size: 40px;
   line-height: 24px;
   letter-spacing: 1px;
   color: #ECF3F6;
