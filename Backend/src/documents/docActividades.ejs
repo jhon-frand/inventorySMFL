@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Actividades Document</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+   <div class="container">
+    <h2>API ACTIVIDADES</h2>
+   <div class="content-tables">
+    <div class="content">
+        <div class="table">
+            <h2>Registrar actividad</h2>
+            <table class="tableRegister">
+                <tr class="filas">
+                    <td class="title">Número: </td>
+                    <td class="td-right">1</td>
+                </tr>
+                <tr>
+                    <td class="title">Nombre endpoint: </td>
+                    <td class="td-right">/POST</td>
+                </tr>
+                <tr>
+                    <td class="title">URI: </td>
+                    <td class="td-right">localhost:3000/actividades/</td>
+                </tr>
+                <tr>
+                    <td class="title">Descripción: </td>
+                    <td class="td-right">Endpoint para registrar una actividad en la base de datos</td>
+                </tr>
+                <tr>
+                    <td class="title">Verbo HTTP: </td>
+                    <td class="td-right">POST</td>
+                </tr>
+                <tr>
+                    <td class="title">Header: </td>
+                    <td class="td-right">Content-Type:  JSON</td>
+                </tr>
+                <tr>
+                    <td class="title">Usuarios: </td>
+                    <td class="td-right">Encargado</td>
+                </tr>
+                <tr>
+                    <td class="title">Request JSON: </td>
+                    <td class="td-right">
+                        { <br>
+                            "id_actividad":"ID INT", <br>
+                            "fecha_actividad":"date", <br> 
+                            "descripcion":"string/text", <br> 
+                            "fk_mantenimiento":"ID INT", <br> 
+                            "fk_tecnico":"ID INT", <br>
+                            <br>
+                        }
+                    </td>
+                </tr>
+                <tr>
+                    <td class="title">Response: </td>
+                    <td class="td-right">
+                       <li>
+                        <span>Correcto:</span> <br> <br>
+                        status: 200 <br><br>
+                       Body: <br>
+                       { <br>
+                        "message": "Actividad registrada correctamente",<br>
+                        <br> [
+                          {
+                            "fieldCount": 0,
+                            "affectedRows": 1,
+                            "insertId": 37,
+                            "info": "",
+                            "serverStatus": 2,
+                            "warningStatus": 0,
+                            "changedRows": 0
+                          }, <br>
+                          null
+                        ]
+                      } <br> <br>
+                       </li>
+                          <li> <span>Incorrecto:</span> <br><br>
+                           status: 403 <br><br>
+                           Body: <br>
+                           {<br>
+                            "message": "Error al registrar Actividad",<br>
+                          }
+                          </li>
+                           
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="table">
+            <h2>Listar actividades</h2>
+            <table class="tableRegister">
+                <tr class="filas">
+                    <td class="title">Número: </td>
+                    <td class="td-right">2</td>
+                </tr>
+                <tr>
+                    <td class="title">Nombre endpoint: </td>
+                    <td class="td-right">/GET</td>
+                </tr>
+                <tr>
+                    <td class="title">URI: </td>
+                    <td class="td-right">localhost:3000/actividades/</td>
+                </tr>
+                <tr>
+                    <td class="title">Descripción: </td>
+                    <td class="td-right">Endpoint para listar los actividades registradas en la base de datos</td>
+                </tr>
+                <tr>
+                    <td class="title">Verbo HTTP: </td>
+                    <td class="td-right">GET</td>
+                </tr>
+                <tr>
+                    <td class="title">Header: </td>
+                    <td class="td-right"></td>
+                </tr>
+                <tr>
+                    <td class="title">Usuarios: </td>
+                    <td class="td-right">Administrador/Encargado</td>
+                </tr>
+                <tr>
+                    <td class="title">Request JSON: </td>
+                    <td class="td-right"></td>
+                </tr>
+                <tr>
+                    <td class="title">Response: </td>
+                    <td class="td-right">
+                       <li>
+                        <span>Correcto:</span> <br> <br>
+                        status: 200 <br><br>
+                       Body: <br>
+                       [<br>
+                       { <br>
+                        "id_actividad":"ID INT", <br>
+                        "fecha_actividad":"date", <br> 
+                        "descripcion":"string/text", <br> 
+                        "fk_mantenimiento":"ID INT", <br> 
+                        "fk_tecnico":"ID INT", <br>
+                       } <br>
+                     ] <br> <br>
+                       </li>
+                          <li> <span>Incorrecto:</span> <br><br>
+                           status: 404 <br><br>
+                           Body: <br>
+                           { <br>
+                            "message": "No se encontraron Actividades" <br>
+                           }
+                          </li>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+  <div class="content">
+    <div class="table">
+        <h2>Buscar actividad/es</h2>
+        <table class="tableRegister">
+            <tr class="filas">
+                <td class="title">Número: </td>
+                <td class="td-right">3</td>
+            </tr>
+            <tr>
+                <td class="title">Nombre endpoint: </td>
+                <td class="td-right">/GET/:id</td>
+            </tr>
+            <tr>
+                <td class="title">URI: </td>
+                <td class="td-right">localhost:3000/actividades/</td>
+            </tr>
+            <tr>
+                <td class="title">Descripción: </td>
+                <td class="td-right">Endpoint para buscar una actividad en la base de datos por su ID</td>
+            </tr>
+            <tr>
+                <td class="title">Verbo HTTP: </td>
+                <td class="td-right">GET</td>
+            </tr>
+            <tr>
+                <td class="title">Header: </td>
+                <td class="td-right"></td>
+            </tr>
+            <tr>
+                <td class="title">Usuarios: </td>
+                <td class="td-right">Encargado</td>
+            </tr>
+            <tr>
+                <td class="title">Request JSON: </td>
+                <td class="td-right"></td>
+            </tr>
+            <tr>
+                <td class="title">Response: </td>
+                <td class="td-right">
+                   <li>
+                    <span>Correcto:</span> <br> <br>
+                    status: 200 <br><br>
+                   Body: <br>
+                   { <br>
+                    "id_actividad":"ID INT", <br>
+                    "fecha_actividad":"date", <br> 
+                    "descripcion":"string/text", <br> 
+                    "fk_mantenimiento":"ID INT", <br> 
+                    "fk_tecnico":"ID INT", <br>
+                  } <br>
+                   </li>
+                      <li> <span>Incorrecto:</span> <br><br>
+                       status: 404 <br><br>
+                       Body: <br>
+                       {
+                        "message": "No se encontraron Actividades" <br>
+                       }
+                      </li>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="table">
+        <h2>Actualizar actividad/es</h2>
+        <table class="tableRegister">
+            <tr class="filas">
+                <td class="title">Número: </td>
+                <td class="td-right">4</td>
+            </tr>
+            <tr>
+                <td class="title">Nombre endpoint: </td>
+                <td class="td-right">/PUT/:id</td>
+            </tr>
+            <tr>
+                <td class="title">URI: </td>
+                <td class="td-right">localhost:3000/actividades/</td>
+            </tr>
+            <tr>
+                <td class="title">Descripción: </td>
+                <td class="td-right">Endpoint para actualizar los datos de una actividad en la base de datos</td>
+            </tr>
+            <tr>
+                <td class="title">Verbo HTTP: </td>
+                <td class="td-right">PUT</td>
+            </tr>
+            <tr>
+                <td class="title">Header: </td>
+                <td class="td-right">Content-Type:  JSON</td>
+            </tr>
+            <tr>
+                <td class="title">Usuarios: </td>
+                <td class="td-right">Administrador/Encargado</td>
+            </tr>
+            <tr>
+                <td class="title">Request JSON: </td>
+                <td class="td-right">
+                    { <br>
+                        "id_actividad":"ID INT", <br>
+                        "fecha_actividad":"date", <br> 
+                        "descripcion":"string/text", <br> 
+                        "fk_mantenimiento":"ID INT", <br> 
+                        "fk_tecnico":"ID INT", <br>
+                    } <br>
+                </td>
+            </tr>
+            <tr>
+                <td class="title">Response: </td>
+                <td class="td-right">
+                   <li>
+                    <span>Correcto:</span> <br> <br>
+                    status: 200 <br><br>
+                   Body: <br>
+                   {<br>
+                    "message": "Actividad actualizada correctamente",<br>
+                    "categoria": [ <br>
+                      {
+                        "fieldCount": 0,
+                        "affectedRows": 1,
+                        "insertId": 0,
+                        "info": "Rows matched: 1  Changed: 1  Warnings: 0",
+                        "serverStatus": 2,
+                        "warningStatus": 0,
+                        "changedRows": 1
+                      }, <br>
+                      null <br>
+                    ]
+                  }
+                    <br> <br>
+                   </li>
+                      <li> <span>Incorrecto:</span> <br><br>
+                       status: 403 <br><br>
+                       Body: <br>
+                       { <br>
+                        "message": "Error al actualizar Actividad", <br>
+                        "error": {<br>
+                            muestra las características del error <br>
+                            }  <br>
+                       }
+                      </li>
+                </td>
+            </tr>
+        </table>
+    </div>
+  </div>
+   </div>
+   </div>
+</body>
+</html>

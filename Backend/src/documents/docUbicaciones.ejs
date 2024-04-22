@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ubicaciones Document</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+   <div class="container">
+    <h2>API UBICACIONES</h2>
+   <div class="content-tables">
+    <div class="content">
+        <div class="table">
+            <h2>Registrar ubicaciones</h2>
+            <table class="tableRegister">
+                <tr class="filas">
+                    <td class="title">Número: </td>
+                    <td class="td-right">1</td>
+                </tr>
+                <tr>
+                    <td class="title">Nombre endpoint: </td>
+                    <td class="td-right">Registrar ubicación</td>
+                </tr>
+                <tr>
+                    <td class="title">URI: </td>
+                    <td class="td-right">localhost:3000/ubicaciones</td>
+                </tr>
+                <tr>
+                    <td class="title">Descripción: </td>
+                    <td class="td-right">Endpoint para registrar una ubicación en la base de datos</td>
+                </tr>
+                <tr>
+                    <td class="title">Verbo HTTP: </td>
+                    <td class="td-right">POST</td>
+                </tr>
+                <tr>
+                    <td class="title">Header: </td>
+                    <td class="td-right">Content-Type:  JSON</td>
+                </tr>
+                <tr>
+                    <td class="title">Usuarios: </td>
+                    <td class="td-right">Administrador, Encargado</td>
+                </tr>
+                <tr>
+                    <td class="title">Request JSON: </td>
+                    <td class="td-right">
+                        { <br>
+                            "fk_unidad_productiva": 2, <br>
+                            "ambiente": "H-13", <br>
+                            "sitio": "mesa 2" <br>
+                          }
+                    </td>
+                </tr>
+                <tr>
+                    <td class="title">Response: </td>
+                    <td class="td-right">
+                       <li>
+                        <span>Correcto:</span> <br> <br>
+                        status: 200 <br><br>
+                       Body: <br>
+                       { <br>
+                        "message": "ubicación Registrada",<br>
+                        "ubicación": <br> [
+                          {
+                            "fieldCount": 0,
+                            "affectedRows": 1,
+                            "insertId": 37,
+                            "info": "",
+                            "serverStatus": 2,
+                            "warningStatus": 0,
+                            "changedRows": 0
+                          }, <br>
+                          null
+                        ]
+                      } <br> <br>
+                       </li>
+                          <li> <span>Incorrecto:</span> <br><br>
+                           status: 500 <br><br>
+                           Body: <br>
+                           {<br>
+                            "message": "error al registrar ubicación",<br>
+                            "error": {<br>
+                              muestra las características del error<br>
+                            }
+                          }
+                          </li>
+                           
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="table">
+            <h2>Listar ubicaciones</h2>
+            <table class="tableRegister">
+                <tr class="filas">
+                    <td class="title">Número: </td>
+                    <td class="td-right">2</td>
+                </tr>
+                <tr>
+                    <td class="title">Nombre endpoint: </td>
+                    <td class="td-right">Listar ubicaciones</td>
+                </tr>
+                <tr>
+                    <td class="title">URI: </td>
+                    <td class="td-right">localhost:3000/unidades</td>
+                </tr>
+                <tr>
+                    <td class="title">Descripción: </td>
+                    <td class="td-right">Endpoint para listar las ubicacionese la base de datos</td>
+                </tr>
+                <tr>
+                    <td class="title">Verbo HTTP: </td>
+                    <td class="td-right">GET</td>
+                </tr>
+                <tr>
+                    <td class="title">Header: </td>
+                    <td class="td-right"></td>
+                </tr>
+                <tr>
+                    <td class="title">Usuarios: </td>
+                    <td class="td-right">Administrador, Encargado </td>
+                </tr>
+                <tr>
+                    <td class="title">Request JSON: </td>
+                    <td class="td-right"></td>
+                </tr>
+                <tr>
+                    <td class="title">Response: </td>
+                    <td class="td-right">
+                       <li>
+                        <span>Correcto:</span> <br> <br>
+                        status: 200 <br><br>
+                       Body: <br>
+                       [ <br>
+                       { <br>
+                         "id_ubicacion": 8,
+                         "fk_unidad_productiva": 2,
+                         "ambiente": "H-13",
+                         "sitio": "mesa 2",
+                         "nombre_unidad": "Gastronomía"
+                       }, <br>
+                       { <br>
+                         "id_ubicacion": 9,
+                         "fk_unidad_productiva": 1,
+                         "ambiente": "T-12",
+                         "sitio": "Mesón",
+                         "nombre_unidad": "Escuela del Café"
+                       },<br>
+                     ] <br> <br>
+                       </li>
+                          <li> <span>Incorrecto:</span> <br><br>
+                           status: 500 <br><br>
+                           Body: <br>
+                           {
+                            "message": "error al listar ubicaciones"
+                           }
+                          </li>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+  <div class="content">
+    <div class="table">
+        <h2>Buscar ubicaciones</h2>
+        <table class="tableRegister">
+            <tr class="filas">
+                <td class="title">Número: </td>
+                <td class="td-right">3</td>
+            </tr>
+            <tr>
+                <td class="title">Nombre endpoint: </td>
+                <td class="td-right">Buscar ubicaciones</td>
+            </tr>
+            <tr>
+                <td class="title">URI: </td>
+                <td class="td-right">localhost:3000/ubicaciones/:id</td>
+            </tr>
+            <tr>
+                <td class="title">Descripción: </td>
+                <td class="td-right">Endpoint para buscar una ubicación en la base de datos por su ID</td>
+            </tr>
+            <tr>
+                <td class="title">Verbo HTTP: </td>
+                <td class="td-right">GET</td>
+            </tr>
+            <tr>
+                <td class="title">Header: </td>
+                <td class="td-right"></td>
+            </tr>
+            <tr>
+                <td class="title">Usuarios: </td>
+                <td class="td-right">Administrador, Encargado</td>
+            </tr>
+            <tr>
+                <td class="title">Request JSON: </td>
+                <td class="td-right"></td>
+            </tr>
+            <tr>
+                <td class="title">Response: </td>
+                <td class="td-right">
+                   <li>
+                    <span>Correcto:</span> <br> <br>
+                    status: 200 <br><br>
+                   Body: <br>
+                   { <br>
+                    "id_ubicacion": 8,
+                    "fk_unidad_productiva": 2,
+                    "ambiente": "H-13",
+                    "sitio": "mesa 2",
+                    "nombre_unidad": "Gastronomía" <br>
+                  }  <br> <br>
+                   </li>
+                      <li> <span>Incorrecto:</span> <br><br>
+                       status: 404 <br><br>
+                       Body: <br>
+                       {
+                        "message": "error al buscar ubicación"
+                       }
+                      </li>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="table">
+        <h2>Actualizar ubicaciones</h2>
+        <table class="tableRegister">
+            <tr class="filas">
+                <td class="title">Número: </td>
+                <td class="td-right">4</td>
+            </tr>
+            <tr>
+                <td class="title">Nombre endpoint: </td>
+                <td class="td-right">Actualizar ubicación </td>
+            </tr>
+            <tr>
+                <td class="title">URI: </td>
+                <td class="td-right">localhost:3000/ubicaciones/:id</td>
+            </tr>
+            <tr>
+                <td class="title">Descripción: </td>
+                <td class="td-right">Endpoint para actualizar datos de una ubicación la base de datos</td>
+            </tr>
+            <tr>
+                <td class="title">Verbo HTTP: </td>
+                <td class="td-right">PUT</td>
+            </tr>
+            <tr>
+                <td class="title">Header: </td>
+                <td class="td-right">Content-Type:  JSON</td>
+            </tr>
+            <tr>
+                <td class="title">Usuarios: </td>
+                <td class="td-right">Administrador, Encargado</td>
+            </tr>
+            <tr>
+                <td class="title">Request JSON: </td>
+                <td class="td-right">
+                    {  <br>
+                        "fk_unidad_productiva": 2, <br>
+                        "ambiente": "H-13",  <br>
+                        "sitio": "mesa 2" <br>
+                      } 
+                </td>
+            </tr>
+            <tr>
+                <td class="title">Response: </td>
+                <td class="td-right">
+                   <li>
+                    <span>Correcto:</span> <br> <br>
+                    status: 200 <br><br>
+                   Body: <br>
+                   {<br>
+                    "message": "ubicación Actualizada",<br>
+                    "ubicacion [ <br>
+                      {
+                        "fieldCount": 0,
+                        "affectedRows": 1,
+                        "insertId": 0,
+                        "info": "Rows matched: 1  Changed: 1  Warnings: 0",
+                        "serverStatus": 2,
+                        "warningStatus": 0,
+                        "changedRows": 1
+                      }, <br>
+                      null
+                    ]
+                  }
+                    <br> <br>
+                   </li>
+                      <li> <span>Incorrecto:</span> <br><br>
+                       status: 500 <br><br>
+                       Body: <br>
+                       { <br>
+                        "message": "error al actualizar ubicacion", <br>
+                        "error": {<br>
+                            muestra las características del error <br>
+                            }  <br>
+                       }
+                      </li>
+                </td>
+            </tr>
+        </table>
+    </div>
+  </div>
+   </div>
+   </div>
+</body>
+</html>

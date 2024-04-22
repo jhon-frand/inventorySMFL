@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mantenimientos Document</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+   <div class="container">
+    <h2>API MANTENIMIENTOS/S</h2>
+   <div class="content-tables">
+    <div class="content">
+        <div class="table">
+            <h2>Registrar mantenimiento</h2>
+            <table class="tableRegister">
+                <tr class="filas">
+                    <td class="title">Número: </td>
+                    <td class="td-right">1</td>
+                </tr>
+                <tr>
+                    <td class="title">Nombre endpoint: </td>
+                    <td class="td-right">/POST</td>
+                </tr>
+                <tr>
+                    <td class="title">URI: </td>
+                    <td class="td-right">localhost:3000/mantenimientos</td>
+                </tr>
+                <tr>
+                    <td class="title">Descripción: </td>
+                    <td class="td-right">Endpoint para registrar un mantenimiento en la base de datos</td>
+                </tr>
+                <tr>
+                    <td class="title">Verbo HTTP: </td>
+                    <td class="td-right">POST</td>
+                </tr>
+                <tr>
+                    <td class="title">Header: </td>
+                    <td class="td-right">Content-Type:  JSON</td>
+                </tr>
+                <tr>
+                    <td class="title">Usuarios: </td>
+                    <td class="td-right">Encargado</td>
+                </tr>
+                <tr>
+                    <td class="title">Request JSON: </td>
+                    <td class="td-right">
+                        { <br>
+                            "id_mantenimiento":"Number"
+                            "tipo_mantenimiento":"preventivo/tecnico", 
+                            "fecha_mantenimiento":"03-01-2024", 
+                            "descripcion":"Aqui se relata detalles de la descripcion", 
+                            "resultado":"Aqui se relata detalles del resultado",
+                            "fk_user_responsable":"ID usuario int", 
+                            "fk_equipo":"ID usuario int"
+                            <br>
+                        }
+                    </td>
+                </tr>
+                <tr>
+                    <td class="title">Response: </td>
+                    <td class="td-right">
+                       <li>
+                        <span>Correcto:</span> <br> <br>
+                        status: 200 <br><br>
+                       Body: <br>
+                       { <br>
+                        "message": "Mantenimiento registrado correctamente",<br>
+                        <br> [
+                          {
+                            "fieldCount": 0,
+                            "affectedRows": 1,
+                            "insertId": 37,
+                            "info": "",
+                            "serverStatus": 2,
+                            "warningStatus": 0,
+                            "changedRows": 0
+                          }, <br>
+                          null
+                        ]
+                      } <br> <br>
+                       </li>
+                          <li> <span>Incorrecto:</span> <br><br>
+                           status: 500 <br><br>
+                           Body: <br>
+                           {<br>
+                            "message": "Usuario no registrado",<br>
+                            "error": {<br>
+                                Error al registrar mantenimiento<br>
+                            }
+                          }
+                          </li>
+                           
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="table">
+            <h2>Listar mantenimientos</h2>
+            <table class="tableRegister">
+                <tr class="filas">
+                    <td class="title">Número: </td>
+                    <td class="td-right">2</td>
+                </tr>
+                <tr>
+                    <td class="title">Nombre endpoint: </td>
+                    <td class="td-right">/GET/</td>
+                </tr>
+                <tr>
+                    <td class="title">URI: </td>
+                    <td class="td-right">localhost:3000/mantenimientos</td>
+                </tr>
+                <tr>
+                    <td class="title">Descripción: </td>
+                    <td class="td-right">Endpoint para listar los mantenimientos regisrados en la base de datos</td>
+                </tr>
+                <tr>
+                    <td class="title">Verbo HTTP: </td>
+                    <td class="td-right">GET</td>
+                </tr>
+                <tr>
+                    <td class="title">Header: </td>
+                    <td class="td-right"></td>
+                </tr>
+                <tr>
+                    <td class="title">Usuarios: </td>
+                    <td class="td-right">Encargado</td>
+                </tr>
+                <tr>
+                    <td class="title">Request JSON: </td>
+                    <td class="td-right"></td>
+                </tr>
+                <tr>
+                    <td class="title">Response: </td>
+                    <td class="td-right">
+                       <li>
+                        <span>Correcto:</span> <br> <br>
+                        status: 200 <br><br>
+                       Body: <br>
+                       [<br>
+                       {<br>
+                        "id_mantenimiento":"Number" <br>
+                        "tipo_mantenimiento":"preventivo/tecnico", <br> 
+                        "fecha_mantenimiento":"03-01-2024",  <br>
+                        "descripcion":"Aqui se relata detalles de la descripcion",  <br>
+                        "resultado":"Aqui se relata detalles del resultado" <br>
+                       },<br>
+                       {<br>
+                        "fk_user_responsable":"ID usuario int",  <br>
+                        "fk_equipo":"ID usuario int" <br>
+                       } <br>
+                     ] <br> <br>
+                       </li>
+                          <li> <span>Incorrecto:</span> <br><br>
+                           status: 500 <br><br>
+                           Body: <br>
+                           { <br>
+                            "message": "No se encontraron mantenimientos" <br>
+                           }
+                          </li>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+  <div class="content">
+    <div class="table">
+        <h2>Buscar mantenimientos</h2>
+        <table class="tableRegister">
+            <tr class="filas">
+                <td class="title">Número: </td>
+                <td class="td-right">3</td>
+            </tr>
+            <tr>
+                <td class="title">Nombre endpoint: </td>
+                <td class="td-right">/GET/:id</td>
+            </tr>
+            <tr>
+                <td class="title">URI: </td>
+                <td class="td-right">localhost:3000/mantenimientos/</td>
+            </tr>
+            <tr>
+                <td class="title">Descripción: </td>
+                <td class="td-right">Endpoint para buscar un mantenimiento en la base de datos por su ID</td>
+            </tr>
+            <tr>
+                <td class="title">Verbo HTTP: </td>
+                <td class="td-right">GET</td>
+            </tr>
+            <tr>
+                <td class="title">Header: </td>
+                <td class="td-right"></td>
+            </tr>
+            <tr>
+                <td class="title">Usuarios: </td>
+                <td class="td-right">Encargado</td>
+            </tr>
+            <tr>
+                <td class="title">Request JSON: </td>
+                <td class="td-right"></td>
+            </tr>
+            <tr>
+                <td class="title">Response: </td>
+                <td class="td-right">
+                   <li>
+                    <span>Correcto:</span> <br> <br>
+                    status: 200 <br><br>
+                   Body: <br>
+                   { <br>
+                    "id_mantenimiento":"Number"
+                    "tipo_mantenimiento":"preventivo/tecnico", 
+                    "fecha_mantenimiento":"03-01-2024", 
+                    "descripcion":"Aqui se relata detalles de la descripcion", 
+                    "resultado":"Aqui se relata detalles del resultado",
+                    "fk_user_responsable":"ID usuario int", 
+                    "fk_equipo":"ID usuario int"
+                  } <br> <br>
+                   </li>
+                      <li> <span>Incorrecto:</span> <br><br>
+                       status: 404 <br><br>
+                       Body: <br>
+                       {
+                        "message": "No se encontraron mantenimientos"
+                       }
+                      </li>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="table">
+        <h2>Actualizar usuarios/encargados</h2>
+        <table class="tableRegister">
+            <tr class="filas">
+                <td class="title">Número: </td>
+                <td class="td-right">4</td>
+            </tr>
+            <tr>
+                <td class="title">Nombre endpoint: </td>
+                <td class="td-right">/PUT/:id</td>
+            </tr>
+            <tr>
+                <td class="title">URI: </td>
+                <td class="td-right">localhost:3000/mantenimientos/</td>
+            </tr>
+            <tr>
+                <td class="title">Descripción: </td>
+                <td class="td-right">Endpoint para actualizar los datos de un mantenimiento en la base de datos</td>
+            </tr>
+            <tr>
+                <td class="title">Verbo HTTP: </td>
+                <td class="td-right">PUT</td>
+            </tr>
+            <tr>
+                <td class="title">Header: </td>
+                <td class="td-right">Content-Type:  JSON</td>
+            </tr>
+            <tr>
+                <td class="title">Usuarios: </td>
+                <td class="td-right">Encargado</td>
+            </tr>
+            <tr>
+                <td class="title">Request JSON: </td>
+                <td class="td-right">
+                    { <br>
+                        "id_mantenimiento":"Number" <br>
+                        "tipo_mantenimiento":"preventivo/tecnico", <br> 
+                        "fecha_mantenimiento":"03-01-2024", <br> 
+                        "descripcion":"Aqui se relata detalles de la descripcion", <br> 
+                        "resultado":"Aqui se relata detalles del resultado", <br>
+                        "fk_user_responsable":"ID usuario int", <br> 
+                        "fk_equipo":"ID usuario int" <br>
+                    } 
+                </td>
+            </tr>
+            <tr>
+                <td class="title">Response: </td>
+                <td class="td-right">
+                   <li>
+                    <span>Correcto:</span> <br> <br>
+                    status: 200 <br><br>
+                   Body: <br>
+                   {<br>
+                    "message": "Mantenimiento actualizado correctamente",<br>
+                    "categoria": [ <br>
+                      {
+                        "fieldCount": 0,
+                        "affectedRows": 1,
+                        "insertId": 0,
+                        "info": "Rows matched: 1  Changed: 1  Warnings: 0",
+                        "serverStatus": 2,
+                        "warningStatus": 0,
+                        "changedRows": 1
+                      }, <br>
+                      null
+                    ]
+                  }
+                    <br> <br>
+                   </li>
+                      <li> <span>Incorrecto:</span> <br><br>
+                       status: 403 <br><br>
+                       Body: <br>
+                       { <br>
+                        "message": "Error al actualizar el mantenimiento", <br>
+                        "error": {<br>
+                            muestra las características del error <br>
+                            }  <br>
+                       }
+                      </li>
+                </td>
+            </tr>
+        </table>
+    </div>
+  </div>
+   </div>
+   </div>
+</body>
+</html>

@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Usuarios Document</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+   <div class="container">
+    <h2>API USUARIO/S</h2>
+   <div class="content-tables">
+    <div class="content">
+        <div class="table">
+            <h2>Registrar usuarios/encargados</h2>
+            <table class="tableRegister">
+                <tr class="filas">
+                    <td class="title">Número: </td>
+                    <td class="td-right">1</td>
+                </tr>
+                <tr>
+                    <td class="title">Nombre endpoint: </td>
+                    <td class="td-right">Registrar</td>
+                </tr>
+                <tr>
+                    <td class="title">URI: </td>
+                    <td class="td-right">localhost:3000/usuarios</td>
+                </tr>
+                <tr>
+                    <td class="title">Descripción: </td>
+                    <td class="td-right">Endpoint para registrar un usuario/encargado en la base de datos</td>
+                </tr>
+                <tr>
+                    <td class="title">Verbo HTTP: </td>
+                    <td class="td-right">POST</td>
+                </tr>
+                <tr>
+                    <td class="title">Header: </td>
+                    <td class="td-right">Content-Type:  JSON</td>
+                </tr>
+                <tr>
+                    <td class="title">Usuarios: </td>
+                    <td class="td-right">Administrador</td>
+                </tr>
+                <tr>
+                    <td class="title">Request JSON: </td>
+                    <td class="td-right">
+                        { <br>
+                            "identificacion":123, 
+                            "nombres":"Marcus", 
+                            "apellidos":"Gear", 
+                            "email":"gear@gmail", 
+                            "telefono":"2314", 
+                            "password":"mosnters", 
+                            "fk_tipo_usuario":"Encargado", 
+                            "fk_unidad_productiva":"Escuela del cafe"
+                            <br>
+                        }
+                    </td>
+                </tr>
+                <tr>
+                    <td class="title">Response: </td>
+                    <td class="td-right">
+                       <li>
+                        <span>Correcto:</span> <br> <br>
+                        status: 200 <br><br>
+                       Body: <br>
+                       { <br>
+                        "message": "Usuario registrado",<br>
+                        <br> [
+                          {
+                            "fieldCount": 0,
+                            "affectedRows": 1,
+                            "insertId": 37,
+                            "info": "",
+                            "serverStatus": 2,
+                            "warningStatus": 0,
+                            "changedRows": 0
+                          }, <br>
+                          null
+                        ]
+                      } <br> <br>
+                       </li>
+                          <li> <span>Incorrecto:</span> <br><br>
+                           status: 500 <br><br>
+                           Body: <br>
+                           {<br>
+                            "message": "Usuario no registrado",<br>
+                            "error": {<br>
+                              muestra las características del error<br>
+                            }
+                          }
+                          </li>
+                           
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="table">
+            <h2>Listar usuarios/encargados</h2>
+            <table class="tableRegister">
+                <tr class="filas">
+                    <td class="title">Número: </td>
+                    <td class="td-right">2</td>
+                </tr>
+                <tr>
+                    <td class="title">Nombre endpoint: </td>
+                    <td class="td-right">Listar</td>
+                </tr>
+                <tr>
+                    <td class="title">URI: </td>
+                    <td class="td-right">localhost:3000/usuarios</td>
+                </tr>
+                <tr>
+                    <td class="title">Descripción: </td>
+                    <td class="td-right">Endpoint para listar los usuario/encargados de la base de datos</td>
+                </tr>
+                <tr>
+                    <td class="title">Verbo HTTP: </td>
+                    <td class="td-right">GET</td>
+                </tr>
+                <tr>
+                    <td class="title">Header: </td>
+                    <td class="td-right"></td>
+                </tr>
+                <tr>
+                    <td class="title">Usuarios: </td>
+                    <td class="td-right">Administrador</td>
+                </tr>
+                <tr>
+                    <td class="title">Request JSON: </td>
+                    <td class="td-right"></td>
+                </tr>
+                <tr>
+                    <td class="title">Response: </td>
+                    <td class="td-right">
+                       <li>
+                        <span>Correcto:</span> <br> <br>
+                        status: 200 <br><br>
+                       Body: <br>
+                       [<br>
+                       {<br>
+                            "id_usuario": 4, <br>
+                            "identificacion": 1007520867, <br>
+                            "nombres": "Santiago", <br>
+                            "apellidos": "Motato", <br>
+                            "email": "sant@gmail.com", <br>
+                            "telefono": "3113880114", <br>
+                       },<br>
+                       {<br>
+                        "rol": "administrador", <br>
+                        "nombre_unidad": "Gastronomía" <br>
+                       } <br>
+                     ] <br> <br>
+                       </li>
+                          <li> <span>Incorrecto:</span> <br><br>
+                           status: 500 <br><br>
+                           Body: <br>
+                           { <br>
+                            "message": "Error! No hay usuarios registrados" <br>
+                           }
+                          </li>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+  <div class="content">
+    <div class="table">
+        <h2>Buscar usuarios/encargados</h2>
+        <table class="tableRegister">
+            <tr class="filas">
+                <td class="title">Número: </td>
+                <td class="td-right">3</td>
+            </tr>
+            <tr>
+                <td class="title">Nombre endpoint: </td>
+                <td class="td-right">Buscar:id</td>
+            </tr>
+            <tr>
+                <td class="title">URI: </td>
+                <td class="td-right">localhost:3000/usuarios/</td>
+            </tr>
+            <tr>
+                <td class="title">Descripción: </td>
+                <td class="td-right">Endpoint para buscar un usuario/encargado en la base de datos por su ID</td>
+            </tr>
+            <tr>
+                <td class="title">Verbo HTTP: </td>
+                <td class="td-right">GET</td>
+            </tr>
+            <tr>
+                <td class="title">Header: </td>
+                <td class="td-right"></td>
+            </tr>
+            <tr>
+                <td class="title">Usuarios: </td>
+                <td class="td-right">Administrador</td>
+            </tr>
+            <tr>
+                <td class="title">Request JSON: </td>
+                <td class="td-right"></td>
+            </tr>
+            <tr>
+                <td class="title">Response: </td>
+                <td class="td-right">
+                   <li>
+                    <span>Correcto:</span> <br> <br>
+                    status: 200 <br><br>
+                   Body: <br>
+                   { <br>
+                    "id_usuario": 7, <br>
+                    "identificacion": 1007520867, <br>
+                    "nombres": "Miller", <br>
+                    "apellidos": "Alas", <br>
+                    "email": "bermeo@gmail.com", <br>
+                    "telefono": "212121212", <br>
+                    "rol": "administrador", <br>
+                    "nombre_unidad": "Escuela del Café" <br>
+                  } <br> <br>
+                   </li>
+                      <li> <span>Incorrecto:</span> <br><br>
+                       status: 404 <br><br>
+                       Body: <br>
+                       {
+                        "message": "Error! El usuario no existe!"
+                       }
+                      </li>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="table">
+        <h2>Actualizar usuarios/encargados</h2>
+        <table class="tableRegister">
+            <tr class="filas">
+                <td class="title">Número: </td>
+                <td class="td-right">4</td>
+            </tr>
+            <tr>
+                <td class="title">Nombre endpoint: </td>
+                <td class="td-right">Actualizar/:id/td>
+            </tr>
+            <tr>
+                <td class="title">URI: </td>
+                <td class="td-right">localhost:3000/usuarios/</td>
+            </tr>
+            <tr>
+                <td class="title">Descripción: </td>
+                <td class="td-right">Endpoint para actualizar los datos de un usuario/encargado en la base de datos</td>
+            </tr>
+            <tr>
+                <td class="title">Verbo HTTP: </td>
+                <td class="td-right">PUT</td>
+            </tr>
+            <tr>
+                <td class="title">Header: </td>
+                <td class="td-right">Content-Type:  JSON</td>
+            </tr>
+            <tr>
+                <td class="title">Usuarios: </td>
+                <td class="td-right">Administrador</td>
+            </tr>
+            <tr>
+                <td class="title">Request JSON: </td>
+                <td class="td-right">
+                    { <br>
+                        "id_usuario": 7, <br>
+                        "identificacion": 1007520867, <br>
+                        "nombres": "Miller", <br>
+                        "apellidos": "Alitas", <br>
+                        "email": "alitas@gmail.com", <br>
+                        "telefono": "3114564321", <br>
+                        "rol": "Encargado", <br>
+                        "nombre_unidad": "Escuela del Café" <br>
+                    } 
+                </td>
+            </tr>
+            <tr>
+                <td class="title">Response: </td>
+                <td class="td-right">
+                   <li>
+                    <span>Correcto:</span> <br> <br>
+                    status: 200 <br><br>
+                   Body: <br>
+                   {<br>
+                    "message": "Usuario actualizado",<br>
+                    "categoria": [ <br>
+                      {
+                        "fieldCount": 0,
+                        "affectedRows": 1,
+                        "insertId": 0,
+                        "info": "Rows matched: 1  Changed: 1  Warnings: 0",
+                        "serverStatus": 2,
+                        "warningStatus": 0,
+                        "changedRows": 1
+                      }, <br>
+                      null
+                    ]
+                  }
+                    <br> <br>
+                   </li>
+                      <li> <span>Incorrecto:</span> <br><br>
+                       status: 404 <br><br>
+                       Body: <br>
+                       { <br>
+                        "message": "Error! Usuario no actualizado!", <br>
+                        "error": {<br>
+                            muestra las características del error <br>
+                            }  <br>
+                       }
+                      </li>
+                </td>
+            </tr>
+        </table>
+    </div>
+  </div>
+   </div>
+   </div>
+</body>
+</html>

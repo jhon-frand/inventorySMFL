@@ -33,6 +33,40 @@ app.use("/actividades", rutasActividades);
 app.use("/tipousuario", rutasTipo);
 app.use("/login", rutasLogin);
 
+
+//DOCUMENTACION APIs
+app.set('view engine', 'ejs');
+app.set('views', './src/documents');
+app.use(express.static('./src/public'));
+
+app.get('/docunidades', (req, res) => {
+    res.render('docUnidades.ejs');
+});
+app.get('/docusuarios', (req, res) => {
+    res.render('docUsuarios.ejs');
+});
+app.get('/doccategorias', (req, res) => {
+    res.render('docCategorias.ejs');
+});
+app.get('/docequipos', (req, res) => {
+    res.render('docEquipos.ejs');
+});
+app.get('/docubicaciones', (req, res) => {
+    res.render('docUbicaciones.ejs');
+});
+app.get('/docmantenimientos', (req, res) => {
+    res.render('docMantenimientos.ejs');
+});
+app.get('/doctecnicos', (req, res) => {
+    res.render('docTecnicos.ejs');
+});
+app.get('/docactividades', (req, res) => {
+    res.render('docActividades.ejs');
+});
+app.get('/doctipoUsuario', (req, res) => {
+    res.render('docTipoUsuario.ejs');
+});
+
 app.listen(3000, () => {
     console.log("Server on port 3000");
     connectionDb();

@@ -85,7 +85,6 @@ function Login() {
               <button className="submit">Iniciar sesión</button>
               <p className="footer">¿Olvidó su contraseña?<a href="" className='linkRegister' >¡Recuperar!</a></p>
             </form>
-
             <div className="banner">
               <h1 className="wel_text">Bienvenido</h1>
               <p className="para">A INVENTORY</p>

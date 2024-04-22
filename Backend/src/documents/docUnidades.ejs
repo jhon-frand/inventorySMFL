@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unidades Document</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+   <div class="container">
+    <h2>API UNIDADES PRODUCTIVAS</h2>
+   <div class="content-tables">
+    <div class="content">
+        <div class="table">
+            <h2>Registrar unidad productiva</h2>
+            <table class="tableRegister">
+                <tr class="filas">
+                    <td class="title">Número: </td>
+                    <td class="td-right">1</td>
+                </tr>
+                <tr>
+                    <td class="title">Nombre endpoint: </td>
+                    <td class="td-right">Registrar unidad productiva</td>
+                </tr>
+                <tr>
+                    <td class="title">URI: </td>
+                    <td class="td-right">localhost:3000/unidades</td>
+                </tr>
+                <tr>
+                    <td class="title">Descripción: </td>
+                    <td class="td-right">Endpoint para registrar una unidad productiva en la base de datos</td>
+                </tr>
+                <tr>
+                    <td class="title">Verbo HTTP: </td>
+                    <td class="td-right">POST</td>
+                </tr>
+                <tr>
+                    <td class="title">Header: </td>
+                    <td class="td-right">Content-Type:  JSON</td>
+                </tr>
+                <tr>
+                    <td class="title">Usuarios: </td>
+                    <td class="td-right">Administrador</td>
+                </tr>
+                <tr>
+                    <td class="title">Request JSON: </td>
+                    <td class="td-right">
+                        { <br>
+                            "nombre_unidad": "Agroindustria" <br>
+                           }
+                    </td>
+                </tr>
+                <tr>
+                    <td class="title">Response: </td>
+                    <td class="td-right">
+                       <li>
+                        <span>Correcto:</span> <br> <br>
+                        status: 200 <br><br>
+                       Body: <br>
+                       { <br>
+                        "message": "unidad productiva Registrada",<br>
+                        "unidad": <br> [
+                          {
+                            "fieldCount": 0,
+                            "affectedRows": 1,
+                            "insertId": 37,
+                            "info": "",
+                            "serverStatus": 2,
+                            "warningStatus": 0,
+                            "changedRows": 0
+                          }, <br>
+                          null
+                        ]
+                      } <br> <br>
+                       </li>
+                          <li> <span>Incorrecto:</span> <br><br>
+                           status: 500 <br><br>
+                           Body: <br>
+                           {<br>
+                            "message": "error al registrar unidad productiva ",<br>
+                            "error": {<br>
+                              muestra las características del error<br>
+                            }
+                          }
+                          </li>
+                           
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="table">
+            <h2>Listar unidad productiva</h2>
+            <table class="tableRegister">
+                <tr class="filas">
+                    <td class="title">Número: </td>
+                    <td class="td-right">2</td>
+                </tr>
+                <tr>
+                    <td class="title">Nombre endpoint: </td>
+                    <td class="td-right">Listar unidades productivas</td>
+                </tr>
+                <tr>
+                    <td class="title">URI: </td>
+                    <td class="td-right">localhost:3000/unidades</td>
+                </tr>
+                <tr>
+                    <td class="title">Descripción: </td>
+                    <td class="td-right">Endpoint para listar las unidades productivas de la base de datos</td>
+                </tr>
+                <tr>
+                    <td class="title">Verbo HTTP: </td>
+                    <td class="td-right">GET</td>
+                </tr>
+                <tr>
+                    <td class="title">Header: </td>
+                    <td class="td-right"></td>
+                </tr>
+                <tr>
+                    <td class="title">Usuarios: </td>
+                    <td class="td-right">Administrador</td>
+                </tr>
+                <tr>
+                    <td class="title">Request JSON: </td>
+                    <td class="td-right"></td>
+                </tr>
+                <tr>
+                    <td class="title">Response: </td>
+                    <td class="td-right">
+                       <li>
+                        <span>Correcto:</span> <br> <br>
+                        status: 200 <br><br>
+                       Body: <br>
+                       [<br>
+                       {<br>
+                         "id_unidad": 1,<br>
+                         "nombre_unidad": "Agroindustria"<br>
+                       },<br>
+                       {<br>
+                         "id_unidad": 2,<br>
+                         "nombre_unidad": "Gastronomía"<br>
+                       } <br>
+                     ] <br> <br>
+                       </li>
+                          <li> <span>Incorrecto:</span> <br><br>
+                           status: 500 <br><br>
+                           Body: <br>
+                           {
+                            "message": "error al listar unidades productivas"
+                           }
+                          </li>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+  <div class="content">
+    <div class="table">
+        <h2>Buscar unidad productiva</h2>
+        <table class="tableRegister">
+            <tr class="filas">
+                <td class="title">Número: </td>
+                <td class="td-right">3</td>
+            </tr>
+            <tr>
+                <td class="title">Nombre endpoint: </td>
+                <td class="td-right">Buscar unidad productiva</td>
+            </tr>
+            <tr>
+                <td class="title">URI: </td>
+                <td class="td-right">localhost:3000/unidades/:id</td>
+            </tr>
+            <tr>
+                <td class="title">Descripción: </td>
+                <td class="td-right">Endpoint para buscar una unidad productiva en la base de datos por su ID</td>
+            </tr>
+            <tr>
+                <td class="title">Verbo HTTP: </td>
+                <td class="td-right">GET</td>
+            </tr>
+            <tr>
+                <td class="title">Header: </td>
+                <td class="td-right"></td>
+            </tr>
+            <tr>
+                <td class="title">Usuarios: </td>
+                <td class="td-right">Administrador</td>
+            </tr>
+            <tr>
+                <td class="title">Request JSON: </td>
+                <td class="td-right"></td>
+            </tr>
+            <tr>
+                <td class="title">Response: </td>
+                <td class="td-right">
+                   <li>
+                    <span>Correcto:</span> <br> <br>
+                    status: 200 <br><br>
+                   Body: <br>
+                   { <br>
+                    "id_unidad": 1,<br>
+                    "nombre_unidad": "Agroindustria"
+                   }  <br> <br>
+                   </li>
+                      <li> <span>Incorrecto:</span> <br><br>
+                       status: 404 <br><br>
+                       Body: <br>
+                       {
+                        "message": "error al buscar unidad productiva"
+                       }
+                      </li>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="table">
+        <h2>Actualizar unidad productiva</h2>
+        <table class="tableRegister">
+            <tr class="filas">
+                <td class="title">Número: </td>
+                <td class="td-right">4</td>
+            </tr>
+            <tr>
+                <td class="title">Nombre endpoint: </td>
+                <td class="td-right">Actualizar unidad productiva</td>
+            </tr>
+            <tr>
+                <td class="title">URI: </td>
+                <td class="td-right">localhost:3000/unidades/:id</td>
+            </tr>
+            <tr>
+                <td class="title">Descripción: </td>
+                <td class="td-right">Endpoint para actualizar datos de una unidad productiva en la base de datos</td>
+            </tr>
+            <tr>
+                <td class="title">Verbo HTTP: </td>
+                <td class="td-right">PUT</td>
+            </tr>
+            <tr>
+                <td class="title">Header: </td>
+                <td class="td-right">Content-Type:  JSON</td>
+            </tr>
+            <tr>
+                <td class="title">Usuarios: </td>
+                <td class="td-right">Administrador</td>
+            </tr>
+            <tr>
+                <td class="title">Request JSON: </td>
+                <td class="td-right">
+                    { <br>
+                        "nombre_unidad": "Escuela del Café", <br>
+                       } 
+                </td>
+            </tr>
+            <tr>
+                <td class="title">Response: </td>
+                <td class="td-right">
+                   <li>
+                    <span>Correcto:</span> <br> <br>
+                    status: 200 <br><br>
+                   Body: <br>
+                   {<br>
+                    "message": "Unidad Actualizada",<br>
+                    "unidad": [ <br>
+                      {
+                        "fieldCount": 0,
+                        "affectedRows": 1,
+                        "insertId": 0,
+                        "info": "Rows matched: 1  Changed: 1  Warnings: 0",
+                        "serverStatus": 2,
+                        "warningStatus": 0,
+                        "changedRows": 1
+                      }, <br>
+                      null
+                    ]
+                  }
+                    <br> <br>
+                   </li>
+                      <li> <span>Incorrecto:</span> <br><br>
+                       status: 500 <br><br>
+                       Body: <br>
+                       { <br>
+                        "message": "error al actualizar unidad", <br>
+                        "error": {<br>
+                            muestra las características del error <br>
+                            }  <br>
+                       }
+                      </li>
+                </td>
+            </tr>
+        </table>
+    </div>
+  </div>
+   </div>
+   </div>
+</body>
+</html>
