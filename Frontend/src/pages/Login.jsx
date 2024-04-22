@@ -2,7 +2,7 @@ import { useState } from 'react'
 import styled from 'styled-components'
 import axios from "axios"
 import { useNavigate } from "react-router-dom";
-import logo from "../assets/inventoryview.png"
+import logoInventory from "../assets/inventory.png"
 import logoSena from "../assets/sena.png"
 import { AiOutlineMail, AiOutlineLock } from "react-icons/ai";
 import { AlertSucces, AlertUser } from '../components/alerts/Alerts';
@@ -60,7 +60,7 @@ function Login() {
   return (
     <Container>
       <div className="navbar">
-      <img src={logo} alt="logo Inventory" />
+      <img src={logoInventory} alt="logo Inventory" />
         <h3>INVENTORY</h3>
       </div>
     <div className="content">

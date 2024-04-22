@@ -1,5 +1,5 @@
 import styled from "styled-components"
-import logo from "../../assets/inventoryview.png"
+import logoInventory from "../../assets/inventory.png"
 import { FiSettings } from "react-icons/fi";
 import { FaUserCircle } from "react-icons/fa";
 import { FiBell } from "react-icons/fi";
@@ -12,7 +12,7 @@ function NavBar() {
     <Container>
           <p>Hi!, {nameUser}</p>
         <div className="logo">
-          <img src={logo} alt="logo sena" />
+          <img src={logoInventory} alt="logo Inventory" />
           <h1>INVENTORY</h1>
         </div>
         <div className="menu-user">
