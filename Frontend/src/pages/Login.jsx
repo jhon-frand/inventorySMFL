@@ -92,30 +92,39 @@ function Login() {
           </div>
         </div>
     </div> */}
+      <div className="content">
+      <img src={logoInventory} alt="Logo Inventory" />
+        <h1 className="wel_text">INVENTORY</h1>
+        <p className="para"></p>
+       <footer>
+        <img src={logoSena} alt="" srcset="" />
+        <p>CENTRO DE GESTIÓN Y DESARROLLO SOSTENIBLE SURCOLOMBIANO</p>
+       </footer>
+      </div>
 
-    
-            <form onSubmit={loginUser} className="form">
-              <div className='content-form'>
-              <h1 className="title">¡Hola de nuevo!</h1>
-              <div className="inp">
-                <AiOutlineMail />
-                <input name="email" className='input' value={valores.email} onChange={valorInput} type="email" placeholder='email' />
-              </div>
-              <div className="inp">
-                <AiOutlineLock />
-                <input name="password" className='input' value={valores.password} onChange={valorInput} type="password" placeholder='password' />
-              </div>
-              <button className="submit">Iniciar sesión</button>
-              <p className="footer">¿Olvidó su contraseña?<a href="" className='linkRegister' >¡Recuperar!</a></p>
-            
-              </div>
-              </form>
-            <div className="banner">
-              <h1 className="wel_text">Bienvenido</h1>
-              <p className="para">A INVENTORY</p>
-              <img src={logoInventory} alt="" />
+
+      <div className="banner">
+        <form onSubmit={loginUser} className="form">
+          <div className='content-form'>
+            <h1 className="title">¡Bienvenido!</h1>
+            <div className="inp">
+              <AiOutlineMail />
+              <input name="email" className='input' value={valores.email} onChange={valorInput} type="email" placeholder='email' />
             </div>
-         
+            <div className="inp">
+              <AiOutlineLock />
+              <input name="password" className='input' value={valores.password} onChange={valorInput} type="password" placeholder='password' />
+            </div>
+            <div className="checkbox">
+            <input type="checkbox" />
+            <p>¿Recordarme?</p>
+            </div>
+            <button className="submit">Iniciar sesión</button>
+            <p className="footer">¿Olvidó su contraseña?<a href="" className='linkRegister' >¡Recuperarla!</a></p>
+          </div>
+        </form>
+      </div>
+
     </Container>
   )
 }
@@ -123,17 +132,66 @@ function Login() {
 const Container = styled.div`
       display: flex;
       height: 100vh;
+      background: white;
 
 ::-webkit-input-placeholder {
   color: gray;
 }
 
-        .form {
+.content{
+  width: 40%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+
+  img{
+    width: 30%;
+  }
+
+  footer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 80%;
+    position: absolute;
+    bottom: 0;
+    p{
+      border-left: 2px solid green;
+      padding: 10px;
+      text-align: center;
+      color: gray;
+    }
+
+    img{
+      width: 100px;
+    }
+  }
+}
+              
+.banner {
+  width: 60%;
+ // background: linear-gradient(to right, #38a8005a, #38a800);
+  background: radial-gradient(#38a8005a, #38a800);
+ clip-path: polygon(0 0, 100% 0, 100% 100%, 20% 100%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .form {
        display: flex;
        flex-direction: column;
        justify-content: center;
        align-items: center;
-       width: 40%;
+       position: relative;
+
+       img{
+        width: 130px;
+        position: absolute;
+        top: 0;
+        
+       }
 
        .content-form{
         display: flex;
@@ -141,41 +199,35 @@ const Container = styled.div`
         justify-content: center;
         align-items: center;
         border-radius: 15px;
-        box-shadow: 0 0 5px gray;
-        width: 50%;
+        box-shadow: 0 0 5px white;
         height: 500px;
-        padding: 20px;
+        padding: 40px;
+       background: white;
+       }
+
+       .checkbox{
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        padding: 15px;
+
+        input{
+          cursor: pointer;
+        }
        }
               }
-              
-.banner {
-  width: 60%;
-  background: linear-gradient(to right, rgba(43, 202, 37, 0.37), #38a800);
-  clip-path: polygon(0 0, 100% 0, 100% 100%, 60% 100%);
-  padding-right: 100px;
-  gap: 50px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: end;
-
-  img{
-    width: 200px;
-    height: 200px;
-  }
 }
   
 
 .title {
   font-size: 30px;
-  color: #79D70F;
+  color: #38a800;
+  margin-bottom: 20px;
 }
 
 .inp {
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 5px;
   height: 70px;
   border-bottom: 2px solid #cecece;
 
@@ -192,22 +244,20 @@ const Container = styled.div`
   padding: 5px;
   padding-right: 10px;
   font-size: 17px;
+  
 }
 
 
 
 .wel_text {
-  font-size: 100px;
-  line-height: 50px;
-  color: #ECF3F6;
+  font-size: 80px;
+  color: #00324d;
 
 }
 
 .para {
   font-size: 40px;
-  line-height: 24px;
-  letter-spacing: 1px;
-  color: #ECF3F6;
+  color: #00324d;
 
 }
 .footer {
@@ -223,20 +273,18 @@ a{
 }
 .submit {
   border: none;
-  outline: none;
-  width: 288px;
-  margin-top: 25px;
+  width: 100%;
+  margin-top: 20px;
   padding: 10px;
   font-size: 20px;
   border-radius: 40px;
   letter-spacing: 1px;
   cursor: pointer;
   background: linear-gradient(45deg, rgba(25, 196, 20, 0.555), #38a800);
-  color: aliceblue;
+  color: white;
 
   &:hover{
     background:#38a800;
-    color: aliceblue;
   }
 }
 `;
