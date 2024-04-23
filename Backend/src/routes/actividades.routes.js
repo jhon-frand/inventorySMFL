@@ -10,5 +10,6 @@ rutas.put("/:id", validationActividad(), validationToken, actividades.putActivid
 rutas.get("/", actividades.getActividades);
 rutas.get("/:unidad", actividades.getActividadesUnit);
 rutas.get("/:id", actividades.getActividad);
+rutas.get("/mantenimiento/:id", actividades.getActividadesMantenimiento)
 
 export default rutas;

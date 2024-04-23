@@ -13,4 +13,5 @@ rutas.get("/total/:unidad", mantenimientos.getTotalMantenimientoUnidad)
 rutas.get("/:unidad", mantenimientos.getMantenimientoUnidad);
 rutas.get("/:id", mantenimientos.getMantenimiento);
 
+
 export default rutas;

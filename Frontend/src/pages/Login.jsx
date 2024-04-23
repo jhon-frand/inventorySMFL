@@ -93,11 +93,11 @@ function Login() {
         </div>
     </div> */}
       <div className="content">
-      <img src={logoInventory} alt="Logo Inventory" />
+      <img src={logoInventory} alt="INVENTORY" />
         <h1 className="wel_text">INVENTORY</h1>
         <p className="para"></p>
        <footer>
-        <img src={logoSena} alt="" srcset="" />
+        <img src={logoSena} alt="SENA"/>
         <p>CENTRO DE GESTIÓN Y DESARROLLO SOSTENIBLE SURCOLOMBIANO</p>
        </footer>
       </div>
@@ -172,8 +172,8 @@ const Container = styled.div`
               
 .banner {
   width: 60%;
- // background: linear-gradient(to right, #38a8005a, #38a800);
-  background: radial-gradient(#38a8005a, #38a800);
+ //background: linear-gradient(to right, #38a8005a, #38a800);
+ background: radial-gradient(#38a8005a, #38a800);
  clip-path: polygon(0 0, 100% 0, 100% 100%, 20% 100%);
   display: flex;
   justify-content: center;

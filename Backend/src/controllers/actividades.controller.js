@@ -139,10 +139,34 @@ const getActividad = async (peticion, respuesta) => {
     }
 };
 
+const getActividadesMantenimiento =  async (peticion, respuesta) => {
+    try {
+        const {id} = peticion.params;
+        const sql = `
+                    SELECT actividades.*,
+                    mantenimientos.id_mantenimiento 
+                    FROM actividades
+                    JOIN mantenimientos ON mantenimientos.id_mantenimiento = actividades.fk_mantenimiento
+                    WHERE id_mantenimiento = ?
+        `; 
+        const [resultado] = await connection.query(sql, id);
+
+        if (resultado.length > 0 ) {
+            return respuesta.status(200).json(resultado);
+        } 
+    } catch (error) {
+        respuesta.status(500);
+        respuesta.send(error);
+    }
+}
+
+
+
 export const actividades = {
    postActividad,
    putActividad,
    getActividades,
    getActividadesUnit,
-   getActividad
+   getActividad,
+   getActividadesMantenimiento
 }

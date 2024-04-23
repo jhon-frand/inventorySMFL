@@ -7,6 +7,7 @@ import Modal from "../components/modals/Modal";
 import ButtonEdit from "../components/organismos/ButtonEdit";
 import moment from "moment";
 import { GoTools } from "react-icons/go";
+import { IoEyeSharp } from "react-icons/io5";
 import { Contenedor } from "../components/styles/StylesPages";
 import { AlertSucces, AlertError } from "../components/alerts/Alerts";
 import HeaderPageMante from "../components/organismos/HeaderPageMante";
@@ -29,6 +30,7 @@ function Mantenimientos() {
   const [equiposUnidad, setEquiposUnidad] = useState([])
   const [tecnicos, setTecnicos] = useState([])
   const [actividades, setActividades] = useState([])
+  const [actividadesMantenimiento, setActividadesMantenimiento] = useState([])
   const [actividadesUnit, setActividadesUnit] = useState([])
   const [modal, setModal] = useState(false)
   const [modalUpdate, setModalUpdate] = useState(false)
@@ -65,6 +67,19 @@ function Mantenimientos() {
         setActividadesUnit(activities);
       })
     } catch (error) {
+      console.log(error);
+    }
+  }
+
+  const getActividadesMantenimiento = async (id) => {
+    try {
+    console.log(id)
+    await axios.get(`http://localhost:3000/actividades/mantenimiento/${id}`).then((response) => {
+    const activitiesManten = response.data;
+    console.log(activitiesManten);
+   })
+  console.log(actividadesMantenimiento);  
+  } catch (error) {
       console.log(error);
     }
   }
@@ -467,11 +482,14 @@ function Mantenimientos() {
     },
     {
       name: "editar",
-      label: "ACTIVIDAD",
+      label: "ACTIVIDADES",
       options: {
         customBodyRender: (value, tableMeta, updateValue) => {
           return (
+            <>
             <ButtonEdit titulo="REGISTRAR ACTIVIDAD" funcion1={() => getIdMantenimiento(tableMeta.rowData)} />
+            <IoEyeSharp className="icon-activity" onClick={() => getActividadesMantenimiento(tableMeta.rowData[0])}/>
+            </>
           )
         }
       }
@@ -571,6 +589,7 @@ function Mantenimientos() {
       getTecnicos();
       getActividades();
       getActividadesUnidad();
+      getActividadesMantenimiento();
     },[])
 //#endregion funciones
   return (
@@ -1078,6 +1097,12 @@ flex-direction: column;
   display: flex;
   justify-content: center;
   align-items: center;
+
+  .icon-activity{
+    font-size: 30px;
+    color: orange;
+    cursor: pointer;
+  }
 
   .table{
      width: 90%;
