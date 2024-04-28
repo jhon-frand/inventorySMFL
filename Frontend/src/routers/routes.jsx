@@ -9,30 +9,29 @@ import Unidades from "../pages/Unidades"
 function MyRoutes() {
 
   const rol = localStorage.getItem("user");
-  
+
   return (
     <>
-        {
-          rol && rol === "1" ? (
-            <Routes>
-            <Route path="/dashboard" element={<Dashboard/>} />
-        <Route path="/equipos" element={<Equipos/>} />
-        <Route path="/mantenimientos" element={<Mantenimientos/>} />
-        <Route path="/ubicaciones" element={<Ubicaciones/>} />
-        <Route path="/usuarios" element={<Usuarios/>} />
-        <Route path="/unidades" element={<Unidades/>} />
-        </Routes>
-          ) : (
-            <Routes>
-            <Route path="/dashboard" element={<Dashboard/>} />
-        <Route path="/equipos" element={<Equipos/>} />
-        <Route path="/mantenimientos" element={<Mantenimientos/>} />
-        <Route path="/ubicaciones" element={<Ubicaciones/>} />
-        </Routes> 
-          )
-        }
-
-</>
+      {
+        rol && rol === "1" ? (
+          <Routes>
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/equipos" element={<Equipos />} />
+            <Route path="/mantenimientos" element={<Mantenimientos />} />
+            <Route path="/ubicaciones" element={<Ubicaciones />} />
+            <Route path="/usuarios" element={<Usuarios />} />
+            <Route path="/unidades" element={<Unidades />} />
+          </Routes>
+        ) : (
+          <Routes>
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/equipos" element={<Equipos />} />
+            <Route path="/mantenimientos" element={<Mantenimientos />} />
+            <Route path="/ubicaciones" element={<Ubicaciones />} />
+          </Routes>
+        )
+      }
+    </>
   )
 }
 

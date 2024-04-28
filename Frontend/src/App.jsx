@@ -1,10 +1,11 @@
-import { BrowserRouter } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import styled from "styled-components";
 import MyRoutes from "./routers/routes";
 import SideBar from "./components/organismos/SideBar";
 import { useState } from "react";
 import NavBar from "./components/organismos/NavBar";
 import Login from "./pages/Login";
+import ResetPassword from "./pages/ResetPassword";
 
 function App() {
 
@@ -16,7 +17,7 @@ function App() {
  
   return (
     <>
-      <BrowserRouter>
+      {/* <BrowserRouter>
       {
         login ? (
           <Container>
@@ -34,7 +35,31 @@ function App() {
           <Login />
         )
       }
-      </BrowserRouter>
+      </BrowserRouter> */}
+      
+      <BrowserRouter>
+            <Routes>
+                <Route path="/restablecer" element={<ResetPassword />} />
+
+                {login ? (
+                    <Route path="/*" element={
+                        <Container>
+                            <SideBarContainer>
+                                <SideBar openSide={sideBarOpen} setOpenSide={setSideBarOpen} />
+                            </SideBarContainer>
+                            <Content $sideBarOpen={sideBarOpen}>
+                                <NavBarContainer $sideBarOpen={sideBarOpen}>
+                                    <NavBar />
+                                </NavBarContainer>
+                                <MyRoutes />
+                            </Content>
+                        </Container>
+                    } />
+                ) : (
+                    <Route path="/*" element={<Login />} />
+                )}
+            </Routes>
+        </BrowserRouter>
     </>
   );
 }

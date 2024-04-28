@@ -13,6 +13,7 @@ import rutasTecnicos from "./src/routes/tecnicos.routes.js";
 import rutasActividades from "./src/routes/actividades.routes.js";
 import rutasTipo from "./src/routes/tipousuario.routes.js";
 import rutasLogin from "./src/routes/validator.routes.js";
+import rutasPassword from "./src/routes/password.routes.js";
 
 const app = express();
 
@@ -32,6 +33,7 @@ app.use("/tecnicos", rutasTecnicos);
 app.use("/actividades", rutasActividades);
 app.use("/tipousuario", rutasTipo);
 app.use("/login", rutasLogin);
+app.use("/password", rutasPassword);
 
 
 //DOCUMENTACION APIs

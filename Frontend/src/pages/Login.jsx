@@ -6,10 +6,33 @@ import logoInventory from "../assets/inventory.png"
 import logoSena from "../assets/sena.png"
 import { AiOutlineMail, AiOutlineLock } from "react-icons/ai";
 import { AlertSucces, AlertUser } from '../components/alerts/Alerts';
+import Modal from "../components/modals/Modal"
 
 function Login() {
 
   const navigate = useNavigate();
+  const [modal, setModal] = useState(false)
+
+  const [email, setEmail] = useState({
+    email: ""
+  })
+  const inputEmail = (event) => {
+    setEmail({
+      ...email,
+       [event.target.name]: event.target.value
+    })
+  }
+  const sendEmail = async (event) => {
+    event.preventDefault();
+    try {
+      await axios.post("http://localhost:3000/password/recuperar", email);
+      alert("Revisa tu correo")
+      setModal(false)
+    } catch (error) {
+      console.log(error);
+      alert("Error al enviar el correo")
+    }
+  }
 
   const [valores, setValores] = useState({
     email: "",
@@ -59,39 +82,6 @@ function Login() {
 
   return (
     <Container>
-      {/* <div className="navbar">
-      <img src={logoInventory} alt="logo Inventory" />
-        <h3>INVENTORY</h3>
-      </div>
-    <div className="content">
-    <div className="left-content">
-        <div className='text-content'>
-        <img src={logoSena} alt="logo Inventory" />
-        <p>CENTRO DE GESTIÓN Y DESARROLLO SOSTENIBLE SURCOLOMBIANO</p>
-        </div>
-      </div>
-      <div className="right-content">
-          <div className="wrapper">
-            <form onSubmit={loginUser} className="form">
-              <h1 className="title">¡Hola de nuevo!</h1>
-              <div className="inp">
-                <AiOutlineMail />
-                <input name="email" className='input' value={valores.email} onChange={valorInput} type="email" placeholder='email' />
-              </div>
-              <div className="inp">
-                <AiOutlineLock />
-                <input name="password" className='input' value={valores.password} onChange={valorInput} type="password" placeholder='password' />
-              </div>
-              <button className="submit">Iniciar sesión</button>
-              <p className="footer">¿Olvidó su contraseña?<a href="" className='linkRegister' >¡Recuperar!</a></p>
-            </form>
-            <div className="banner">
-              <h1 className="wel_text">Bienvenido</h1>
-              <p className="para">A INVENTORY</p>
-            </div>
-          </div>
-        </div>
-    </div> */}
       <div className="content">
       <img src={logoInventory} alt="INVENTORY" />
         <h1 className="wel_text">INVENTORY</h1>
@@ -120,10 +110,24 @@ function Login() {
             <p>¿Recordarme?</p>
             </div>
             <button className="submit">Iniciar sesión</button>
-            <p className="footer">¿Olvidó su contraseña?<a href="" className='linkRegister' >¡Recuperarla!</a></p>
+            <div className="reset">
+            <p className="footer">¿Olvidaste tu contraseña?</p>
+            <p className='linkRegister' onClick={() => setModal(true)} >¡Recupérala!</p>
+            </div>
           </div>
         </form>
       </div>
+      <Modal
+      titulo="RECUPERAR CONTRASEÑA"
+      estado={modal}
+      cambiarEstado={() => setModal(false)}
+      >
+        <form className='form-email' onSubmit={sendEmail}>
+          <input name='email' value={email.email} onChange={inputEmail} type="email"  placeholder='Ingresa tu Email' required/>
+          <button>ENVIAR</button>
+        </form>
+
+      </Modal>
 
     </Container>
   )
@@ -172,7 +176,6 @@ const Container = styled.div`
               
 .banner {
   width: 60%;
- //background: linear-gradient(to right, #38a8005a, #38a800);
  background: radial-gradient(#38a8005a, #38a800);
  clip-path: polygon(0 0, 100% 0, 100% 100%, 20% 100%);
   display: flex;
@@ -260,16 +263,23 @@ const Container = styled.div`
   color: #00324d;
 
 }
-.footer {
-  margin-top: 30px;
+
+
+.reset{
+  margin-top: 20px;
+  display: flex;
+  gap: 15px;
+
+  .footer {
   letter-spacing: 0.5px;
   font-size: 14px;
   cursor: pointer;
 }
-a{
-  margin-left: 10px;
-  text-decoration: none;
-  color: #359107;
+
+.linkRegister{
+  color: #38a800;
+  cursor: pointer;
+}
 }
 .submit {
   border: none;
@@ -287,6 +297,32 @@ a{
     background:#38a800;
   }
 }
+
+.form-email{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 10px;
+  padding: 10px;
+
+  input{
+    padding: 10px;
+    border: 1px solid #00324d;
+    border-radius: 5px;
+    outline: none;
+    background: none;
+  }
+
+  button{
+    border: none;
+    padding: 10px;
+    border-radius: 40px;
+    letter-spacing: 1px;
+    cursor: pointer;
+    background: #38a800;
+    color: white;
+  }
+  }
 `;
 
 export default Login
