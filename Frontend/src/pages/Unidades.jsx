@@ -3,7 +3,6 @@ import MUIDatatable from "mui-datatables";
 import { options } from "../components/styles/Table"
 import axios from "axios";
 import { useState, useEffect } from "react";
-import Alert from '@mui/material/Alert';
 import { Contenedor } from "../components/styles/StylesPages";
 
 

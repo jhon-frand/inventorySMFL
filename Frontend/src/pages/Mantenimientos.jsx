@@ -9,7 +9,7 @@ import moment from "moment";
 import { GoTools } from "react-icons/go";
 import { IoEyeSharp } from "react-icons/io5";
 import { Contenedor } from "../components/styles/StylesPages";
-import { AlertSucces, AlertError } from "../components/alerts/Alerts";
+import { AlertSucces, AlertError, AlertNotFound } from "../components/alerts/Alerts";
 import HeaderPageMante from "../components/organismos/HeaderPageMante";
 import { 
   endpointMantenimiento, 
@@ -19,6 +19,7 @@ import {
   endpointUser
 } from "../components/endpoints/Endpoints";
 import MediumContainer from "../components/organismos/MediumContainer";
+import TableModal from "../components/modals/TableModal";
 
 function Mantenimientos() {
 //#region funciones
@@ -33,6 +34,7 @@ function Mantenimientos() {
   const [actividadesMantenimiento, setActividadesMantenimiento] = useState([])
   const [actividadesUnit, setActividadesUnit] = useState([])
   const [modal, setModal] = useState(false)
+  const [modalTable, setModalTable] = useState(false)
   const [modalUpdate, setModalUpdate] = useState(false)
   const [modalActividad, setModalActividad] = useState(false)
   const [modalActividadUpdate, setModalActividadUpdate] = useState(false)
@@ -77,9 +79,13 @@ function Mantenimientos() {
     await axios.get(`http://localhost:3000/actividades/mantenimiento/${id}`).then((response) => {
     const activitiesManten = response.data;
     console.log(activitiesManten);
+    setActividadesMantenimiento(activitiesManten);
+    setModalTable(true);
    })
-  console.log(actividadesMantenimiento);  
+
   } catch (error) {
+    const msg = error.response.data.message;
+    AlertNotFound(msg);
       console.log(error);
     }
   }
@@ -487,8 +493,10 @@ function Mantenimientos() {
         customBodyRender: (value, tableMeta, updateValue) => {
           return (
             <>
-            <ButtonEdit titulo="REGISTRAR ACTIVIDAD" funcion1={() => getIdMantenimiento(tableMeta.rowData)} />
+           <div className="btns-edit">
+           <ButtonEdit titulo="REGISTRAR ACTIVIDAD" funcion1={() => getIdMantenimiento(tableMeta.rowData)} />
             <IoEyeSharp className="icon-activity" onClick={() => getActividadesMantenimiento(tableMeta.rowData[0])}/>
+           </div>
             </>
           )
         }
@@ -577,6 +585,34 @@ function Mantenimientos() {
           )
         }
       }
+    }
+  ]
+  const columnasActidadesMantenimiento = [
+    {
+      name: "id_actividad",
+      label: "ID"
+    },
+    {
+      name: "descripcion",
+      label: "DESCRIPCIÓN"
+    },
+    {
+      name: "fecha_actividad",
+      label: "FECHA",
+      options: {
+        customBodyRender: (value) => {
+          const fecha = moment(value).format('YYYY-MM-DD');
+          return fecha;
+        }
+      }
+    },
+    {
+      name: "nombres",
+      label: "TÉCNICO"
+    },
+    {
+      name: "apellidos",
+      label: "APELIIDOS"
     }
   ]
 
@@ -1053,6 +1089,12 @@ function Mantenimientos() {
         }
        
       </div>
+      <TableModal
+      estado={modalTable}
+      cambiarEstado={() => setModalTable(false)}
+      columnas={columnasActidadesMantenimiento}
+      datos={actividadesMantenimiento}
+      />
       </Contenedor>
       <Contenedor>
       <div className="table-mui" id="actividades">
@@ -1102,6 +1144,10 @@ flex-direction: column;
     font-size: 30px;
     color: orange;
     cursor: pointer;
+
+    &:hover{
+      color: #38A800;
+    }
   }
 
   .table{
@@ -1111,6 +1157,12 @@ flex-direction: column;
       background: #38A800;
       color: white;
       padding: 10px;
+     }
+
+     .btns-edit{
+      display: flex;
+      justify-content: center;
+      gap: 10px;
      }
   }
 }

@@ -144,8 +144,11 @@ const getActividadesMantenimiento =  async (peticion, respuesta) => {
         const {id} = peticion.params;
         const sql = `
                     SELECT actividades.*,
-                    mantenimientos.id_mantenimiento 
+                    mantenimientos.id_mantenimiento,
+                    tecnicos.nombres,
+                    tecnicos.apellidos
                     FROM actividades
+                    JOIN tecnicos ON tecnicos.id_tecnico = actividades.fk_tecnico
                     JOIN mantenimientos ON mantenimientos.id_mantenimiento = actividades.fk_mantenimiento
                     WHERE id_mantenimiento = ?
         `; 
@@ -153,7 +156,9 @@ const getActividadesMantenimiento =  async (peticion, respuesta) => {
 
         if (resultado.length > 0 ) {
             return respuesta.status(200).json(resultado);
-        } 
+        } else {
+            return respuesta.status(404).json({message: "No hay actividades aún"});
+        }
     } catch (error) {
         respuesta.status(500);
         respuesta.send(error);

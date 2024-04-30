@@ -11,3 +11,9 @@ export const optionsMedium = {
     rowsPerPageOptions: [10, 15, 20],
     tableBodyHeight: "40vh",
   };
+export const optionsTableModal = {
+    selectableRows: 'none',
+    rowsPerPage: 10,
+    rowsPerPageOptions: [10, 15, 20],
+    tableBodyHeight: "50vh",
+  };
