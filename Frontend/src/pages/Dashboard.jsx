@@ -4,7 +4,6 @@ import { PiBoundingBox } from "react-icons/pi"
 import { FiUsers } from "react-icons/fi";
 import { CgToolbox } from "react-icons/cg";
 import { GoTools } from "react-icons/go";
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { 
   getTotalUsers,

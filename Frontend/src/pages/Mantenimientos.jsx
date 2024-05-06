@@ -75,20 +75,20 @@ function Mantenimientos() {
 
   const getActividadesMantenimiento = async (id) => {
     try {
-    console.log(id)
     await axios.get(`http://localhost:3000/actividades/mantenimiento/${id}`).then((response) => {
     const activitiesManten = response.data;
     console.log(activitiesManten);
     setActividadesMantenimiento(activitiesManten);
     setModalTable(true);
+    
+    
    })
-
+  
   } catch (error) {
-    const msg = error.response.data.message;
-    AlertNotFound(msg);
       console.log(error);
     }
   }
+
   const getMantenimientos = async () => {
     try {
       await axios.get(endpointMantenimiento).then((response) => {
