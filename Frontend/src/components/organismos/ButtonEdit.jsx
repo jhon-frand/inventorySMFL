@@ -1,27 +1,28 @@
 import styled from "styled-components"
 
-function ButtonEdit({funcion1, titulo}) {
+function ButtonEdit({funcion1, icon}) {
   return (
-    <Styledbutton  onClick={() => funcion1()} >{titulo}</Styledbutton>
+    <Styledbutton title="Actualizar"  onClick={() => funcion1()} >{icon}</Styledbutton>
   )
 }
 
 const Styledbutton = styled.button`
 display: flex;
-justify-content: center;
 align-items: center;
-min-width: 80px;
 padding: 5px;
-background: #385c57;
+background: none;
 color: white;
-font-weight: 600;
 border: none;
-border-radius: 5px;
-font-size: 12px;
+border-radius: 50%;
+
+svg{
+  font-size: 25px;
+  color: #00324d;
+}
 
 &:hover {
   cursor: pointer;
-  background: #00324d;
+  background: #d9d9d9b0;
 }
 `;
 

@@ -1,6 +1,6 @@
 import styled from "styled-components"
 
-function HeaderPage({funcion, titulo, textButton, icon}) {
+function HeaderPage({funcion, titulo, icon, iconButton}) {
 
   return (
     <Header>
@@ -8,10 +8,12 @@ function HeaderPage({funcion, titulo, textButton, icon}) {
     {icon}
     <h3>{titulo}</h3>
     </div>
-    <button className="btn-register" onClick={() => funcion()} >{textButton}</button>
+    <button title="Registrar" className="btn-register" onClick={() => funcion()}>{iconButton}</button>
   </Header>
   )
 }
+
+
 
 const Header = styled.div`
     display: flex;
@@ -41,17 +43,25 @@ const Header = styled.div`
       }
     }
   .btn-register{
-    background: #38A800;
-    color: white;
-    padding: 15px;
-    font-weight: bold;
-    border-radius: 5px;
+    background: none;
+    display: flex;
+    align-items: center;
+    padding: 5px;
+    border-radius: 50%;
     border: none;
     cursor: pointer;
 
-    &:hover{
-      background: #385c57;
+    svg {
+      font-size: 35px;
+      color: #38a800;
     }
+
+    &:hover{
+      background: #e8e6e685;
+
+    }
+
+   
   }
   
 `;

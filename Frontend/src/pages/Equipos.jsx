@@ -10,7 +10,9 @@ import moment from "moment"
 import { CgToolbox } from "react-icons/cg";
 import MediumContainer from "../components/organismos/MediumContainer"
 import { Contenedor } from "../components/styles/StylesPages";
-import { AlertSucces, AlertError, AlertUser } from "../components/alerts/Alerts";
+import { AlertSucces, AlertError} from "../components/alerts/Alerts";
+import { PiNotePencilDuotone } from "react-icons/pi";
+import { HiMiniPencilSquare } from "react-icons/hi2";
 
 function Equipos() {
 
@@ -339,7 +341,7 @@ function Equipos() {
       options: {
         customBodyRender: (value, tableMeta, updateValue) => {
           return (
-              <ButtonEdit titulo="EDIT" funcion1={() => getData(tableMeta.rowData)} />
+              <ButtonEdit icon={<HiMiniPencilSquare />} funcion1={() => getData(tableMeta.rowData)} />
           );
       }
       }
@@ -360,7 +362,7 @@ function Equipos() {
       options: {
         customBodyRender: (value, tableMeta, updateValue) => {
           return (
-              <ButtonEdit titulo="EDIT" funcion1={() => getDataCategory(tableMeta.rowData)} />
+              <ButtonEdit icon={<HiMiniPencilSquare />} funcion1={() => getDataCategory(tableMeta.rowData)} />
           );
       }
       }

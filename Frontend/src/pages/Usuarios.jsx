@@ -10,6 +10,8 @@ import { FiUsers } from "react-icons/fi";
 import { Contenedor } from "../components/styles/StylesPages"
 import { AlertSucces, AlertError, AlertConfirmation } from "../components/alerts/Alerts";
 import ButtonStatus from "../components/organismos/ButtonStatus";
+import { PiUserCirclePlus } from "react-icons/pi";
+import { RiUserSettingsLine } from "react-icons/ri";
 
 function Usuarios() {
 
@@ -262,7 +264,7 @@ const changeStatus = async (datos) => {
     options:{
       customBodyRender: (value, tableMeta, updateValue) => {
         return (
-          <ButtonEdit titulo="EDIT" funcion1={() => getData(tableMeta.rowData)} />
+          <ButtonEdit icon={<RiUserSettingsLine />} funcion1={() => getData(tableMeta.rowData)} />
         )
       }
     }
@@ -280,7 +282,7 @@ const changeStatus = async (datos) => {
   return (
     <Container>
       <Contenedor>
-     <HeaderPage icon={<FiUsers/>} titulo="USUARIOS" textButton="REGISTRAR USUARIO" funcion={() => setModalRegistro(true)} />
+     <HeaderPage icon={<FiUsers/>} titulo="USUARIOS" iconButton={<PiUserCirclePlus />} funcion={() => setModalRegistro(true)} />
       <Modales>
         <Modal 
         titulo = "REGISTRAR USUARIO"

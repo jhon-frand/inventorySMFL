@@ -10,7 +10,7 @@ import ButtonEdit from "../components/organismos/ButtonEdit";
 import { BsPinMap } from "react-icons/bs";
 import { Contenedor } from "../components/styles/StylesPages";
 import { AlertSucces, AlertError } from "../components/alerts/Alerts";
-
+import { HiMiniPencilSquare } from "react-icons/hi2";
 
 function Ubicaciones() {
 
@@ -267,7 +267,8 @@ function Ubicaciones() {
       options: {
         customBodyRender: (value, tableMeta, updateValue) => {
           return (
-            <ButtonEdit titulo="EDIT" funcion1={() => getData(tableMeta.rowData)} />
+            <ButtonEdit icon={<HiMiniPencilSquare />
+          } funcion1={() => getData(tableMeta.rowData)} />
           );
         }
       }
@@ -288,7 +289,8 @@ function Ubicaciones() {
       options: {
         customBodyRender: (value, tableMeta, updateValue) => {
           return (
-            <ButtonEdit titulo="EDIT" funcion1={() => getDataUnit(tableMeta.rowData)} />
+            <ButtonEdit icon={<HiMiniPencilSquare />
+          } funcion1={() => getDataUnit(tableMeta.rowData)} />
           );
         }
       }

@@ -20,6 +20,9 @@ import {
 } from "../components/endpoints/Endpoints";
 import MediumContainer from "../components/organismos/MediumContainer";
 import TableModal from "../components/modals/TableModal";
+import { PiNotePencilDuotone } from "react-icons/pi";
+import { FaSquarePlus } from "react-icons/fa6";
+import { HiMiniPencilSquare } from "react-icons/hi2";
 
 function Mantenimientos() {
 //#region funciones
@@ -481,7 +484,7 @@ function Mantenimientos() {
       options: {
         customBodyRender: (value, tableMeta, updateValue) => {
           return (
-            <ButtonEdit titulo="EDIT" funcion1={() => getData(tableMeta.rowData)} />
+            <ButtonEdit icon={<HiMiniPencilSquare />} funcion1={() => getData(tableMeta.rowData)} />
           )
         }
       }
@@ -494,7 +497,7 @@ function Mantenimientos() {
           return (
             <>
            <div className="btns-edit">
-           <ButtonEdit titulo="REGISTRAR ACTIVIDAD" funcion1={() => getIdMantenimiento(tableMeta.rowData)} />
+           <ButtonEdit icon={<FaSquarePlus />} funcion1={() => getIdMantenimiento(tableMeta.rowData)} />
             <IoEyeSharp className="icon-activity" onClick={() => getActividadesMantenimiento(tableMeta.rowData[0])}/>
            </div>
             </>
@@ -534,7 +537,7 @@ function Mantenimientos() {
       options: {
         customBodyRender: (value, tableMeta, updateValue) => {
           return(
-            <ButtonEdit titulo="EDIT"  funcion1={() => getDataTecnico(tableMeta.rowData)} />
+            <ButtonEdit icon={<HiMiniPencilSquare />} funcion1={() => getDataTecnico(tableMeta.rowData)} />
           )
         }
       }
@@ -581,7 +584,7 @@ function Mantenimientos() {
       options: {
         customBodyRender: (value, tableMeta, updateValue) => {
           return(
-            <ButtonEdit titulo="EDIT"  funcion1={() => getDataActividad(tableMeta.rowData)} />
+            <ButtonEdit icon={<HiMiniPencilSquare />} funcion1={() => getDataActividad(tableMeta.rowData)} />
           )
         }
       }
