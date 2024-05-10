@@ -12,6 +12,7 @@ import { AlertSucces, AlertError, AlertConfirmation } from "../components/alerts
 import ButtonStatus from "../components/organismos/ButtonStatus";
 import { PiUserCirclePlus } from "react-icons/pi";
 import { RiUserSettingsLine } from "react-icons/ri";
+import { TextField } from "@mui/material";
 
 function Usuarios() {
 
@@ -293,8 +294,7 @@ const changeStatus = async (datos) => {
             <div className="inputs-data">
               <div className="filas">
               <div className="contents">
-                <label>Identificación: </label>
-              <input name="identificacion" onChange={valorInput} value={valores.identificacion} type="number" placeholder="Identificación" required/>
+              <TextField name="identificacion" onChange={valorInput} value={valores.identificacion} variant="outlined" label="Identificación" required/>
               {
                 errores && errores.some(([campo]) => campo === "identificacion") && (
                   <p>
@@ -304,8 +304,7 @@ const changeStatus = async (datos) => {
               }
               </div>
               <div className="contents">
-              <label>Nombres: </label>
-              <input name="nombres" onChange={valorInput} value={valores.nombres} type="text" placeholder="Nombres" required/>
+              <TextField name="nombres" onChange={valorInput} value={valores.nombres} variant="outlined" label="Nombres" required/>
               {
                 errores && errores.some(([campo]) => campo === "nombres") && (
                   <p>
@@ -315,8 +314,7 @@ const changeStatus = async (datos) => {
               }
               </div>
               <div className="contents">
-              <label>Apellidos: </label>
-              <input name="apellidos" onChange={valorInput} value={valores.apellidos} type="text" placeholder="Apellidos" required/>
+              <TextField name="apellidos" onChange={valorInput} value={valores.apellidos} variant="outlined" label="Apellidos" required/>
               {
                 errores && errores.some(([campo]) => campo === "apellidos") && (
                   <p>
@@ -326,8 +324,7 @@ const changeStatus = async (datos) => {
               }
               </div>
               <div className="contents">
-              <label>Email: </label>
-              <input name="email" onChange={valorInput} value={valores.email} type="email" placeholder="Email" required/>
+              <TextField name="email" onChange={valorInput} value={valores.email} type="email" variant="outlined" label="Email" required/>
               {
                 errores && errores.some(([campo]) => campo === "email") && (
                   <p>
@@ -339,8 +336,7 @@ const changeStatus = async (datos) => {
               </div>
             <div className="filas">
             <div className="contents">
-              <label>Teléfono: </label>
-              <input name="telefono" onChange={valorInput} value={valores.telefono} type="number" placeholder="Teléfono" required/>
+              <TextField name="telefono" onChange={valorInput} value={valores.telefono} type="number" variant="outlined" label="Teléfono" required/>
               {
                 errores && errores.some(([campo]) => campo === "telefono") && (
                   <p>
@@ -392,8 +388,7 @@ const changeStatus = async (datos) => {
             <div className="inputs-data">
               <div className="filas">
               <div className="contents">
-                <label>Identificación: </label>
-              <input name="identificacion" onChange={editValorInput} value={valores.identificacion} type="number" placeholder="Identificación" required/>
+              <TextField name="identificacion" onChange={editValorInput} value={valores.identificacion} type="number" variant="outlined" label="Identificación" required/>
               {
                 errores && errores.some(([campo]) => campo === "identificacion") && (
                  <p>
@@ -403,8 +398,7 @@ const changeStatus = async (datos) => {
               }
               </div>
               <div className="contents">
-              <label>Nombres: </label>
-              <input name="nombres" onChange={editValorInput} value={valores.nombres} type="text" placeholder="Nombres" required/>
+              <TextField name="nombres" onChange={editValorInput} value={valores.nombres} variant="outlined" label="Nombres" required/>
               {
                 errores && errores.some(([campo]) => campo === "nombres") && (
                   <p>
@@ -414,8 +408,7 @@ const changeStatus = async (datos) => {
               }
               </div>
               <div className="contents">
-              <label>Apellidos: </label>
-              <input name="apellidos" onChange={editValorInput} value={valores.apellidos} type="text" placeholder="Apellidos" required/>
+              <TextField name="apellidos" onChange={editValorInput} value={valores.apellidos} type="text" variant="outlined" label="Apellidos" required/>
               {
                 errores && errores.some(([campo]) => campo === "apellidos") && (
                   <p>
@@ -425,8 +418,7 @@ const changeStatus = async (datos) => {
               }
               </div>
               <div className="contents">
-              <label>Email: </label>
-              <input name="email" onChange={editValorInput} value={valores.email} type="email" placeholder="Email" required/>
+              <TextField name="email" onChange={editValorInput} value={valores.email} type="email" variant="outlined" label="Email" required/>
               {
                 errores && errores.some(([campo]) => campo === "email") && (
                   <p>
@@ -438,8 +430,7 @@ const changeStatus = async (datos) => {
               </div>
             <div className="filas">
             <div className="contents">
-              <label>Teléfono: </label>
-              <input name="telefono" onChange={editValorInput} value={valores.telefono} type="number" placeholder="Teléfono" required/>
+              <TextField name="telefono" onChange={editValorInput} value={valores.telefono} type="number" variant="outlined" label="Teléfono" required/>
               {
                 errores && errores.some(([campo]) => campo === "telefono") && (
                   <p>
@@ -563,20 +554,8 @@ z-index: 30;
             font-size: 12px;
             color: red;
           }
-
-          label{
-            font-size: 14px;
-            font-weight: 600;
-          }
         }
   
-      }
-
-      input{
-        padding: 5px;
-        border: none;
-        outline: none;
-        border-bottom: 1px solid #38a800;
       }
       select{
         padding: 4px;

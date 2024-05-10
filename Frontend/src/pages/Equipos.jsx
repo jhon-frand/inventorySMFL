@@ -11,8 +11,8 @@ import { CgToolbox } from "react-icons/cg";
 import MediumContainer from "../components/organismos/MediumContainer"
 import { Contenedor } from "../components/styles/StylesPages";
 import { AlertSucces, AlertError} from "../components/alerts/Alerts";
-import { PiNotePencilDuotone } from "react-icons/pi";
 import { HiMiniPencilSquare } from "react-icons/hi2";
+import { TextField } from "@mui/material";
 
 function Equipos() {
 
@@ -684,8 +684,7 @@ function Equipos() {
             <div className="inputs-data-category">
               <div className="filas">
               <div className="contents">
-                <label>Nombre: </label>
-              <input name="nombre_categoria" onChange={valorInputCategory} value={valoresCategory.nombre_categoria} type="text" placeholder="Nombre de Categoría" required/>
+              <TextField name="nombre_categoria" onChange={valorInputCategory} value={valoresCategory.nombre_categoria} variant="outlined" label="Nombre de Categoría" required/>
               {
                 errores && errores.some(([campo]) => campo === "nombre_categoria") && (
                   <p>
@@ -708,8 +707,7 @@ function Equipos() {
             <div className="inputs-data-category">
               <div className="filas">
               <div className="contents">
-                <label>Nombre: </label>
-              <input name="nombre_categoria" onChange={editValorInputCategory} value={valoresCategory.nombre_categoria} type="text" placeholder="Nombre de Categoría" required/>
+              <TextField name="nombre_categoria" onChange={editValorInputCategory} value={valoresCategory.nombre_categoria} variant="outlined" label="Nombre de Categoría" required/>
               {
                 errores && errores.some(([campo]) => campo === "nombre_categoria") && (
                   <p>
@@ -896,12 +894,5 @@ button{
       font-weight: 600;
     }
   }
-
-input{
-  padding: 4px;
-  border: none;
-  outline: none;
-  border-bottom: 1px solid #38a800;
-}
 `;
 export default Equipos

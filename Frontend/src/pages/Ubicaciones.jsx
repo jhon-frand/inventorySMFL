@@ -11,6 +11,7 @@ import { BsPinMap } from "react-icons/bs";
 import { Contenedor } from "../components/styles/StylesPages";
 import { AlertSucces, AlertError } from "../components/alerts/Alerts";
 import { HiMiniPencilSquare } from "react-icons/hi2";
+import { TextField } from "@mui/material";
 
 function Ubicaciones() {
 
@@ -362,9 +363,8 @@ function Ubicaciones() {
 
                     </div>
                     <div className="contents">
-                      <label>Ambiente:</label>
-                      <input name="ambiente" value={valores.ambiente} onChange={valorInput} type="text" placeholder="Ambiente" required />
-                      {
+                      <TextField name="ambiente" value={valores.ambiente} onChange={valorInput} label="Ambiente" variant="outlined" required />
+                     {
                         errores && errores.some(([campo]) => campo === "ambiente") && (
                           <p>
                             {errores.find(([campo]) => campo === "ambiente")[1]}
@@ -373,8 +373,7 @@ function Ubicaciones() {
                       }
                     </div>
                     <div className="contents">
-                      <label>Sitio</label>
-                      <input name="sitio" value={valores.sitio} onChange={valorInput} type="text" placeholder="Sitio" required />
+                      <TextField name="sitio" value={valores.sitio} onChange={valorInput} variant="outlined" label="Sitio" required />
                       {
                         errores && errores.some(([campo]) => campo === "sitio") && (
                           <p>
@@ -462,8 +461,8 @@ function Ubicaciones() {
               <form onSubmit={postUnidad} className="formulario" >
                 <div className="inputs-data">
                   <div className="contents">
-                    <label>Nombre de la Unidad: </label>
-                    <input value={valoresUnit.nombre_unidad} onChange={valorInputUnit} name="nombre_unidad" type="text" placeholder="Nombre de la Unidad" required />
+                    <TextField value={valoresUnit.nombre_unidad} onChange={valorInputUnit} name="nombre_unidad" id="outlined-basic" label="Nombre de la Unidad" variant="outlined" />
+                    {/* <input value={valoresUnit.nombre_unidad} onChange={valorInputUnit} name="nombre_unidad" type="text" placeholder="Nombre de la Unidad" required /> */}
                     {
                       errores && errores.some(([campo]) => campo === "nombre_unidad") && (
                         <p>
@@ -484,8 +483,8 @@ function Ubicaciones() {
               <form onSubmit={putUnidad} className="formulario" >
                 <div className="inputs-data">
                   <div className="contents">
-                    <label>Nombre de la Unidad: </label>
-                    <input value={valoresUnit.nombre_unidad} onChange={editValorInputUnit} name="nombre_unidad" type="text" placeholder="Nombre de la Unidad" required />
+                    <TextField value={valoresUnit.nombre_unidad} onChange={editValorInputUnit} name="nombre_unidad" id="outlined-basic" label="Nombre de la Unidad" variant="outlined"  />
+
                     {
                       errores && errores.some(([campo]) => campo === "nombre_unidad") && (
                         <p>
@@ -602,13 +601,12 @@ z-index: 30;
   
       }
 
-      input{
+      /* input{
         padding: 5px;
         min-width: 40px;
         border: none;
         outline: none;
-        border-bottom: 1px solid #38a800;
-      }
+      } */
       select{
         padding: 4px;
         min-width: 210px;
@@ -639,10 +637,12 @@ button{
   display: flex;
   flex-direction: column;
   background: white;
-  padding: 4px;
+  padding: 5px;
   border-radius: 5px;
   gap: 4px;
-  height: 70px;
+  height: 80px;
+
+  
 
   p{
     font-size: 12px;
