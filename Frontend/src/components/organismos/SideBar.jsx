@@ -34,9 +34,8 @@ function SideBar({ openSide, setOpenSide }) {
                 <AiOutlineLeft className="cerrarSideBar" />
             </button>
             <div className="logoContent">
-                <div className="imgContent">
-                    <img src={logo} alt="Logo Inventory" />
-                </div>
+                    <img src={logo} alt="Logo Sena" />
+               
                 <h2>SENA - YAMBORÓ</h2>
             </div>
             {
@@ -193,17 +192,17 @@ background: white;
         font-size: 18px;
         display: ${({ $isOpen }) => ($isOpen ? `block` : `none`)};
     }
-}
 
-.imgContent{
-    display: flex;
     img{
         width: 80px;
-    }
-    cursor: pointer;
-    transition: all 0.3s ease-in-out;
-    transform: ${({ $isOpen }) => ($isOpen ? `scale(0.9)` : `scale(1.1)`)};
+        height: 80px;
+        cursor: pointer;
+        transition: all 0.3s ease-in-out;
+        transform: ${({ $isOpen }) => ($isOpen ? `scale(0.9)` : `scale(1.1)`)};
 }
+}
+
+
 
 .linkContainer{
     display: flex;

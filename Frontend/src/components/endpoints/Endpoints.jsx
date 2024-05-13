@@ -1,5 +1,10 @@
-export const endpointActividad = "http://localhost:3000/actividades";
-export const endpointTecnico = "http://localhost:3000/tecnicos";
-export const endpointMantenimiento = "http://localhost:3000/mantenimientos";
-export const endpointUser = "http://localhost:3000/usuarios";
-export const endpointEquipo = "http://localhost:3000/equipos";
+const endpoint = "http://localhost:3000";
+export const endpointActividad = `${endpoint}/actividades`;
+export const endpointTecnico = `${endpoint}/tecnicos`;
+export const endpointMantenimiento = `${endpoint}/mantenimientos`;
+export const endpointUser = `${endpoint}/usuarios`;
+export const endpointRol = `${endpoint}/tipousuario`;
+export const endpointUnidad = `${endpoint}/unidades`;
+export const endpointEquipo = `${endpoint}/equipos`;
+export const endpointCategoria = `${endpoint}/categorias`;
+export const endpointUbicacion = `${endpoint}/ubicaciones`;

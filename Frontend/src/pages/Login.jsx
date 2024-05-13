@@ -26,7 +26,7 @@ function Login() {
     event.preventDefault();
     try {
       await axios.post("http://localhost:3000/password/recuperar", email);
-      alert("Revisa tu correo")
+      AlertSucces("Revisa tu correo para restablecer la contraseña")
       setModal(false)
     } catch (error) {
       console.log(error);

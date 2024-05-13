@@ -1,7 +1,13 @@
 import axios from "axios";
+import {
+  endpointUser,
+  endpointUnidad,
+  endpointMantenimiento,
+  endpointEquipo
+} from "../components/endpoints/Endpoints"
 
 export const getTotalUsers = async () => {
-  const endpoint = "http://localhost:3000/usuarios/total"
+  const endpoint = `${endpointUser}/total`;
   try {
     const response = await axios.get(endpoint);
     return response.data.totalUsuarios;
@@ -12,7 +18,7 @@ export const getTotalUsers = async () => {
 }
 
 export const getTotalUnits = async () => {
-  const endpoint = "http://localhost:3000/unidades/total"
+  const endpoint = `${endpointUnidad}/total`;
   try {
     const response = await axios.get(endpoint);
     return response.data.totalUnidades;
@@ -23,7 +29,7 @@ export const getTotalUnits = async () => {
 }
 
 export const getTotalEquipment = async () => {
-  const endpoint = "http://localhost:3000/equipos/total"
+  const endpoint = `${endpointEquipo}/total`;
   try {
     const response = await axios.get(endpoint);
     return response.data.totalEquipos;
@@ -34,7 +40,7 @@ export const getTotalEquipment = async () => {
 }
 
 export const getTotalManteinment = async () => {
-  const endpoint = "http://localhost:3000/mantenimientos/total"
+  const endpoint = `${endpointMantenimiento}/total`;
   try {
     const response = await axios.get(endpoint);
     return response.data.totalMantenimientos;
@@ -46,7 +52,7 @@ export const getTotalManteinment = async () => {
 
 export const getTotalEquiposUnit = async (unidad) => {
   try {
-    const endpoint = `http://localhost:3000/equipos/total/${unidad}`;
+    const endpoint = `${endpointEquipo}/total/${unidad}`;
     const response = await axios.get(endpoint);
     return response.data;
   } catch (error) {
@@ -57,7 +63,7 @@ export const getTotalEquiposUnit = async (unidad) => {
 
 export const getTotalMantenimientoUnit = async (unidad) => {
   try {
-    const endpoint = `http://localhost:3000/mantenimientos/total/${unidad}`;
+    const endpoint = `${endpointMantenimiento}/total/${unidad}`;
     const response = await axios.get(endpoint);
     return response.data;
   } catch (error) {

@@ -1,4 +1,3 @@
-import styled from "styled-components"
 import { useState, useEffect } from "react";
 import axios from "axios";
 import MUIDatatable from "mui-datatables"
@@ -12,12 +11,15 @@ import { Contenedor } from "../components/styles/StylesPages";
 import { AlertSucces, AlertError } from "../components/alerts/Alerts";
 import { HiMiniPencilSquare } from "react-icons/hi2";
 import { TextField } from "@mui/material";
+import { 
+  endpointUbicacion,
+  endpointUnidad
+ } from "../components/endpoints/Endpoints";
+import { Container, Modales } from "../components/styles/StylesUbicaciones";
 
 function Ubicaciones() {
 
   //#region funciones
-  const endpoint = "http://localhost:3000/ubicaciones"
-  const endpointUnit = "http://localhost:3000/unidades"
 
   const [unidades, setUnidades] = useState([])
   const [ubicaciones, setUbicaciones] = useState([])
@@ -37,7 +39,7 @@ function Ubicaciones() {
 
   const getUnidades = async () => {
     try {
-      await axios.get(endpointUnit).then((response) => {
+      await axios.get(endpointUnidad).then((response) => {
         const units = response.data;
         setUnidades(units);
       })
@@ -47,7 +49,7 @@ function Ubicaciones() {
   }
   const getUbicaciones = async () => {
     try {
-      await axios.get(endpoint).then((response) => {
+      await axios.get(endpointUbicacion).then((response) => {
         const ubications = response.data;
         setUbicaciones(ubications);
       })
@@ -57,7 +59,7 @@ function Ubicaciones() {
   }
   const getUbicacionesUnidad = async () => {
     try {
-      await axios.get(`${endpoint}/${unidad}`).then((response) => {
+      await axios.get(`${endpointUbicacion}/${unidad}`).then((response) => {
         const ubications = response.data;
         setUbicacionesUnidad(ubications);
       })
@@ -159,7 +161,7 @@ function Ubicaciones() {
   const postUbication = async (event) => {
     event.preventDefault();
     try {
-      const respuesta = await axios.post(endpoint, valores, {
+      const respuesta = await axios.post(endpointUbicacion, valores, {
         headers: {
           "token": token
         }
@@ -180,7 +182,7 @@ function Ubicaciones() {
   const postUnidad = async (event) => {
     event.preventDefault();
     try {
-      const respuesta = await axios.post(endpointUnit, valoresUnit, {
+      const respuesta = await axios.post(endpointUnidad, valoresUnit, {
         headers: {
           "token": token
         }
@@ -200,7 +202,7 @@ function Ubicaciones() {
   const putUbication = async (event) => {
     event.preventDefault();
     try {
-      const respuesta = await axios.put(`${endpoint}/${selectId}`, valores, {
+      const respuesta = await axios.put(`${endpointUbicacion}/${selectId}`, valores, {
         headers: {
           "token": token
         }
@@ -221,7 +223,7 @@ function Ubicaciones() {
   const putUnidad = async (event) => {
     event.preventDefault();
     try {
-      const respuesta = await axios.put(`${endpointUnit}/${selectIdUnit}`, valoresUnit, {
+      const respuesta = await axios.put(`${endpointUnidad}/${selectIdUnit}`, valoresUnit, {
         headers: {
           "token": token
         }
@@ -268,7 +270,7 @@ function Ubicaciones() {
       options: {
         customBodyRender: (value, tableMeta, updateValue) => {
           return (
-            <ButtonEdit icon={<HiMiniPencilSquare />
+            <ButtonEdit titulo="Actualizar" icon={<HiMiniPencilSquare />
           } funcion1={() => getData(tableMeta.rowData)} />
           );
         }
@@ -290,7 +292,7 @@ function Ubicaciones() {
       options: {
         customBodyRender: (value, tableMeta, updateValue) => {
           return (
-            <ButtonEdit icon={<HiMiniPencilSquare />
+            <ButtonEdit titulo="Actualizar" icon={<HiMiniPencilSquare />
           } funcion1={() => getDataUnit(tableMeta.rowData)} />
           );
         }
@@ -533,135 +535,5 @@ function Ubicaciones() {
     </>
   )
 }
-
-const Container = styled.div`
-display: flex;
-
-.table-mui{
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap:20px;
-
-  .width-48 {
-  width: 48%;
-}
-
-.width-90 {
-  width: 90%;
-}
-  .table-one{
-     padding: 5px;
-
-     th{
-      background: #38A800;
-      color: white;
-      padding: 10px;
-     }
-  }
-  .table-two{
-     width: 40%;
-     padding: 5px;
-
-     th{
-      background: #38A800;
-      color: white;
-      padding: 10px;
-     }
-  }
-}
-`;
-const Modales = styled.div`
-position: absolute;
-top: 0;
-left: 0;
-z-index: 30;
-
-.formulario{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-
-    .inputs-data{
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 10px;
-      background: #38a80030;
-      border-radius: 20px;
-      padding: 10px;
-      width: 100%;
-
-      .filas{
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-  
-      }
-
-      /* input{
-        padding: 5px;
-        min-width: 40px;
-        border: none;
-        outline: none;
-      } */
-      select{
-        padding: 4px;
-        min-width: 210px;
-        border: none;
-        outline: none;
-        border-bottom: 1px solid #38a800;
-      }
-    }
-
-button{
-  width: 200px;
-  height: 40px;
-  background: #38a800;
-  color: white;
-  font-weight: 600;
-  border-radius: 5px;
-  border: none;
-  margin-top: 20px;
-
-  &:hover{
-    cursor: pointer;
-    background: #38a80090;
-    color: green;
-  }
-}
-}
-.contents{
-  display: flex;
-  flex-direction: column;
-  background: white;
-  padding: 5px;
-  border-radius: 5px;
-  gap: 4px;
-  height: 80px;
-
-  
-
-  p{
-    font-size: 12px;
-    color: red;
-  }
-
-  label{
-    font-size: 14px;
-    font-weight: 600;
-  }
-
-  .inputs-encar{
-    display: flex;
-    
-    .idunidad {
-      width: 40px;
-    }
-  }
-}
-`;
 
 export default Ubicaciones

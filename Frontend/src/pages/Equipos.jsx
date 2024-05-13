@@ -12,14 +12,22 @@ import MediumContainer from "../components/organismos/MediumContainer"
 import { Contenedor } from "../components/styles/StylesPages";
 import { AlertSucces, AlertError} from "../components/alerts/Alerts";
 import { HiMiniPencilSquare } from "react-icons/hi2";
-import { TextField } from "@mui/material";
+import { Select, TextField } from "@mui/material";
+import { 
+  endpointEquipo,
+  endpointCategoria,
+  endpointUbicacion
+
+ } from "../components/endpoints/Endpoints";
+import { Container, Modales } from "../components/styles/StylesEquipos";
+import ContentInput from "../components/organismos/ContentInput";
+import { FormControl } from "@mui/material";
+import { InputLabel } from "@mui/material";
+import { MenuItem } from "@mui/material";
 
 function Equipos() {
 
   //#region funciones
-  const endpointEquipo = "http://localhost:3000/equipos"
-  const endpointCategory = "http://localhost:3000/categorias"
-  const endpointUbication = "http://localhost:3000/ubicaciones"
 
   const [equipos, setEquipos] = useState([])
   const [equiposUnidad, setEquiposUnidad] = useState([])
@@ -60,7 +68,7 @@ function Equipos() {
   }
   const getCategorias = async () => {
     try {
-      await axios.get(endpointCategory).then((response) => {
+      await axios.get(endpointCategoria).then((response) => {
         const categories = response.data;
         setCategorias(categories);
       })
@@ -70,7 +78,7 @@ function Equipos() {
   }
   const getUbicaciones = async () => {
     try {
-      await axios.get(endpointUbication).then((response) => {
+      await axios.get(endpointUbicacion).then((response) => {
         const ubication = response.data;
         setUbicaciones(ubication);
       })
@@ -80,7 +88,7 @@ function Equipos() {
   }
   const getUbicacionesUnidad = async () => {
     try {
-      await axios.get(`${endpointUbication}/${unidadUser}`).then((response) => {
+      await axios.get(`${endpointUbicacion}/${unidadUser}`).then((response) => {
         const ubication = response.data;
         setUbicacionesUnidad(ubication);
       })
@@ -204,7 +212,7 @@ function Equipos() {
   const putCategory = async (event) => {
     event.preventDefault();
     try {
-      const respuesta = await axios.put(`${endpointCategory}/${selectIdCategory}`, valoresCategory, {
+      const respuesta = await axios.put(`${endpointCategoria}/${selectIdCategory}`, valoresCategory, {
         headers: {
           "token": token
         }
@@ -258,7 +266,7 @@ function Equipos() {
   const postCategory = async (event) => {
     event.preventDefault();
   try {
-    const respuesta = await axios.post(endpointCategory, valoresCategory, {
+    const respuesta = await axios.post(endpointCategoria, valoresCategory, {
       headers: {
         "token": token
       }
@@ -341,7 +349,7 @@ function Equipos() {
       options: {
         customBodyRender: (value, tableMeta, updateValue) => {
           return (
-              <ButtonEdit icon={<HiMiniPencilSquare />} funcion1={() => getData(tableMeta.rowData)} />
+              <ButtonEdit titulo="Actualizar" icon={<HiMiniPencilSquare />} funcion1={() => getData(tableMeta.rowData)} />
           );
       }
       }
@@ -362,7 +370,7 @@ function Equipos() {
       options: {
         customBodyRender: (value, tableMeta, updateValue) => {
           return (
-              <ButtonEdit icon={<HiMiniPencilSquare />} funcion1={() => getDataCategory(tableMeta.rowData)} />
+              <ButtonEdit titulo="Actualizar" icon={<HiMiniPencilSquare />} funcion1={() => getDataCategory(tableMeta.rowData)} />
           );
       }
       }
@@ -405,9 +413,8 @@ function Equipos() {
              <form className="formulario" onSubmit={postEquipo}>
             <div className="inputs-data">
               <div className="filas">
-              <div className="contents">
-                <label>SERIAL: </label>
-              <input name="serial" onChange={valorInput} value={valores.serial} type="text" placeholder="Serial" required/>
+              <ContentInput>
+              <TextField name="serial" onChange={valorInput} value={valores.serial} type="text" label="Serial" required/>
               {
                 errores && errores.some(([campo]) => campo === "serial") && (
                   <p>
@@ -415,10 +422,9 @@ function Equipos() {
                   </p>
                 )
               }
-              </div>
-              <div className="contents">
-              <label>Nombre: </label>
-              <input name="nombre_equipo" onChange={valorInput} value={valores.nombre_equipo} type="text" placeholder="Nombre equipo" required/>
+              </ContentInput>
+              <ContentInput>
+              <TextField name="nombre_equipo" onChange={valorInput} value={valores.nombre_equipo} type="text"  label="Nombre" required/>
               {
                 errores && errores.some(([campo]) => campo === "nombre_equipo") && (
                   <p>
@@ -426,10 +432,9 @@ function Equipos() {
                   </p>
                 )
               }
-              </div>
-              <div className="contents">
-              <label>Marca: </label>
-              <input name="marca_equipo" onChange={valorInput} value={valores.marca_equipo} type="text" placeholder="Marca del equipo" required/>
+              </ContentInput>
+              <ContentInput>
+              <TextField name="marca_equipo" onChange={valorInput} value={valores.marca_equipo} type="text" label="Marca" required/>
               {
                 errores && errores.some(([campo]) => campo === "marca_equipo") && (
                   <p>
@@ -437,10 +442,9 @@ function Equipos() {
                   </p>
                 )
               }
-              </div>
-              <div className="contents">
-              <label>Modelo: </label>
-              <input name="modelo_equipo" onChange={valorInput} value={valores.modelo_equipo} type="text" placeholder="Modelo del equipo" required/>
+              </ContentInput>
+              <ContentInput>
+              <TextField name="modelo_equipo" onChange={valorInput} value={valores.modelo_equipo} type="text" label="Modelo" required/>
               {
                 errores && errores.some(([campo]) => campo === "modelo_equipo") && (
                   <p>
@@ -448,12 +452,11 @@ function Equipos() {
                   </p>
                 )
               }
-              </div>
+              </ContentInput>
               </div>
               <div className="filas">
-              <div className="contents">
-              <label>Fecha de Ingreso: </label>
-              <input name="fecha_ingreso" onChange={valorInput} value={valores.fecha_ingreso} type="date" required/>
+              <ContentInput>
+              <TextField name="fecha_ingreso" onChange={valorInput} value={valores.fecha_ingreso} type="date" required/>
               {
                 errores && errores.some(([campo]) => campo === "fecha_ingreso") && (
                   <p>
@@ -461,10 +464,9 @@ function Equipos() {
                   </p>
                 )
               }
-              </div>
-              <div className="contents">
-            <label>Tipo de Equipo: </label>
-            <input name="tipo_equipo" onChange={valorInput} value={valores.tipo_equipo} type="text" placeholder="tipo de equipo" required/>
+              </ContentInput>
+              <ContentInput>
+            <TextField name="tipo_equipo" onChange={valorInput} value={valores.tipo_equipo} type="text" label="tipo de equipo" required/>
             {
                 errores && errores.some(([campo]) => campo === "tipo_equipo") && (
                   <p>
@@ -472,54 +474,56 @@ function Equipos() {
                   </p>
                 )
               }
-              </div>
-              <div className="contents">
-             <label>Categoría: </label>
-             <select name="fk_categoria" onChange={valorInput} value={valores.fk_categoria} required>
-                <option value="">Seleccione una categoría</option>
+              </ContentInput>
+              <ContentInput>
+             <FormControl>
+              <InputLabel>Categoría</InputLabel>
+             <Select label="Categoría" name="fk_categoria" onChange={valorInput} value={valores.fk_categoria} required>
             {
               categorias.map((categorias) => (
-                <option key={categorias.id_categoria} value={categorias.id_categoria}>{categorias.nombre_categoria}</option>
+                <MenuItem key={categorias.id_categoria} value={categorias.id_categoria}>{categorias.nombre_categoria}</MenuItem>
               ))
             }
-              </select>
-                </div>
-           <div className="contents">
-           <label>Estado: </label>
-           <select name="estado" onChange={valorInput} value={valores.estado} required>
-                <option value="">Seleccione un estado</option>
-                <option value="activo">Activo</option>
-                <option value="inactivo">Inactivo</option>
-                <option value="mantenimiento">Mantenimiento</option>
-                <option value="excluido">Excluido</option>
-              </select>
-                </div>
+              </Select>
+             </FormControl>
+                </ContentInput>
+           <ContentInput>
+           <FormControl>
+              <InputLabel>Estado</InputLabel>
+             <Select label="Estado" name="estado" onChange={valorInput} value={valores.estado} required>
+                <MenuItem value="activo">Activo</MenuItem>
+                <MenuItem value="inactivo">Inactivo</MenuItem>
+                <MenuItem value="mantenimiento">Mantenimiento</MenuItem>
+                <MenuItem value="excluido">Excluido</MenuItem>
+              </Select>
+              </FormControl>
+                </ContentInput>
               </div>
             <div className="filas">
-             <div className="contents">
-             <label>Ubicación: </label>
+             <ContentInput>
+             <FormControl>
+              <InputLabel>Ubicación</InputLabel>
             {
               user && user === "1" ? (
-                <select name="fk_ubicacion" onChange={valorInput} value={valores.fk_ubicacion} required>
-                <option value="">Seleccione una ubicación</option>
+                <Select label="Ubicación" name="fk_ubicacion" onChange={valorInput} value={valores.fk_ubicacion} required>
                 {
                   ubicaciones.map((ubicaciones) => (
-                    <option key={ubicaciones.id_ubicacion} value={ubicaciones.id_ubicacion}>{ubicaciones.nombre_unidad} - {ubicaciones.ambiente} - {ubicaciones.sitio}</option>
+                    <MenuItem key={ubicaciones.id_ubicacion} value={ubicaciones.id_ubicacion}>{ubicaciones.nombre_unidad} - {ubicaciones.ambiente} - {ubicaciones.sitio}</MenuItem>
                   ))
                 }
-              </select>
+              </Select>
               ):(
-                <select name="fk_ubicacion" onChange={valorInput} value={valores.fk_ubicacion} required>
-                <option value="">Seleccione una ubicación</option>
+                <Select label="Ubicación" name="fk_ubicacion" onChange={valorInput} value={valores.fk_ubicacion} required>
                 {
                   ubicacionesUnidad.map((ubicaciones) => (
-                    <option key={ubicaciones.id_ubicacion} value={ubicaciones.id_ubicacion}>{ubicaciones.nombre_unidad} - {ubicaciones.ambiente} - {ubicaciones.sitio}</option>
+                    <MenuItem key={ubicaciones.id_ubicacion} value={ubicaciones.id_ubicacion}>{ubicaciones.nombre_unidad} - {ubicaciones.ambiente} - {ubicaciones.sitio}</MenuItem>
                   ))
                 }
-              </select>
+              </Select>
               )
             }
-                </div>
+            </FormControl>
+                </ContentInput>
               <div className="description">
               <label>Descripción: </label>
               <textarea name="descripcion" maxLength={250} onChange={valorInput} value={valores.descripcion} type="text" placeholder="Agregue una descripción" required/>
@@ -544,9 +548,8 @@ function Equipos() {
              <form className="formulario" onSubmit={putEquipo}>
             <div className="inputs-data">
               <div className="filas">
-              <div className="contents">
-                <label>SERIAL: </label>
-              <input name="serial" onChange={editValorInput} value={valores.serial} type="text" placeholder="Serial" required/>
+              <ContentInput>
+              <TextField label="Serial" name="serial" onChange={editValorInput} value={valores.serial} type="text" required/>
               {
                 errores && errores.some(([campo]) => campo === "serial") && (
                   <p>
@@ -554,10 +557,9 @@ function Equipos() {
                   </p>
                 )
               }
-              </div>
-              <div className="contents">
-              <label>Nombre: </label>
-              <input name="nombre_equipo" onChange={editValorInput} value={valores.nombre_equipo} type="text" placeholder="Nombre equipo" required/>
+              </ContentInput>
+              <ContentInput>
+              <TextField name="nombre_equipo" onChange={editValorInput} value={valores.nombre_equipo} type="text" label="Nombre equipo" required/>
               {
                 errores && errores.some(([campo]) => campo === "nombre_equipo") && (
                   <p>
@@ -565,10 +567,9 @@ function Equipos() {
                   </p>
                 )
               }
-              </div>
-              <div className="contents">
-              <label>Marca: </label>
-              <input name="marca_equipo" onChange={editValorInput} value={valores.marca_equipo} type="text" placeholder="Marca del equipo" required/>
+              </ContentInput>
+              <ContentInput>
+              <TextField name="marca_equipo" onChange={editValorInput} value={valores.marca_equipo} type="text" label="Marca del equipo" required/>
               {
                 errores && errores.some(([campo]) => campo === "marca_equipo") && (
                   <p>
@@ -576,10 +577,9 @@ function Equipos() {
                   </p>
                 )
               }
-              </div>
-              <div className="contents">
-              <label>Modelo: </label>
-              <input name="modelo_equipo" onChange={editValorInput} value={valores.modelo_equipo} type="text" placeholder="Modelo del equipo" required/>
+              </ContentInput>
+              <ContentInput>
+              <TextField name="modelo_equipo" onChange={editValorInput} value={valores.modelo_equipo} type="text" label="Modelo del equipo" required/>
                {
                 errores && errores.some(([campo]) => campo === "modelo_equipo") && (
                   <p>
@@ -587,12 +587,11 @@ function Equipos() {
                   </p>
                 )
               }
-              </div>
+              </ContentInput>
               </div>
               <div className="filas">
-              <div className="contents">
-              <label>Fecha de Ingreso: </label>
-              <input name="fecha_ingreso" onChange={editValorInput} value={valores.fecha_ingreso} type="date" required/>
+              <ContentInput>
+              <TextField name="fecha_ingreso" onChange={editValorInput} value={valores.fecha_ingreso} type="date" required/>
               {
                 errores && errores.some(([campo]) => campo === "fecha_ingreso") && (
                   <p>
@@ -600,10 +599,9 @@ function Equipos() {
                   </p>
                 )
               }
-              </div>
-              <div className="contents">
-            <label>Tipo de Equipo: </label>
-            <input name="tipo_equipo" onChange={editValorInput} value={valores.tipo_equipo} type="text" placeholder="tipo de equipo" required/>
+              </ContentInput>
+              <ContentInput>
+            <TextField name="tipo_equipo" onChange={editValorInput} value={valores.tipo_equipo} type="text" label="tipo de equipo" required/>
             {
                 errores && errores.some(([campo]) => campo === "tipo_equipo") && (
                   <p>
@@ -611,54 +609,59 @@ function Equipos() {
                   </p>
                 )
               }
-              </div>
-              <div className="contents">
-             <label>Categoría: </label>
-             <select name="fk_categoria" onChange={editValorInput} value={valores.fk_categoria} required>
-                <option value="">Seleccione una categoría</option>
+              </ContentInput>
+              <ContentInput>
+             <FormControl>
+             <InputLabel>Categoría: </InputLabel>
+             <Select label="Categoría" name="fk_categoria" onChange={editValorInput} value={valores.fk_categoria} required>
             {
               categorias.map((categorias) => (
-                <option key={categorias.id_categoria} value={categorias.id_categoria}>{categorias.nombre_categoria}</option>
+                <MenuItem key={categorias.id_categoria} value={categorias.id_categoria}>{categorias.nombre_categoria}</MenuItem>
               ))
             }
-              </select>
-                </div>
-           <div className="contents">
-           <label>Estado: </label>
-           <select name="estado" onChange={editValorInput} value={valores.estado} required>
+              </Select>
+             </FormControl>
+                </ContentInput>
+           <ContentInput>
+           <FormControl>
+             <InputLabel>Estado: </InputLabel>
+             <Select label="Estado"name="estado" onChange={editValorInput} value={valores.estado} required>
                 <option value="">Seleccione un estado</option>
                 <option value="activo">Activo</option>
                 <option value="inactivo">Inactivo</option>
                 <option value="mantenimiento">Mantenimiento</option>
                 <option value="excluido">Excluido</option>
-              </select>
-                </div>
+              </Select>
+              </FormControl>
+                </ContentInput>
               </div>
             <div className="filas">
-             <div className="contents">
-             <label>Ubicación: </label>
+             <ContentInput>
+             <FormControl>
+              <InputLabel>Ubicación: </InputLabel>
              {
               user && user === "1" ? (
-                <select name="fk_ubicacion" onChange={valorInput} value={valores.fk_ubicacion} required>
-                <option value="">Seleccione una ubicación</option>
+                <Select label="Ubicación" name="fk_ubicacion" onChange={valorInput} value={valores.fk_ubicacion} required>
+                <MenuItem value="">Seleccione una ubicación</MenuItem>
                 {
                   ubicaciones.map((ubicaciones) => (
-                    <option key={ubicaciones.id_ubicacion} value={ubicaciones.id_ubicacion}>{ubicaciones.nombre_unidad} - {ubicaciones.ambiente} - {ubicaciones.sitio}</option>
+                    <MenuItem key={ubicaciones.id_ubicacion} value={ubicaciones.id_ubicacion}>{ubicaciones.nombre_unidad} - {ubicaciones.ambiente} - {ubicaciones.sitio}</MenuItem>
                   ))
                 }
-              </select>
+              </Select>
               ):(
-                <select name="fk_ubicacion" onChange={valorInput} value={valores.fk_ubicacion} required>
-                <option value="">Seleccione una ubicación</option>
+                <Select name="fk_ubicacion" onChange={valorInput} value={valores.fk_ubicacion} required>
+                <MenuItem value="">Seleccione una ubicación</MenuItem>
                 {
                   ubicacionesUnidad.map((ubicaciones) => (
-                    <option key={ubicaciones.id_ubicacion} value={ubicaciones.id_ubicacion}>{ubicaciones.nombre_unidad} - {ubicaciones.ambiente} - {ubicaciones.sitio}</option>
+                    <MenuItem key={ubicaciones.id_ubicacion} value={ubicaciones.id_ubicacion}>{ubicaciones.nombre_unidad} - {ubicaciones.ambiente} - {ubicaciones.sitio}</MenuItem>
                   ))
                 }
-              </select>
+              </Select>
               )
             }
-                </div>
+            </FormControl>
+                </ContentInput>
               <div className="description">
               <label>Descripción: </label>
               <textarea name="descripcion" maxLength={250} onChange={editValorInput} value={valores.descripcion} type="text" placeholder="Agregue una descripción" required/>
@@ -683,8 +686,8 @@ function Equipos() {
              <form className="formulario" onSubmit={postCategory}>
             <div className="inputs-data-category">
               <div className="filas">
-              <div className="contents">
-              <TextField name="nombre_categoria" onChange={valorInputCategory} value={valoresCategory.nombre_categoria} variant="outlined" label="Nombre de Categoría" required/>
+              <ContentInput>
+              <TextField name="nombre_categoria" onChange={valorInputCategory} value={valoresCategory.nombre_categoria} label="Nombre" required/>
               {
                 errores && errores.some(([campo]) => campo === "nombre_categoria") && (
                   <p>
@@ -692,7 +695,7 @@ function Equipos() {
                   </p>
                 )
               }
-              </div>
+              </ContentInput>
               </div>
             </div>
             <button>REGISTRAR</button>
@@ -706,8 +709,8 @@ function Equipos() {
              <form className="formulario" onSubmit={putCategory}>
             <div className="inputs-data-category">
               <div className="filas">
-              <div className="contents">
-              <TextField name="nombre_categoria" onChange={editValorInputCategory} value={valoresCategory.nombre_categoria} variant="outlined" label="Nombre de Categoría" required/>
+              <ContentInput>
+              <TextField name="nombre_categoria" onChange={editValorInputCategory} value={valoresCategory.nombre_categoria} label="Nombre de Categoría" required/>
               {
                 errores && errores.some(([campo]) => campo === "nombre_categoria") && (
                   <p>
@@ -716,7 +719,7 @@ function Equipos() {
                 )
 
               }
-              </div>
+              </ContentInput>
               </div>
             </div>
             <button>ACTUALIZAR</button>
@@ -748,151 +751,4 @@ function Equipos() {
   )
 }
 
-const Container = styled.div`
-display: flex;
-flex-direction: column;
-align-items: center;
-min-width: 100%;
-
-  .table-medium{
-    width: 90%;
-    padding: 5px;
-
-    th{
-     background: #38A800;
-     color: white;
-     padding: 5px;
-    }
-  }
-
-.table-mui{
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  .table{
-     width: 90%;
-     padding: 5px;
-
-     th{
-      background: #38A800;
-      color: white;
-      padding: 5px;
-     }
-  }
-}
-`;
-
-const Modales = styled.div`
-position: absolute;
-top: 0;
-left: 0;
-z-index: 30;
-
-.formulario{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-
-    .inputs-data-category{
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: #38a80030;
-      width: 100%;
-      border-radius: 10px;
-      padding: 10px;
-    }
-    .inputs-data{
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 10px;
-      background: #38a80030;
-      border-radius: 20px;
-      padding: 10px;
-
-      select{
-        padding: 4px;
-        min-width: 150px;
-        border: none;
-        outline: none;
-      }
-      textarea{
-        min-width: 150px;
-        height: 170px;
-        border: none;
-        outline: none;
-        resize: none;
-      }
-    }
-
-button{
-  width: 200px;
-  height: 40px;
-  background: #38a800;
-  color: white;
-  font-weight: 600;
-  border-radius: 5px;
-  border: none;
-  margin-top: 20px;
-
-  &:hover{
-    cursor: pointer;
-    background: #38a80090;
-    color: green;
-  }
-}
-}
-.filas{
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-
-  .description{
-    display: flex;
-    flex-direction: column;
-    background: white;
-    width: 300px;
-    height: 230px;
-    padding: 5px;
-    border-radius: 5px;
-    gap: 5px;
-    
-    p{
-      color: red;
-      font-size: 12px;
-    }
-
-    label{
-      font-size: 14px;
-      font-weight: 600;
-    }
-  }
-
-}
-
-  .contents{
-    display: flex;
-    flex-direction: column;
-    background: white;
-    width: 300px;
-    height: 70px;
-    padding: 5px;
-    border-radius: 5px;
-    gap: 5px;
-    
-    p{
-      color: red;
-      font-size: 12px;
-    }
-
-    label{
-      font-size: 14px;
-      font-weight: 600;
-    }
-  }
-`;
 export default Equipos

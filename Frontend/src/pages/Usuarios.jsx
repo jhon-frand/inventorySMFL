@@ -1,4 +1,3 @@
-import styled from "styled-components"
 import MUIDataTable from "mui-datatables";
 import HeaderPage from "../components/organismos/HeaderPage";
 import axios from "axios";
@@ -12,10 +11,22 @@ import { AlertSucces, AlertError, AlertConfirmation } from "../components/alerts
 import ButtonStatus from "../components/organismos/ButtonStatus";
 import { PiUserCirclePlus } from "react-icons/pi";
 import { RiUserSettingsLine } from "react-icons/ri";
-import { TextField } from "@mui/material";
+import { Select, TextField } from "@mui/material";
+import { 
+  endpointUser,
+  endpointUnidad,
+  endpointRol
+} from "../components/endpoints/Endpoints";
+import { Container, Modales } from "../components/styles/StylesUsuarios";
+import TableUsuarios from "../components/tables/TableUsuarios";
+import ContentInput from "../components/organismos/ContentInput";
+import { InputLabel } from "@mui/material";
+import { MenuItem } from "@mui/material";
+import { FormControl } from "@mui/material";
 
 function Usuarios() {
 
+  const [usuarios, setUsuarios] = useState([])
   const [modalRegistro, setModalRegistro] = useState(false)
   const [modalUpdate, setModalUpdate] = useState(false)
   const [selectId, setSelectId] = useState(null)
@@ -23,11 +34,10 @@ function Usuarios() {
 
   const token= localStorage.getItem("token");
 
-  const endpointTipo = "http://localhost:3000/tipousuario"
   const [tipousuario, setTipousuario] = useState([])
   const getTipos = async () => {
     try {
-      await axios.get(endpointTipo).then((response) => {
+      await axios.get(endpointRol).then((response) => {
         const tipos = response.data;
         setTipousuario(tipos);
       })
@@ -37,11 +47,11 @@ function Usuarios() {
   }
 
 //#region unidades
-  const endpointUnit = "http://localhost:3000/unidades"
+
   const [unidades, setUnidades] = useState([])
   const getUnidades = async () => {
     try {
-      await axios.get(endpointUnit).then((response) => {
+      await axios.get(endpointUnidad).then((response) => {
         const units = response.data;
         setUnidades(units);
       })
@@ -200,9 +210,6 @@ const changeStatus = async (datos) => {
 
 //#endregion registro
  //#region table
- const endpointUser = "http://localhost:3000/usuarios" 
- const [usuarios, setUsuarios] = useState([])
-
  const getUsers = async () => {
    try {
      await axios.get(endpointUser).then((response) => {
@@ -265,7 +272,7 @@ const changeStatus = async (datos) => {
     options:{
       customBodyRender: (value, tableMeta, updateValue) => {
         return (
-          <ButtonEdit icon={<RiUserSettingsLine />} funcion1={() => getData(tableMeta.rowData)} />
+          <ButtonEdit titulo="Actualizar" icon={<RiUserSettingsLine />} funcion1={() => getData(tableMeta.rowData)} />
         )
       }
     }
@@ -293,8 +300,8 @@ const changeStatus = async (datos) => {
           <form className="formulario" onSubmit={postUser}>
             <div className="inputs-data">
               <div className="filas">
-              <div className="contents">
-              <TextField name="identificacion" onChange={valorInput} value={valores.identificacion} variant="outlined" label="Identificación" required/>
+              <ContentInput>
+              <TextField name="identificacion" onChange={valorInput} value={valores.identificacion} variant="outlined" label="Identificación" type="number" required/>
               {
                 errores && errores.some(([campo]) => campo === "identificacion") && (
                   <p>
@@ -302,8 +309,8 @@ const changeStatus = async (datos) => {
                   </p>
                 )
               }
-              </div>
-              <div className="contents">
+              </ContentInput>
+              <ContentInput>
               <TextField name="nombres" onChange={valorInput} value={valores.nombres} variant="outlined" label="Nombres" required/>
               {
                 errores && errores.some(([campo]) => campo === "nombres") && (
@@ -312,8 +319,8 @@ const changeStatus = async (datos) => {
                   </p>
                 )
               }
-              </div>
-              <div className="contents">
+              </ContentInput>
+              <ContentInput>
               <TextField name="apellidos" onChange={valorInput} value={valores.apellidos} variant="outlined" label="Apellidos" required/>
               {
                 errores && errores.some(([campo]) => campo === "apellidos") && (
@@ -322,8 +329,8 @@ const changeStatus = async (datos) => {
                   </p>
                 )
               }
-              </div>
-              <div className="contents">
+              </ContentInput>
+              <ContentInput>
               <TextField name="email" onChange={valorInput} value={valores.email} type="email" variant="outlined" label="Email" required/>
               {
                 errores && errores.some(([campo]) => campo === "email") && (
@@ -332,10 +339,10 @@ const changeStatus = async (datos) => {
                   </p>
                 )
               }
-              </div>
+              </ContentInput>
               </div>
             <div className="filas">
-            <div className="contents">
+            <ContentInput>
               <TextField name="telefono" onChange={valorInput} value={valores.telefono} type="number" variant="outlined" label="Teléfono" required/>
               {
                 errores && errores.some(([campo]) => campo === "telefono") && (
@@ -344,37 +351,46 @@ const changeStatus = async (datos) => {
                   </p>
                 )
               }
-              </div>
-            <div className="contents">
-             <label>Rol del Usuario: </label>
-             <select name="fk_tipo_usuario" onChange={valorInput} value={valores.fk_tipo_usuario}>
-                <option value="">Seleccione un rol</option>
+              </ContentInput>
+            <ContentInput>
+              <FormControl >
+            <InputLabel>Rol de Usuario</InputLabel>
+             <Select label="Rol del Usuario" name="fk_tipo_usuario" onChange={valorInput} value={valores.fk_tipo_usuario}  required>
             {
               tipousuario.map((tipousuario) => (
-                <option key={tipousuario.id_tipo_usuario} value={tipousuario.id_tipo_usuario}>{tipousuario.rol}</option>
+                <MenuItem key={tipousuario.id_tipo_usuario} value={tipousuario.id_tipo_usuario}>{tipousuario.rol}</MenuItem>
               ))
             }
-              </select>
-                </div>
-           <div className="contents">
-           <label>Estado: </label>
-           <select name="estado" onChange={valorInput} value={valores.estado}>
-                <option value="">Seleccione un estado</option>
-                <option value="activo">Activo</option>
-                <option value="inactivo">Inactivo</option>
-              </select>
-                </div>
-             <div className="contents">
-             <label>Unidad Productiva: </label>
-             <select name="fk_unidad_productiva" onChange={valorInput} value={valores.fk_unidad_productiva}>
-                <option value="">Seleccione unidad productiva</option>
+              </Select>
+              </FormControl>
+                </ContentInput>
+           <ContentInput>
+           <FormControl >
+            <InputLabel id="demo-simple-select-label">Estado</InputLabel>
+             <Select 
+          labelId="demo-simple-select-label"
+          id="demo-simple-select"
+          label="Estado" name="estado" onChange={valorInput} value={valores.estado} required>
+                <MenuItem value="activo">Activo</MenuItem>
+                <MenuItem value="inactivo">Inactivo</MenuItem>
+              </Select>
+              </FormControl>
+                </ContentInput>
+             <ContentInput>
+             <FormControl >
+            <InputLabel id="demo-simple-select-label">Unidad Productiva</InputLabel>
+             <Select 
+          labelId="demo-simple-select-label"
+          id="demo-simple-select"  label="Unidad Productiva" 
+          name="fk_unidad_productiva" onChange={valorInput} value={valores.fk_unidad_productiva} required>
                 {
                   unidades.map((unidades) => (
-                    <option key={unidades.id_unidad} value={unidades.id_unidad}>{unidades.nombre_unidad}</option>
+                    <MenuItem key={unidades.id_unidad} value={unidades.id_unidad}>{unidades.nombre_unidad}</MenuItem>
                   ))
                 }
-              </select>
-                </div>
+              </Select>
+              </FormControl>
+                </ContentInput>
             </div>
             </div>
             <button>REGISTRAR</button>
@@ -387,7 +403,7 @@ const changeStatus = async (datos) => {
         <form className="formulario" onSubmit={putUsuario}>
             <div className="inputs-data">
               <div className="filas">
-              <div className="contents">
+              <ContentInput>
               <TextField name="identificacion" onChange={editValorInput} value={valores.identificacion} type="number" variant="outlined" label="Identificación" required/>
               {
                 errores && errores.some(([campo]) => campo === "identificacion") && (
@@ -396,8 +412,8 @@ const changeStatus = async (datos) => {
                   </p>
                 )
               }
-              </div>
-              <div className="contents">
+              </ContentInput>
+              <ContentInput>
               <TextField name="nombres" onChange={editValorInput} value={valores.nombres} variant="outlined" label="Nombres" required/>
               {
                 errores && errores.some(([campo]) => campo === "nombres") && (
@@ -406,8 +422,8 @@ const changeStatus = async (datos) => {
                   </p>
                 )
               }
-              </div>
-              <div className="contents">
+              </ContentInput>
+              <ContentInput>
               <TextField name="apellidos" onChange={editValorInput} value={valores.apellidos} type="text" variant="outlined" label="Apellidos" required/>
               {
                 errores && errores.some(([campo]) => campo === "apellidos") && (
@@ -416,8 +432,8 @@ const changeStatus = async (datos) => {
                   </p>
                 )
               }
-              </div>
-              <div className="contents">
+              </ContentInput>
+              <ContentInput>
               <TextField name="email" onChange={editValorInput} value={valores.email} type="email" variant="outlined" label="Email" required/>
               {
                 errores && errores.some(([campo]) => campo === "email") && (
@@ -426,10 +442,10 @@ const changeStatus = async (datos) => {
                   </p>
                 )
               }
-              </div>
+              </ContentInput>
               </div>
             <div className="filas">
-            <div className="contents">
+            <ContentInput>
               <TextField name="telefono" onChange={editValorInput} value={valores.telefono} type="number" variant="outlined" label="Teléfono" required/>
               {
                 errores && errores.some(([campo]) => campo === "telefono") && (
@@ -438,37 +454,40 @@ const changeStatus = async (datos) => {
                   </p>
                 )
               }
-              </div>
-            <div className="contents">
-             <label>Rol del Usuario: </label>
-             <select name="fk_tipo_usuario" onChange={editValorInput} value={valores.fk_tipo_usuario} required>
-                <option value="">Seleccione un rol</option>
+              </ContentInput>
+            <ContentInput>
+              <FormControl >
+             <InputLabel>Rol de Usuario: </InputLabel>
+             <Select name="fk_tipo_usuario" onChange={editValorInput} value={valores.fk_tipo_usuario} label="Rol de Usuario" required>
             {
               tipousuario.map((tipousuario) => (
-                <option key={tipousuario.id_tipo_usuario} value={tipousuario.id_tipo_usuario}>{tipousuario.rol}</option>
+                <MenuItem key={tipousuario.id_tipo_usuario} value={tipousuario.id_tipo_usuario}>{tipousuario.rol}</MenuItem>
               ))
             }
-              </select>
-                </div>
-           <div className="contents">
-           <label>Estado: </label>
-           <select name="estado" onChange={editValorInput} value={valores.estado} required>
-                <option value="">Seleccione un estado</option>
-                <option value="activo">Activo</option>
-                <option value="inactivo">Inactivo</option>
-              </select>
-                </div>
-             <div className="contents">
-             <label>Unidad Productiva: </label>
-             <select name="fk_unidad_productiva" onChange={editValorInput} value={valores.fk_unidad_productiva} required>
-                <option value="">Seleccione unidad productiva</option>
+              </Select>
+              </FormControl>
+                </ContentInput>
+           <ContentInput>
+           <FormControl >
+            <InputLabel>Estado</InputLabel>
+             <Select label="Estado"name="estado" onChange={editValorInput} value={valores.estado} required>
+                <MenuItem value="activo">Activo</MenuItem>
+                <MenuItem value="inactivo">Inactivo</MenuItem>
+              </Select>
+              </FormControl>
+                </ContentInput>
+             <ContentInput>
+             <FormControl >
+            <InputLabel>Unidad Productiva</InputLabel>
+             <Select label="Unidad Productiva" name="fk_unidad_productiva" onChange={editValorInput} value={valores.fk_unidad_productiva} required>
                 {
                   unidades.map((unidades) => (
-                    <option key={unidades.id_unidad} value={unidades.id_unidad}>{unidades.nombre_unidad}</option>
+                    <MenuItem key={unidades.id_unidad} value={unidades.id_unidad}>{unidades.nombre_unidad}</MenuItem>
                   ))
                 }
-              </select>
-                </div>
+              </Select>
+              </FormControl>
+                </ContentInput>
             </div>
             </div>
             <button>ACTUALIZAR</button>
@@ -489,100 +508,6 @@ const changeStatus = async (datos) => {
   )
 }
 
-const Container = styled.div`
-display: flex;
-flex-direction: column;
-align-items: center;
-min-width: 100%;
-
-.table-mui{
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  .table{
-     width: 90%;
-     padding: 5px;
-
-     th{
-      background: #38A800;
-      color: white;
-      padding: 10px;
-     }
-  }
-}
-`;
-const Modales = styled.div`
-position: absolute;
-top: 0;
-left: 0;
-z-index: 30;
-
-.formulario{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-
-    .inputs-data{
-      display: grid;
-      grid-template-columns: 260px 260px;
-      justify-content: center;
-      align-items: center;
-      gap: 10px;
-      background: #38a80030;
-      border-radius: 20px;
-      padding: 10px;
-
-      .filas{
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-
-        .contents{
-          display: flex;
-          flex-direction: column;
-          background: white;
-          height: 70px;
-          padding: 5px;
-          border-radius: 5px;
-          gap: 3px;
-          
-
-          p{
-            font-size: 12px;
-            color: red;
-          }
-        }
-  
-      }
-      select{
-        padding: 4px;
-        border: none;
-        outline: none;
-        border-bottom: 1px solid #38a800;
-      }
-    }
-
-button{
-  width: 200px;
-  height: 40px;
-  background: #38a800;
-  color: white;
-  font-weight: 600;
-  border-radius: 5px;
-  border: none;
-  margin-top: 20px;
-
-  &:hover{
-    cursor: pointer;
-    background: #38a80090;
-    color: green;
-  }
-}
-}
-`;
 
 
 export default Usuarios

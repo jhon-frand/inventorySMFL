@@ -1,8 +1,8 @@
 import styled from "styled-components"
 
-function ButtonEdit({funcion1, icon}) {
+function ButtonEdit({funcion1, icon, titulo}) {
   return (
-    <Styledbutton title="Actualizar"  onClick={() => funcion1()} >{icon}</Styledbutton>
+    <Styledbutton title={titulo}  onClick={() => funcion1()} >{icon}</Styledbutton>
   )
 }
 
