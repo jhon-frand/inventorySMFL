@@ -48,12 +48,7 @@ function Unidades() {
     <Container>
         <Contenedor>
           <div className="contents">
-            <MUIDatatable className="table"
-            title="Unidades Productivas"
-            data={unidades}
-            columns={columnasDashboard}
-            options={options}
-            />
+           
           </div>
         </Contenedor>
     </Container>

@@ -38,14 +38,14 @@ const Category = styled.div`
     top: 45%;
     left: 2px;
     border: none;
-    background: #38a800;
+    background: #cb7755;
     width: 30px;
     height: 30px;
     border-radius: 20px 0 0 20px;
     display: flex;
     justify-content: center;
     align-items: center;
-    box-shadow: 0 0 5px #38A800;
+    box-shadow: 0 0 5px #220d04bc;
     cursor: pointer;
 
     svg{

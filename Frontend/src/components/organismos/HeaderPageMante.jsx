@@ -1,4 +1,5 @@
 import styled from "styled-components"
+import { AiOutlinePlus } from "react-icons/ai";
 
 function HeaderPageMante({funcion1, funcion2, identificador, titulo, textButton1,textButton2,textButton3, icon}) {
 
@@ -9,9 +10,9 @@ function HeaderPageMante({funcion1, funcion2, identificador, titulo, textButton1
     <h3>{titulo}</h3>
     </div>
   <div>
-    <button className="btn-register" onClick={() => funcion1()} >{textButton1}</button>
-    <button className="btn-register" onClick={() => funcion2()} >{textButton2}</button>
-    <a href={identificador}><button className="btn-register">{textButton3}</button></a>
+    <button className="btn-register" onClick={() => funcion1()} ><AiOutlinePlus />{textButton1}</button>
+    <button className="btn-register" onClick={() => funcion2()} ><AiOutlinePlus />{textButton2}</button>
+    <a href={identificador}><button className="btn-register"><AiOutlinePlus />{textButton3}</button></a>
   </div>
   </Header>
   )
@@ -46,14 +47,23 @@ const Header = styled.div`
       }
     }
   .btn-register{
-    background: #38A800;
+    background: #38746c;
     color: white;
-    padding: 15px;
+    padding: 10px;
     font-weight: bold;
     font-size: 13px;
     border-radius: 5px;
     border: none;
     cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+
+    svg{
+      color: white;
+      font-size: 25px;
+    }
 
     &:hover{
         transition: all 0.3s;

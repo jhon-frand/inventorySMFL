@@ -8,7 +8,7 @@ flex-direction: column;
     width: 90%;
 
     th{
-     background: #38A800;
+     background: #38746c;
      color: white;
      padding: 5px;
     }
@@ -33,7 +33,7 @@ flex-direction: column;
      width: 90%;
 
      th{
-      background: #38A800;
+      background: #38746c;
       color: white;
       padding: 10px;
      }

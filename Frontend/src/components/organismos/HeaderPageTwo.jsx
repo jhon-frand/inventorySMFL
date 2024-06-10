@@ -1,4 +1,5 @@
 import styled from "styled-components"
+import { AiOutlinePlus } from "react-icons/ai";
 
 function HeaderPageTwo({funcion1, funcion2, titulo, textButton1,textButton2, icon}) {
 
@@ -9,8 +10,8 @@ function HeaderPageTwo({funcion1, funcion2, titulo, textButton1,textButton2, ico
     <h3>{titulo}</h3>
     </div>
   <div>
-  <button className="btn-register" onClick={() => funcion1()} >{textButton1}</button>
-    <button className="btn-register" onClick={() => funcion2()} >{textButton2}</button>
+  <button className="btn-register" onClick={() => funcion1()} ><AiOutlinePlus /> {textButton1}</button>
+    <button className="btn-register" onClick={() => funcion2()} ><AiOutlinePlus /> {textButton2}</button>
   </div>
   </Header>
   )
@@ -45,14 +46,23 @@ const Header = styled.div`
       }
     }
   .btn-register{
-    background: #38A800;
+    background: #38746c;
     color: white;
-    padding: 15px;
+    padding: 12px;
     font-weight: bold;
     font-size: 13px;
     border-radius: 5px;
     border: none;
     cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+
+    svg{
+      color: white;
+      font-size: 25px;
+    }
 
     &:hover{
       background: #385c57;

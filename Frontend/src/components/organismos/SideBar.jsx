@@ -38,7 +38,8 @@ function SideBar({ openSide, setOpenSide }) {
                
                 <h2>SENA - YAMBORÓ</h2>
             </div>
-            {
+           <div className="content-links">
+           {
                 filteredLinksArray.map(({ icon, label, to }) => (
                     <div className="linkContainer" key={label}>
                         <NavLink to={to} className={({ isActive }) => `links ${isActive ? `active` : ``}`}>
@@ -54,6 +55,7 @@ function SideBar({ openSide, setOpenSide }) {
                     </div>
                 ))
             }
+           </div>
             <footer>
              <div className="content-footer">
              {
@@ -78,11 +80,6 @@ const linksArray = [
         label: "Dashboard",
         icon: <AiOutlineHome />,
         to: "/dashboard"
-    },
-    {
-        label: "Unidades",
-        icon: <PiBoundingBox />,
-        to: "/unidades"
     },
     {
         label: "Usuarios",
@@ -113,12 +110,12 @@ width: ${({ $isOpen }) => ($isOpen ? "250px" : "80px")};
 transition: width 0.3s;
 height: 100vh;
 background: white;
+display: flex;
+flex-direction: column;
+justify-content: space-between;
 
 .content-footer{
     padding: 5px;
-    position: absolute;
-    bottom: 0;
-    width: 100%;
     display: flex;
     flex-direction: column;
     gap: 10px;
@@ -141,7 +138,7 @@ background: white;
       }
 
       &:hover{
-        background: #38A80050;
+        background: #becccab3;
       }
 
       svg{
@@ -166,8 +163,8 @@ background: white;
     height: 25px;
     border-radius: 50%;
     border: none;
-    background: #38A800;
-    box-shadow: 0 0 5px #38A800;
+    background: #cb7755;
+    box-shadow: 0 0 5px #cb7755;
     transition: all 0.5s;
     transform: ${({ $isOpen }) => ($isOpen ? `` : `rotate(180deg)`)};
     display: flex;
@@ -205,22 +202,20 @@ background: white;
 
 
 .linkContainer{
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
 
     .links{
         display: flex;
         justify-content: center;
+        align-items: center;
         text-decoration: none;
         color: black;
-        padding: 10px;
+        padding: 15px;
         margin: 2px;
 
         &:hover{
             border-radius: 10px;
-            color: #006400;
-            background: #38A80060;
+            color: white;
+            background: #38746cd6;
                  }
         
         span{
@@ -230,15 +225,16 @@ background: white;
             width: 50px;
             display: flex;
             justify-content: center;
+
             svg{
-                font-size: 20px;
+                font-size: 24px;
             }
         }
         &.active{
             border-radius: 10px;
-            color: #006400;
+            color: white;
             font-weight: 700;
-            background: #38A80060; 
+            background: #38746c; 
         }
     }
 }

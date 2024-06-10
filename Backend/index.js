@@ -22,6 +22,9 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(morgan("dev"));
 
+app.get(("/"), (req, res) => {
+    res.send("Backend Home")
+})
 
 app.use("/unidades", rutasUnidades);
 app.use("/usuarios", rutasUsuarios);
