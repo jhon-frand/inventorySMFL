@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost:3306
--- Tiempo de generación: 22-04-2024 a las 01:32:21
+-- Tiempo de generación: 10-06-2024 a las 23:23:28
 -- Versión del servidor: 8.0.30
 -- Versión de PHP: 8.1.10
 
@@ -143,7 +143,8 @@ INSERT INTO `mantenimientos` (`id_mantenimiento`, `tipo_mantenimiento`, `fecha_m
 (20, 'preventivo', '2024-04-05', 'prueba de mantenimiento co njwt', 'jwt funcionando', 16, 39),
 (21, 'tecnico', '2024-04-26', 'user encargado register manteinment', 'esperando el result', 16, 39),
 (22, 'preventivo', '2024-04-18', 'mary luna de mi amor como una ensoñación', 'clásicos del ayer y del hoy', 16, 38),
-(23, 'preventivo', '2024-04-26', 'prueba de listas de mantenimientosss', 'resultado esperado', 14, 42);
+(23, 'preventivo', '2024-04-26', 'prueba de listas de mantenimientosss', 'resultado esperado', 14, 42),
+(24, 'preventivo', '2024-04-12', 'description proyecto uno equipo', 'necesita mantenimiento técnico', 4, 42);
 
 -- --------------------------------------------------------
 
@@ -172,7 +173,8 @@ INSERT INTO `tecnicos` (`id_tecnico`, `identificacion`, `nombres`, `apellidos`, 
 (10, 100426845, 'jhonfrand', 'lebaza', 'leb@gmail.com', '3213570619'),
 (11, 756302, 'TECNISO', 'MATERIAl', 'tecnicho@gmail.com', '3456729084'),
 (12, 1212121, 'tecnico jwt', 'ape jwt', 'jwttec@gmail.com', '3241231234'),
-(13, 1234560, 'Johan', 'Perdomo', 'fgf@gmail.com', '1234567232');
+(13, 1234560, 'Johan', 'Perdomo', 'fgf@gmail.com', '1234567232'),
+(14, 1230949887, 'proyecto', 'uno', 'uno@gmail.com', '3213456765');
 
 -- --------------------------------------------------------
 
@@ -213,21 +215,11 @@ CREATE TABLE `ubicaciones` (
 INSERT INTO `ubicaciones` (`id_ubicacion`, `fk_unidad_productiva`, `ambiente`, `sitio`) VALUES
 (14, 12, 'G-12', 'Mesón'),
 (28, 15, 'motato', 'motato'),
-(37, 25, 'w', 'w'),
-(38, 24, 'gg', 'gg'),
-(44, 28, 'sss', 'ssd'),
 (46, 34, 'pruebaproyect', 'prueba'),
-(47, 34, 'f-', 'mesa 2'),
-(48, 28, 'as', 'asd'),
 (49, 42, 'dss', 'aaaa'),
-(50, 40, 'aa', 'qqnvjhv'),
 (51, 43, 'FL-6', 'Olympo'),
-(52, 44, 'puntos', 'suspensiv'),
 (53, 43, 'g-12', 'mesa 12'),
-(54, 43, 'changesthree', 'changesthree'),
 (55, 43, 'sateee', 'sate'),
-(56, 43, 'asdcc', 'cccc'),
-(57, 43, 'kkk', 'kkk'),
 (58, 34, 'ambiente miguelon', 'sitio miguelon');
 
 -- --------------------------------------------------------
@@ -248,22 +240,9 @@ CREATE TABLE `unidades_productivas` (
 INSERT INTO `unidades_productivas` (`id_unidad`, `nombre_unidad`) VALUES
 (12, 'Agroindustria'),
 (15, 'TICS'),
-(17, 'Cafe'),
-(21, 'PAE'),
-(24, 'centro de acopio'),
-(25, 'BIO'),
-(28, 'jhon jhon'),
 (34, 'PruebaProyecto'),
-(35, 'wwd'),
-(36, 'alertas'),
-(37, 'alert alert'),
-(38, 'port pp'),
-(39, 'segundos'),
-(40, 'two seconds'),
-(41, 'popopo'),
 (42, 'por fin'),
-(43, 'FRANDCHESCO'),
-(44, 'prueba jwt');
+(43, 'FRANDCHESCO');
 
 -- --------------------------------------------------------
 
@@ -289,19 +268,15 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`id_usuario`, `identificacion`, `nombres`, `apellidos`, `email`, `telefono`, `password`, `estado`, `fk_tipo_usuario`, `fk_unidad_productiva`) VALUES
-(3, 10042, 'Santiago', 'Motato', 'motato@gmail.com', '322330619', 'putin', 'activo', 1, 12),
-(4, 333, 'Frand', 'Lebaza', 'frand@gmail.com', '3333', 'eee', 'activo', 1, 15),
+(3, 1004233, 'Santiago', 'Motato', 'jhonfrand72@gmail.com', '3223306193', 'password123', 'activo', 1, 12),
+(4, 100426, 'Frand', 'Lebaza', 'frand@gmail.com', '3213570619', 'eee', 'activo', 1, 15),
 (9, 1111, 'Juanete', 'cervantes', 'cervantes@gmail.com', '434343', 'juan', 'activo', 1, 15),
-(11, 33, 'sss', 'ss', 'cc@gmail.com', '444', 'xx', 'inactivo', 2, 24),
 (13, 123443, 'ybers', 'yber', 'yber@gmail.com', '1234232323', 'yberer', 'inactivo', 2, 15),
 (14, 10029448, 'Miguelon', 'Serrano', 'miguelon@gmail.com', '3213213214', 'miguel', 'activo', 2, 34),
 (15, 222222, 'sdsd', 'sda', 'a@gmail.com', '2234433443', 'sdfvdsv', 'activo', 2, 42),
 (16, 1002355, 'Daniel', 'Maldini', 'daniel@gmail.com', '3214560923', 'daniele', 'activo', 2, 43),
-(17, 23452345, 'user jwt', 'apuser jwt', 'userjwt@gmail.com', '1223232232', 'userjwt', 'inactivo', 1, 44),
-(18, 9090909, 'prueba password', 'ape password', 'password@gmail.com', '3213456744', '09090909', 'inactivo', 2, 25),
-(19, 808080, 'aaa', 'aaa', 'aaa@gmail.com', '3203970623', '808080', 'activo', 2, 21),
 (20, 707070, 'bbb', 'bbb', 'bbb@gmail.com', '8787877883', '707070', 'activo', 2, 15),
-(21, 404040, 'jose', 'lopez', 'joselopez@gmail.com', '2323232334', '404040', 'activo', 2, 12);
+(21, 404040, 'joselo', 'lopez', 'joselopez@gmail.com', '2323232334', '404040', 'activo', 2, 15);
 
 --
 -- Índices para tablas volcadas
@@ -400,13 +375,13 @@ ALTER TABLE `equipos`
 -- AUTO_INCREMENT de la tabla `mantenimientos`
 --
 ALTER TABLE `mantenimientos`
-  MODIFY `id_mantenimiento` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id_mantenimiento` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT de la tabla `tecnicos`
 --
 ALTER TABLE `tecnicos`
-  MODIFY `id_tecnico` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id_tecnico` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT de la tabla `tipo_usuario`
@@ -418,13 +393,13 @@ ALTER TABLE `tipo_usuario`
 -- AUTO_INCREMENT de la tabla `ubicaciones`
 --
 ALTER TABLE `ubicaciones`
-  MODIFY `id_ubicacion` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
+  MODIFY `id_ubicacion` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
 
 --
 -- AUTO_INCREMENT de la tabla `unidades_productivas`
 --
 ALTER TABLE `unidades_productivas`
-  MODIFY `id_unidad` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
+  MODIFY `id_unidad` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
 
 --
 -- AUTO_INCREMENT de la tabla `usuarios`

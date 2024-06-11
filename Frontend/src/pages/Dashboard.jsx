@@ -142,7 +142,7 @@ function Dashboard() {
    <ContainerContent  
       titulo="Unidades Productivas"
       icon = {<PiBoundingBox/>}
-      to={"/unidades"}
+      to={"/ubicaciones"}
       total={totalUnits}
       />
       <ContainerContent  

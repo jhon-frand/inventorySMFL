@@ -11,3 +11,5 @@ export const endpointUnidad = `${endpoint}/unidades`;
 export const endpointEquipo = `${endpoint}/equipos`;
 export const endpointCategoria = `${endpoint}/categorias`;
 export const endpointUbicacion = `${endpoint}/ubicaciones`;
+export const endpointRecuperar = `${endpoint}/password/recuperar`;
+export const endpointLogin = `${endpoint}/login`;

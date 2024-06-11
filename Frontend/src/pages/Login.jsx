@@ -7,6 +7,7 @@ import logoSena from "../assets/sena.png"
 import { AiOutlineMail, AiOutlineLock } from "react-icons/ai";
 import { AlertSucces, AlertUser } from '../components/alerts/Alerts';
 import Modal from "../components/modals/Modal"
+import { endpointRecuperar, endpointLogin } from '../components/endpoints/Endpoints';
 
 function Login() {
 
@@ -25,7 +26,7 @@ function Login() {
   const sendEmail = async (event) => {
     event.preventDefault();
     try {
-      await axios.post("http://localhost:3000/password/recuperar", email);
+      await axios.post(endpointRecuperar, email);
       AlertSucces("Revisa tu correo para restablecer la contraseña")
       setModal(false)
     } catch (error) {
@@ -47,7 +48,7 @@ function Login() {
   const loginUser = async (event) => {
     event.preventDefault();
     try {
-      const response = await axios.post("http://localhost:3000/login", valores, {
+      const response = await axios.post(endpointLogin, valores, {
         headers: {
           'Content-Type': 'application/json'
         }
