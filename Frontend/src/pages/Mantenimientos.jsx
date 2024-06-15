@@ -8,12 +8,12 @@ import moment from "moment";
 import { GoTools } from "react-icons/go";
 import { IoEyeSharp } from "react-icons/io5";
 import { Contenedor } from "../components/styles/StylesPages";
-import { AlertSucces, AlertError} from "../components/alerts/Alerts";
+import { AlertSucces, AlertError } from "../components/alerts/Alerts";
 import HeaderPageMante from "../components/organismos/HeaderPageMante";
-import { 
-  endpointMantenimiento, 
-  endpointTecnico, 
-  endpointActividad, 
+import {
+  endpointMantenimiento,
+  endpointTecnico,
+  endpointActividad,
   endpointEquipo,
   endpointUser
 } from "../components/endpoints/Endpoints";
@@ -22,9 +22,15 @@ import TableModal from "../components/modals/TableModal";
 import { FaSquarePlus } from "react-icons/fa6";
 import { HiMiniPencilSquare } from "react-icons/hi2";
 import { Container, Modales } from "../components/styles/StylesMantenimientos";
+import BasicTabs from "../components/tabs/TabManteinment"
+import { Select, TextField } from "@mui/material";
+import Textarea from '@mui/joy/Textarea';
+import { FormControl } from "@mui/material";
+import { InputLabel } from "@mui/material";
+import { MenuItem } from "@mui/material";
 
 function Mantenimientos() {
-//#region funciones
+  //#region funciones
 
   const [mantenimientos, setMantenimientos] = useState([])
   const [mantenimientosUnit, setMantenimientosUnit] = useState([])
@@ -52,7 +58,7 @@ function Mantenimientos() {
   const nombresUser = localStorage.getItem("nombres")
   const unidadUser = localStorage.getItem("unidad");
   const idUser = localStorage.getItem("usuario");
-  
+
 
   const getActividades = async () => {
     try {
@@ -77,16 +83,16 @@ function Mantenimientos() {
 
   const getActividadesMantenimiento = async (id) => {
     try {
-    await axios.get(`${endpointActividad}/mantenimiento/${id}`).then((response) => {
-    const activitiesManten = response.data;
-    console.log(activitiesManten);
-    setActividadesMantenimiento(activitiesManten);
-    setModalTable(true);
-    
-    
-   })
-  
-  } catch (error) {
+      await axios.get(`${endpointActividad}/mantenimiento/${id}`).then((response) => {
+        const activitiesManten = response.data;
+        console.log(activitiesManten);
+        setActividadesMantenimiento(activitiesManten);
+        setModalTable(true);
+
+
+      })
+
+    } catch (error) {
       console.log(error);
     }
   }
@@ -100,20 +106,20 @@ function Mantenimientos() {
     } catch (error) {
       console.log(error);
     }
-   }
+  }
 
-   const getMantenimientosUnidad = async () => {
+  const getMantenimientosUnidad = async () => {
     try {
       await axios.get(`${endpointMantenimiento}/${unidadUser}`).then((response) => {
         const manteinmentUnit = response.data;
         setMantenimientosUnit(manteinmentUnit);
       })
-     
+
     } catch (error) {
       console.log(error);
     }
-   }
-   const getEquipos = async () => {
+  }
+  const getEquipos = async () => {
     try {
       await axios.get(endpointEquipo).then((response) => {
         const equipment = response.data;
@@ -122,8 +128,8 @@ function Mantenimientos() {
     } catch (error) {
       console.log(error);
     }
-   }
-   const getEquiposUnidad = async () => {
+  }
+  const getEquiposUnidad = async () => {
     try {
       await axios.get(`${endpointEquipo}/${unidadUser}`).then((response) => {
         const equipment = response.data;
@@ -132,8 +138,8 @@ function Mantenimientos() {
     } catch (error) {
       console.log(error);
     }
-   }
-   const getUsers = async () => {
+  }
+  const getUsers = async () => {
     try {
       await axios.get(endpointUser).then((response) => {
         const users = response.data;
@@ -142,7 +148,7 @@ function Mantenimientos() {
     } catch (error) {
       console.log(error);
     }
-   }
+  }
   const getTecnicos = async () => {
     try {
       await axios.get(endpointTecnico).then((response) => {
@@ -153,21 +159,21 @@ function Mantenimientos() {
       console.log(error);
     }
   }
-   const [valores, setValores] = useState({
+  const [valores, setValores] = useState({
     tipo_mantenimiento: "",
     fecha_mantenimiento: "",
     descripcion: "",
     resultado: "",
     fk_user_responsable: "",
     fk_equipo: ""
-   })
-   const [valoresActividad, setValoresActividad] = useState({
+  })
+  const [valoresActividad, setValoresActividad] = useState({
     fecha_actividad: "",
     descripcion: "",
     fk_mantenimiento: "",
     fk_tecnico: ""
-   })
-   const clearForm = () => {
+  })
+  const clearForm = () => {
     setValores({
       tipo_mantenimiento: "",
       fecha_mantenimiento: "",
@@ -180,15 +186,15 @@ function Mantenimientos() {
     setSelectId(null)
     setModal(false)
     setModalUpdate(false)
-   }
-   const [valoresTecnico, setValoresTecnico] = useState({
+  }
+  const [valoresTecnico, setValoresTecnico] = useState({
     identificacion: "",
     nombres: "",
     apellidos: "",
     correo: "",
     telefono: ""
-   })
-   const clearFormTecnico = () => {
+  })
+  const clearFormTecnico = () => {
     setValoresTecnico({
       identificacion: "",
       nombres: "",
@@ -200,9 +206,9 @@ function Mantenimientos() {
     setSelectIdTecnico(null)
     setModalTecnico(false)
     setModalUpdateTecnico(false)
-   }
+  }
 
-   const getDataTecnico = (datos) => {
+  const getDataTecnico = (datos) => {
     setValoresTecnico({
       identificacion: datos[1],
       nombres: datos[2],
@@ -212,8 +218,8 @@ function Mantenimientos() {
     })
     setSelectIdTecnico(datos[0])
     setModalUpdateTecnico(true)
-   }
-   const clearFormActivity = () => {
+  }
+  const clearFormActivity = () => {
     setValoresActividad({
       fecha_actividad: "",
       descripcion: "",
@@ -223,23 +229,23 @@ function Mantenimientos() {
     setErrores("")
     setModalActividad(false)
     setModalActividadUpdate(false)
-   }
-   const getData = (datos) => {
+  }
+  const getData = (datos) => {
 
     const equipoManteinment = equipos.find(equipment => equipment.nombre_equipo === datos[5]);
-    const equipoManteinmentId = equipoManteinment ? equipoManteinment.id_equipo: "";
+    const equipoManteinmentId = equipoManteinment ? equipoManteinment.id_equipo : "";
 
     const userResponsable = usuarios.find(user => user.nombres === datos[4]);
     const userResponsableId = userResponsable ? userResponsable.id_usuario : "";
-    
+
     const fecha = moment(datos[2]).format('YYYY-MM-DD');
     setValores({
-    tipo_mantenimiento: datos[1],
-    fecha_mantenimiento: fecha,
-    descripcion: datos[3],
-    fk_user_responsable: userResponsableId,
-    fk_equipo: equipoManteinmentId,
-    resultado: datos[6]
+      tipo_mantenimiento: datos[1],
+      fecha_mantenimiento: fecha,
+      descripcion: datos[3],
+      fk_user_responsable: userResponsableId,
+      fk_equipo: equipoManteinmentId,
+      resultado: datos[6]
     })
     setSelectId(datos[0]);
     setModalUpdate(true);
@@ -269,7 +275,7 @@ function Mantenimientos() {
   const getDataActividad = (datos) => {
 
     const tecnicoActividad = tecnicos.find(tenic => tenic.nombres === datos[4]);
-    const tecnicoActividadId = tecnicoActividad ? tecnicoActividad.id_tecnico: "";
+    const tecnicoActividadId = tecnicoActividad ? tecnicoActividad.id_tecnico : "";
 
     const fecha = moment(datos[1]).format('YYYY-MM-DD')
 
@@ -281,44 +287,44 @@ function Mantenimientos() {
     })
     setSelectIdActividad(datos[0])
     setModalActividadUpdate(true)
-   }
-   const valorInput = (event) => {
+  }
+  const valorInput = (event) => {
     setValores({
       ...valores,
-      [event.target.name] : event.target.value 
+      [event.target.name]: event.target.value
     })
-   }
-   const valorInputActividad = (event) => {
+  }
+  const valorInputActividad = (event) => {
     setValoresActividad({
       ...valoresActividad,
-      [event.target.name] : event.target.value
+      [event.target.name]: event.target.value
     })
-   }
-   const editValorInput = (event) => {
+  }
+  const editValorInput = (event) => {
     setValores(prevState => ({
       ...prevState,
       [event.target.name]: event.target.value
     }))
-   }
-   const editValorInputActividad = (event) => {
+  }
+  const editValorInputActividad = (event) => {
     setValoresActividad(prevState => ({
       ...prevState,
       [event.target.name]: event.target.value
     }))
-   }
-   const valorInputTecnico = (event) => {
+  }
+  const valorInputTecnico = (event) => {
     setValoresTecnico({
       ...valoresTecnico,
-      [event.target.name] : event.target.value
+      [event.target.name]: event.target.value
     })
-   }
-   const editValorInputTecnico = (event) => {
+  }
+  const editValorInputTecnico = (event) => {
     setValoresTecnico(prevState => ({
       ...prevState,
       [event.target.name]: event.target.value
     }))
-   }
-   const postMantenimiento = async (event) => {
+  }
+  const postMantenimiento = async (event) => {
     event.preventDefault();
     try {
       const respuesta = await axios.post(endpointMantenimiento, valores, {
@@ -338,8 +344,8 @@ function Mantenimientos() {
       setErrores(error.response.data.msg)
       console.log(error);
     }
-   }
-   const putMantenimiento = async (event) => {
+  }
+  const putMantenimiento = async (event) => {
     event.preventDefault();
     try {
       const respuesta = await axios.put(`${endpointMantenimiento}/${selectId}`, valores, {
@@ -349,7 +355,7 @@ function Mantenimientos() {
       })
       if (respuesta.status === 200) {
         const msg = respuesta.data.message;
-         AlertSucces(msg);
+        AlertSucces(msg);
       }
       clearForm();
       getMantenimientos();
@@ -359,8 +365,8 @@ function Mantenimientos() {
       setErrores(error.response.data.msg)
       console.log(error);
     }
-   }
-   const postActivity = async (event) => {
+  }
+  const postActivity = async (event) => {
     event.preventDefault();
     try {
       const respuesta = await axios.post(endpointActividad, valoresActividad, {
@@ -370,7 +376,7 @@ function Mantenimientos() {
       })
       if (respuesta.status === 200) {
         const msg = respuesta.data.message;
-         AlertSucces(msg);
+        AlertSucces(msg);
       }
       clearFormActivity();
       getActividades();
@@ -380,8 +386,8 @@ function Mantenimientos() {
       setErrores(error.response.data.msg)
       console.log(error);
     }
-   }
-   const putActivity = async (event) => {
+  }
+  const putActivity = async (event) => {
     event.preventDefault();
     try {
       const respuesta = await axios.put(`${endpointActividad}/${selectIdActividad}`, valoresActividad, {
@@ -402,7 +408,7 @@ function Mantenimientos() {
       console.log(error);
     }
   }
-   const postTecnico = async (event) => {
+  const postTecnico = async (event) => {
     event.preventDefault();
     try {
       const respuesta = await axios.post(endpointTecnico, valoresTecnico, {
@@ -442,7 +448,7 @@ function Mantenimientos() {
       console.log(error);
     }
   }
-   const columnas =[
+  const columnas = [
     {
       name: "id_mantenimiento",
       label: "ID"
@@ -495,17 +501,17 @@ function Mantenimientos() {
         customBodyRender: (value, tableMeta, updateValue) => {
           return (
             <>
-           <div className="btns-edit">
-           <ButtonEdit titulo="Registrar Actividad" icon={<FaSquarePlus />} funcion1={() => getIdMantenimiento(tableMeta.rowData)} />
-            <IoEyeSharp title="Ver actividades" className="icon-activity" onClick={() => getActividadesMantenimiento(tableMeta.rowData[0])}/>
-           </div>
+              <div className="btns-edit">
+                <ButtonEdit titulo="Registrar Actividad" icon={<FaSquarePlus />} funcion1={() => getIdMantenimiento(tableMeta.rowData)} />
+                <IoEyeSharp title="Ver actividades" className="icon-activity" onClick={() => getActividadesMantenimiento(tableMeta.rowData[0])} />
+              </div>
             </>
           )
         }
       }
     }
-   ]
-   const columnasTecnicos = [
+  ]
+  const columnasTecnicos = [
     {
       name: "id_tecnico",
       label: "ID"
@@ -535,7 +541,7 @@ function Mantenimientos() {
       label: "ACTIONS",
       options: {
         customBodyRender: (value, tableMeta, updateValue) => {
-          return(
+          return (
             <ButtonEdit icon={<HiMiniPencilSquare />} funcion1={() => getDataTecnico(tableMeta.rowData)} />
           )
         }
@@ -582,7 +588,7 @@ function Mantenimientos() {
       label: "ACTIONS",
       options: {
         customBodyRender: (value, tableMeta, updateValue) => {
-          return(
+          return (
             <ButtonEdit icon={<HiMiniPencilSquare />} funcion1={() => getDataActividad(tableMeta.rowData)} />
           )
         }
@@ -618,506 +624,520 @@ function Mantenimientos() {
     }
   ]
 
-    useEffect(()=> {
-      getMantenimientos();
-      getMantenimientosUnidad();
-      getEquipos();
-      getEquiposUnidad();
-      getUsers();
-      getTecnicos();
-      getActividades();
-      getActividadesUnidad();
-      getActividadesMantenimiento();
-    },[])
-//#endregion funciones
+  useEffect(() => {
+    getMantenimientos();
+    getMantenimientosUnidad();
+    getEquipos();
+    getEquiposUnidad();
+    getUsers();
+    getTecnicos();
+    getActividades();
+    getActividadesUnidad();
+    getActividadesMantenimiento();
+  }, [])
+  //#endregion funciones
   return (
     <Container>
       <Contenedor>
-      <HeaderPageMante icon={<GoTools/>} 
-      titulo="MANTENIMIENTOS Y ACTIVIDADES" 
-      textButton1="REGISTRAR MANTENIMIENTO" 
-      textButton2="REGISTRAR TÉCNICO" 
-      textButton3="VER ACTIVIDADES" 
-      funcion1={() => getIdUser()}
-      funcion2={() => setModalTecnico(true)}
-      identificador="#actividades"
-      />
-      <MediumContainer>
-      <MUIDataTable className= "table-medium"
-          title="Técnicos"
-          data={tecnicos}
-          columns={columnasTecnicos}
-          options={optionsMedium}
-           />
-      </MediumContainer>
-      <Modales>
-        <Modal
-        titulo="REGISTRAR MANTENIMIENTO"
-        estado={modal}
-        cambiarEstado={clearForm}
-        >
-          <form className="formulario" onSubmit={postMantenimiento}>
-            <div className="inputs-data">
-              <div className="filas">
-                <div className="contents">
-                  <label>Tipo de Mantenimiento:</label>
-                  <select name="tipo_mantenimiento" value={valores.tipo_mantenimiento} onChange={valorInput} required>
-                    <option value="">Selecciona el tipo</option>
-                    <option value="preventivo">Preventivo</option>
-                    <option value="tecnico">Técnico</option>
-                  </select>
-                </div>
-                <div className="contents">
-                  <label>Fecha de Mantenimiento:</label>
-                  <input name="fecha_mantenimiento" type="date" value={valores.fecha_mantenimiento} onChange={valorInput} required/>
-                </div>
-                <div className="contents">
-                  <label>Equipo:</label>
-                 {
-                  user && user === "1" ? (
-                    <select name="fk_equipo" value={valores.fk_equipo} onChange={valorInput} required>
-                    <option value="">Selecciona una opción</option>
+        <HeaderPageMante icon={<GoTools />}
+          titulo="MANTENIMIENTOS Y ACTIVIDADES"
+          textButton1="REGISTRAR MANTENIMIENTO"
+          textButton2="REGISTRAR TÉCNICO"
+          funcion1={() => getIdUser()}
+          funcion2={() => setModalTecnico(true)}
+          identificador="#actividades"
+        />
+        <BasicTabs
+          text1="Mantenimientos"
+          text2="Actividades"
+          text3="Técnicos" >
+
+          <div className="table-mui" value={0}>
+            {
+              user && user === "1" ? (
+                <MUIDataTable className="table"
+                  data={mantenimientos}
+                  columns={columnas}
+                  options={options}
+                />
+              ) : (
+                <MUIDataTable className="table"
+                  data={mantenimientosUnit}
+                  columns={columnas}
+                  options={options}
+                />
+              )
+            }
+          </div>
+          <div className="table-mui" value={1}>
+            {
+              user && user === "1" ? (
+                <MUIDataTable className="table"
+                  data={actividades}
+                  columns={columnasActividad}
+                  options={options}
+                />
+              ) : (
+                <MUIDataTable className="table"
+                  data={actividadesUnit}
+                  columns={columnasActividad}
+                  options={options}
+                />
+              )
+            }
+          </div>
+          <div className="table-mui" value={2}>
+
+            <MUIDataTable className="table"
+              data={tecnicos}
+              columns={columnasTecnicos}
+              options={optionsMedium}
+            />
+          </div>
+        </BasicTabs>
+        <Modales>
+          <Modal
+            titulo="REGISTRAR MANTENIMIENTO"
+            estado={modal}
+            cambiarEstado={clearForm}
+          >
+            <form className="formulario" onSubmit={postMantenimiento}>
+              <div className="inputs-data">
+                <div className="filas">
+                  <div className="contents">
+                    <FormControl>
+                      <InputLabel>Tipo</InputLabel>
+                      <Select label="Tipo" name="tipo_mantenimiento" value={valores.tipo_mantenimiento} onChange={valorInput} required>
+                        <MenuItem value="preventivo">Preventivo</MenuItem>
+                        <MenuItem value="tecnico">Técnico</MenuItem>
+                      </Select>
+                    </FormControl>
+                
+                  </div>
+                  <div className="contents">
+                    <input name="fecha_mantenimiento" type="date" value={valores.fecha_mantenimiento} onChange={valorInput} required />
+                  
+                  </div>
+                  <div className="contents">
+
                     {
-                      equipos.map((equipos) => (
-                        <option value={equipos.id_equipo} key={equipos.id_equipo}>{equipos.nombre_equipo}</option>
-                      ))
+                      user && user === "1" ? (
+                        <FormControl>
+                          <InputLabel>Equipo</InputLabel>
+                          <Select label="Equipo" name="fk_equipo" value={valores.fk_equipo} onChange={valorInput} required>
+                            {
+                              equipos.map((equipos) => (
+                                <MenuItem value={equipos.id_equipo} key={equipos.id_equipo}>{equipos.nombre_equipo}</MenuItem>
+                              ))
+                            }
+                          </Select>
+                        </FormControl>
+                      ) : (
+                        <FormControl>
+                          <InputLabel>Equipo</InputLabel>
+                          <Select label="Equipo" name="fk_equipo" value={valores.fk_equipo} onChange={valorInput} required>
+                            {
+                              equiposUnidad.map((equipos) => (
+                                <MenuItem value={equipos.id_equipo} key={equipos.id_equipo}>{equipos.nombre_equipo}</MenuItem>
+                              ))
+                            }
+                          </Select>
+                        </FormControl>
+                      )
                     }
-                  </select>
-                  ):( 
-                  <select name="fk_equipo" value={valores.fk_equipo} onChange={valorInput} required>
-                  <option value="">Selecciona una opción</option>
-                  {
-                    equiposUnidad.map((equipos) => (
-                      <option value={equipos.id_equipo} key={equipos.id_equipo}>{equipos.nombre_equipo}</option>
-                    ))
-                  }
-                </select>
-                )
-                 }
+                  </div>
+                  <div className={`${user === "1" ? 'contents' : 'onlyRead'}`}>
+
+                    {
+                      user && user === "2" ? (
+                        <div className="inputs-encar">
+                          <input
+                            className="idunidad"
+                            name="fk_user_responsable"
+                            type="number"
+                            value={valores.fk_user_responsable}
+                            onChange={valorInput} readOnly
+                          />
+                          <input className="idnombreUser" value={nombresUser} readOnly />
+                        </div>
+                      ) : (
+                        <FormControl>
+                          <InputLabel>Responsable</InputLabel>
+                          <Select label="Responsable" name="fk_user_responsable" value={valores.fk_user_responsable} onChange={valorInput} required>
+                            {
+                              usuarios.map((usuarios) => (
+                                <MenuItem value={usuarios.id_usuario} key={usuarios.id_usuario}>{usuarios.nombres} {usuarios.apellidos}</MenuItem>
+                              ))
+                            }
+                          </Select>
+                        </FormControl>
+                      )
+                    }
+
+                  </div>
                 </div>
-                <div className={`${user === "1" ? 'contents' : 'onlyRead'}`}>
-                  <label>Responsable:</label>
-                  {
-                    user && user === "2" ? (
-                    <div className="inputs-encar">
-                      <input 
-                      className="idunidad" 
-                      name="fk_user_responsable" 
-                      type="number" 
-                      value={valores.fk_user_responsable} 
-                      onChange={valorInput} readOnly
-                       />
-                      <input className="idnombreUser" value={nombresUser}  readOnly/>
-                    </div>
-                    ) : (
-                      <select name="fk_user_responsable" value={valores.fk_user_responsable} onChange={valorInput} required>
-                      <option value="">Selecciona una opción</option>
+                <div className="filas">
+                  <div className="description">
+                    <Textarea
+                      name="descripcion"
+                      value={valores.descripcion}
+                      onChange={valorInput}
+                      disabled={false}
+                      minRows={8}
+                      size="md"
+                      variant="outlined"
+                      placeholder="Descripción"
+                      required />
+                    {
+                      errores && errores.some(([campo]) => campo === "descripcion") && (
+                        <p>
+                          {errores.find(([campo]) => campo === "descripcion")[1]}
+                        </p>
+                      )
+                    }
+                  </div>
+                  <div className="contents">
+                    <label>Resultado:</label>
+                    <input name="resultado" type="text" value={valores.resultado} onChange={valorInput} placeholder="Resultado" required />
+                    {
+                      errores && errores.some(([campo]) => campo === "resultado") && (
+                        <p>
+                          {errores.find(([campo]) => campo === "resultado")[1]}
+                        </p>
+                      )
+                    }
+                  </div>
+                </div>
+              </div>
+              <button>REGISTRAR</button>
+            </form>
+          </Modal>
+          <Modal
+            titulo="ACTUALIZAR DATOS"
+            estado={modalUpdate}
+            cambiarEstado={clearForm}
+          >
+            <form className="formulario" onSubmit={putMantenimiento}>
+              <div className="inputs-data">
+                <div className="filas">
+                  <div className="contents">
+                    <label>Tipo de Mantenimiento:</label>
+                    <select name="tipo_mantenimiento" value={valores.tipo_mantenimiento} onChange={editValorInput} required>
+                      <option value="">Selecciona el tipo</option>
+                      <option value="preventivo">Preventivo</option>
+                      <option value="tecnico">Técnico</option>
+                    </select>
+                  </div>
+                  <div className="contents">
+                    <label>Fecha de Mantenimiento:</label>
+                    <input name="fecha_mantenimiento" type="date" value={valores.fecha_mantenimiento} onChange={editValorInput} required />
+                  </div>
+                  <div className="contents">
+                    <label>Equipo:</label>
+                    {
+                      user && user === "1" ? (
+                        <select name="fk_equipo" value={valores.fk_equipo} onChange={editValorInput} required>
+                          <option value="">Selecciona una opción</option>
+                          {
+                            equipos.map((equipos) => (
+                              <option value={equipos.id_equipo} key={equipos.id_equipo}>{equipos.nombre_equipo}</option>
+                            ))
+                          }
+                        </select>
+                      ) : (
+                        <select name="fk_equipo" value={valores.fk_equipo} onChange={editValorInput} required>
+                          <option value="">Selecciona una opción</option>
+                          {
+                            equiposUnidad.map((equipos) => (
+                              <option value={equipos.id_equipo} key={equipos.id_equipo}>{equipos.nombre_equipo}</option>
+                            ))
+                          }
+                        </select>
+                      )
+                    }
+                  </div>
+                  <div className={`${user === "1" ? 'contents' : 'onlyRead'}`}>
+                    <label>Responsable:</label>
+                    {
+                      user && user === "2" ? (
+                        <div className="inputs-encar">
+                          <input className="idunidad" name="fk_user_responsable" type="number" value={valores.fk_user_responsable} onChange={editValorInput} readOnly />
+                          <input className="idnombreUser" type="text" value={nombresUser} readOnly />
+                        </div>
+                      ) : (
+                        <select name="fk_user_responsable" value={valores.fk_user_responsable} onChange={editValorInput} required>
+                          <option value="">Selecciona una opción</option>
+                          {
+                            usuarios.map((usuarios) => (
+                              <option value={usuarios.id_usuario} key={usuarios.id_usuario}>{usuarios.nombres} {usuarios.apellidos}</option>
+                            ))
+                          }
+                        </select>
+                      )
+                    }
+                  </div>
+                </div>
+                <div className="filas">
+                  <div className="description">
+                    <label>Descripción:</label>
+                    <textarea name="descripcion" value={valores.descripcion} onChange={editValorInput} maxLength={250} placeholder="Ingresa una descripción" required />
+                    {
+                      errores && errores.some(([campo]) => campo === "descripcion") && (
+                        <p>
+                          {errores.find(([campo]) => campo === "descripcion")[1]}
+                        </p>
+                      )
+                    }
+                  </div>
+                  <div className="contents">
+                    <label>Resultado:</label>
+                    <input name="resultado" type="text" value={valores.resultado} onChange={editValorInput} placeholder="Resultado" required />
+                    {
+                      errores && errores.some(([campo]) => campo === "resultado") && (
+                        <p>
+                          {errores.find(([campo]) => campo === "resultado")[1]}
+                        </p>
+                      )
+                    }
+                  </div>
+                </div>
+              </div>
+              <button>ACTUALIZAR</button>
+            </form>
+          </Modal>
+          <Modal
+            titulo="REGISTRAR ACTIVIDAD"
+            estado={modalActividad}
+            cambiarEstado={clearFormActivity}
+          >
+            <form className="formulario" onSubmit={postActivity}>
+              <div className="inputs-data">
+                <div className="filas">
+                  <div className="contents">
+                    <label>Fecha de Actividad:</label>
+                    <input value={valoresActividad.fecha_actividad} onChange={valorInputActividad} name="fecha_actividad" type="date" required />
+                  </div>
+                  <div className="input-manteinment">
+                    <label>ID Mantenimiento:</label>
+                    <input name="fk_mantenimiento" value={valoresActividad.fk_mantenimiento} onChange={valorInputActividad} readOnly />
+                  </div>
+                  <div className="contents">
+                    <label>Técnico:</label>
+                    <select name="fk_tecnico" value={valoresActividad.fk_tecnico} onChange={valorInputActividad} required>
+                      <option value="">selecciona una opción</option>
                       {
-                        usuarios.map((usuarios) => (
-                          <option value={usuarios.id_usuario} key={usuarios.id_usuario}>{usuarios.nombres} {usuarios.apellidos}</option>
+                        tecnicos.map((tecnicos) => (
+                          <option value={tecnicos.id_tecnico} key={tecnicos.id_tecnico}>{tecnicos.nombres} {tecnicos.apellidos}</option>
                         ))
                       }
                     </select>
-                    )
-                  }
-                 
+                  </div>
                 </div>
-              </div>
-              <div className="filas">
-              <div className="description">
-                <label>Descripción:</label>
-                <textarea name="descripcion" value={valores.descripcion} onChange={valorInput} maxLength={250} placeholder="Ingresa una descripción" required/>
-                {
-                  errores && errores.some(([campo]) => campo === "descripcion") && (
-                    <p>
-                      {errores.find(([campo]) => campo === "descripcion")[1]}
-                    </p>
-                  )
-                }
-              </div>
-              <div className="contents">
-                <label>Resultado:</label>
-                <input name="resultado" type="text" value={valores.resultado} onChange={valorInput} placeholder="Resultado" required/>
-                {
-                  errores && errores.some(([campo]) => campo === "resultado") && (
-                    <p>
-                      {errores.find(([campo]) => campo === "resultado")[1]}
-                    </p>
-                  )
-                }
-              </div>
-              </div>
-            </div>
-            <button>REGISTRAR</button>
-          </form>
-        </Modal>
-        <Modal
-        titulo="ACTUALIZAR DATOS"
-        estado={modalUpdate}
-        cambiarEstado={clearForm}
-        >
-          <form className="formulario" onSubmit={putMantenimiento}>
-            <div className="inputs-data">
-              <div className="filas">
-                <div className="contents">
-                  <label>Tipo de Mantenimiento:</label>
-                  <select name="tipo_mantenimiento" value={valores.tipo_mantenimiento} onChange={editValorInput} required>
-                    <option value="">Selecciona el tipo</option>
-                    <option value="preventivo">Preventivo</option>
-                    <option value="tecnico">Técnico</option>
-                  </select>
-                </div>
-                <div className="contents">
-                  <label>Fecha de Mantenimiento:</label>
-                  <input name="fecha_mantenimiento" type="date" value={valores.fecha_mantenimiento} onChange={editValorInput} required/>
-                </div>
-                <div className="contents">
-                  <label>Equipo:</label>
-                  {
-                  user && user === "1" ? (
-                    <select name="fk_equipo" value={valores.fk_equipo} onChange={editValorInput} required>
-                    <option value="">Selecciona una opción</option>
+                <div className="filas">
+                  <div className="description">
+                    <label>Descripción</label>
+                    <textarea name="descripcion" value={valoresActividad.descripcion} onChange={valorInputActividad} maxLength={250} placeholder="Ingresa una descripción" required></textarea>
                     {
-                      equipos.map((equipos) => (
-                        <option value={equipos.id_equipo} key={equipos.id_equipo}>{equipos.nombre_equipo}</option>
-                      ))
+                      errores && errores.some(([campo]) => campo === "descripcion") && (
+                        <p>
+                          {errores.find(([campo]) => campo === "descripcion")[1]}
+                        </p>
+                      )
                     }
-                  </select>
-                  ):( 
-                  <select name="fk_equipo" value={valores.fk_equipo} onChange={editValorInput} required>
-                  <option value="">Selecciona una opción</option>
-                  {
-                    equiposUnidad.map((equipos) => (
-                      <option value={equipos.id_equipo} key={equipos.id_equipo}>{equipos.nombre_equipo}</option>
-                    ))
-                  }
-                </select>
-                )
-                 }
+                  </div>
                 </div>
-                <div className={`${user === "1" ? 'contents' : 'onlyRead'}`}>
-                  <label>Responsable:</label>
-                  {
-                    user && user === "2" ? (
-                      <div className="inputs-encar">
-                      <input className="idunidad" name="fk_user_responsable" type="number" value={valores.fk_user_responsable} onChange={editValorInput} readOnly />
-                      <input className="idnombreUser" type="text" value={nombresUser}  readOnly/>
-                    </div>
-                    ) : (
-                      <select name="fk_user_responsable" value={valores.fk_user_responsable} onChange={editValorInput} required>
-                      <option value="">Selecciona una opción</option>
+              </div>
+              <button>REGISTRAR</button>
+            </form>
+          </Modal>
+          <Modal
+            titulo="ACTUALIZAR DATOS"
+            estado={modalActividadUpdate}
+            cambiarEstado={clearFormActivity}
+          >
+            <form className="formulario" onSubmit={putActivity}>
+              <div className="inputs-data">
+                <div className="filas">
+                  <div className="contents">
+                    <label>Fecha de Actividad:</label>
+                    <input name="fecha_actividad" value={valoresActividad.fecha_actividad} onChange={editValorInputActividad} type="date" required />
+                  </div>
+                  <div className="input-manteinment">
+                    <label>Mantenimiento:</label>
+                    <input name="fk_mantenimiento" value={valoresActividad.fk_mantenimiento} onChange={editValorInputActividad} required readOnly />
+                  </div>
+                  <div className="contents">
+                    <label>Técnico:</label>
+                    <select name="fk_tecnico" value={valoresActividad.fk_tecnico} onChange={editValorInputActividad} required>
+                      <option value="">selecciona una opción</option>
                       {
-                        usuarios.map((usuarios) => (
-                          <option value={usuarios.id_usuario} key={usuarios.id_usuario}>{usuarios.nombres} {usuarios.apellidos}</option>
+                        tecnicos.map((tecnicos) => (
+                          <option value={tecnicos.id_tecnico} key={tecnicos.id_tecnico}>{tecnicos.nombres} {tecnicos.apellidos}</option>
                         ))
                       }
                     </select>
-                    )
-                  }
+                  </div>
+                </div>
+                <div className="filas">
+                  <div className="description">
+                    <label>Descripción</label>
+                    <textarea name="descripcion" value={valoresActividad.descripcion} onChange={editValorInputActividad} maxLength={250} placeholder="Ingresa una descripción" required></textarea>
+                    {
+                      errores && errores.some(([campo]) => campo === "descripcion") && (
+                        <p>
+                          {errores.find(([campo]) => campo === "descripcion")[1]}
+                        </p>
+                      )
+                    }
+                  </div>
                 </div>
               </div>
-              <div className="filas">
-              <div className="description">
-                <label>Descripción:</label>
-                <textarea name="descripcion" value={valores.descripcion} onChange={editValorInput} maxLength={250} placeholder="Ingresa una descripción" required/>
-                {
-                  errores && errores.some(([campo]) => campo === "descripcion") && (
-                    <p>
-                      {errores.find(([campo]) => campo === "descripcion")[1]}
-                    </p>
-                  )
-                }
-              </div>
-              <div className="contents">
-                <label>Resultado:</label>
-                <input name="resultado" type="text" value={valores.resultado} onChange={editValorInput} placeholder="Resultado" required/>
-                {
-                  errores && errores.some(([campo]) => campo === "resultado") && (
-                    <p>
-                      {errores.find(([campo]) => campo === "resultado")[1]}
-                    </p>
-                  )
-                }
-              </div>
-              </div>
-            </div>
-            <button>ACTUALIZAR</button>
-          </form>
-        </Modal>
-        <Modal
-        titulo="REGISTRAR ACTIVIDAD"
-        estado={modalActividad}
-        cambiarEstado={clearFormActivity}
-        >
-          <form className="formulario" onSubmit={postActivity}>
-            <div className="inputs-data">
-              <div className="filas">
-                <div className="contents">
-                  <label>Fecha de Actividad:</label>
-                  <input value={valoresActividad.fecha_actividad} onChange={valorInputActividad}  name="fecha_actividad" type="date" required />
-                </div>
-                <div className="input-manteinment">
-                  <label>ID Mantenimiento:</label>
-                 <input name="fk_mantenimiento" value={valoresActividad.fk_mantenimiento}  onChange={valorInputActividad} readOnly/>
-                </div>
-                <div className="contents">
-                  <label>Técnico:</label>
-                  <select name="fk_tecnico" value={valoresActividad.fk_tecnico} onChange={valorInputActividad}  required> 
-                  <option value="">selecciona una opción</option>
-                 {
-                  tecnicos.map((tecnicos) => (
-                    <option value={tecnicos.id_tecnico} key={tecnicos.id_tecnico}>{tecnicos.nombres} {tecnicos.apellidos}</option>
-                   ) )
-                 }
-                  </select>
-                </div>
-              </div>
-              <div className="filas">
-              <div className="description">
-                  <label>Descripción</label>
-                  <textarea name="descripcion" value={valoresActividad.descripcion} onChange={valorInputActividad} maxLength={250} placeholder="Ingresa una descripción" required></textarea>
-                  {
-                  errores && errores.some(([campo]) => campo === "descripcion") && (
-                    <p>
-                      {errores.find(([campo]) => campo === "descripcion")[1]}
-                    </p>
-                  )
-                }
-                </div>
-              </div>
-            </div>
-            <button>REGISTRAR</button>
-          </form>
-        </Modal>
-        <Modal
-        titulo="ACTUALIZAR DATOS"
-        estado={modalActividadUpdate}
-        cambiarEstado={clearFormActivity}
-        >
-          <form className="formulario" onSubmit={putActivity}>
-            <div className="inputs-data">
-              <div className="filas">
-                <div className="contents">
-                  <label>Fecha de Actividad:</label>
-                  <input name="fecha_actividad" value={valoresActividad.fecha_actividad} onChange={editValorInputActividad} type="date" required />
-                </div>
-                <div className="input-manteinment">
-                  <label>Mantenimiento:</label>
-                  <input name="fk_mantenimiento" value={valoresActividad.fk_mantenimiento} onChange={editValorInputActividad} required readOnly/> 
-                </div>
-                <div className="contents">
-                  <label>Técnico:</label>
-                  <select name="fk_tecnico" value={valoresActividad.fk_tecnico} onChange={editValorInputActividad} required> 
-                  <option value="">selecciona una opción</option>
-                  {
-                    tecnicos.map((tecnicos) => (
-                      <option value={tecnicos.id_tecnico} key={tecnicos.id_tecnico}>{tecnicos.nombres} {tecnicos.apellidos}</option>
-                    ))
-                  }
-                  </select>
+              <button>ACTUALIZAR</button>
+            </form>
+          </Modal>
+          <Modal
+            titulo="REGISTRAR TÉCNICO"
+            estado={modalTecnico}
+            cambiarEstado={clearFormTecnico}
+          >
+            <form className="formulario" onSubmit={postTecnico}>
+              <div className="inputs-data-tecnico">
+                <div className="filas">
+                  <div className="contents">
+                    <label>Identificación:</label>
+                    <input name="identificacion" value={valoresTecnico.identificacion} onChange={valorInputTecnico} type="number" placeholder="Identificación" required />
+                    {
+                      errores && errores.some(([campo]) => campo === "identificacion") && (
+                        <p>
+                          {errores.find(([campo]) => campo === "identificacion")[1]}
+                        </p>
+                      )
+                    }
+                  </div>
+                  <div className="contents">
+                    <label>Nombres:</label>
+                    <input name="nombres" value={valoresTecnico.nombres} onChange={valorInputTecnico} type="text" placeholder="Ingrese Nombres" required />
+                    {
+                      errores && errores.some(([campo]) => campo === "nombres") && (
+                        <p>
+                          {errores.find(([campo]) => campo === "nombres")[1]}
+                        </p>
+                      )
+                    }
+                  </div>
+                  <div className="contents">
+                    <label>Apellidos:</label>
+                    <input name="apellidos" value={valoresTecnico.apellidos} onChange={valorInputTecnico} type="text" placeholder="Ingrese Apellidos" required />
+                    {
+                      errores && errores.some(([campo]) => campo === "apellidos") && (
+                        <p>
+                          {errores.find(([campo]) => campo === "apellidos")[1]}
+                        </p>
+                      )
+                    }
+                  </div>
+                  <div className="contents">
+                    <label>Correo:</label>
+                    <input name="correo" value={valoresTecnico.correo} onChange={valorInputTecnico} type="email" placeholder="Ingrese un Correo" required />
+                    {
+                      errores && errores.some(([campo]) => campo === "correo") && (
+                        <p>
+                          {errores.find(([campo]) => campo === "correo")[1]}
+                        </p>
+                      )
+                    }
+                  </div>
+                  <div className="contents">
+                    <label>Teléfono:</label>
+                    <input name="telefono" value={valoresTecnico.telefono} onChange={valorInputTecnico} type="number" placeholder="Teléfono" required />
+                    {
+                      errores && errores.some(([campo]) => campo === "telefono") && (
+                        <p>
+                          {errores.find(([campo]) => campo === "telefono")[1]}
+                        </p>
+                      )
+                    }
+                  </div>
                 </div>
               </div>
-              <div className="filas">
-              <div className="description">
-                  <label>Descripción</label>
-                  <textarea name="descripcion" value={valoresActividad.descripcion} onChange={editValorInputActividad} maxLength={250} placeholder="Ingresa una descripción" required></textarea>
-                {
-                  errores && errores.some(([campo]) => campo === "descripcion") && (
-                    <p>
-                      {errores.find(([campo]) => campo === "descripcion")[1]}
-                    </p>
-                  )
-                }
+              <button>REGISTRAR</button>
+            </form>
+          </Modal>
+          <Modal
+            titulo="ACTUALIZAR DATOS"
+            estado={modalUpdateTecnico}
+            cambiarEstado={clearFormTecnico}
+          >
+            <form className="formulario" onSubmit={putTecnico}>
+              <div className="inputs-data-tecnico">
+                <div className="filas">
+                  <div className="contents">
+                    <label>Identificación:</label>
+                    <input name="identificacion" value={valoresTecnico.identificacion} onChange={editValorInputTecnico} type="number" placeholder="Identificación" required />
+                    {
+                      errores && errores.some(([campo]) => campo === "identificacion") && (
+                        <p>
+                          {errores.find(([campo]) => campo === "identificacion")[1]}
+                        </p>
+                      )
+                    }
+                  </div>
+                  <div className="contents">
+                    <label>Nombres:</label>
+                    <input name="nombres" value={valoresTecnico.nombres} onChange={editValorInputTecnico} type="text" placeholder="Ingrese Nombres" required />
+                    {
+                      errores && errores.some(([campo]) => campo === "nombres") && (
+                        <p>
+                          {errores.find(([campo]) => campo === "nombres")[1]}
+                        </p>
+                      )
+                    }
+                  </div>
+                  <div className="contents">
+                    <label>Apellidos:</label>
+                    <input name="apellidos" value={valoresTecnico.apellidos} onChange={editValorInputTecnico} type="text" placeholder="Ingrese Apellidos" required />
+                    {
+                      errores && errores.some(([campo]) => campo === "apellidos") && (
+                        <p>
+                          {errores.find(([campo]) => campo === "apellidos")[1]}
+                        </p>
+                      )
+                    }
+                  </div>
+                  <div className="contents">
+                    <label>Correo:</label>
+                    <input name="correo" value={valoresTecnico.correo} onChange={editValorInputTecnico} type="email" placeholder="Ingrese un Correo" required />
+                    {
+                      errores && errores.some(([campo]) => campo === "correo") && (
+                        <p>
+                          {errores.find(([campo]) => campo === "correo")[1]}
+                        </p>
+                      )
+                    }
+                  </div>
+                  <div className="contents">
+                    <label>Teléfono:</label>
+                    <input name="telefono" value={valoresTecnico.telefono} onChange={editValorInputTecnico} type="number" placeholder="Teléfono" required />
+                    {
+                      errores && errores.some(([campo]) => campo === "telefono") && (
+                        <p>
+                          {errores.find(([campo]) => campo === "telefono")[1]}
+                        </p>
+                      )
+                    }
+                  </div>
                 </div>
               </div>
-            </div>
-            <button>ACTUALIZAR</button>
-          </form>
-        </Modal>
-        <Modal
-        titulo="REGISTRAR TÉCNICO"
-        estado={modalTecnico}
-        cambiarEstado={clearFormTecnico}
-        >
-          <form className="formulario" onSubmit={postTecnico}>
-            <div className="inputs-data-tecnico">
-              <div className="filas">
-                <div className="contents">
-                  <label>Identificación:</label>
-                  <input name="identificacion" value={valoresTecnico.identificacion} onChange={valorInputTecnico} type="number" placeholder="Identificación" required />
-                  {
-                  errores && errores.some(([campo]) => campo === "identificacion") && (
-                    <p>
-                      {errores.find(([campo]) => campo === "identificacion")[1]}
-                    </p>
-                  )
-                }
-                </div>
-                <div className="contents">
-                  <label>Nombres:</label>
-                  <input name="nombres" value={valoresTecnico.nombres} onChange={valorInputTecnico} type="text" placeholder="Ingrese Nombres" required/>
-                  {
-                  errores && errores.some(([campo]) => campo === "nombres") && (
-                    <p>
-                      {errores.find(([campo]) => campo === "nombres")[1]}
-                    </p>
-                  )
-                }
-                </div>
-                <div className="contents">
-                  <label>Apellidos:</label>
-                  <input name="apellidos" value={valoresTecnico.apellidos} onChange={valorInputTecnico} type="text" placeholder="Ingrese Apellidos" required/>
-                  {
-                  errores && errores.some(([campo]) => campo === "apellidos") && (
-                    <p>
-                      {errores.find(([campo]) => campo === "apellidos")[1]}
-                    </p>
-                  )
-                }
-                </div>
-                <div className="contents">
-                  <label>Correo:</label>
-                  <input name="correo" value={valoresTecnico.correo} onChange={valorInputTecnico} type="email" placeholder="Ingrese un Correo" required/>
-                  {
-                  errores && errores.some(([campo]) => campo === "correo") && (
-                    <p>
-                      {errores.find(([campo]) => campo === "correo")[1]}
-                    </p>
-                  )
-                }
-                </div>
-                <div className="contents">
-                  <label>Teléfono:</label>
-                  <input name="telefono" value={valoresTecnico.telefono} onChange={valorInputTecnico} type="number" placeholder="Teléfono" required/>
-                  {
-                  errores && errores.some(([campo]) => campo === "telefono") && (
-                    <p>
-                      {errores.find(([campo]) => campo === "telefono")[1]}
-                    </p>
-                  )
-                }
-                </div>
-              </div>
-            </div>
-            <button>REGISTRAR</button>
-          </form>
-        </Modal>
-        <Modal
-        titulo="ACTUALIZAR DATOS"
-        estado={modalUpdateTecnico}
-        cambiarEstado={clearFormTecnico}
-        >
-          <form className="formulario" onSubmit={putTecnico}>
-            <div className="inputs-data-tecnico">
-              <div className="filas">
-                <div className="contents">
-                  <label>Identificación:</label>
-                  <input name="identificacion" value={valoresTecnico.identificacion} onChange={editValorInputTecnico} type="number" placeholder="Identificación" required />
-                {
-                  errores && errores.some(([campo]) => campo === "identificacion") && (
-                    <p>
-                      {errores.find(([campo]) => campo === "identificacion")[1]}
-                    </p>
-                  )
-                }
-                </div>
-                <div className="contents">
-                  <label>Nombres:</label>
-                  <input name="nombres" value={valoresTecnico.nombres} onChange={editValorInputTecnico} type="text" placeholder="Ingrese Nombres" required/>
-                  {
-                  errores && errores.some(([campo]) => campo === "nombres") && (
-                    <p>
-                      {errores.find(([campo]) => campo === "nombres")[1]}
-                    </p>
-                  )
-                }
-                </div>
-                <div className="contents">
-                  <label>Apellidos:</label>
-                  <input name="apellidos" value={valoresTecnico.apellidos} onChange={editValorInputTecnico} type="text" placeholder="Ingrese Apellidos" required/>
-                  {
-                  errores && errores.some(([campo]) => campo === "apellidos") && (
-                    <p>
-                      {errores.find(([campo]) => campo === "apellidos")[1]}
-                    </p>
-                  )
-                }
-                </div>
-                <div className="contents">
-                  <label>Correo:</label>
-                  <input name="correo" value={valoresTecnico.correo} onChange={editValorInputTecnico} type="email" placeholder="Ingrese un Correo" required/>
-                  {
-                  errores && errores.some(([campo]) => campo === "correo") && (
-                    <p>
-                      {errores.find(([campo]) => campo === "correo")[1]}
-                    </p>
-                  )
-                }
-                </div>
-                <div className="contents">
-                  <label>Teléfono:</label>
-                  <input name="telefono" value={valoresTecnico.telefono} onChange={editValorInputTecnico} type="number" placeholder="Teléfono" required/>
-                  {
-                  errores && errores.some(([campo]) => campo === "telefono") && (
-                    <p>
-                      {errores.find(([campo]) => campo === "telefono")[1]}
-                    </p>
-                  )
-                }
-                </div>
-              </div>
-            </div>
-            <button>ACTUALIZAR</button>
-          </form>
-        </Modal>
-      </Modales>
-      <div className="table-mui">
-        {
-          user && user === "1" ? (
-            <MUIDataTable className="table"
-            title="Lista de Mantenimientos"
-           data={mantenimientos}
-           columns={columnas}
-           options={options}
-            />
-          ):(
-            <MUIDataTable className="table"
-            title="Lista de Mantenimientos"
-           data={mantenimientosUnit}
-           columns={columnas}
-           options={options}
-            />
-          )
-        }
-       
-      </div>
-      <TableModal
-      estado={modalTable}
-      cambiarEstado={() => setModalTable(false)}
-      columnas={columnasActidadesMantenimiento}
-      datos={actividadesMantenimiento}
-      />
-      </Contenedor>
-      <Contenedor>
-      <div className="table-mui" id="actividades">
-       {
-        user && user === "1" ? (
-          <MUIDataTable className="table" 
-          title="Lista de Actividades"
-          data={actividades}
-          columns={columnasActividad}
-          options={options}
-          />
-        ): (
-          <MUIDataTable className="table" 
-          title="Lista de Actividades"
-          data={actividadesUnit}
-          columns={columnasActividad}
-          options={options}
-          />
-        )
-       }
-      </div>
+              <button>ACTUALIZAR</button>
+            </form>
+          </Modal>
+        </Modales>
+        <TableModal
+          estado={modalTable}
+          cambiarEstado={() => setModalTable(false)}
+          columnas={columnasActidadesMantenimiento}
+          datos={actividadesMantenimiento}
+        />
       </Contenedor>
     </Container>
   )

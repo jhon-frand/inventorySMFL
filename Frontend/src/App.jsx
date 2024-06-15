@@ -68,7 +68,7 @@ const Container = styled.div`
   position: relative; /* Establecer posición relativa para poder posicionar el contenido principal */
   display: flex;
   min-height: 100vh;
-  background: #38a80030;
+  background: #edf3eb;
   padding-bottom: 20px;
 `;
 
@@ -89,7 +89,7 @@ const NavBarContainer = styled.div`
   transition: all 0.3s;
   position: fixed; 
   top: 0; 
-  left: ${({ $sideBarOpen }) => ($sideBarOpen ? "250px" : "80px")}; /* Ajustar el espacio de la barra lateral */
+  left: ${({ $sideBarOpen }) => ($sideBarOpen ? "300px" : "130px")}; /* Ajustar el espacio de la barra lateral */
   right: 0; 
   z-index: 30; 
 `;

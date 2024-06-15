@@ -8,6 +8,8 @@ import { AiOutlineMail, AiOutlineLock } from "react-icons/ai";
 import { AlertSucces, AlertUser } from '../components/alerts/Alerts';
 import Modal from "../components/modals/Modal"
 import { endpointRecuperar, endpointLogin } from '../components/endpoints/Endpoints';
+import { TextField } from "@mui/material";
+import { HiOutlineMail } from "react-icons/hi";
 
 function Login() {
 
@@ -83,40 +85,37 @@ function Login() {
 
   return (
     <Container>
+      <div className="content-formulario">
       <div className="content">
-      <img src={logoInventory} alt="INVENTORY" />
-        <h1 className="wel_text">INVENTORY</h1>
-        <p className="para"></p>
-       <footer>
-        <img src={logoSena} alt="SENA"/>
-        <p>CENTRO DE GESTIÓN Y DESARROLLO SOSTENIBLE SURCOLOMBIANO</p>
-       </footer>
+      <img src={logoSena} alt="INVENTORY" />
+      
+      <div className="texts">
+      <p className='text-init'>Inicia Sesión</p>
+      <p className='text-inv'>Ir a Inventory</p>
       </div>
-
+      
+      </div>
 
       <div className="banner">
         <form onSubmit={loginUser} className="form">
-          <div className='content-form'>
-            <h1 className="title">¡Bienvenido!</h1>
-            <div className="inp">
-              <AiOutlineMail />
-              <input name="email" className='input' value={valores.email} onChange={valorInput} type="email" placeholder='email' />
-            </div>
-            <div className="inp">
-              <AiOutlineLock />
-              <input name="password" className='input' value={valores.password} onChange={valorInput} type="password" placeholder='password' />
-            </div>
+           
+              <TextField label="Correo electrónico" name="email" className='input' value={valores.email} onChange={valorInput} type="email" required />
+        
+              <TextField label="Contraseña"  name="password" className='input' value={valores.password} onChange={valorInput} type="password" required/>
+         
             <div className="checkbox">
             <input type="checkbox" />
             <p>¿Recordarme?</p>
             </div>
+
             <button className="submit">Iniciar sesión</button>
+
             <div className="reset">
-            <p className="footer">¿Olvidaste tu contraseña?</p>
-            <p className='linkRegister' onClick={() => setModal(true)} >¡Recupérala!</p>
-            </div>
+            <p className='linkRegister' onClick={() => setModal(true)} >¿Has olvidado tu contraseña?</p>
           </div>
+
         </form>
+      </div>
       </div>
       <Modal
       titulo="RECUPERAR CONTRASEÑA"
@@ -124,8 +123,14 @@ function Login() {
       cambiarEstado={() => setModal(false)}
       >
         <form className='form-email' onSubmit={sendEmail}>
-          <input name='email' value={email.email} onChange={inputEmail} type="email"  placeholder='Ingresa tu Email' required/>
-          <button>ENVIAR</button>
+       <div className='init'>
+       <HiOutlineMail />
+          <p>
+            Ingresa tu correo electrónico de recuperación
+          </p>
+       </div>
+          <TextField label="Correo electrónico" name='email' value={email.email} onChange={inputEmail} type="email" required/>
+          <button className='submit' >Enviar</button>
         </form>
 
       </Modal>
@@ -136,135 +141,70 @@ function Login() {
 
 const Container = styled.div`
       display: flex;
+      justify-content: center;
+      align-items: center;
       height: 100vh;
-      background: white;
+      background-color: #4b5e4a28;
 
-::-webkit-input-placeholder {
-  color: gray;
-}
+      .content-formulario{
+        display: flex;
+        width: 60%;
+        height: 70%;
+        background-color: white;
+        border-radius: 30px;
+        padding: 40px;
+      }
 
 .content{
   width: 40%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  position: relative;
+  justify-content: start;
+  gap: 10px; 
 
-  img{
-    width: 30%;
+
+  .texts{
+    padding-left: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
   }
 
-  footer{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 80%;
-    position: absolute;
-    bottom: 0;
-    p{
-      border-left: 2px solid green;
-      padding: 10px;
-      text-align: center;
-      color: gray;
-    }
-
-    img{
-      width: 100px;
-    }
+  .text-init{
+    font-size: 33px;
+  }
+  img{
+    width: 100px;
   }
 }
               
 .banner {
   width: 60%;
- background: radial-gradient(#38a8005a, #38a800);
- clip-path: polygon(0 0, 100% 0, 100% 100%, 20% 100%);
   display: flex;
   justify-content: center;
   align-items: center;
 
   .form {
-       display: flex;
-       flex-direction: column;
-       justify-content: center;
-       align-items: center;
-       position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    width: 90%;
+    padding-top: 60px;
 
-       img{
-        width: 130px;
-        position: absolute;
-        top: 0;
-        
-       }
-
-       .content-form{
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        border-radius: 15px;
-        box-shadow: 0 0 5px white;
-        height: 500px;
-        padding: 40px;
-       background: white;
-       }
-
+    .input{
+      width: 100%;
+    }
        .checkbox{
         width: 100%;
         display: flex;
-        justify-content: space-between;
-        padding: 15px;
-
-        input{
-          cursor: pointer;
-        }
+        justify-content: end;
+        gap: 20px;
        }
-              }
+        }
 }
   
-
-.title {
-  font-size: 30px;
-  color: #38a800;
-  margin-bottom: 20px;
-}
-
-.inp {
-  display: flex;
-  align-items: center;
-  height: 70px;
-  border-bottom: 2px solid #cecece;
-
-  svg{
-    font-size: 20px;
-    color: gray;
-  }
-}
-
-.input {
-  border: none;
-  outline: none;
-  width: 260px;
-  padding: 5px;
-  padding-right: 10px;
-  font-size: 17px;
-  
-}
-
-
-
-.wel_text {
-  font-size: 80px;
-  color: #00324d;
-
-}
-
-.para {
-  font-size: 40px;
-  color: #00324d;
-
-}
-
 
 .reset{
   margin-top: 20px;
@@ -306,23 +246,19 @@ const Container = styled.div`
   gap: 10px;
   padding: 10px;
 
-  input{
-    padding: 10px;
-    border: 1px solid #00324d;
-    border-radius: 5px;
-    outline: none;
-    background: none;
-  }
+    .init{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
 
-  button{
-    border: none;
-    padding: 10px;
-    border-radius: 40px;
-    letter-spacing: 1px;
-    cursor: pointer;
-    background: #38a800;
-    color: white;
-  }
+      svg{
+        font-size: 20px;
+      }
+
+    }
+
+
   }
 `;
 

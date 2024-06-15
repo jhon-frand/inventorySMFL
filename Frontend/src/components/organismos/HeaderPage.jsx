@@ -46,7 +46,7 @@ const Header = styled.div`
       }
     }
   .btn-register{
-    background: #38746c;
+    background: #38a800;
     display: flex;
     align-items: center;
     padding: 7px;

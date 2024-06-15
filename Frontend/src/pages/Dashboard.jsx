@@ -10,7 +10,6 @@ import {
   getTotalUnits,
   getTotalEquipment,
   getTotalManteinment,
-  getTotalEquiposUnit,
   getTotalMantenimientoUnit
  } from "../functions/FunctionsDashboard";
 import { Contenedor } from "../components/styles/StylesPages";
@@ -20,7 +19,6 @@ import { columnasDashboard } from "../components/tables/Columnas";
 import { endpointUnidad } from "../components/endpoints/Endpoints";
 import axios from "axios";
 import StackedBarChart from "../components/graphics/Manteinments";
-import StraightAnglePieChart from "../components/graphics/Units";
 import TypeManteinments from "../components/graphics/Typemanteinment";
 import TotalEquipments from "../components/graphics/Equipments";
 
@@ -284,7 +282,7 @@ min-width: 100%;
         border-radius: 10px;
 
         th{
-          background: #38746c;
+          background: #38a800;
           color: white;
           padding: 5px;
           

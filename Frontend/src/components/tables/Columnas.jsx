@@ -1,9 +1,5 @@
 export const columnasDashboard = [
     {
-      name: "id_unidad",
-      label: "ID"
-    },
-    {
       name: "nombre_unidad",
       label: "NOMBRE"
     },

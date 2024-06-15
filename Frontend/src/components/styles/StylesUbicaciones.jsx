@@ -21,7 +21,7 @@ display: flex;
      padding: 5px;
 
      th{
-      background: #38746c;
+      background: #38a800;
       color: white;
       padding: 10px;
      }
@@ -31,7 +31,7 @@ display: flex;
      padding: 5px;
 
      th{
-      background: #38746c;
+      background: #38a800;
       color: white;
       padding: 10px;
      }

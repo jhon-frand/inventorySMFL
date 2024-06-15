@@ -1,7 +1,7 @@
 import styled from "styled-components"
 import { AiOutlinePlus } from "react-icons/ai";
 
-function HeaderPageMante({funcion1, funcion2, identificador, titulo, textButton1,textButton2,textButton3, icon}) {
+function HeaderPageMante({funcion1, funcion2, titulo, textButton1, textButton2, icon}) {
 
   return (
     <Header>
@@ -12,7 +12,6 @@ function HeaderPageMante({funcion1, funcion2, identificador, titulo, textButton1
   <div>
     <button className="btn-register" onClick={() => funcion1()} ><AiOutlinePlus />{textButton1}</button>
     <button className="btn-register" onClick={() => funcion2()} ><AiOutlinePlus />{textButton2}</button>
-    <a href={identificador}><button className="btn-register"><AiOutlinePlus />{textButton3}</button></a>
   </div>
   </Header>
   )
@@ -47,7 +46,7 @@ const Header = styled.div`
       }
     }
   .btn-register{
-    background: #38746c;
+    background: #38a800;
     color: white;
     padding: 10px;
     font-weight: bold;

@@ -27,7 +27,6 @@ const Content = styled.div`
 display: flex;
 justify-content: space-between;
 align-items: center;
-//background: linear-gradient(to top right, white, white, white, #2c43406f);
 background-color: white;
 padding-bottom: 10px;
 flex-direction: column;
@@ -36,11 +35,11 @@ min-height: 100px;
 border-bottom-left-radius: 20px;
 border-bottom-right-radius: 20px;
 color: #385c57;
-box-shadow: 0 3px 5px 0 #2c4340;
+box-shadow: 0 1px 1px 0 #38a800;
 
  &:hover{
   .top-line{
-    background: #cb7755;
+    background: #38a8005c;
     transition: all 0.5s ease-out;
   }
 }
@@ -48,7 +47,7 @@ box-shadow: 0 3px 5px 0 #2c4340;
 .top-line{
   width: 100%;
   height: 10px;
-  background: #385c57;
+  background: #38a800b3;
 }
 
 .contents{

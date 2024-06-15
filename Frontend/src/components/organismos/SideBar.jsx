@@ -1,13 +1,13 @@
 import styled from "styled-components"
-import logo from "../../assets/sena.png"
+import logo from "../../assets/inventory.png"
 import { AiOutlineLeft, AiOutlineHome } from "react-icons/ai"
 import { GoTools } from "react-icons/go";
 import { BsPinMap } from "react-icons/bs";
 import { FiUsers } from "react-icons/fi";
-import { PiBoundingBox } from "react-icons/pi";
 import { CgToolbox } from "react-icons/cg";
 import { NavLink, useNavigate } from "react-router-dom"
 import { LuLogOut } from "react-icons/lu";
+import { TiThMenu } from "react-icons/ti";
 
 function SideBar({ openSide, setOpenSide }) {
 
@@ -15,7 +15,6 @@ function SideBar({ openSide, setOpenSide }) {
 
     const navigate = useNavigate();
     const closeSesion = () => {
-      alert('quieres cerrar sesión?')
       localStorage.removeItem("token");
       navigate("/")
       window.location.reload()
@@ -31,12 +30,12 @@ function SideBar({ openSide, setOpenSide }) {
         <Container $isOpen={openSide}>
             <button className="sideBarButton"
                 onClick={modificarSideBar}>
-                <AiOutlineLeft className="cerrarSideBar" />
+                <TiThMenu  className="cerrarSideBar" />
             </button>
             <div className="logoContent">
-                    <img src={logo} alt="Logo Sena" />
+                    <img src={logo} alt="Logo Inventory" />
                
-                <h2>SENA - YAMBORÓ</h2>
+                <h2>INVENTORY</h2>
             </div>
            <div className="content-links">
            {
@@ -58,16 +57,6 @@ function SideBar({ openSide, setOpenSide }) {
            </div>
             <footer>
              <div className="content-footer">
-             {
-                    user && user === "1" && (
-                        <p>Administrador</p>
-                    )
-                }
-                {
-                    user && user === "2" && (
-                        <p>Encargado</p>
-                    )
-                }
                 <button onClick={closeSesion}><LuLogOut /><p>Cerrar Sesión</p></button>
              </div>
             </footer>
@@ -77,7 +66,7 @@ function SideBar({ openSide, setOpenSide }) {
 //#region links
 const linksArray = [
     {
-        label: "Dashboard",
+        label: "Home",
         icon: <AiOutlineHome />,
         to: "/dashboard"
     },
@@ -157,14 +146,12 @@ justify-content: space-between;
 
 .sideBarButton{
     position: absolute;
-    top: 80px;
-    right: -30px;
-    width: 25px;
-    height: 25px;
-    border-radius: 50%;
+    top: 10px;
+    right: -45px;
+    width: 50px;
+    height: 50px;
     border: none;
-    background: #cb7755;
-    box-shadow: 0 0 5px #cb7755;
+    background: none;
     transition: all 0.5s;
     transform: ${({ $isOpen }) => ($isOpen ? `` : `rotate(180deg)`)};
     display: flex;
@@ -173,8 +160,8 @@ justify-content: space-between;
     cursor: pointer;
 
     .cerrarSideBar{
-        font-size: 16px;
-        color: white;
+        font-size: 30px;
+        color: #38a800;
     }
 }
 
@@ -191,11 +178,11 @@ justify-content: space-between;
     }
 
     img{
-        width: 80px;
-        height: 80px;
+        width: 60px;
+        height: 60px;
         cursor: pointer;
         transition: all 0.3s ease-in-out;
-        transform: ${({ $isOpen }) => ($isOpen ? `scale(0.9)` : `scale(1.1)`)};
+        transform: ${({ $isOpen }) => ($isOpen ? `scale(0.9)` : `scale(1.0)`)};
 }
 }
 
@@ -215,7 +202,7 @@ justify-content: space-between;
         &:hover{
             border-radius: 10px;
             color: white;
-            background: #38746cd6;
+            background: #38a800c5;
                  }
         
         span{
@@ -234,7 +221,7 @@ justify-content: space-between;
             border-radius: 10px;
             color: white;
             font-weight: 700;
-            background: #38746c; 
+            background: #38a800; 
         }
     }
 }

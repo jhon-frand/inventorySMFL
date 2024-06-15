@@ -14,10 +14,9 @@ min-width: 100%;
 
   .table{
      width: 90%;
-     padding: 5px;
 
      th{
-      background: #38746c;
+      background-color: #38a800;
       color: white;
       padding: 10px;
      }
@@ -41,23 +40,12 @@ z-index: 30;
       grid-template-columns: 260px 260px;
       justify-content: center;
       align-items: center;
-      gap: 10px;
-      background: #38a80060;
-      border-radius: 20px;
-      padding: 10px;
 
       .filas{
         display: flex;
         flex-direction: column;
-        gap: 10px;
-
       }
-      select{
-        padding: 4px;
-        border: none;
-        outline: none;
-        border-bottom: 1px solid #38a800;
-      }
+    
     }
 
 button{

@@ -4,15 +4,6 @@ export const Container = styled.div`
 display: flex;
 flex-direction: column;
 
-.table-medium{
-    width: 90%;
-
-    th{
-     background: #38746c;
-     color: white;
-     padding: 5px;
-    }
-  }
 .table-mui{
   width: 100%;
   display: flex;
@@ -30,10 +21,10 @@ flex-direction: column;
   }
 
   .table{
-     width: 90%;
+     width: 100%;
 
      th{
-      background: #38746c;
+      background: #38a800;
       color: white;
       padding: 10px;
      }
@@ -71,16 +62,11 @@ z-index: 30;
       display: flex;
       justify-content: center;
       align-items: center;
-      gap: 10px;
-      background: #38a80030;
-      border-radius: 20px;
-      padding: 10px;
 
 
       .input-manteinment{
         display: flex;
         flex-direction: column;
-        padding: 5px;
         border-radius: 5px;
         gap: 10px;
         background: #90b8b0;

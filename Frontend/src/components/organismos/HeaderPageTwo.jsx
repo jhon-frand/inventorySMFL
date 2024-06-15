@@ -46,7 +46,7 @@ const Header = styled.div`
       }
     }
   .btn-register{
-    background: #38746c;
+    background: #38a800;
     color: white;
     padding: 12px;
     font-weight: bold;

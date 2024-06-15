@@ -48,7 +48,7 @@ function TotalEquipments() {
                 {
                     data: data.map((item) => item.totalEquipos),
                     label: 'Equipos',
-                    color: '#cb7755'
+                    color: '#38a800'
                 },
             ]}
             xAxis={[{ data: data.map((item) => item.unidad), scaleType: 'band' }]}
