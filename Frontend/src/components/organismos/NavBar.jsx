@@ -1,5 +1,4 @@
 import styled from "styled-components"
-import logoInventory from "../../assets/inventory.png"
 import { FiSettings } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -8,6 +7,7 @@ import { TextField } from "@mui/material";
 import axios from "axios";
 import { endpointUser } from "../endpoints/Endpoints";
 import { AlertSucces, AlertError } from "../alerts/Alerts";
+import ContentInput from "./ContentInput";
 
 function NavBar() {
 
@@ -16,7 +16,8 @@ function NavBar() {
   const name = localStorage.getItem("nombres");
   const idUser = localStorage.getItem("usuario");
   const token = localStorage.getItem("token");
-  const [menu, setMenu] = useState(false)
+  const [menu, setMenu] = useState(false);
+  const [errores, setErrores] = useState("");
 
   const [valores, setValores] = useState({
     identificacion: "",
@@ -70,8 +71,10 @@ function NavBar() {
         const msg = respuesta.data.message;
         AlertSucces(msg);
         setModal(false);
+        setErrores("");
       }
     } catch (error) {
+      setErrores(error.response.data.msg)
       console.log(error);
     }
   }
@@ -120,18 +123,81 @@ function NavBar() {
       <Modal
         titulo="DATOS DE USUARIO"
         estado={modal}
-        cambiarEstado={() => setModal(false)}
+        cambiarEstado={() => {setModal(false), setErrores("")}}
       >
         <form className="formulario" onSubmit={putUser}>
+         <div className="content-filas">
+         <div className="contents">
+          <ContentInput>
           <TextField name="identificacion" onChange={editValorInput} value={valores.identificacion} label="Identificación" type="number" />
+          {
+                errores && errores.some(([campo]) => campo === "identificacion") && (
+                 <p>
+                    {errores.find(([campo]) => campo === "identificacion")[1]}
+                  </p>
+                )
+              }
+          </ContentInput>
+          <ContentInput>
           <TextField name="nombres" onChange={editValorInput} value={valores.nombres} label="Nombres" type="text" />
+          {
+                errores && errores.some(([campo]) => campo === "nombres") && (
+                  <p>
+                    {errores.find(([campo]) => campo === "nombres")[1]}
+                  </p>
+                )
+              }
+          </ContentInput>
+          <ContentInput>
           <TextField name="apellidos" onChange={editValorInput} value={valores.apellidos} label="Apellidos" type="text" />
+          {
+                errores && errores.some(([campo]) => campo === "apellidos") && (
+                  <p>
+                    {errores.find(([campo]) => campo === "apellidos")[1]}
+                  </p>
+                )
+              }
+          </ContentInput>
+          <ContentInput>
           <TextField name="email" onChange={editValorInput} value={valores.email} label="Correo electrónico" type="email" />
+          {
+                errores && errores.some(([campo]) => campo === "email") && (
+                  <p>
+                    {errores.find(([campo]) => campo === "email")[1]}
+                  </p>
+                )
+              }
+          </ContentInput>
+          <ContentInput>
           <TextField name="telefono" onChange={editValorInput} value={valores.telefono} label="Teléfono" type="number" />
-          <TextField name="fk_tipo_usuario" value={valores.fk_tipo_usuario} label="Rol" />
+          {
+                errores && errores.some(([campo]) => campo === "telefono") && (
+                  <p>
+                    {errores.find(([campo]) => campo === "telefono")[1]}
+                  </p>
+                )
+              }
+          </ContentInput>
+          
+          </div>
+         <div className="contents">
+         <ContentInput>
+         <TextField name="fk_tipo_usuario" value={valores.fk_tipo_usuario} label="Rol" />
+         </ContentInput>
+          <ContentInput>
           <TextField name="estado" value={valores.estado} label="Estado" />
+          </ContentInput>
+          <ContentInput>
           <TextField name="fk_unidad_productiva" value={valores.fk_unidad_productiva} label="Unidad Productiva" />
+          </ContentInput>
+          <ContentInput>
           <TextField name="password" onChange={editValorInput} value={valores.password} label="Contraseña" type="password" />
+          </ContentInput>
+          <ContentInput>
+          <TextField name="confirm_password" label="Confirmar contraseña" type="password" />
+          </ContentInput>
+         </div>
+         </div>
           <button type="submit">Actualizar Datos</button>
         </form>
       </Modal>
@@ -147,12 +213,42 @@ justify-content: end;
 align-items: center;
 padding: 20px;
 background-color: #edf3eb;
+padding-inline-end: 60px;
 
 .formulario{
   display: flex;
-  flex-direction: column;
+  flex-direction:  column;
   justify-content: center;
   align-items: center;
+  gap: 10px;
+
+  button{
+    background-color: #38a800;
+    color: white;
+    border-radius: 5px;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+
+    &:hover{
+      background-color: #38a800d3;
+    }
+  }
+
+  .content-filas{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+
+    .contents{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
+  }
 }
 
 .menus{
@@ -202,6 +298,7 @@ background-color: #edf3eb;
     .nombres-user{
       p{
         font-size: 14px;
+        font-weight: bold;
       }
     }
 
@@ -214,10 +311,7 @@ background-color: #edf3eb;
 }
 }
 
-p{
-  color: black;
-  font-weight: bold;
-}
+
 
 .logo{
   display: flex;

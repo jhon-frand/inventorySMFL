@@ -2,7 +2,7 @@ import { useState } from 'react'
 import styled from 'styled-components'
 import axios from "axios"
 import { useNavigate } from "react-router-dom";
-import logoInventory from "../assets/inventory.png"
+import logoInventory from "../assets/imgnew-remove.png"
 import logoSena from "../assets/sena.png"
 import { AiOutlineMail, AiOutlineLock } from "react-icons/ai";
 import { AlertSucces, AlertUser } from '../components/alerts/Alerts';
@@ -144,7 +144,7 @@ const Container = styled.div`
       justify-content: center;
       align-items: center;
       height: 100vh;
-      background-color: #4b5e4a28;
+      background-color: #4b5e4a47;
 
       .content-formulario{
         display: flex;

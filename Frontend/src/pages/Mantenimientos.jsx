@@ -28,6 +28,7 @@ import Textarea from '@mui/joy/Textarea';
 import { FormControl } from "@mui/material";
 import { InputLabel } from "@mui/material";
 import { MenuItem } from "@mui/material";
+import ContentInput from "../components/organismos/ContentInput";
 
 function Mantenimientos() {
   //#region funciones
@@ -704,7 +705,7 @@ function Mantenimientos() {
             <form className="formulario" onSubmit={postMantenimiento}>
               <div className="inputs-data">
                 <div className="filas">
-                  <div className="contents">
+                  <ContentInput>
                     <FormControl>
                       <InputLabel>Tipo</InputLabel>
                       <Select label="Tipo" name="tipo_mantenimiento" value={valores.tipo_mantenimiento} onChange={valorInput} required>
@@ -712,13 +713,13 @@ function Mantenimientos() {
                         <MenuItem value="tecnico">Técnico</MenuItem>
                       </Select>
                     </FormControl>
-                
-                  </div>
-                  <div className="contents">
-                    <input name="fecha_mantenimiento" type="date" value={valores.fecha_mantenimiento} onChange={valorInput} required />
-                  
-                  </div>
-                  <div className="contents">
+
+                  </ContentInput>
+                  <ContentInput>
+                    <TextField name="fecha_mantenimiento" type="date" value={valores.fecha_mantenimiento} onChange={valorInput} required />
+
+                  </ContentInput>
+                  <ContentInput>
 
                     {
                       user && user === "1" ? (
@@ -745,8 +746,8 @@ function Mantenimientos() {
                         </FormControl>
                       )
                     }
-                  </div>
-                  <div className={`${user === "1" ? 'contents' : 'onlyRead'}`}>
+                  </ContentInput>
+                  <ContentInput className={`${user === "1" ? '' : 'onlyRead'}`}>
 
                     {
                       user && user === "2" ? (
@@ -774,7 +775,7 @@ function Mantenimientos() {
                       )
                     }
 
-                  </div>
+                  </ContentInput>
                 </div>
                 <div className="filas">
                   <div className="description">
@@ -796,7 +797,7 @@ function Mantenimientos() {
                       )
                     }
                   </div>
-                  <div className="contents">
+                  <ContentInput>
                     <label>Resultado:</label>
                     <input name="resultado" type="text" value={valores.resultado} onChange={valorInput} placeholder="Resultado" required />
                     {
@@ -806,7 +807,7 @@ function Mantenimientos() {
                         </p>
                       )
                     }
-                  </div>
+                  </ContentInput>
                 </div>
               </div>
               <button>REGISTRAR</button>
@@ -820,68 +821,78 @@ function Mantenimientos() {
             <form className="formulario" onSubmit={putMantenimiento}>
               <div className="inputs-data">
                 <div className="filas">
-                  <div className="contents">
-                    <label>Tipo de Mantenimiento:</label>
-                    <select name="tipo_mantenimiento" value={valores.tipo_mantenimiento} onChange={editValorInput} required>
-                      <option value="">Selecciona el tipo</option>
-                      <option value="preventivo">Preventivo</option>
-                      <option value="tecnico">Técnico</option>
-                    </select>
-                  </div>
-                  <div className="contents">
-                    <label>Fecha de Mantenimiento:</label>
-                    <input name="fecha_mantenimiento" type="date" value={valores.fecha_mantenimiento} onChange={editValorInput} required />
-                  </div>
-                  <div className="contents">
-                    <label>Equipo:</label>
-                    {
-                      user && user === "1" ? (
-                        <select name="fk_equipo" value={valores.fk_equipo} onChange={editValorInput} required>
-                          <option value="">Selecciona una opción</option>
-                          {
-                            equipos.map((equipos) => (
-                              <option value={equipos.id_equipo} key={equipos.id_equipo}>{equipos.nombre_equipo}</option>
-                            ))
-                          }
-                        </select>
-                      ) : (
-                        <select name="fk_equipo" value={valores.fk_equipo} onChange={editValorInput} required>
-                          <option value="">Selecciona una opción</option>
-                          {
-                            equiposUnidad.map((equipos) => (
-                              <option value={equipos.id_equipo} key={equipos.id_equipo}>{equipos.nombre_equipo}</option>
-                            ))
-                          }
-                        </select>
-                      )
-                    }
-                  </div>
-                  <div className={`${user === "1" ? 'contents' : 'onlyRead'}`}>
-                    <label>Responsable:</label>
+                  <ContentInput>
+                    <FormControl>
+                      <InputLabel>Tipo</InputLabel>
+                      <Select label="Tipo" name="tipo_mantenimiento" value={valores.tipo_mantenimiento} onChange={editValorInput} required>
+                        <MenuItem value="preventivo">Preventivo</MenuItem>
+                        <MenuItem value="tecnico">Técnico</MenuItem>
+                      </Select>
+                    </FormControl>
+                  </ContentInput>
+                  <ContentInput>
+                    <TextField name="fecha_mantenimiento" type="date" value={valores.fecha_mantenimiento} onChange={editValorInput} required />
+                  </ContentInput>
+                  <ContentInput>
+                    <FormControl>
+                      <InputLabel>Equipo</InputLabel>
+                      {
+                        user && user === "1" ? (
+                          <Select label="Equipo" name="fk_equipo" value={valores.fk_equipo} onChange={editValorInput} required>
+                            {
+                              equipos.map((equipos) => (
+                                <MenuItem value={equipos.id_equipo} key={equipos.id_equipo}>{equipos.nombre_equipo}</MenuItem>
+                              ))
+                            }
+                          </Select>
+                        ) : (
+                          <Select label="Equipo" name="fk_equipo" value={valores.fk_equipo} onChange={editValorInput} required>
+                            {
+                              equiposUnidad.map((equipos) => (
+                                <MenuItem value={equipos.id_equipo} key={equipos.id_equipo}>{equipos.nombre_equipo}</MenuItem>
+                              ))
+                            }
+                          </Select>
+                        )
+                      }
+                    </FormControl>
+
+                  </ContentInput>
+                  <ContentInput className={`${user === "1" ? 'contents' : 'onlyRead'}`}>
+
                     {
                       user && user === "2" ? (
                         <div className="inputs-encar">
-                          <input className="idunidad" name="fk_user_responsable" type="number" value={valores.fk_user_responsable} onChange={editValorInput} readOnly />
-                          <input className="idnombreUser" type="text" value={nombresUser} readOnly />
+                          <TextField label="ID" className="idunidad" name="fk_user_responsable" type="number" value={valores.fk_user_responsable} onChange={editValorInput} readOnly />
+                          <TextField label="Nombres" className="idnombreUser" type="text" value={nombresUser} readOnly />
                         </div>
                       ) : (
-                        <select name="fk_user_responsable" value={valores.fk_user_responsable} onChange={editValorInput} required>
-                          <option value="">Selecciona una opción</option>
-                          {
-                            usuarios.map((usuarios) => (
-                              <option value={usuarios.id_usuario} key={usuarios.id_usuario}>{usuarios.nombres} {usuarios.apellidos}</option>
-                            ))
-                          }
-                        </select>
+                        <FormControl>
+                          <InputLabel>Responsable</InputLabel>
+                          <Select label="Responsable" name="fk_user_responsable" value={valores.fk_user_responsable} onChange={editValorInput} required>
+                            {
+                              usuarios.map((usuarios) => (
+                                <MenuItem value={usuarios.id_usuario} key={usuarios.id_usuario}>{usuarios.nombres} {usuarios.apellidos}</MenuItem>
+                              ))
+                            }
+                          </Select>
+                        </FormControl>
                       )
                     }
-                  </div>
+                  </ContentInput>
                 </div>
                 <div className="filas">
                   <div className="description">
-                    <label>Descripción:</label>
-                    <textarea name="descripcion" value={valores.descripcion} onChange={editValorInput} maxLength={250} placeholder="Ingresa una descripción" required />
-                    {
+                  <Textarea
+                      name="descripcion"
+                      value={valores.descripcion}
+                      onChange={editValorInput}
+                      disabled={false}
+                      minRows={8}
+                      size="md"
+                      variant="outlined"
+                      placeholder="Descripción"
+                      required /> {
                       errores && errores.some(([campo]) => campo === "descripcion") && (
                         <p>
                           {errores.find(([campo]) => campo === "descripcion")[1]}
@@ -913,30 +924,34 @@ function Mantenimientos() {
             <form className="formulario" onSubmit={postActivity}>
               <div className="inputs-data">
                 <div className="filas">
-                  <div className="contents">
-                    <label>Fecha de Actividad:</label>
-                    <input value={valoresActividad.fecha_actividad} onChange={valorInputActividad} name="fecha_actividad" type="date" required />
-                  </div>
-                  <div className="input-manteinment">
-                    <label>ID Mantenimiento:</label>
-                    <input name="fk_mantenimiento" value={valoresActividad.fk_mantenimiento} onChange={valorInputActividad} readOnly />
-                  </div>
-                  <div className="contents">
-                    <label>Técnico:</label>
-                    <select name="fk_tecnico" value={valoresActividad.fk_tecnico} onChange={valorInputActividad} required>
-                      <option value="">selecciona una opción</option>
+                  <ContentInput>
+                    <TextField value={valoresActividad.fecha_actividad} onChange={valorInputActividad} name="fecha_actividad" type="date" required />
+                  </ContentInput>
+                  <ContentInput className="input-manteinment">
+                    <TextField label="Mantenimiento" name="fk_mantenimiento" value={valoresActividad.fk_mantenimiento} onChange={valorInputActividad} readOnly />
+                  </ContentInput>
+                  <ContentInput className="contents">
+                    <FormControl>
+                    <InputLabel>Técnico</InputLabel>
+                    <Select label="Técnico" name="fk_tecnico" value={valoresActividad.fk_tecnico} onChange={valorInputActividad} required>
+                      
                       {
                         tecnicos.map((tecnicos) => (
-                          <option value={tecnicos.id_tecnico} key={tecnicos.id_tecnico}>{tecnicos.nombres} {tecnicos.apellidos}</option>
+                          <MenuItem value={tecnicos.id_tecnico} key={tecnicos.id_tecnico}>{tecnicos.nombres} {tecnicos.apellidos}</MenuItem>
                         ))
                       }
-                    </select>
-                  </div>
+                    </Select>
+                    </FormControl>
+                  </ContentInput>
                 </div>
                 <div className="filas">
                   <div className="description">
-                    <label>Descripción</label>
-                    <textarea name="descripcion" value={valoresActividad.descripcion} onChange={valorInputActividad} maxLength={250} placeholder="Ingresa una descripción" required></textarea>
+                    <Textarea 
+                    name="descripcion" 
+                    value={valoresActividad.descripcion} 
+                    onChange={valorInputActividad} 
+                    minRows ={10}
+                    placeholder="Descripción" required/>
                     {
                       errores && errores.some(([campo]) => campo === "descripcion") && (
                         <p>
@@ -958,30 +973,35 @@ function Mantenimientos() {
             <form className="formulario" onSubmit={putActivity}>
               <div className="inputs-data">
                 <div className="filas">
-                  <div className="contents">
-                    <label>Fecha de Actividad:</label>
-                    <input name="fecha_actividad" value={valoresActividad.fecha_actividad} onChange={editValorInputActividad} type="date" required />
-                  </div>
-                  <div className="input-manteinment">
-                    <label>Mantenimiento:</label>
-                    <input name="fk_mantenimiento" value={valoresActividad.fk_mantenimiento} onChange={editValorInputActividad} required readOnly />
-                  </div>
-                  <div className="contents">
-                    <label>Técnico:</label>
-                    <select name="fk_tecnico" value={valoresActividad.fk_tecnico} onChange={editValorInputActividad} required>
-                      <option value="">selecciona una opción</option>
+                  <ContentInput className="contents">
+                    <TextField name="fecha_actividad" value={valoresActividad.fecha_actividad} onChange={editValorInputActividad} type="date" required />
+                  </ContentInput>
+                  <ContentInput className="input-manteinment">
+                    <TextField label="Mantenimiento" name="fk_mantenimiento" value={valoresActividad.fk_mantenimiento} onChange={editValorInputActividad} required readOnly />
+                  </ContentInput>
+                  <ContentInput>
+                    <FormControl>
+                      <InputLabel>Técnico</InputLabel>
+                      <Select label="Técnico" name="fk_tecnico" value={valoresActividad.fk_tecnico} onChange={editValorInputActividad} required>
+                     
                       {
                         tecnicos.map((tecnicos) => (
-                          <option value={tecnicos.id_tecnico} key={tecnicos.id_tecnico}>{tecnicos.nombres} {tecnicos.apellidos}</option>
+                          <MenuItem value={tecnicos.id_tecnico} key={tecnicos.id_tecnico}>{tecnicos.nombres} {tecnicos.apellidos}</MenuItem>
                         ))
                       }
-                    </select>
-                  </div>
+                    </Select>
+                    </FormControl>
+                    
+                  </ContentInput>
                 </div>
                 <div className="filas">
                   <div className="description">
-                    <label>Descripción</label>
-                    <textarea name="descripcion" value={valoresActividad.descripcion} onChange={editValorInputActividad} maxLength={250} placeholder="Ingresa una descripción" required></textarea>
+                    <Textarea
+                     name="descripcion" 
+                    value={valoresActividad.descripcion} 
+                    onChange={editValorInputActividad} 
+                    minRows= {10}
+                    placeholder="Ingresa una descripción" required/>
                     {
                       errores && errores.some(([campo]) => campo === "descripcion") && (
                         <p>
@@ -1003,9 +1023,8 @@ function Mantenimientos() {
             <form className="formulario" onSubmit={postTecnico}>
               <div className="inputs-data-tecnico">
                 <div className="filas">
-                  <div className="contents">
-                    <label>Identificación:</label>
-                    <input name="identificacion" value={valoresTecnico.identificacion} onChange={valorInputTecnico} type="number" placeholder="Identificación" required />
+                  <ContentInput>
+                    <TextField name="identificacion" value={valoresTecnico.identificacion} onChange={valorInputTecnico} type="number" label="Identificación" required />
                     {
                       errores && errores.some(([campo]) => campo === "identificacion") && (
                         <p>
@@ -1013,10 +1032,9 @@ function Mantenimientos() {
                         </p>
                       )
                     }
-                  </div>
-                  <div className="contents">
-                    <label>Nombres:</label>
-                    <input name="nombres" value={valoresTecnico.nombres} onChange={valorInputTecnico} type="text" placeholder="Ingrese Nombres" required />
+                  </ContentInput>
+                  <ContentInput>
+                    <TextField name="nombres" value={valoresTecnico.nombres} onChange={valorInputTecnico} type="text" label="Nombres" required />
                     {
                       errores && errores.some(([campo]) => campo === "nombres") && (
                         <p>
@@ -1024,10 +1042,9 @@ function Mantenimientos() {
                         </p>
                       )
                     }
-                  </div>
-                  <div className="contents">
-                    <label>Apellidos:</label>
-                    <input name="apellidos" value={valoresTecnico.apellidos} onChange={valorInputTecnico} type="text" placeholder="Ingrese Apellidos" required />
+                  </ContentInput>
+                  <ContentInput>
+                    <TextField name="apellidos" value={valoresTecnico.apellidos} onChange={valorInputTecnico} type="text" label="Ingrese Apellidos" required />
                     {
                       errores && errores.some(([campo]) => campo === "apellidos") && (
                         <p>
@@ -1035,10 +1052,9 @@ function Mantenimientos() {
                         </p>
                       )
                     }
-                  </div>
-                  <div className="contents">
-                    <label>Correo:</label>
-                    <input name="correo" value={valoresTecnico.correo} onChange={valorInputTecnico} type="email" placeholder="Ingrese un Correo" required />
+                  </ContentInput>
+                  <ContentInput>
+                    <TextField name="correo" value={valoresTecnico.correo} onChange={valorInputTecnico} type="email" label="Ingrese un Correo" required />
                     {
                       errores && errores.some(([campo]) => campo === "correo") && (
                         <p>
@@ -1046,10 +1062,9 @@ function Mantenimientos() {
                         </p>
                       )
                     }
-                  </div>
-                  <div className="contents">
-                    <label>Teléfono:</label>
-                    <input name="telefono" value={valoresTecnico.telefono} onChange={valorInputTecnico} type="number" placeholder="Teléfono" required />
+                  </ContentInput>
+                  <ContentInput>
+                    <TextField name="telefono" value={valoresTecnico.telefono} onChange={valorInputTecnico} type="number" label="Teléfono" required />
                     {
                       errores && errores.some(([campo]) => campo === "telefono") && (
                         <p>
@@ -1057,7 +1072,7 @@ function Mantenimientos() {
                         </p>
                       )
                     }
-                  </div>
+                  </ContentInput>
                 </div>
               </div>
               <button>REGISTRAR</button>
@@ -1071,9 +1086,8 @@ function Mantenimientos() {
             <form className="formulario" onSubmit={putTecnico}>
               <div className="inputs-data-tecnico">
                 <div className="filas">
-                  <div className="contents">
-                    <label>Identificación:</label>
-                    <input name="identificacion" value={valoresTecnico.identificacion} onChange={editValorInputTecnico} type="number" placeholder="Identificación" required />
+                  <ContentInput>
+                    <TextField label="Identificación" name="identificacion" value={valoresTecnico.identificacion} onChange={editValorInputTecnico} type="number" required />
                     {
                       errores && errores.some(([campo]) => campo === "identificacion") && (
                         <p>
@@ -1081,10 +1095,9 @@ function Mantenimientos() {
                         </p>
                       )
                     }
-                  </div>
-                  <div className="contents">
-                    <label>Nombres:</label>
-                    <input name="nombres" value={valoresTecnico.nombres} onChange={editValorInputTecnico} type="text" placeholder="Ingrese Nombres" required />
+                  </ContentInput>
+                  <ContentInput >
+                    <TextField label="Nombres" name="nombres" value={valoresTecnico.nombres} onChange={editValorInputTecnico} type="text"  required />
                     {
                       errores && errores.some(([campo]) => campo === "nombres") && (
                         <p>
@@ -1092,10 +1105,9 @@ function Mantenimientos() {
                         </p>
                       )
                     }
-                  </div>
-                  <div className="contents">
-                    <label>Apellidos:</label>
-                    <input name="apellidos" value={valoresTecnico.apellidos} onChange={editValorInputTecnico} type="text" placeholder="Ingrese Apellidos" required />
+                  </ContentInput>
+                  <ContentInput>
+                    <TextField label="Apellidos" name="apellidos" value={valoresTecnico.apellidos} onChange={editValorInputTecnico} type="text" required />
                     {
                       errores && errores.some(([campo]) => campo === "apellidos") && (
                         <p>
@@ -1103,10 +1115,9 @@ function Mantenimientos() {
                         </p>
                       )
                     }
-                  </div>
-                  <div className="contents">
-                    <label>Correo:</label>
-                    <input name="correo" value={valoresTecnico.correo} onChange={editValorInputTecnico} type="email" placeholder="Ingrese un Correo" required />
+                  </ContentInput>
+                  <ContentInput>
+                    <TextField label="Email" name="correo" value={valoresTecnico.correo} onChange={editValorInputTecnico} type="email" required />
                     {
                       errores && errores.some(([campo]) => campo === "correo") && (
                         <p>
@@ -1114,10 +1125,9 @@ function Mantenimientos() {
                         </p>
                       )
                     }
-                  </div>
-                  <div className="contents">
-                    <label>Teléfono:</label>
-                    <input name="telefono" value={valoresTecnico.telefono} onChange={editValorInputTecnico} type="number" placeholder="Teléfono" required />
+                  </ContentInput>
+                  <ContentInput>
+                    <TextField label="Teléfono" name="telefono" value={valoresTecnico.telefono} onChange={editValorInputTecnico} type="number" required />
                     {
                       errores && errores.some(([campo]) => campo === "telefono") && (
                         <p>
@@ -1125,7 +1135,7 @@ function Mantenimientos() {
                         </p>
                       )
                     }
-                  </div>
+                  </ContentInput>
                 </div>
               </div>
               <button>ACTUALIZAR</button>

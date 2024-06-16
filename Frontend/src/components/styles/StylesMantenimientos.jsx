@@ -53,10 +53,6 @@ z-index: 30;
     display: flex;
     justify-content: center;
     align-items: center;
-    background: #38a80030;
-    width: 100%;
-    border-radius: 20px;
-    padding: 10px;
   }
     .inputs-data{
       display: flex;
@@ -76,26 +72,11 @@ z-index: 30;
         }
       }
 
-      select{
-        padding: 4px;
-        min-width: 210px;
-        border: none;
-        outline: none;
-        border-bottom: 1px solid #38a800;
-      }
-      textarea{
-        width: 270px;
-        height: 170px;
-        border: none;
-        outline: none;
-        resize: none;
-        border-bottom: 1px solid #38a800;
-      }
+     
     }
     .filas{
         display: flex;
         flex-direction: column;
-        gap: 10px;
 
         .description{
           display: flex;
@@ -105,29 +86,13 @@ z-index: 30;
           height: 230px;
           border-radius: 5px;
           gap: 10px;
-
-          p{
-            font-size: 12px;
-            color: red;
-          }
-
-          label{
-            font-size: 14px;
-            font-weight: 600;
-          }
         }
         .onlyRead{
           background: #38a80067;
-
-          input{
-            font-weight: bold;
-          }
         }
-        .contents{
-          background: white;
-        }
+       
 
-        .contents, .onlyRead{
+         .onlyRead{
           display: flex;
           flex-direction: column;
           padding: 4px;
@@ -136,26 +101,8 @@ z-index: 30;
           border-radius: 5px;
           gap: 4px;
 
-          p{
-            font-size: 12px;
-            color: red;
-          }
-
-          label{
-            font-size: 14px;
-            font-weight: 600;
-          }
         }
   
-      }
-
-      input{
-        padding: 5px;
-        min-width: 40px;
-        background: none;
-        border: none;
-        outline: none;
-        border-bottom: 1px solid #38a800;
       }
 
 button{

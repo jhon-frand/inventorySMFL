@@ -18,7 +18,6 @@ const Content = styled.div`
           border-radius: 5px;
           gap: 3px;
           
-
           p{
             font-size: 12px;
             color: red;

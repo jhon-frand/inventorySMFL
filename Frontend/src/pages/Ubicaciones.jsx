@@ -10,12 +10,16 @@ import { BsPinMap } from "react-icons/bs";
 import { Contenedor } from "../components/styles/StylesPages";
 import { AlertSucces, AlertError } from "../components/alerts/Alerts";
 import { HiMiniPencilSquare } from "react-icons/hi2";
-import { TextField } from "@mui/material";
+import { Select, TextField } from "@mui/material";
 import { 
   endpointUbicacion,
   endpointUnidad
  } from "../components/endpoints/Endpoints";
 import { Container, Modales } from "../components/styles/StylesUbicaciones";
+import ContentInput from "../components/organismos/ContentInput";
+import { InputLabel } from "@mui/material";
+import { MenuItem } from "@mui/material";
+import { FormControl } from "@mui/material";
 
 function Ubicaciones() {
 
@@ -332,18 +336,19 @@ function Ubicaciones() {
               <form className="formulario" onSubmit={postUbication}>
                 <div className="inputs-data">
                   <div className="filas">
-                    <div className="contents">
-                      <label>Unidad Productiva</label>
-                      {
+                    <ContentInput>
+                      <FormControl>
+                        <InputLabel>Unidad productiva</InputLabel>
+                        {
                         user && user === "1" ? (
-                          <select name="fk_unidad_productiva" value={valores.fk_unidad_productiva} onChange={valorInput} required>
-                            <option value="">Selecciona una opción</option>
+                          <Select label="Unidad productiva" name="fk_unidad_productiva" value={valores.fk_unidad_productiva} onChange={valorInput} required>
+                            
                             {
                               unidades.map((unidades) => (
-                                <option value={unidades.id_unidad} key={unidades.id_unidad}>{unidades.nombre_unidad}</option>
+                                <MenuItem value={unidades.id_unidad} key={unidades.id_unidad}>{unidades.nombre_unidad}</MenuItem>
                               ))
                             }
-                          </select>
+                          </Select>
                         ) : (
                           <div className="inputs-encar">
                             <input className="idunidad"
@@ -362,9 +367,9 @@ function Ubicaciones() {
                           </div>
                         )
                       }
-
-                    </div>
-                    <div className="contents">
+                      </FormControl>
+                    </ContentInput>
+                    <ContentInput>
                       <TextField name="ambiente" value={valores.ambiente} onChange={valorInput} label="Ambiente" variant="outlined" required />
                      {
                         errores && errores.some(([campo]) => campo === "ambiente") && (
@@ -373,8 +378,8 @@ function Ubicaciones() {
                           </p>
                         )
                       }
-                    </div>
-                    <div className="contents">
+                    </ContentInput>
+                    <ContentInput>
                       <TextField name="sitio" value={valores.sitio} onChange={valorInput} variant="outlined" label="Sitio" required />
                       {
                         errores && errores.some(([campo]) => campo === "sitio") && (
@@ -383,7 +388,7 @@ function Ubicaciones() {
                           </p>
                         )
                       }
-                    </div>
+                    </ContentInput>
                   </div>
                 </div>
                 <button>REGISTRAR</button>
@@ -397,18 +402,19 @@ function Ubicaciones() {
               <form className="formulario" onSubmit={putUbication}>
                 <div className="inputs-data">
                   <div className="filas">
-                    <div className="contents">
-                      <label>Unidad Productiva</label>
+                    <ContentInput>
+                      <FormControl>
+                      <InputLabel>Unidad productiva</InputLabel>
                       {
                         user && user === "1" ? (
-                          <select name="fk_unidad_productiva" value={valores.fk_unidad_productiva} onChange={editValorInput} required>
-                            <option value="">Selecciona una opción</option>
+                          <Select label="Unidad productiva" name="fk_unidad_productiva" value={valores.fk_unidad_productiva} onChange={editValorInput} required>
+                            
                             {
                               unidades.map((unidades) => (
-                                <option value={unidades.id_unidad} key={unidades.id_unidad}>{unidades.nombre_unidad}</option>
+                                <MenuItem value={unidades.id_unidad} key={unidades.id_unidad}>{unidades.nombre_unidad}</MenuItem>
                               ))
                             }
-                          </select>
+                          </Select>
                         ) : (
                           <div className="inputs-encar">
                             <input className="idunidad"
@@ -427,10 +433,11 @@ function Ubicaciones() {
                           </div>
                         )
                       }
-                    </div>
-                    <div className="contents">
-                      <label>Ambiente:</label>
-                      <input name="ambiente" value={valores.ambiente} onChange={editValorInput} type="text" placeholder="Ambiente" />
+                      </FormControl>
+                    </ContentInput>
+                     
+                    <ContentInput>
+                      <TextField label="Ambiente" name="ambiente" value={valores.ambiente} onChange={editValorInput} type="text" placeholder="Ambiente" />
                       {
                         errores && errores.some(([campo]) => campo === "ambiente") && (
                           <p>
@@ -438,10 +445,9 @@ function Ubicaciones() {
                           </p>
                         )
                       }
-                    </div>
-                    <div className="contents">
-                      <label>Sitio</label>
-                      <input name="sitio" value={valores.sitio} onChange={editValorInput} type="text" placeholder="Sitio" />
+                    </ContentInput>
+                    <ContentInput>
+                      <TextField label="Sitio" name="sitio" value={valores.sitio} onChange={editValorInput} type="text" placeholder="Sitio" />
                       {
                         errores && errores.some(([campo]) => campo === "sitio") && (
                           <p>
@@ -449,7 +455,7 @@ function Ubicaciones() {
                           </p>
                         )
                       }
-                    </div>
+                    </ContentInput>
                   </div>
                 </div>
                 <button>ACTUALIZAR</button>
@@ -462,9 +468,8 @@ function Ubicaciones() {
             >
               <form onSubmit={postUnidad} className="formulario" >
                 <div className="inputs-data">
-                  <div className="contents">
-                    <TextField value={valoresUnit.nombre_unidad} onChange={valorInputUnit} name="nombre_unidad" id="outlined-basic" label="Nombre de la Unidad" variant="outlined" />
-                    {/* <input value={valoresUnit.nombre_unidad} onChange={valorInputUnit} name="nombre_unidad" type="text" placeholder="Nombre de la Unidad" required /> */}
+                  <ContentInput>
+                    <TextField value={valoresUnit.nombre_unidad} onChange={valorInputUnit} name="nombre_unidad" id="outlined-basic" label="Nombre de la Unidad"  />
                     {
                       errores && errores.some(([campo]) => campo === "nombre_unidad") && (
                         <p>
@@ -472,7 +477,7 @@ function Ubicaciones() {
                         </p>
                       )
                     }
-                  </div>
+                  </ContentInput>
                 </div>
                 <button>REGISTRAR</button>
               </form>
@@ -484,7 +489,7 @@ function Ubicaciones() {
             >
               <form onSubmit={putUnidad} className="formulario" >
                 <div className="inputs-data">
-                  <div className="contents">
+                  <ContentInput>
                     <TextField value={valoresUnit.nombre_unidad} onChange={editValorInputUnit} name="nombre_unidad" id="outlined-basic" label="Nombre de la Unidad" variant="outlined"  />
 
                     {
@@ -494,7 +499,7 @@ function Ubicaciones() {
                         </p>
                       )
                     }
-                  </div>
+                  </ContentInput>
                 </div>
                 <button>ACTUALIZAR</button>
               </form>

@@ -1,5 +1,5 @@
 import styled from "styled-components"
-import logo from "../../assets/inventory.png"
+import logo from "../../assets/imgnew-remove.png"
 import { AiOutlineLeft, AiOutlineHome } from "react-icons/ai"
 import { GoTools } from "react-icons/go";
 import { BsPinMap } from "react-icons/bs";
