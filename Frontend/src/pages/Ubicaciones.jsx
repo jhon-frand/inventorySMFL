@@ -20,6 +20,7 @@ import ContentInput from "../components/organismos/ContentInput";
 import { InputLabel } from "@mui/material";
 import { MenuItem } from "@mui/material";
 import { FormControl } from "@mui/material";
+import { AiOutlinePlus } from "react-icons/ai";
 
 function Ubicaciones() {
 
@@ -315,7 +316,8 @@ function Ubicaciones() {
                 icon={<BsPinMap />}
                 funcion={() => getIdUnidad()}
                 titulo="UBICACIONES"
-                textButton="REGISTRAR UBICACIÓN"
+                text="REGISTRAR UBICACIÓN"
+                iconButton={<AiOutlinePlus/>}
               />
             ) : (
               <HeaderPageTwo
@@ -338,9 +340,11 @@ function Ubicaciones() {
                   <div className="filas">
                     <ContentInput>
                       <FormControl>
-                        <InputLabel>Unidad productiva</InputLabel>
+                        
                         {
                         user && user === "1" ? (
+                          <>
+                          <InputLabel>Unidad productiva</InputLabel>
                           <Select label="Unidad productiva" name="fk_unidad_productiva" value={valores.fk_unidad_productiva} onChange={valorInput} required>
                             
                             {
@@ -349,17 +353,20 @@ function Ubicaciones() {
                               ))
                             }
                           </Select>
+                          </>
                         ) : (
                           <div className="inputs-encar">
-                            <input className="idunidad"
+                            <TextField 
+                              label="ID"
+                              className="idUnidad"
                               name="fk_unidad_productiva"
                               value={valores.fk_unidad_productiva}
                               onChange={valorInput}
                               readOnly
-                              type="number"
                               required
                             />
-                            <input
+                            <TextField
+                            label="Unidad productiva"
                               value={unidad}
                               readOnly
                               required
@@ -404,9 +411,11 @@ function Ubicaciones() {
                   <div className="filas">
                     <ContentInput>
                       <FormControl>
-                      <InputLabel>Unidad productiva</InputLabel>
+                      
                       {
                         user && user === "1" ? (
+                          <>
+                          <InputLabel>Unidad productiva</InputLabel>
                           <Select label="Unidad productiva" name="fk_unidad_productiva" value={valores.fk_unidad_productiva} onChange={editValorInput} required>
                             
                             {
@@ -415,17 +424,20 @@ function Ubicaciones() {
                               ))
                             }
                           </Select>
+                          </>
                         ) : (
                           <div className="inputs-encar">
-                            <input className="idunidad"
+                            <TextField 
+                            label="ID"
+                            className="idUnidad"
                               name="fk_unidad_productiva"
                               value={valores.fk_unidad_productiva}
                               onChange={editValorInput}
                               readOnly
-                              type="number"
                               required
                             />
-                            <input
+                            <TextField
+                            label="Unidad productiva"
                               value={unidad}
                               readOnly
                               required

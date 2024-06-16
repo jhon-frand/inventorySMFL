@@ -8,7 +8,7 @@ import moment from "moment";
 import { GoTools } from "react-icons/go";
 import { IoEyeSharp } from "react-icons/io5";
 import { Contenedor } from "../components/styles/StylesPages";
-import { AlertSucces, AlertError } from "../components/alerts/Alerts";
+import { AlertSucces, AlertError, AlertNotFound } from "../components/alerts/Alerts";
 import HeaderPageMante from "../components/organismos/HeaderPageMante";
 import {
   endpointMantenimiento,
@@ -17,7 +17,6 @@ import {
   endpointEquipo,
   endpointUser
 } from "../components/endpoints/Endpoints";
-import MediumContainer from "../components/organismos/MediumContainer";
 import TableModal from "../components/modals/TableModal";
 import { FaSquarePlus } from "react-icons/fa6";
 import { HiMiniPencilSquare } from "react-icons/hi2";
@@ -84,16 +83,15 @@ function Mantenimientos() {
 
   const getActividadesMantenimiento = async (id) => {
     try {
-      await axios.get(`${endpointActividad}/mantenimiento/${id}`).then((response) => {
+     const respuesta =  await axios.get(`${endpointActividad}/mantenimiento/${id}`).then((response) => {
         const activitiesManten = response.data;
         console.log(activitiesManten);
         setActividadesMantenimiento(activitiesManten);
         setModalTable(true);
-
-
       })
 
     } catch (error) {
+      AlertNotFound(error.response.data.message);
       console.log(error);
     }
   }
@@ -164,7 +162,6 @@ function Mantenimientos() {
     tipo_mantenimiento: "",
     fecha_mantenimiento: "",
     descripcion: "",
-    resultado: "",
     fk_user_responsable: "",
     fk_equipo: ""
   })
@@ -179,7 +176,6 @@ function Mantenimientos() {
       tipo_mantenimiento: "",
       fecha_mantenimiento: "",
       descripcion: "",
-      resultado: "",
       fk_user_responsable: "",
       fk_equipo: ""
     })
@@ -245,8 +241,7 @@ function Mantenimientos() {
       fecha_mantenimiento: fecha,
       descripcion: datos[3],
       fk_user_responsable: userResponsableId,
-      fk_equipo: equipoManteinmentId,
-      resultado: datos[6]
+      fk_equipo: equipoManteinmentId
     })
     setSelectId(datos[0]);
     setModalUpdate(true);
@@ -481,10 +476,6 @@ function Mantenimientos() {
       label: "EQUIPO"
     },
     {
-      name: "resultado",
-      label: "RESULTADO"
-    },
-    {
       name: "editar",
       label: "EDITAR",
       options: {
@@ -634,7 +625,6 @@ function Mantenimientos() {
     getTecnicos();
     getActividades();
     getActividadesUnidad();
-    getActividadesMantenimiento();
   }, [])
   //#endregion funciones
   return (
@@ -657,12 +647,14 @@ function Mantenimientos() {
             {
               user && user === "1" ? (
                 <MUIDataTable className="table"
+                  title = "Lista de Mantenimientos"
                   data={mantenimientos}
                   columns={columnas}
                   options={options}
                 />
               ) : (
                 <MUIDataTable className="table"
+                title= "Lista de Mantenimientos"
                   data={mantenimientosUnit}
                   columns={columnas}
                   options={options}
@@ -674,12 +666,14 @@ function Mantenimientos() {
             {
               user && user === "1" ? (
                 <MUIDataTable className="table"
+                title = "Lista de Actividades"
                   data={actividades}
                   columns={columnasActividad}
                   options={options}
                 />
               ) : (
                 <MUIDataTable className="table"
+                title = "Lista de Actividades"
                   data={actividadesUnit}
                   columns={columnasActividad}
                   options={options}
@@ -690,6 +684,7 @@ function Mantenimientos() {
           <div className="table-mui" value={2}>
 
             <MUIDataTable className="table"
+              title= "Lista de Técnicos"
               data={tecnicos}
               columns={columnasTecnicos}
               options={optionsMedium}
@@ -752,14 +747,15 @@ function Mantenimientos() {
                     {
                       user && user === "2" ? (
                         <div className="inputs-encar">
-                          <input
-                            className="idunidad"
+                          <TextField
+                          className="idUnidad"
+                            label="ID"
                             name="fk_user_responsable"
                             type="number"
                             value={valores.fk_user_responsable}
                             onChange={valorInput} readOnly
                           />
-                          <input className="idnombreUser" value={nombresUser} readOnly />
+                          <TextField label="Nombres" value={nombresUser} readOnly />
                         </div>
                       ) : (
                         <FormControl>
@@ -797,17 +793,6 @@ function Mantenimientos() {
                       )
                     }
                   </div>
-                  <ContentInput>
-                    <label>Resultado:</label>
-                    <input name="resultado" type="text" value={valores.resultado} onChange={valorInput} placeholder="Resultado" required />
-                    {
-                      errores && errores.some(([campo]) => campo === "resultado") && (
-                        <p>
-                          {errores.find(([campo]) => campo === "resultado")[1]}
-                        </p>
-                      )
-                    }
-                  </ContentInput>
                 </div>
               </div>
               <button>REGISTRAR</button>
@@ -863,8 +848,8 @@ function Mantenimientos() {
                     {
                       user && user === "2" ? (
                         <div className="inputs-encar">
-                          <TextField label="ID" className="idunidad" name="fk_user_responsable" type="number" value={valores.fk_user_responsable} onChange={editValorInput} readOnly />
-                          <TextField label="Nombres" className="idnombreUser" type="text" value={nombresUser} readOnly />
+                          <TextField label="ID" className="idUnidad" name="fk_user_responsable" type="number" value={valores.fk_user_responsable} onChange={editValorInput} readOnly />
+                          <TextField label="Nombres" type="text" value={nombresUser} readOnly />
                         </div>
                       ) : (
                         <FormControl>
@@ -896,17 +881,6 @@ function Mantenimientos() {
                       errores && errores.some(([campo]) => campo === "descripcion") && (
                         <p>
                           {errores.find(([campo]) => campo === "descripcion")[1]}
-                        </p>
-                      )
-                    }
-                  </div>
-                  <div className="contents">
-                    <label>Resultado:</label>
-                    <input name="resultado" type="text" value={valores.resultado} onChange={editValorInput} placeholder="Resultado" required />
-                    {
-                      errores && errores.some(([campo]) => campo === "resultado") && (
-                        <p>
-                          {errores.find(([campo]) => campo === "resultado")[1]}
                         </p>
                       )
                     }

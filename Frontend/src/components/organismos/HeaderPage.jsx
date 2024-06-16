@@ -1,7 +1,6 @@
 import styled from "styled-components"
-import { AiOutlinePlus } from "react-icons/ai";
 
-function HeaderPage({funcion, titulo, icon, iconButton}) {
+function HeaderPage({funcion, titulo, icon, text, iconButton}) {
 
   return (
     <Header>
@@ -10,8 +9,7 @@ function HeaderPage({funcion, titulo, icon, iconButton}) {
     <h3>{titulo}</h3>
     </div>
     <button title="Registrar" className="btn-register" onClick={() => funcion()}>
-      <p>REGISTRAR USUARIO</p>
-      {iconButton}</button>
+      {iconButton} {text}</button>
   </Header>
   )
 }
@@ -49,7 +47,8 @@ const Header = styled.div`
     background: #38a800;
     display: flex;
     align-items: center;
-    padding: 7px;
+    padding: 10px;
+    font-weight: bold;
     border-radius: 10px;
     border: none;
     cursor: pointer;
@@ -65,12 +64,12 @@ const Header = styled.div`
     }
 
     svg {
-      font-size: 35px;
+      font-size: 25px;
     }
 
     &:hover{
       transition: all 0.3s;
-      background: #385c57;
+      background: #38a800c1;
 
     }
 

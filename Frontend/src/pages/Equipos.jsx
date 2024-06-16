@@ -625,11 +625,10 @@ function Equipos() {
                     <FormControl>
                       <InputLabel>Estado: </InputLabel>
                       <Select label="Estado" name="estado" onChange={editValorInput} value={valores.estado} required>
-                        <option value="">Seleccione un estado</option>
-                        <option value="activo">Activo</option>
-                        <option value="inactivo">Inactivo</option>
-                        <option value="mantenimiento">Mantenimiento</option>
-                        <option value="excluido">Excluido</option>
+                        <MenuItem value="activo">Activo</MenuItem>
+                        <MenuItem value="inactivo">Inactivo</MenuItem>
+                        <MenuItem value="mantenimiento">Mantenimiento</MenuItem>
+                        <MenuItem value="excluido">Excluido</MenuItem>
                       </Select>
                     </FormControl>
                   </ContentInput>
@@ -740,6 +739,7 @@ function Equipos() {
             {
               user && user === "1" ? (
                 <MUIDataTable className="table"
+                title="Lista de Equipos"
                   data={equipos}
                   columns={columnas}
                   options={options}
@@ -756,6 +756,7 @@ function Equipos() {
           </div>
           <div className="table-mui">
             <MUIDataTable className="table"
+            title="Lista de Categorías"
               data={categorias}
               columns={columnasCategorias}
               options={optionsMedium}

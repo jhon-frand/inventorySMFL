@@ -123,12 +123,12 @@ button{
 }
 .inputs-encar{
     display: flex;
+    width: 100%;
+    gap: 10px;
     
-  .idnombreUser{
-  width: 100%;
-  }
-    .idunidad {
-      width: 40px;
+
+    .idUnidad {
+      width: 60px;
     }
   }
 }

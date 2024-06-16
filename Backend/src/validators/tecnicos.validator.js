@@ -57,3 +57,45 @@ export const validationTecnico = () => {
         }
     ]
 }
+export const validationPutTecnico = () => {
+    return [
+        check('identificacion')
+        .isNumeric().withMessage('la identificación debe ser numérica')
+        .notEmpty().withMessage('la identificación no puede estar vacía')
+        .isLength({min: 6, max: 10}).withMessage('Debe tener entre 6 y 10 caracteres'),
+        
+        check('nombres')
+        .isString().withMessage('los nombres deben ser texto')
+        .notEmpty().withMessage('los nombres no pueden estar vacíos')
+        .isLength({min: 3}).withMessage('Deben tener al menos tres caracteres'),
+
+        check('apellidos')
+        .isString().withMessage('los apellidos deben ser texto')
+        .notEmpty().withMessage('los apellidos no pueden estar vacíos')
+        .isLength({min: 3}).withMessage('Deben tener al menos tres caracteres'),
+
+        check('correo')
+        .isEmail().withMessage('el correo no es válido')
+        .notEmpty().withMessage('el correo no puede estar vacío'),
+
+        check('telefono')
+        .isString().withMessage('el teléfono debe ser un string')
+        .notEmpty().withMessage('el teléfono no puede estar vacío')
+        .isLength({min: 10, max: 10}).withMessage('Debe tener diez números'),
+
+        (peticion, respuesta, next) => {
+            const errors = validationResult(peticion);
+            if (!errors.isEmpty()) {
+                const checkError = errors.array().map(errors => [
+                    errors.path,
+                    errors.msg
+                ]);
+                respuesta.status(400).json({
+                    msg: checkError
+                })
+                return;
+            }
+            next();
+        }
+    ]
+}

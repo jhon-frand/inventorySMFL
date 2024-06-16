@@ -19,11 +19,11 @@ export const AlertError = () => {
     timer: 1500
   })
 };
-export const AlertNotFound = () => {
+export const AlertNotFound = (title) => {
   Swal.fire({
     position: "center",
-    icon: "error",
-    title: "No hay actividades",
+    icon: "info",
+    title: title,
     showConfirmButton: false,
     timer: 1500
   })

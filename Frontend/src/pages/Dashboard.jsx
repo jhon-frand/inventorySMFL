@@ -167,12 +167,17 @@ function Dashboard() {
       
     </div>
     <div className="content-information">
-      <div className="content-one">
+    {
+      user && user === "1" && (
+        <div className="content-one">
         <h2>Mantenimientos por Unidad</h2>
         <div className="graphic-bars">
         <StackedBarChart/>
         </div>
       </div>
+      )
+    }
+     
       <div className="content-two">
         <h2>Total Mantenimientos</h2>
         <div className="graphic-circle">
@@ -181,7 +186,9 @@ function Dashboard() {
         </div>
     </div>
     <div className="info-units">
-    <div className="table-unit">
+
+      
+         <div className="table-unit">
       <MUIDataTable className="table"
             title="Equipos por Unidad"
             data={unidades}
@@ -195,6 +202,9 @@ function Dashboard() {
       <TotalEquipments/>
       </div>
       </div>
+      
+    
+   
     </div>
       </Contenedor>
     </Container>
@@ -209,10 +219,9 @@ min-width: 100%;
   .contents{
     display: flex;
     gap: 20px;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
-    border-radius: 20px;
-    padding-bottom: 10px;
+    width: 90%;
   }
   .content-information{
     width: 95%;
@@ -278,7 +287,6 @@ min-width: 100%;
       width: 40%;
 
       .table{
-        padding: 5px;
         border-radius: 10px;
 
         th{

@@ -212,7 +212,8 @@ display: flex;
 justify-content: end;
 align-items: center;
 padding: 20px;
-background-color: #edf3eb;
+//background-color: #edf3eb;
+background-color: #e4e4e4;
 padding-inline-end: 60px;
 
 .formulario{

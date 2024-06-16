@@ -55,7 +55,6 @@ export default function BasicTabs({ children, text1, text2 }) {
           <Tab label={text1}{...a11yProps(0)} 
             sx={{
                 backgroundColor: 'white',
-                color: '#38a800',
                 fontWeight: 'bold',
                 '&.Mui-selected': {
                   backgroundColor: '#38a800',
@@ -66,7 +65,6 @@ export default function BasicTabs({ children, text1, text2 }) {
           <Tab label={text2} {...a11yProps(1)} 
           sx={{
             backgroundColor: 'white',
-            color: '#38a800',
             fontWeight: 'bold',
             '&.Mui-selected': {
               backgroundColor: '#38a800',

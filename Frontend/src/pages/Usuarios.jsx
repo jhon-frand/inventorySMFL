@@ -290,7 +290,7 @@ const changeStatus = async (datos) => {
   return (
     <Container>
       <Contenedor>
-     <HeaderPage icon={<FiUsers/>} titulo="USUARIOS" iconButton={<PiUserCirclePlus />} funcion={() => setModalRegistro(true)} />
+     <HeaderPage icon={<FiUsers/>} titulo="USUARIOS" text="REGISTRAR USUARIO" iconButton={<PiUserCirclePlus />} funcion={() => setModalRegistro(true)} />
       <Modales>
         <Modal 
         titulo = "REGISTRAR USUARIO"

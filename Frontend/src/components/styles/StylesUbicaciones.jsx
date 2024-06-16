@@ -18,7 +18,6 @@ display: flex;
   width: 90%;
 }
   .table-one{
-     padding: 5px;
 
      th{
       background: #38a800;
@@ -28,7 +27,6 @@ display: flex;
   }
   .table-two{
      width: 40%;
-     padding: 5px;
 
      th{
       background: #38a800;
@@ -84,9 +82,10 @@ button{
  
   .inputs-encar{
     display: flex;
+    gap: 10px;
     
-    .idunidad {
-      width: 40px;
+    .idUnidad {
+      width: 60px;
     }
   }
 

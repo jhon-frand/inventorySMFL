@@ -48,7 +48,7 @@ const Header = styled.div`
   .btn-register{
     background: #38a800;
     color: white;
-    padding: 12px;
+    padding: 10px;
     font-weight: bold;
     font-size: 13px;
     border-radius: 5px;
@@ -65,7 +65,7 @@ const Header = styled.div`
     }
 
     &:hover{
-      background: #385c57;
+      background: #38a800c1;
     }
   }
   

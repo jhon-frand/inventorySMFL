@@ -6,7 +6,7 @@ function ContainerContent({titulo, icon, to, total}) {
   return (
     <Content>
       <div className="top-line"></div>
-      <div className="contents">
+      <div className="contenido">
       <LinkStyled to={to}>
       <div className="content-info">
       <div className="content-icon">
@@ -50,7 +50,7 @@ box-shadow: 0 1px 1px 0 #38a800;
   background: #38a800b3;
 }
 
-.contents{
+.contenido{
   display: flex;
   justify-content: center;
   align-items: center;

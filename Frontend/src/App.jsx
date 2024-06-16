@@ -17,26 +17,6 @@ function App() {
  
   return (
     <>
-      {/* <BrowserRouter>
-      {
-        login ? (
-          <Container>
-              <SideBarContainer>
-                <SideBar openSide={sideBarOpen} setOpenSide={setSideBarOpen} />
-              </SideBarContainer>
-              <Content $sideBarOpen={sideBarOpen}>
-                <NavBarContainer $sideBarOpen={sideBarOpen}>
-                  <NavBar/>
-                </NavBarContainer>
-                <MyRoutes />
-              </Content>
-        </Container>
-        ) : (
-          <Login />
-        )
-      }
-      </BrowserRouter> */}
-      
       <BrowserRouter>
             <Routes>
                 <Route path="/restablecer" element={<ResetPassword />} />
@@ -68,7 +48,8 @@ const Container = styled.div`
   position: relative; /* Establecer posición relativa para poder posicionar el contenido principal */
   display: flex;
   min-height: 100vh;
-  background: #edf3eb;
+  //background: #edf3eb;
+  background-color: #e4e4e4;
   padding-bottom: 20px;
 `;
 
@@ -89,7 +70,7 @@ const NavBarContainer = styled.div`
   transition: all 0.3s;
   position: fixed; 
   top: 0; 
-  left: ${({ $sideBarOpen }) => ($sideBarOpen ? "300px" : "130px")}; /* Ajustar el espacio de la barra lateral */
+  left: ${({ $sideBarOpen }) => ($sideBarOpen ? "290px" : "120px")}; /* Ajustar el espacio de la barra lateral */
   right: 0; 
   z-index: 30; 
 `;

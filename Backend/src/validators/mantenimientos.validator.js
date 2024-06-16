@@ -21,12 +21,8 @@ export const validationMantenimiento = () => {
         check('descripcion')
         .isString().withMessage('descripción debe ser un string')
         .notEmpty().withMessage('descripción no puede estar vacío')
-        .isLength({min: 20}).withMessage('Debe tener al menos 20 caracteres'),
-
-        check('resultado')
-        .isString().withMessage('resultado debe ser un string')
-        .notEmpty().withMessage('resultado no puede estar vacío')
         .isLength({min: 10}).withMessage('Debe tener al menos 10 caracteres'),
+
 
         (req, res, next) => {
             const errors = validationResult(req);

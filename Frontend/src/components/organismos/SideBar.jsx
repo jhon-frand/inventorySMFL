@@ -102,6 +102,7 @@ background: white;
 display: flex;
 flex-direction: column;
 justify-content: space-between;
+box-shadow: 0 0 5px 1px gray;
 
 .content-footer{
     padding: 5px;
@@ -171,6 +172,7 @@ justify-content: space-between;
     align-items: center;
     padding: 5px;
     gap: 10px;
+    border-bottom: 1px solid #dfdcdc; 
 
     h2{
         font-size: 18px;
