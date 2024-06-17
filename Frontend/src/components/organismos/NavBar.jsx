@@ -8,6 +8,7 @@ import axios from "axios";
 import { endpointUser } from "../endpoints/Endpoints";
 import { AlertSucces, AlertError } from "../alerts/Alerts";
 import ContentInput from "./ContentInput";
+import { useRef } from 'react';
 
 function NavBar() {
 
@@ -18,6 +19,7 @@ function NavBar() {
   const token = localStorage.getItem("token");
   const [menu, setMenu] = useState(false);
   const [errores, setErrores] = useState("");
+  const menuRef = useRef(null);
 
   const [valores, setValores] = useState({
     identificacion: "",
@@ -75,13 +77,14 @@ function NavBar() {
       }
     } catch (error) {
       setErrores(error.response.data.msg)
+      AlertError();
       console.log(error);
     }
   }
 
   const navigate = useNavigate();
   const closeSesion = () => {
-    localStorage.removeItem("token");
+    localStorage.clear();
     navigate("/")
     window.location.reload()
   }
@@ -89,12 +92,22 @@ function NavBar() {
   const showMenu = () => {
     setMenu(!menu)
   }
+  const clickFuera = (event) => {
+    if (menuRef.current && !menuRef.current.contains(event.target)) {
+      setMenu(false);
+    }
+  };
+
   useEffect(() => {
     getUser();
-  }, [])
+    document.addEventListener('mousedown', clickFuera);
+    return () => {
+      document.removeEventListener('mousedown', clickFuera);
+    };
+  }, []);
 
   return (
-    <Container $menu={menu} >
+    <Container $menu={menu} ref={menuRef} >
       <div className="menus">
         <div className="menu-user">
           <div className="users">

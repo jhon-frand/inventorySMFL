@@ -48,16 +48,19 @@ z-index: 30;
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  width: 400px;
 
   .inputs-data-tecnico{
     display: flex;
     justify-content: center;
     align-items: center;
+    width: 100%;
   }
     .inputs-data{
       display: flex;
       justify-content: center;
       align-items: center;
+      width: 100%;
 
 
       .input-manteinment{
@@ -77,32 +80,11 @@ z-index: 30;
     .filas{
         display: flex;
         flex-direction: column;
+        width: 100%;
 
         .description{
-          display: flex;
-          flex-direction: column;
-          background: white;
-          padding: 5px;
-          height: 230px;
-          border-radius: 5px;
-          gap: 10px;
+          height: 300px;
         }
-        .onlyRead{
-          background: #38a80067;
-        }
-       
-
-         .onlyRead{
-          display: flex;
-          flex-direction: column;
-          padding: 4px;
-          width: 280px;
-          height: 70px;
-          border-radius: 5px;
-          gap: 4px;
-
-        }
-  
       }
 
 button{
@@ -118,7 +100,7 @@ button{
   &:hover{
     cursor: pointer;
     background: #38a80090;
-    color: green;
+    color: white;
   }
 }
 .inputs-encar{
@@ -128,7 +110,7 @@ button{
     
 
     .idUnidad {
-      width: 60px;
+      width: 120px;
     }
   }
 }

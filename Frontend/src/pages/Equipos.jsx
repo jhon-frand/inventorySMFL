@@ -515,8 +515,7 @@ function Equipos() {
                       }
                     </FormControl>
                   </ContentInput>
-                  <div className="description">
-                    <Textarea className='text-des'
+                    <Textarea className='description'
                       name="descripcion"
                       onChange={valorInput} value={valores.descripcion}
                       placeholder="Descripción"
@@ -533,7 +532,6 @@ function Equipos() {
                         </p>
                       )
                     }
-                  </div>
                 </div>
               </div>
               <button>REGISTRAR</button>
@@ -648,7 +646,7 @@ function Equipos() {
                             }
                           </Select>
                         ) : (
-                          <Select name="fk_ubicacion" onChange={valorInput} value={valores.fk_ubicacion} required>
+                          <Select label="Ubicación" name="fk_ubicacion" onChange={valorInput} value={valores.fk_ubicacion} required>
                             <MenuItem value="">Seleccione una ubicación</MenuItem>
                             {
                               ubicacionesUnidad.map((ubicaciones) => (
@@ -660,8 +658,7 @@ function Equipos() {
                       }
                     </FormControl>
                   </ContentInput>
-                  <div className="description">
-                    <Textarea className='text-des'
+                    <Textarea className='description'
                       name="descripcion"
                       onChange={editValorInput} value={valores.descripcion}
                       placeholder="Descripción"
@@ -678,7 +675,6 @@ function Equipos() {
                         </p>
                       )
                     }
-                  </div>
                 </div>
               </div>
               <button>ACTUALIZAR</button>

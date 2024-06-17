@@ -774,8 +774,8 @@ function Mantenimientos() {
                   </ContentInput>
                 </div>
                 <div className="filas">
-                  <div className="description">
                     <Textarea
+                    className="description"
                       name="descripcion"
                       value={valores.descripcion}
                       onChange={valorInput}
@@ -792,7 +792,6 @@ function Mantenimientos() {
                         </p>
                       )
                     }
-                  </div>
                 </div>
               </div>
               <button>REGISTRAR</button>
@@ -867,13 +866,13 @@ function Mantenimientos() {
                   </ContentInput>
                 </div>
                 <div className="filas">
-                  <div className="description">
                   <Textarea
+                  className="description"
                       name="descripcion"
                       value={valores.descripcion}
                       onChange={editValorInput}
                       disabled={false}
-                      minRows={8}
+                      minRows={10}
                       size="md"
                       variant="outlined"
                       placeholder="Descripción"
@@ -884,7 +883,6 @@ function Mantenimientos() {
                         </p>
                       )
                     }
-                  </div>
                 </div>
               </div>
               <button>ACTUALIZAR</button>
@@ -902,7 +900,7 @@ function Mantenimientos() {
                     <TextField value={valoresActividad.fecha_actividad} onChange={valorInputActividad} name="fecha_actividad" type="date" required />
                   </ContentInput>
                   <ContentInput className="input-manteinment">
-                    <TextField label="Mantenimiento" name="fk_mantenimiento" value={valoresActividad.fk_mantenimiento} onChange={valorInputActividad} readOnly />
+                    <TextField label="Mantenimiento" name="fk_mantenimiento" value={valoresActividad.fk_mantenimiento}   />
                   </ContentInput>
                   <ContentInput className="contents">
                     <FormControl>
@@ -919,12 +917,11 @@ function Mantenimientos() {
                   </ContentInput>
                 </div>
                 <div className="filas">
-                  <div className="description">
                     <Textarea 
                     name="descripcion" 
                     value={valoresActividad.descripcion} 
                     onChange={valorInputActividad} 
-                    minRows ={10}
+                    minRows ={9}
                     placeholder="Descripción" required/>
                     {
                       errores && errores.some(([campo]) => campo === "descripcion") && (
@@ -933,7 +930,6 @@ function Mantenimientos() {
                         </p>
                       )
                     }
-                  </div>
                 </div>
               </div>
               <button>REGISTRAR</button>
@@ -951,7 +947,7 @@ function Mantenimientos() {
                     <TextField name="fecha_actividad" value={valoresActividad.fecha_actividad} onChange={editValorInputActividad} type="date" required />
                   </ContentInput>
                   <ContentInput className="input-manteinment">
-                    <TextField label="Mantenimiento" name="fk_mantenimiento" value={valoresActividad.fk_mantenimiento} onChange={editValorInputActividad} required readOnly />
+                    <TextField label="Mantenimiento" name="fk_mantenimiento" value={valoresActividad.fk_mantenimiento} required />
                   </ContentInput>
                   <ContentInput>
                     <FormControl>
@@ -969,12 +965,11 @@ function Mantenimientos() {
                   </ContentInput>
                 </div>
                 <div className="filas">
-                  <div className="description">
                     <Textarea
                      name="descripcion" 
                     value={valoresActividad.descripcion} 
                     onChange={editValorInputActividad} 
-                    minRows= {10}
+                    minRows= {9}
                     placeholder="Ingresa una descripción" required/>
                     {
                       errores && errores.some(([campo]) => campo === "descripcion") && (
@@ -983,7 +978,6 @@ function Mantenimientos() {
                         </p>
                       )
                     }
-                  </div>
                 </div>
               </div>
               <button>ACTUALIZAR</button>

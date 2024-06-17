@@ -65,6 +65,10 @@ button{
 .filas{
   display: flex;
   flex-direction: column;
+
+  .description{
+    height: 220px;
+  }
 }
 
   .contents{

@@ -66,7 +66,7 @@ const Header = styled.div`
 
     &:hover{
         transition: all 0.3s;
-        background: #385c57;
+        background: #38a800c1;
     }
   }
   a{

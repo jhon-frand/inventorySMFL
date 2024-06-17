@@ -219,7 +219,7 @@ min-width: 100%;
   .contents{
     display: flex;
     gap: 20px;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     width: 90%;
   }

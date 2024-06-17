@@ -15,7 +15,7 @@ function SideBar({ openSide, setOpenSide }) {
 
     const navigate = useNavigate();
     const closeSesion = () => {
-      localStorage.removeItem("token");
+      localStorage.clear();
       navigate("/")
       window.location.reload()
     }
