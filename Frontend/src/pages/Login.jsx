@@ -2,7 +2,7 @@ import { useState } from 'react'
 import styled from 'styled-components'
 import axios from "axios"
 import { useNavigate } from "react-router-dom";
-import logoInventory from "../assets/imgnew-remove.png"
+import logoInventory from "../assets/logogreen.png"
 import logoSena from "../assets/sena.png"
 import { AiOutlineMail, AiOutlineLock } from "react-icons/ai";
 import { AlertSucces, AlertUser } from '../components/alerts/Alerts';
@@ -87,7 +87,9 @@ function Login() {
     <Container>
       <div className="content-formulario">
       <div className="content">
-      <img src={logoSena} alt="INVENTORY" />
+      <div className="logo">
+      <img src={logoInventory} alt="INVENTORY" />
+      </div>
       
       <div className="texts">
       <p className='text-init'>Inicia Sesión</p>
@@ -162,7 +164,9 @@ const Container = styled.div`
   justify-content: start;
   gap: 10px; 
 
-
+  .logo{
+    padding-left: 20px;
+  }
   .texts{
     padding-left: 20px;
     display: flex;
@@ -174,7 +178,7 @@ const Container = styled.div`
     font-size: 33px;
   }
   img{
-    width: 100px;
+    width: 80px;
   }
 }
               

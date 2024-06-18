@@ -1,5 +1,5 @@
 import styled from "styled-components"
-import logo from "../../assets/imgnew-remove.png"
+import logo from "../../assets/logogreen.png"
 import { AiOutlineLeft, AiOutlineHome } from "react-icons/ai"
 import { GoTools } from "react-icons/go";
 import { BsPinMap } from "react-icons/bs";
@@ -172,7 +172,6 @@ box-shadow: 0 0 5px 1px gray;
     align-items: center;
     padding: 5px;
     gap: 10px;
-    border-bottom: 1px solid #dfdcdc; 
 
     h2{
         font-size: 18px;
@@ -181,7 +180,6 @@ box-shadow: 0 0 5px 1px gray;
 
     img{
         width: 60px;
-        height: 60px;
         cursor: pointer;
         transition: all 0.3s ease-in-out;
         transform: ${({ $isOpen }) => ($isOpen ? `scale(0.9)` : `scale(1.0)`)};
