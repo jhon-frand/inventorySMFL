@@ -12,7 +12,7 @@ flex-direction: column;
 
   .icon-activity{
     font-size: 30px;
-    color: orange;
+    color: gray;
     cursor: pointer;
 
     &:hover{

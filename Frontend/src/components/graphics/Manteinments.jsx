@@ -28,11 +28,11 @@ function StackedBarChart() {
     return (
       <Content>
           <BarChart className='grafica'
-          width={500}
+          width={700}
           height={300}
             series={[
                 { data: data.preventivos, label: 'preventivos', id: 'pvId', stack: 'total', color: '#38a800' },
-                { data: data.tecnicos, label: 'técnicos', id: 'uvId', stack: 'total', color: '#38a8005c' },
+                { data: data.tecnicos, label: 'técnicos', id: 'uvId', stack: 'total', color: '#81f846' },
             ]}
             xAxis={[{ data: data.unidades, scaleType: 'band' }]}
         />

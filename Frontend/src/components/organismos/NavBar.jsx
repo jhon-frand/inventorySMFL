@@ -225,9 +225,10 @@ display: flex;
 justify-content: end;
 align-items: center;
 padding: 20px;
-//background-color: #edf3eb;
-background-color: #e4e4e4;
+//background-color: #fdfdfd;
+background-color: white;
 padding-inline-end: 60px;
+//border-bottom: 1px solid #38a800;
 
 .formulario{
   display: flex;
@@ -302,14 +303,15 @@ padding-inline-end: 60px;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: white;
     padding-inline: 20px;
     padding-block: 10px;
     border-radius: 20px;
     cursor: pointer;
     gap: 20px;
 
+ 
     .nombres-user{
+      
       p{
         font-size: 14px;
         font-weight: bold;
@@ -319,30 +321,16 @@ padding-inline-end: 60px;
     svg{
       font-size: 30px;
       color: #38a800;
+
+      &:hover{
+        transform: rotate(180deg);
+        transition: 1s;
+    }
     }
   }
 
 }
 }
-
-
-
-.logo{
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  
-  h1{
-    font-size: 25px;
-    color: #00324d;
-  }
-  img{
-    width: 60px;
-    height: 60px;
-  }
-}
-
 
 `;
 export default NavBar

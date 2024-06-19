@@ -1,5 +1,5 @@
 import styled from "styled-components"
-import logo from "../../assets/logogreen.png"
+import logo from "../../assets/logogreentool.png"
 import { AiOutlineLeft, AiOutlineHome } from "react-icons/ai"
 import { GoTools } from "react-icons/go";
 import { BsPinMap } from "react-icons/bs";
@@ -8,6 +8,7 @@ import { CgToolbox } from "react-icons/cg";
 import { NavLink, useNavigate } from "react-router-dom"
 import { LuLogOut } from "react-icons/lu";
 import { TiThMenu } from "react-icons/ti";
+import { RiMenuFill } from "react-icons/ri";
 
 function SideBar({ openSide, setOpenSide }) {
 
@@ -15,9 +16,9 @@ function SideBar({ openSide, setOpenSide }) {
 
     const navigate = useNavigate();
     const closeSesion = () => {
-      localStorage.clear();
-      navigate("/")
-      window.location.reload()
+        localStorage.clear();
+        navigate("/")
+        window.location.reload()
     }
 
     const filteredLinksArray = user === "2"
@@ -30,35 +31,35 @@ function SideBar({ openSide, setOpenSide }) {
         <Container $isOpen={openSide}>
             <button className="sideBarButton"
                 onClick={modificarSideBar}>
-                <TiThMenu  className="cerrarSideBar" />
+                <RiMenuFill className="cerrarSideBar" />
             </button>
             <div className="logoContent">
-                    <img src={logo} alt="Logo Inventory" />
-               
+                <img src={logo} alt="Logo Inventory" />
+
                 <h2>INVENTORY</h2>
             </div>
-           <div className="content-links">
-           {
-                filteredLinksArray.map(({ icon, label, to }) => (
-                    <div className="linkContainer" key={label}>
-                        <NavLink to={to} className={({ isActive }) => `links ${isActive ? `active` : ``}`}>
-                            <div className="linkIcon">
-                                {icon}
-                            </div>
-                            {
-                                openSide && (
-                                    <span>{label}</span>
-                                )
-                            }
-                        </NavLink>
-                    </div>
-                ))
-            }
-           </div>
+            <div className="content-links">
+                {
+                    filteredLinksArray.map(({ icon, label, to }) => (
+                        <div className="linkContainer" key={label}>
+                            <NavLink to={to} className={({ isActive }) => `links ${isActive ? `active` : ``}`}>
+                                <div className="linkIcon">
+                                    {icon}
+                                </div>
+                                {
+                                    openSide && (
+                                        <span>{label}</span>
+                                    )
+                                }
+                            </NavLink>
+                        </div>
+                    ))
+                }
+            </div>
             <footer>
-             <div className="content-footer">
-                <button onClick={closeSesion}><LuLogOut /><p>Cerrar Sesión</p></button>
-             </div>
+                <div className="content-footer">
+                    <button onClick={closeSesion}><LuLogOut /><p>Cerrar Sesión</p></button>
+                </div>
             </footer>
         </Container>
     )
@@ -102,7 +103,7 @@ background: white;
 display: flex;
 flex-direction: column;
 justify-content: space-between;
-box-shadow: 0 0 5px 1px gray;
+//box-shadow: 0 0 5px 1px gray;
 
 .content-footer{
     padding: 5px;
@@ -137,7 +138,7 @@ box-shadow: 0 0 5px 1px gray;
     }
 
     p{
-    display: ${({$isOpen}) => ($isOpen ? "block" : "none")};
+    display: ${({ $isOpen }) => ($isOpen ? "block" : "none")};
     font-weight: bold;
     font-size: 15px;
     text-align: center;
@@ -147,22 +148,30 @@ box-shadow: 0 0 5px 1px gray;
 
 .sideBarButton{
     position: absolute;
-    top: 10px;
-    right: -45px;
+    top: 0;
+    right: -50px;
     width: 50px;
-    height: 50px;
+    height: 70px;
     border: none;
     background: none;
-    transition: all 0.5s;
-    transform: ${({ $isOpen }) => ($isOpen ? `` : `rotate(180deg)`)};
     display: flex;
-    justify-content: center;
     align-items: center;
     cursor: pointer;
+    background-color: white;
 
     .cerrarSideBar{
-        font-size: 30px;
+        font-size: 40px;
         color: #38a800;
+        transition: 0.5s;
+        border-radius: 10px;
+        background-color: #38a80032;
+        padding: 5px;
+        transform: ${({ $isOpen }) => ($isOpen ? `` : `rotate(180deg)`)};
+        
+        &:hover{
+            background-color: #38a800;
+            color: white;
+        }
     }
 }
 
@@ -203,7 +212,10 @@ box-shadow: 0 0 5px 1px gray;
             border-radius: 10px;
             color: white;
             background: #38a800c5;
-                 }
+           // width: ${({ $isOpen }) => ($isOpen ? "" : "250px")}; 
+                
+        
+        }
         
         span{
             width: 150px;

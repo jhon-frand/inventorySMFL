@@ -18,7 +18,7 @@ function ButtonStatus({text, funcion}) {
 }
 
 const Button = styled.button`
-background: ${({$estado}) => ($estado ==="activo" ? "#38a800" : "#cb7755")};
+background: ${({$estado}) => ($estado ==="activo" ? "#38a800" : "gray")};
 border: none;
 padding: 2px;
 width: 80px;
@@ -31,7 +31,7 @@ svg{
 }
 
 &:hover{
-    background: ${({$estado}) => ($estado ==="activo" ? "#286e05" : "#a8502a")};
+    background: ${({$estado}) => ($estado ==="activo" ? "#286e05" : "#615f5f")};
 }
 `;
 

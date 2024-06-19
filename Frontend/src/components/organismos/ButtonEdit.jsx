@@ -11,18 +11,23 @@ display: flex;
 align-items: center;
 padding: 5px;
 background: none;
-color: white;
 border: none;
 border-radius: 50%;
 
 svg{
   font-size: 25px;
-  color: #00324d;
+  color: gray;
 }
 
 &:hover {
   cursor: pointer;
-  background: #d9d9d9b0;
+  background: #d9d9d9dc;
+
+  svg{
+  font-size: 25px;
+  color: #38a800;
+}
+
 }
 `;
 

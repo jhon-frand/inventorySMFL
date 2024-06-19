@@ -238,10 +238,11 @@ min-width: 100%;
       flex-direction: column;
       align-items: center;
       background-color: white;
+      box-shadow: 0 0 10px 1px gray;
       border-radius: 20px;
 
       h2{
-        color: #38746c;
+        color: #153f39;
       }
 
       .graphic-bars{
@@ -261,7 +262,7 @@ min-width: 100%;
       border-radius: 20px;
 
       h2{
-        color: #38746c;
+        color: #153f39;
       }
 
       .graphic-circle{
@@ -314,7 +315,7 @@ min-width: 100%;
       background-color: white;
 
       h2{
-        color: #38746c;
+        color: #153f39;
       }
     }
 

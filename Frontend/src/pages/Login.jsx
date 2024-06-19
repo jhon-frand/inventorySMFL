@@ -235,11 +235,12 @@ const Container = styled.div`
   border-radius: 40px;
   letter-spacing: 1px;
   cursor: pointer;
-  background: linear-gradient(45deg, rgba(25, 196, 20, 0.555), #38a800);
+  //background: linear-gradient(45deg, rgba(25, 196, 20, 0.555), #38a800);
+  background-color: #38a800;
   color: white;
 
   &:hover{
-    background:#38a800;
+    background:#38a800d3;
   }
 }
 

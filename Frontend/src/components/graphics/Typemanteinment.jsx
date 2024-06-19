@@ -28,7 +28,7 @@ function TypeManteinments() {
 
     return (
         <PieChart
-            colors={['#38a8005c', '#38a800']}
+            colors={['#81f846', '#38a800']}
             series={[
                 {
                     startAngle: 400,

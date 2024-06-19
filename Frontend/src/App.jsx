@@ -49,8 +49,7 @@ const Container = styled.div`
   display: flex;
   min-height: 100vh;
   //background: #edf3eb;
-  background-color: #e4e4e4;
-  padding-bottom: 20px;
+  background-color: white;
 `;
 
 const SideBarContainer = styled.div`

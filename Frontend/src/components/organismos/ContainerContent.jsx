@@ -1,7 +1,6 @@
 import styled from "styled-components"
 import { Link } from "react-router-dom";
 
-
 function ContainerContent({titulo, icon, to, total}) {
   return (
     <Content>
@@ -34,12 +33,12 @@ width: 230px;
 min-height: 100px;
 border-bottom-left-radius: 20px;
 border-bottom-right-radius: 20px;
-color: #385c57;
+color: #153f39;
 box-shadow: 0 1px 1px 0 #38a800;
 
  &:hover{
   .top-line{
-    background: #38a8005c;
+    background: #38a800b3;
     transition: all 0.5s ease-out;
   }
 }
@@ -47,7 +46,7 @@ box-shadow: 0 1px 1px 0 #38a800;
 .top-line{
   width: 100%;
   height: 10px;
-  background: #38a800b3;
+  background: #38a800;
 }
 
 .contenido{
@@ -79,7 +78,6 @@ const LinkStyled = styled(Link)`
 
   svg{
       font-size: 35px;
-      color: #00324d;
     }
 }
 
