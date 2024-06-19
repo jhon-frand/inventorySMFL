@@ -3,8 +3,6 @@ import styled from 'styled-components'
 import axios from "axios"
 import { useNavigate } from "react-router-dom";
 import logoInventory from "../assets/logogreen.png"
-import logoSena from "../assets/sena.png"
-import { AiOutlineMail, AiOutlineLock } from "react-icons/ai";
 import { AlertSucces, AlertUser } from '../components/alerts/Alerts';
 import Modal from "../components/modals/Modal"
 import { endpointRecuperar, endpointLogin } from '../components/endpoints/Endpoints';
@@ -146,15 +144,16 @@ const Container = styled.div`
       justify-content: center;
       align-items: center;
       height: 100vh;
-      background-color: #4b5e4a47;
+      background-color: #f1f1f1;
 
       .content-formulario{
         display: flex;
-        width: 60%;
-        height: 70%;
+        width: 50%;
+        height: 450px;
         background-color: white;
         border-radius: 30px;
         padding: 40px;
+        box-shadow: 1px 1px 5px 1px #aeafae;
       }
 
 .content{
@@ -178,7 +177,7 @@ const Container = styled.div`
     font-size: 33px;
   }
   img{
-    width: 80px;
+    width: 25%;
   }
 }
               

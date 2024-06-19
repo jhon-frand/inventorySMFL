@@ -506,7 +506,10 @@ function Mantenimientos() {
   const columnasTecnicos = [
     {
       name: "id_tecnico",
-      label: "ID"
+      label: "ID",
+      options: {
+       display: 'false' // Esta opción oculta la columna en la interfaz
+     }
     },
     {
       name: "identificacion",

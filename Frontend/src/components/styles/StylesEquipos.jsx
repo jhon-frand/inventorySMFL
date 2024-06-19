@@ -7,9 +7,38 @@ align-items: center;
 min-width: 100%;
 
 .table-mui{
+display: flex;
+gap: 20px;
+
+  .category-graphic{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    border-radius: 20px;
+    width: 70%;
+    height: 40%;
+    padding: 20px;
+
+    h2{
+      color: #153f39;
+    }
+  }
+
 
   .table{
      width: 100%;
+
+     th{
+      background: #38a800;
+      color: white;
+      padding: 5px;
+     }
+  }
+  .table-category{
+     width: 30%;
+     
 
      th{
       background: #38a800;

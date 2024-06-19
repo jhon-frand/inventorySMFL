@@ -1,4 +1,4 @@
-import * as React from 'react';
+
 import { BarChart } from '@mui/x-charts/BarChart';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
@@ -32,7 +32,7 @@ function StackedBarChart() {
           height={300}
             series={[
                 { data: data.preventivos, label: 'preventivos', id: 'pvId', stack: 'total', color: '#38a800' },
-                { data: data.tecnicos, label: 'técnicos', id: 'uvId', stack: 'total', color: '#81f846' },
+                { data: data.tecnicos, label: 'técnicos', id: 'uvId', stack: 'total', color: '#73d542' },
             ]}
             xAxis={[{ data: data.unidades, scaleType: 'band' }]}
         />

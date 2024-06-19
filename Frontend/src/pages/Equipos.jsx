@@ -24,6 +24,8 @@ import { MenuItem } from "@mui/material";
 import BasicTabs from "../components/tabs/TabEquipos"
 import Textarea from '@mui/joy/Textarea';
 
+import TotalEquipments from "../components/graphics/Equipments";
+
 function Equipos() {
 
   //#region funciones
@@ -286,7 +288,10 @@ function Equipos() {
   const columnas = [
     {
       name: "id_equipo",
-      label: "ID"
+      label: "ID",
+      options: {
+       display: 'false' // Esta opción oculta la columna en la interfaz
+     }
     },
     {
       name: "serial",
@@ -303,7 +308,8 @@ function Equipos() {
         customBodyRender: (value) => {
           const fecha = moment(value).format('YYYY-MM-DD');
           return fecha;
-        }
+        },
+        display: 'false' //
       }
     },
     {
@@ -324,19 +330,31 @@ function Equipos() {
     },
     {
       name: "sitio",
-      label: "SITIO"
+      label: "SITIO",
+      options: {
+       display: 'false' // Esta opción oculta la columna en la interfaz
+     }
     },
     {
       name: "tipo_equipo",
-      label: "TIPO"
+      label: "TIPO",
+      options: {
+       display: 'false' // Esta opción oculta la columna en la interfaz
+     }
     },
     {
       name: "marca_equipo",
-      label: "MARCA"
+      label: "MARCA",
+      options: {
+       display: 'false' // Esta opción oculta la columna en la interfaz
+     }
     },
     {
       name: "modelo_equipo",
-      label: "MODELO"
+      label: "MODELO",
+      options: {
+       display: 'false' // Esta opción oculta la columna en la interfaz
+     }
     },
     {
       name: "descripcion",
@@ -357,7 +375,10 @@ function Equipos() {
   const columnasCategorias = [
     {
       name: "id_categoria",
-      label: "ID"
+      label: "ID",
+      options: {
+       display: 'false' // Esta opción oculta la columna en la interfaz
+     }
     },
     {
       name: "nombre_categoria",
@@ -751,7 +772,11 @@ function Equipos() {
             }
           </div>
           <div className="table-mui">
-            <MUIDataTable className="table"
+            <div className="category-graphic">
+              <h2>Equipos por categoría</h2>
+            <TotalEquipments/>
+            </div>
+            <MUIDataTable className="table-category"
             title="Lista de Categorías"
               data={categorias}
               columns={columnasCategorias}

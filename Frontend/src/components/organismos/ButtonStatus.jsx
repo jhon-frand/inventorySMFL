@@ -21,7 +21,7 @@ const Button = styled.button`
 background: ${({$estado}) => ($estado ==="activo" ? "#38a800" : "gray")};
 border: none;
 padding: 2px;
-width: 80px;
+width: 60px;
 border-radius: 5px;
 color: white;
 cursor: pointer;

@@ -321,10 +321,10 @@ padding-inline-end: 60px;
     svg{
       font-size: 30px;
       color: #38a800;
+        transition: 1s;
 
       &:hover{
         transform: rotate(180deg);
-        transition: 1s;
     }
     }
   }

@@ -18,7 +18,6 @@ import {
   endpointRol
 } from "../components/endpoints/Endpoints";
 import { Container, Modales } from "../components/styles/StylesUsuarios";
-import TableUsuarios from "../components/tables/TableUsuarios";
 import ContentInput from "../components/organismos/ContentInput";
 import { InputLabel } from "@mui/material";
 import { MenuItem } from "@mui/material";
@@ -224,7 +223,10 @@ const changeStatus = async (datos) => {
  const columnas = [
    {
      name: "id_usuario",
-     label: "ID"
+     label: "ID",
+     options: {
+      display: 'false' // Esta opción oculta la columna en la interfaz
+    }
    },
    {
      name: "identificacion",
@@ -301,7 +303,8 @@ const changeStatus = async (datos) => {
             <div className="inputs-data">
               <div className="filas">
               <ContentInput>
-              <TextField name="identificacion" onChange={valorInput} value={valores.identificacion} variant="outlined" label="Identificación" type="number" required/>
+              <TextField
+               name="identificacion" onChange={valorInput} value={valores.identificacion} variant="outlined" label="Identificación" type="number" required/>
               {
                 errores && errores.some(([campo]) => campo === "identificacion") && (
                   <p>

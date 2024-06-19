@@ -1,4 +1,4 @@
-import * as React from 'react';
+
 import { PieChart } from '@mui/x-charts/PieChart';
 import { useState } from 'react';
 import axios from 'axios';
@@ -28,7 +28,7 @@ function TypeManteinments() {
 
     return (
         <PieChart
-            colors={['#81f846', '#38a800']}
+            colors={['#73d542', '#38a800']}
             series={[
                 {
                     startAngle: 400,

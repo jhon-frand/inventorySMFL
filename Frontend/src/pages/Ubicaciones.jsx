@@ -255,7 +255,10 @@ function Ubicaciones() {
   const columnas = [
     {
       name: "id_ubicacion",
-      label: "ID"
+      label: "ID",
+      options: {
+       display: 'false' // Esta opción oculta la columna en la interfaz
+     }
     },
     {
       name: "nombre_unidad",
@@ -285,7 +288,10 @@ function Ubicaciones() {
   const columnasUnidades = [
     {
       name: "id_unidad",
-      label: "ID"
+      label: "ID",
+      options: {
+       display: 'false' // Esta opción oculta la columna en la interfaz
+     }
     },
     {
       name: "nombre_unidad",
