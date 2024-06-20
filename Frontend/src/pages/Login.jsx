@@ -148,8 +148,8 @@ const Container = styled.div`
 
       .content-formulario{
         display: flex;
-        width: 50%;
-        height: 450px;
+        width: 700px;
+        height: 400px;
         background-color: white;
         border-radius: 30px;
         padding: 40px;
@@ -234,7 +234,6 @@ const Container = styled.div`
   border-radius: 40px;
   letter-spacing: 1px;
   cursor: pointer;
-  //background: linear-gradient(45deg, rgba(25, 196, 20, 0.555), #38a800);
   background-color: #38a800;
   color: white;
 

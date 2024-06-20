@@ -151,22 +151,15 @@ const getEquipos = async (peticion, respuesta) => {
     }
 };
 
-const putEstadoEquipo = async (peticion, respuesta) => {
+const getEquiposEstado = async (peticion, respuesta) => {
     try {
-        const {id} = peticion.params;
-        const {estado} = peticion.body;
-        const sql = "UPDATE equipos SET estado = ? WHERE id_equipo = ?";
-        const [updateEstado] = await connection.query(sql, [estado, id]);
-        if (updateEstado.affectedRows > 0) {
-            return respuesta.status(200).json({
-                "status": 200,
-                "message": "Estado de equipo actualizado correctamente"
-            })
-        } else {
-            return respuesta.status(403).json({
-                "status": 403,
-                "message": "Error al actualizar estado de equipo"
-            }) 
+
+        const sql = `SELECT COUNT(*) AS total,
+                     estado FROM equipos 
+                    GROUP BY equipos.estado`;
+        const [resultado] = await connection.query(sql);
+        if (resultado.length > 0) {
+            return respuesta.status(200).json(resultado)
         }
     } catch (error) {
         respuesta.status(500);
@@ -193,6 +186,6 @@ export const equipos = {
     getEquipos,
     getEquiposUnidad,
     getTotalEquiposUnidad,
-    putEstadoEquipo,
+    getEquiposEstado,
     getTotal
 }

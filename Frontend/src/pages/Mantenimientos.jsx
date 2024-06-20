@@ -109,7 +109,7 @@ function Mantenimientos() {
 
   const getMantenimientosUnidad = async () => {
     try {
-      await axios.get(`${endpointMantenimiento}/${unidadUser}`).then((response) => {
+      await axios.get(`${endpointMantenimiento}/unidad/${unidadUser}`).then((response) => {
         const manteinmentUnit = response.data;
         setMantenimientosUnit(manteinmentUnit);
       })
@@ -257,6 +257,7 @@ function Mantenimientos() {
       console.log(error);
     }
   }
+
   const getIdUser = () => {
     try {
       setValores(prevState => ({
@@ -481,23 +482,13 @@ function Mantenimientos() {
       options: {
         customBodyRender: (value, tableMeta, updateValue) => {
           return (
-            <ButtonEdit titulo="Actualizar" icon={<HiMiniPencilSquare />} funcion1={() => getData(tableMeta.rowData)} />
-          )
-        }
-      }
-    },
-    {
-      name: "editar",
-      label: "ACTIVIDADES",
-      options: {
-        customBodyRender: (value, tableMeta, updateValue) => {
-          return (
             <>
-              <div className="btns-edit">
-                <ButtonEdit titulo="Registrar Actividad" icon={<FaSquarePlus />} funcion1={() => getIdMantenimiento(tableMeta.rowData)} />
-                <IoEyeSharp title="Ver actividades" className="icon-activity" onClick={() => getActividadesMantenimiento(tableMeta.rowData[0])} />
-              </div>
-            </>
+            <div className="btns-edit">
+            <ButtonEdit titulo="Actualizar" icon={<HiMiniPencilSquare />} funcion1={() => getData(tableMeta.rowData)} />
+              <ButtonEdit titulo="Registrar Actividad" icon={<FaSquarePlus />} funcion1={() => getIdMantenimiento(tableMeta.rowData)} />
+              <IoEyeSharp title="Ver actividades" className="icon-activity" onClick={() => getActividadesMantenimiento(tableMeta.rowData[0])} />
+            </div>
+          </>
           )
         }
       }
@@ -1118,6 +1109,8 @@ function Mantenimientos() {
           cambiarEstado={() => setModalTable(false)}
           columnas={columnasActidadesMantenimiento}
           datos={actividadesMantenimiento}
+          title="Actividades"
+          titulo="LISTA DE ACTIVIDADES"
         />
       </Contenedor>
     </Container>

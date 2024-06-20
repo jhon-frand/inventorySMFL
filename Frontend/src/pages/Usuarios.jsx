@@ -246,7 +246,10 @@ const changeStatus = async (datos) => {
    },
    {
      name: "rol",
-     label: "ROL"
+     label: "ROL",
+     options: {
+      display: 'false' // Esta opción oculta la columna en la interfaz
+    }
    },
    {
      name: "nombre_unidad",

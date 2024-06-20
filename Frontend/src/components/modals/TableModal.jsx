@@ -3,18 +3,18 @@ import { IoMdClose } from "react-icons/io";
 import MUIDatatable from "mui-datatables"
 import { optionsTableModal } from "../styles/Table";
 
-function TableModal({estado, cambiarEstado, columnas, datos}) {
+function TableModal({estado, cambiarEstado, columnas, datos, title, titulo}) {
   return (
     <>
    { estado && 
      <Overlay>
      <ContenedorModal>
          <EncabezadoModal>
-             <h3>LISTA DE ACTIVIDADES</h3>
+             <h3>{titulo}</h3>
          </EncabezadoModal>
          <BotonCerrar onClick={() => cambiarEstado()} > <IoMdClose /></BotonCerrar>
          <MUIDatatable  className="table" 
-         title="Actividades"
+         title={title}
          columns={columnas}
          data={datos}
          options={optionsTableModal}

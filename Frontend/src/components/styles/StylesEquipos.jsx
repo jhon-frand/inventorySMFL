@@ -35,6 +35,23 @@ gap: 20px;
       color: white;
       padding: 5px;
      }
+     .btns-edit{
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+
+      .icon-activity{
+    font-size: 30px;
+    color: gray;
+    cursor: pointer;
+
+    &:hover{
+      color: #38A800;
+    }
+  }
+     
+    
+    }
   }
   .table-category{
      width: 30%;

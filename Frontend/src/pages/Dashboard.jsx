@@ -5,13 +5,13 @@ import { FiUsers } from "react-icons/fi";
 import { CgToolbox } from "react-icons/cg";
 import { GoTools } from "react-icons/go";
 import { useEffect, useState } from "react";
-import { 
+import {
   getTotalUsers,
   getTotalUnits,
   getTotalEquipment,
   getTotalManteinment,
   getTotalMantenimientoUnit
- } from "../functions/FunctionsDashboard";
+} from "../functions/FunctionsDashboard";
 import { Contenedor } from "../components/styles/StylesPages";
 import MUIDataTable from "mui-datatables";
 import { optionsTableUnit } from "../components/styles/Table"
@@ -21,24 +21,26 @@ import axios from "axios";
 import StackedBarChart from "../components/graphics/Manteinments";
 import TypeManteinments from "../components/graphics/Typemanteinment";
 import TotalEquipments from "../components/graphics/Equipments";
+import BasicTabs from "../components/tabs/TabEquipos";
+import StatusEquipments from "../components/graphics/StatusEquipments";
 
 function Dashboard() {
 
- const [unidades, setUnidades] = useState([])
- const [totalUser, setTotalUsers] = useState(0)
- const [totalUnits, setTotalUnits] = useState(0)
- const [totalEquipos, setTotalEquipos] = useState(0)
- const [totalMantenimientos, setTotalMantenimientos] = useState(0)
- const [totalEquiposUnidad, setTotalEquiposUnidad] = useState(0)
- const [totalMantenimientosUnidad, setTotalMantenimientosUnidad] = useState(0)
+  const [unidades, setUnidades] = useState([])
+  const [totalUser, setTotalUsers] = useState(0)
+  const [totalUnits, setTotalUnits] = useState(0)
+  const [totalEquipos, setTotalEquipos] = useState(0)
+  const [totalMantenimientos, setTotalMantenimientos] = useState(0)
+  const [totalEquiposUnidad, setTotalEquiposUnidad] = useState(0)
+  const [totalMantenimientosUnidad, setTotalMantenimientosUnidad] = useState(0)
 
- const user = localStorage.getItem("user");
- const unidad = localStorage.getItem("unidad");
+  const user = localStorage.getItem("user");
+  const unidad = localStorage.getItem("unidad");
 
   const getTotalUsuarios = async () => {
     try {
-     const result = await getTotalUsers();
-     setTotalUsers(result);
+      const result = await getTotalUsers();
+      setTotalUsers(result);
     } catch (error) {
       console.log(error);
     }
@@ -60,7 +62,7 @@ function Dashboard() {
     } catch (error) {
       console.log(error);
     }
-  } 
+  }
 
   const getTotalEquiposUnidad = async () => {
     try {
@@ -104,13 +106,13 @@ function Dashboard() {
     try {
       const response = await axios.get(endpointUnidad);
       const units = response.data;
-  
+
       // Iterar sobre cada unidad y agregar el total de equipos
       for (const unidad of units) {
         const totalEquipos = await getTotalEquiposUnit(unidad.nombre_unidad);
         unidad.total_equipos = totalEquipos;
       }
-  
+
       // Actualizar el estado con las unidades que ahora tienen el total de equipos
       setUnidades(units);
     } catch (error) {
@@ -131,83 +133,83 @@ function Dashboard() {
 
   return (
     <>
-    <Container>
-      <Contenedor>
-    <div className="contents">
-   {
-    user && user === "1" && (
-      <>
-   <ContainerContent  
-      titulo="Unidades Productivas"
-      icon = {<PiBoundingBox/>}
-      to={"/ubicaciones"}
-      total={totalUnits}
-      />
-      <ContainerContent  
-      titulo="Encargados"
-      icon = {<FiUsers/>}
-      to={"/usuarios"}
-      total={totalUser}
-      />
-   </>
-    )
-   }
-      <ContainerContent  
-      titulo="Total Equipos"
-      icon = {<CgToolbox/>}
-      to={"/equipos"}
-      total={user && user === "1" ? totalEquipos : totalEquiposUnidad}
-      />
-      <ContainerContent  
-      titulo="Total Mantenimientos"
-      icon = {<GoTools/>}
-      to={"/mantenimientos"}
-      total={user && user === "1" ? totalMantenimientos : totalMantenimientosUnidad}
-      />
-      
-    </div>
-    <div className="content-information">
-    {
-      user && user === "1" && (
-        <div className="content-one">
-        <h2>Mantenimientos por Unidad</h2>
-        <div className="graphic-bars">
-        <StackedBarChart/>
-        </div>
-      </div>
-      )
-    }
-     
-      <div className="content-two">
-        <h2>Total Mantenimientos</h2>
-        <div className="graphic-circle">
-        <TypeManteinments/>
-        </div>
-        </div>
-    </div>
-    <div className="info-units">
-
-      
-         <div className="table-unit">
-      <MUIDataTable className="table"
-            title="Equipos por Unidad"
-            data={unidades}
-            columns={columnasDashboard}
-            options={optionsTableUnit}
+      <Container>
+        <Contenedor>
+        <div className="contents">
+            {
+              user && user === "1" && (
+                <>
+                  <ContainerContent
+                    titulo="Unidades Productivas"
+                    icon={<PiBoundingBox />}
+                    to={"/ubicaciones"}
+                    total={totalUnits}
+                  />
+                  <ContainerContent
+                    titulo="Encargados"
+                    icon={<FiUsers />}
+                    to={"/usuarios"}
+                    total={totalUser}
+                  />
+                </>
+              )
+            }
+            <ContainerContent
+              titulo="Total Equipos"
+              icon={<CgToolbox />}
+              to={"/equipos"}
+              total={user && user === "1" ? totalEquipos : totalEquiposUnidad}
             />
-      </div>
-      <div className="graphic-equipos">
-        <h2>Equipos por Unidad</h2>
-      <div>
-      <TotalEquipments/>
-      </div>
-      </div>
-      
-    
-   
-    </div>
-      </Contenedor>
-    </Container>
+            <ContainerContent
+              titulo="Total Mantenimientos"
+              icon={<GoTools />}
+              to={"/mantenimientos"}
+              total={user && user === "1" ? totalMantenimientos : totalMantenimientosUnidad}
+            />
+
+          </div>
+          <div className="targets-graphic">
+          
+            <BasicTabs
+              text1="mantenimientos"
+              text2="equipos">
+              
+              <div className="content-information">
+            {
+              user && user === "1" && (
+                <div className="content-one">
+                  <h2>Mantenimientos por Unidad</h2>
+                  <div className="graphic-bars">
+                    <StackedBarChart />
+                  </div>
+                </div>
+              )
+            }
+
+            <div className="content-two">
+              <h2>Total Mantenimientos</h2>
+              <div className="graphic-circle">
+                <TypeManteinments />
+              </div>
+            </div>
+          </div>
+          <div className="graphic-equipos">
+                <div className="equipos">
+                <h2>Equipos por Unidad</h2>
+                <div>
+                  <TotalEquipments />
+                </div>
+                </div>
+                <div className="status">
+                  <h2>Status</h2>
+                  <StatusEquipments/>
+                </div>
+              </div>
+            </BasicTabs>
+          </div>
+        
+        </Contenedor>
+      </Container>
     </>
   )
 }
@@ -223,37 +225,58 @@ min-width: 100%;
     align-items: center;
     width: 90%;
   }
-  .content-information{
+  .targets-graphic{
     width: 95%;
     display: flex;
-    padding: 20px;
     justify-content: center;
-    border-radius: 20px;
-    gap: 10px;
+    padding-top: 20px;
 
-    .content-one{
-      width: 70%;
+    .graphic-equipos{
+      width: 100%;
+      height: 100%;
+      border-radius: 20px;
       padding: 20px;
       display: flex;
-      flex-direction: column;
+      justify-content: center;
       align-items: center;
       background-color: white;
-      box-shadow: 0 0 10px 1px gray;
-      border-radius: 20px;
+
+      .equipos{
+        width: 70%;
+      }
+
+      .status{
+        width: 30%;
+      }
 
       h2{
         color: #153f39;
       }
+    }
 
-      .graphic-bars{
-        width: 90%;
-        display: flex;
-        justify-content: center;
+  }
+
+  .content-information{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+
+    .content-one{
+      width: 80%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background-color: white;
+      border-radius: 20px;
+      padding: 20px;
+
+      h2{
+        color: #153f39;
       }
     }
 
     .content-two{
-      padding: 20px;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -276,49 +299,8 @@ min-width: 100%;
 
    
   }
-  .info-units{
-    width: 95%;
-    padding: 20px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 20px;
 
-    .table-unit{
-      width: 40%;
 
-      .table{
-        border-radius: 10px;
-
-        th{
-          background: #38a800;
-          color: white;
-          padding: 5px;
-          
-        }
-
-        td{
-          text-align: center;
-        }
-      }
-    }
-
-    .graphic-equipos{
-      width: 60%;
-      height: 100%;
-      border-radius: 20px;
-      padding: 20px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      background-color: white;
-
-      h2{
-        color: #153f39;
-      }
-    }
-
-  }
+ 
 `;
 export default Dashboard

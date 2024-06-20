@@ -96,6 +96,26 @@ const getMantenimientoUnidad = async (peticion, respuesta) => {
     }
 }
 
+const getMantenimientoEquipo = async (peticion, respuesta) => {
+    try {
+        const { equipo } = peticion.params;
+        const sql = `SELECT mantenimientos.*,
+                        usuarios.nombres 
+                        FROM mantenimientos
+                        JOIN usuarios ON usuarios.id_usuario = mantenimientos.fk_user_responsable
+                        WHERE mantenimientos.fk_equipo = ?`;
+        const [mantenimientos] = await connection.query(sql, equipo);
+        if (mantenimientos.length > 0) {
+            return respuesta.status(200).json(mantenimientos)
+        } else if (mantenimientos.length === 0) {
+            return respuesta.status(404).json({ msg: "No hay mantenimientos" })
+        }
+    } catch (error) {
+        respuesta.status(500);
+        respuesta.send(error.message);
+    }
+}
+
 const getTotalMantenimientoUnidad = async (peticion, respuesta) => {
     try {
         const { unidad } = peticion.params;
@@ -145,9 +165,9 @@ const getTypeMantenimiento = async (peticion, respuesta) => {
                     `;
         const [mantenimiento] = await connection.query(sql);
         if (mantenimiento.length > 0) {
-            return respuesta.status(200).json( mantenimiento)
-        } 
-        
+            return respuesta.status(200).json(mantenimiento)
+        }
+
     } catch (error) {
         respuesta.status(500);
         respuesta.send(error.message);
@@ -178,7 +198,7 @@ const getTotalMantenimientoUnidadType = async (peticion, respuesta) => {
                 JOIN unidades_productivas ON unidades_productivas.id_unidad = usuarios.fk_unidad_productiva
                 GROUP BY unidades_productivas.nombre_unidad;
                 `;
-            
+
         const [result] = await connection.query(sql);
         if (result.length > 0) {
             return respuesta.status(200).json(result);
@@ -195,6 +215,7 @@ export const mantenimientos = {
     putMantenimiento,
     getMantenimientos,
     getMantenimientoUnidad,
+    getMantenimientoEquipo,
     getTotalMantenimientoUnidad,
     getMantenimiento,
     getTotal,

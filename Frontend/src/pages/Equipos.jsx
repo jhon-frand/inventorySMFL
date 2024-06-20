@@ -8,13 +8,15 @@ import ButtonEdit from "../components/organismos/ButtonEdit";
 import moment from "moment"
 import { CgToolbox } from "react-icons/cg";
 import { Contenedor } from "../components/styles/StylesPages";
-import { AlertSucces, AlertError } from "../components/alerts/Alerts";
+import { AlertSucces, AlertError, AlertNotFound } from "../components/alerts/Alerts";
 import { HiMiniPencilSquare } from "react-icons/hi2";
 import { Select, TextField } from "@mui/material";
 import {
   endpointEquipo,
   endpointCategoria,
-  endpointUbicacion
+  endpointUbicacion,
+  endpointMantenimiento,
+  endpointUser
 } from "../components/endpoints/Endpoints";
 import { Container, Modales } from "../components/styles/StylesEquipos";
 import ContentInput from "../components/organismos/ContentInput";
@@ -25,6 +27,9 @@ import BasicTabs from "../components/tabs/TabEquipos"
 import Textarea from '@mui/joy/Textarea';
 
 import TotalEquipments from "../components/graphics/Equipments";
+import { FaSquarePlus } from "react-icons/fa6";
+import { IoEyeSharp } from "react-icons/io5";
+import TableModal from "../components/modals/TableModal";
 
 function Equipos() {
 
@@ -39,13 +44,19 @@ function Equipos() {
   const [modalUpdate, setModalUpdate] = useState(false)
   const [modalCategory, setModalCategory] = useState(false)
   const [modalCategoryUpdate, setModalCategoryUpdate] = useState(false)
+  const [modalManteinment, setModalManteinment] = useState(false)
+  const [modalFormMantinment, setModalFormMantinment] = useState(false)
   const [selectId, setSelectId] = useState(null)
   const [selectIdCategory, setSelectIdCategory] = useState(null)
+  const [mantenimientos, setMantenimientos] = useState([])
   const [errores, setErrores] = useState("")
+  const [usuarios, setUsuarios] = useState([])
 
   const token = localStorage.getItem("token");
   const user = localStorage.getItem("user");
   const unidadUser = localStorage.getItem("unidad");
+  const nombresUser = localStorage.getItem("nombres")
+  const idUser = localStorage.getItem("usuario");
 
   const getEquipos = async () => {
     try {
@@ -97,6 +108,30 @@ function Equipos() {
       console.log(error);
     }
   }
+  const getMantenimientosEquipo = async (id) => {
+    try {
+      const respuesta = await axios.get(`${endpointMantenimiento}/equipo/${id}`).then((response) => {
+        const mantenimientos = response.data;
+        setMantenimientos(mantenimientos)
+        setModalManteinment(true);
+
+        console.log(mantenimientos);
+      })
+    } catch (error) {
+      AlertNotFound(error.response.data.msg)
+      console.log(error)
+    }
+  }
+  const getUsers = async () => {
+    try {
+      await axios.get(endpointUser).then((response) => {
+        const users = response.data;
+        setUsuarios(users);
+      })
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   const [valores, setValores] = useState({
     serial: "",
@@ -106,9 +141,16 @@ function Equipos() {
     fecha_ingreso: "",
     descripcion: "",
     tipo_equipo: "",
-    estado: "",
+    estado: "activo",
     fk_categoria: "",
     fk_ubicacion: ""
+  })
+  const [valoresManteinment, setValoresManteinment] = useState({
+    tipo_mantenimiento: "",
+    fecha_mantenimiento: "",
+    descripcion: "",
+    fk_user_responsable: "",
+    fk_equipo: ""
   })
   const clearFormEquipos = () => {
     setValores({
@@ -127,6 +169,17 @@ function Equipos() {
     setSelectId(null)
     setModalUpdate(false)
     setModal(false)
+  }
+  const clearFormManteinment = () => {
+    setValoresManteinment({
+      tipo_mantenimiento: "",
+      fecha_mantenimiento: "",
+      descripcion: "",
+      fk_user_responsable: "",
+      fk_equipo: ""
+    })
+    setErrores("")
+    setModalFormMantinment(false)
   }
   const [valoresCategory, setValoresCategory] = useState({
     nombre_categoria: ""
@@ -177,6 +230,20 @@ function Equipos() {
     setSelectId(datos[0])
     setModalUpdate(true)
   }
+  const getIdEquipo = (datos) => {
+    try {
+      const equipo = datos[0]
+      setValoresManteinment(prevState => ({
+        ...prevState,
+        fk_equipo: equipo,
+        fk_user_responsable: idUser,
+      }))
+      setModalFormMantinment(true)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   const editValorInput = (event) => {
     setValores(prevState => ({
       ...prevState,
@@ -189,6 +256,7 @@ function Equipos() {
       [event.target.name]: event.target.value
     }))
   }
+
   const putEquipo = async (event) => {
     event.preventDefault();
     try {
@@ -242,6 +310,12 @@ function Equipos() {
       [event.target.name]: event.target.value
     })
   }
+  const valorInputManteinment = (event) => {
+    setValoresManteinment({
+      ...valoresManteinment,
+      [event.target.name]: event.target.value
+    })
+  }
 
   const postEquipo = async (event) => {
     event.preventDefault();
@@ -285,13 +359,32 @@ function Equipos() {
     }
   }
 
+  const postManteinment = async (event) => {
+    event.preventDefault();
+    try {
+      const respuesta = await axios.post(endpointMantenimiento, valoresManteinment, {
+        headers: {
+          "token": token
+        }
+      })
+      if(respuesta.status === 200){
+        AlertSucces("Mantenimiento Registrado")
+      }
+      clearFormManteinment()
+    } catch (error) {
+      setErrores(error.response.data.msg)
+      AlertError()
+      console.log(error);
+    }
+  }
+
   const columnas = [
     {
       name: "id_equipo",
       label: "ID",
       options: {
-       display: 'false' // Esta opción oculta la columna en la interfaz
-     }
+        display: 'false' // Esta opción oculta la columna en la interfaz
+      }
     },
     {
       name: "serial",
@@ -332,33 +425,36 @@ function Equipos() {
       name: "sitio",
       label: "SITIO",
       options: {
-       display: 'false' // Esta opción oculta la columna en la interfaz
-     }
+        display: 'false' // Esta opción oculta la columna en la interfaz
+      }
     },
     {
       name: "tipo_equipo",
       label: "TIPO",
       options: {
-       display: 'false' // Esta opción oculta la columna en la interfaz
-     }
+        display: 'false' // Esta opción oculta la columna en la interfaz
+      }
     },
     {
       name: "marca_equipo",
       label: "MARCA",
       options: {
-       display: 'false' // Esta opción oculta la columna en la interfaz
-     }
+        display: 'false' // Esta opción oculta la columna en la interfaz
+      }
     },
     {
       name: "modelo_equipo",
       label: "MODELO",
       options: {
-       display: 'false' // Esta opción oculta la columna en la interfaz
-     }
+        display: 'false' // Esta opción oculta la columna en la interfaz
+      }
     },
     {
       name: "descripcion",
-      label: "DESCRIPCIÓN"
+      label: "DESCRIPCIÓN",
+      options: {
+        display: 'false'
+      }
     },
     {
       name: "editar",
@@ -366,7 +462,13 @@ function Equipos() {
       options: {
         customBodyRender: (value, tableMeta, updateValue) => {
           return (
-            <ButtonEdit titulo="Actualizar" icon={<HiMiniPencilSquare />} funcion1={() => getData(tableMeta.rowData)} />
+            <>
+              <div className="btns-edit">
+                <ButtonEdit titulo="Actualizar" icon={<HiMiniPencilSquare />} funcion1={() => getData(tableMeta.rowData)} />
+                <ButtonEdit titulo="Registrar Mantenimiento" icon={<FaSquarePlus />} funcion1={() => getIdEquipo(tableMeta.rowData)} />
+                <IoEyeSharp title="Ver Mantenimientos" className="icon-activity" onClick={() => getMantenimientosEquipo(tableMeta.rowData[0])} />
+              </div>
+            </>
           );
         }
       }
@@ -377,8 +479,8 @@ function Equipos() {
       name: "id_categoria",
       label: "ID",
       options: {
-       display: 'false' // Esta opción oculta la columna en la interfaz
-     }
+        display: 'false' // Esta opción oculta la columna en la interfaz
+      }
     },
     {
       name: "nombre_categoria",
@@ -397,8 +499,34 @@ function Equipos() {
     }
   ]
 
+  const columnasManteinments = [
+    {
+      name: "tipo_mantenimiento",
+      label: "TIPO"
+    },
+    {
+      name: "fecha_mantenimiento",
+      label: "FECHA",
+      options: {
+        customBodyRender: (value) => {
+          const fecha = moment(value).format('YYYY-MM-DD');
+          return fecha;
+        }
+      }
+    },
+    {
+      name: "nombres",
+      label: "RESPONSABLE"
+    },
+    {
+      name: "descripcion",
+      label: "DESCRIPCIÓN"
+    },
+  ]
+
   useEffect(() => {
     getEquipos();
+    getUsers();
     getEquiposUnidad();
     getCategorias();
     getUbicaciones();
@@ -499,17 +627,6 @@ function Equipos() {
                       </Select>
                     </FormControl>
                   </ContentInput>
-                  <ContentInput>
-                    <FormControl>
-                      <InputLabel>Estado</InputLabel>
-                      <Select label="Estado" name="estado" onChange={valorInput} value={valores.estado} required>
-                        <MenuItem value="activo">Activo</MenuItem>
-                        <MenuItem value="inactivo">Inactivo</MenuItem>
-                        <MenuItem value="mantenimiento">Mantenimiento</MenuItem>
-                        <MenuItem value="excluido">Excluido</MenuItem>
-                      </Select>
-                    </FormControl>
-                  </ContentInput>
                 </div>
                 <div className="filas">
                   <ContentInput>
@@ -536,23 +653,23 @@ function Equipos() {
                       }
                     </FormControl>
                   </ContentInput>
-                    <Textarea className='description'
-                      name="descripcion"
-                      onChange={valorInput} value={valores.descripcion}
-                      placeholder="Descripción"
-                      required
-                      disabled={false}
-                      minRows={8}
-                      size="md"
-                      variant="outlined"
-                    />
-                    {
-                      errores && errores.some(([campo]) => campo === "descripcion") && (
-                        <p>
-                          {errores.find(([campo]) => campo === "descripcion")[1]}
-                        </p>
-                      )
-                    }
+                  <Textarea className='description'
+                    name="descripcion"
+                    onChange={valorInput} value={valores.descripcion}
+                    placeholder="Descripción"
+                    required
+                    disabled={false}
+                    minRows={8}
+                    size="md"
+                    variant="outlined"
+                  />
+                  {
+                    errores && errores.some(([campo]) => campo === "descripcion") && (
+                      <p>
+                        {errores.find(([campo]) => campo === "descripcion")[1]}
+                      </p>
+                    )
+                  }
                 </div>
               </div>
               <button>REGISTRAR</button>
@@ -679,23 +796,23 @@ function Equipos() {
                       }
                     </FormControl>
                   </ContentInput>
-                    <Textarea className='description'
-                      name="descripcion"
-                      onChange={editValorInput} value={valores.descripcion}
-                      placeholder="Descripción"
-                      required
-                      disabled={false}
-                      minRows={8}
-                      size="md"
-                      variant="outlined"
-                    />
-                    {
-                      errores && errores.some(([campo]) => campo === "descripcion") && (
-                        <p>
-                          {errores.find(([campo]) => campo === "descripcion")[1]}
-                        </p>
-                      )
-                    }
+                  <Textarea className='description'
+                    name="descripcion"
+                    onChange={editValorInput} value={valores.descripcion}
+                    placeholder="Descripción"
+                    required
+                    disabled={false}
+                    minRows={8}
+                    size="md"
+                    variant="outlined"
+                  />
+                  {
+                    errores && errores.some(([campo]) => campo === "descripcion") && (
+                      <p>
+                        {errores.find(([campo]) => campo === "descripcion")[1]}
+                      </p>
+                    )
+                  }
                 </div>
               </div>
               <button>ACTUALIZAR</button>
@@ -748,6 +865,85 @@ function Equipos() {
               <button>ACTUALIZAR</button>
             </form>
           </Modal>
+          <Modal
+            titulo="REGISTRAR MANTENIMIENTO"
+            estado={modalFormMantinment}
+            cambiarEstado={() => setModalFormMantinment(false)}
+          >
+            <form className="formulario" onSubmit={postManteinment}>
+              <div className="inputs-data">
+                <div className="filas">
+                  <ContentInput>
+                    <FormControl>
+                      <InputLabel>Tipo</InputLabel>
+                      <Select label="Tipo" name="tipo_mantenimiento" value={valoresManteinment.tipo_mantenimiento} onChange={valorInputManteinment} required>
+                        <MenuItem value="preventivo">Preventivo</MenuItem>
+                        <MenuItem value="tecnico">Técnico</MenuItem>
+                      </Select>
+                    </FormControl>
+
+                  </ContentInput>
+                  <ContentInput>
+                    <TextField name="fecha_mantenimiento" type="date" value={valoresManteinment.fecha_mantenimiento} onChange={valorInputManteinment} required />
+
+                  </ContentInput>
+                  <ContentInput className={`${user === "1" ? '' : 'onlyRead'}`}>
+
+                    {
+                      user && user === "2" ? (
+                        <div className="inputs-encar">
+                          <TextField
+                            label="ID"
+                            name="fk_user_responsable"
+                            type="number"
+                            value={valoresManteinment.fk_user_responsable}
+                            onChange={valorInputManteinment} readOnly
+                          />
+                          <TextField label="Nombres" value={nombresUser} readOnly />
+                        </div>
+                      ) : (
+                        <FormControl>
+                          <InputLabel>Responsable</InputLabel>
+                          <Select label="Responsable" name="fk_user_responsable" value={valoresManteinment.fk_user_responsable} onChange={valorInputManteinment} required>
+                            {
+                              usuarios.map((usuarios) => (
+                                <MenuItem value={usuarios.id_usuario} key={usuarios.id_usuario}>{usuarios.nombres} {usuarios.apellidos}</MenuItem>
+                              ))
+                            }
+                          </Select>
+                        </FormControl>
+                      )
+                    }
+
+                  </ContentInput>
+                  <ContentInput>
+                    <TextField label="Equipo" name="fk_equipo" type="text" value={valoresManteinment.fk_equipo} required />
+                  </ContentInput>
+                </div>
+                <div className="filas">
+                  <Textarea
+                    className="description"
+                    name="descripcion"
+                    value={valoresManteinment.descripcion}
+                    onChange={valorInputManteinment}
+                    disabled={false}
+                    minRows={8}
+                    size="md"
+                    variant="outlined"
+                    placeholder="Descripción"
+                    required />
+                  {
+                    errores && errores.some(([campo]) => campo === "descripcion") && (
+                      <p>
+                        {errores.find(([campo]) => campo === "descripcion")[1]}
+                      </p>
+                    )
+                  }
+                </div>
+              </div>
+              <button>REGISTRAR</button>
+            </form>
+          </Modal>
         </Modales>
         <BasicTabs
           text1="Equipos"
@@ -756,7 +952,7 @@ function Equipos() {
             {
               user && user === "1" ? (
                 <MUIDataTable className="table"
-                title="Lista de Equipos"
+                  title="Lista de Equipos"
                   data={equipos}
                   columns={columnas}
                   options={options}
@@ -774,16 +970,25 @@ function Equipos() {
           <div className="table-mui">
             <div className="category-graphic">
               <h2>Equipos por categoría</h2>
-            <TotalEquipments/>
+              <TotalEquipments />
             </div>
             <MUIDataTable className="table-category"
-            title="Lista de Categorías"
+              title="Lista de Categorías"
               data={categorias}
               columns={columnasCategorias}
               options={optionsMedium}
             />
           </div>
         </BasicTabs>
+        <TableModal
+          estado={modalManteinment}
+          cambiarEstado={() => setModalManteinment(false)}
+          title="Mantenimientos"
+          titulo="LISTA DE MANTENIMIENTOS"
+          datos={mantenimientos}
+          columnas={columnasManteinments}
+
+        />
       </Contenedor>
     </Container>
   )

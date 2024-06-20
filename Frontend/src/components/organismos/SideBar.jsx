@@ -1,13 +1,12 @@
 import styled from "styled-components"
 import logo from "../../assets/logogreentool.png"
-import { AiOutlineLeft, AiOutlineHome } from "react-icons/ai"
+import { AiOutlineHome } from "react-icons/ai"
 import { GoTools } from "react-icons/go";
 import { BsPinMap } from "react-icons/bs";
 import { FiUsers } from "react-icons/fi";
 import { CgToolbox } from "react-icons/cg";
 import { NavLink, useNavigate } from "react-router-dom"
 import { LuLogOut } from "react-icons/lu";
-import { TiThMenu } from "react-icons/ti";
 import { RiMenuFill } from "react-icons/ri";
 
 function SideBar({ openSide, setOpenSide }) {
@@ -24,6 +23,7 @@ function SideBar({ openSide, setOpenSide }) {
     const filteredLinksArray = user === "2"
         ? linksArray.filter(link => link.label !== "Usuarios" && link.label !== "Unidades")
         : linksArray;
+        
     const modificarSideBar = () => {
         setOpenSide(!openSide);
     }
@@ -72,11 +72,6 @@ const linksArray = [
         to: "/dashboard"
     },
     {
-        label: "Usuarios",
-        icon: <FiUsers />,
-        to: "/usuarios"
-    },
-    {
         label: "Equipos",
         icon: <CgToolbox />,
         to: "/equipos"
@@ -90,6 +85,11 @@ const linksArray = [
         label: "Ubicaciones",
         icon: <BsPinMap />,
         to: "/ubicaciones"
+    },
+    {
+        label: "Usuarios",
+        icon: <FiUsers />,
+        to: "/usuarios"
     }
 ];
 
