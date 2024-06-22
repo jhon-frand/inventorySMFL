@@ -135,3 +135,29 @@ export const validationPutUsuario = () => {
         }
     ]
 }
+export const validationPutPassword = () => {
+    return[
+
+        check('password')
+        .isString().withMessage('password debe ser string')
+        .notEmpty().withMessage('password no puede estar vacía')
+        .isLength({min: 8}).withMessage('Debe tener al menos 8 caracteres'),
+       
+       
+        (peticion, respuesta, next) => {
+            const errores = validationResult(peticion);
+
+            if (!errores.isEmpty()) {
+                const chekError = errores.array().map(errores => [
+                    errores.path,
+                    errores.msg
+                ])
+                respuesta.status(400).json({
+                    msg: chekError
+                })
+                return;
+            }
+            next();
+        }
+    ]
+}

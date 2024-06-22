@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import axios from "axios"
 import { useNavigate } from "react-router-dom";
 import logoInventory from "../assets/logogreen.png"
-import { AlertSucces, AlertUser } from '../components/alerts/Alerts';
+import { AlertError, AlertSucces, AlertUser } from '../components/alerts/Alerts';
 import Modal from "../components/modals/Modal"
 import { endpointRecuperar, endpointLogin } from '../components/endpoints/Endpoints';
 import { TextField } from "@mui/material";
@@ -75,13 +75,8 @@ function Login() {
         }
       }
     } catch (error) {
-      if (error.response) {
-        console.log("Response data:", error.response.data);
-      } else if (error.request) {
-        console.log("Request error:", error.request);
-      } else {
-        console.log("Error:", error.message);
-      }
+        AlertError();
+        console.log(error);
     }
   };
 

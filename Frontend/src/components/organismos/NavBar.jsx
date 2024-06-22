@@ -18,13 +18,12 @@ function NavBar() {
   const [modal, setModal] = useState(false);
   const [modalPassword, setModalPassword] = useState(false);
   const user = localStorage.getItem("user");
-  const name = localStorage.getItem("nombres");
+  const [name, setName] = useState(localStorage.getItem("nombres"));
   const idUser = localStorage.getItem("usuario");
   const token = localStorage.getItem("token");
   const [menu, setMenu] = useState(false);
   const [errores, setErrores] = useState("");
   const menuRef = useRef(null);
-  const [password, setPassword] = useState([]);
 
   const [valores, setValores] = useState({
     identificacion: "",
@@ -78,7 +77,6 @@ function NavBar() {
       };
       setValores(userData);
       setOriginalValores(userData);
-      setPassword(data.password);
     } catch (error) {
       console.log(error);
     }
@@ -97,6 +95,10 @@ function NavBar() {
       if (respuesta.status === 200) {
         const msg = respuesta.data.message;
         AlertSucces(msg);
+         // Actualizar nombre en localStorage y estado
+         localStorage.setItem("nombres", valores.nombres);
+         setName(valores.nombres);
+
         setModal(false);
         setErrores("");
       }
@@ -121,6 +123,8 @@ function NavBar() {
     setConfirmNewPassword("");
     setErrorPassword(false);
     setModalPassword(false);
+    setShowInputs(true);
+    setErrores("")
   }
 
   const verifyPassword = async (event) => {
@@ -156,11 +160,15 @@ function NavBar() {
 
       if(respuesta.status === 200){
         console.log("contraseña actualizada")
+        AlertSucces(respuesta.data.message)
+        clearFormPassword();
       } else {
         console.log("error")
       }
       
     } catch (error) {
+      setErrores(error.response.data.msg)
+      AlertError();
       console.log(error)
     }
   }
@@ -333,12 +341,26 @@ function NavBar() {
                 <TextField
                  value={newPassword} onChange={(event) => setNewPassword(event.target.value)}
                 label="Nueva contraseña" required type="password" />
+                {
+                      errores && errores.some(([campo]) => campo === "password") && (
+                        <p>
+                          {errores.find(([campo]) => campo === "password")[1]}
+                        </p>
+                      )
+                    }
                 <TextField label="Confirmar contraseña" 
                    value={confirmNewPassword}
                    onChange={(event) => setConfirmNewPassword(event.target.value)}
                    required
                    type="password"
                    error={errorPassword ? "Las contraseñas no coinciden" : ""} />
+
+                    {
+                  errorPassword && (
+                    <p>Las contraseñas no coinciden</p>
+                  )
+                }
+
               </div>
               <button >CAMBIAR CONTRASEÑA</button>
             </form>
@@ -397,6 +419,11 @@ padding-inline-end: 60px;
   flex-direction: column;
   align-items: center;
   gap: 10px;
+
+  p{
+    font-size: 12px;
+    color: red;
+  }
 }
   button{
     background-color: #38a800;

@@ -29,12 +29,12 @@ export const validationEquipo = () => {
         check('descripcion')
         .isString().withMessage('la decripción debe ser texto')
         .notEmpty().withMessage('la descripción no puede estar vacía')
-        .isLength({min: 20}).withMessage('Debe tener al menos 10 caracteres'),
+        .isLength({min: 10}).withMessage('Debe tener al menos 10 caracteres'),
 
         check('tipo_equipo')
         .isString().withMessage('el tipo debe ser un texto')
         .notEmpty().withMessage('el tipo no puede estar vacío')
-        .isLength({min: 5}).withMessage('Debe tener al menos 3 caracteres'),
+        .isLength({min: 3}).withMessage('Debe tener al menos 3 caracteres'),
 
         check('estado')
         .isString().withMessage('el estado debe ser un texto')

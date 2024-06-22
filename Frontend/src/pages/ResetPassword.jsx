@@ -3,6 +3,7 @@ import Modal from "../components/modals/Modal"
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom"
 import axios from "axios"
+import { TextField } from "@mui/material";
 
 function ResetPassword() {
 
@@ -57,8 +58,8 @@ function ResetPassword() {
     titulo="INGRESA TU NUEVA CONTRASEÑA"
     >
       <Formulario onSubmit={changePassword} >
-        <input name="password" value={password.password}  onChange={inputPassword} type="text" placeholder="New Password"/>
-        <input name="confirm" value={confirm.confirm}  onChange={inputConfirm} type="text" placeholder="Confirm New Password"/>
+        <TextField name="password" value={password.password}  onChange={inputPassword} type="password" label="New Password"/>
+        <TextField name="confirm" value={confirm.confirm}  onChange={inputConfirm} type="password" label="Confirm New Password"/>
         <button>CAMBIAR CONTRASEÑA</button>
       </Formulario>
     </Modal>
@@ -75,18 +76,9 @@ const Formulario = styled.form`
   display: flex;
   flex-direction: column;
   gap: 10px;
-  background: #38a80060;
-  padding: 15px;
-  border-radius: 10px;
-
-  input{
-    padding: 10px;
-    border: none;
-    outline: none;
-  }
 
   button{
-    padding: 10px;
+    padding: 15px;
     border-radius: 10px;
     border: none;
     color: white;

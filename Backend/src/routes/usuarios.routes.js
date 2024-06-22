@@ -2,6 +2,7 @@ import { Router } from 'express'
 import { usuarios } from '../controllers/usuarios.controller.js'
 import { validationUsuario, validationPutUsuario } from '../validators/usuarios.validator.js';
 import { validationToken } from '../controllers/validator.controller.js';
+import { validationPutPassword } from '../validators/usuarios.validator.js';
 
 const rutas = Router();
 
@@ -9,7 +10,7 @@ rutas.post("/", validationUsuario(), validationToken, usuarios.postUsuario);
 rutas.post("/verify/:id", usuarios.verifyPassword); // POST para verificar contraseña
 
 rutas.put("/:id", validationPutUsuario(), validationToken, usuarios.putUsuario); // PUT para actualizar usuario
-rutas.put("/password/:id", usuarios.putPassword); // PUT para actualizar contraseña
+rutas.put("/password/:id", validationPutPassword(),  usuarios.putPassword); // PUT para actualizar contraseña
 rutas.put("/estado/:id", usuarios.putEstado); // PUT para actualizar estado de usuario
 
 rutas.get("/total", usuarios.totalUsers); // GET para obtener el total de usuarios
