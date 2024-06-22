@@ -1,6 +1,7 @@
 import { connection } from "../database/database.js"
 import jwt from "jsonwebtoken"
 import nodemailer from "nodemailer"
+import bcrypt from "bcrypt"
 
 const tokenPassword = async (peticion, respuesta) => {
     try {
@@ -66,8 +67,14 @@ const resetPassword = async (peticion, respuesta) => {
                 "message": "Usuario no encontrado"
             })
         }
+
+         // Encriptar la nueva contraseña antes de actualizarla
+         const saltRounds = 10;
+         const hashedPassword = await bcrypt.hash(password, saltRounds);
+
+
         const sqlUpdate = "UPDATE usuarios SET password = ? WHERE id_usuario = ?";
-        const [actualizar] = await connection.query(sqlUpdate, [password, user]);
+        const [actualizar] = await connection.query(sqlUpdate, [hashedPassword, user]);
 
         if (actualizar.affectedRows > 0) {
             return respuesta.status(200).json({

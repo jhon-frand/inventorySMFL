@@ -1,43 +1,55 @@
 import { connection } from "../database/database.js";
 import jwt from "jsonwebtoken";
+import bcrypt from "bcrypt";
 
 export const validationUser = async (peticion, respuesta) => {
     try {
         const {email, password} = peticion.body;
+        //debemos traer el password del user para poder compararlo más adelante
+        //la consulta la hacemos a través del email simplemente
         const sql = `
                     SELECT *,
                     fk_tipo_usuario as rol,
                     nombres,
                     unidades_productivas.nombre_unidad as unidad,
-                    unidades_productivas.id_unidad
+                    unidades_productivas.id_unidad,
+                    password
                     FROM usuarios
                     JOIN unidades_productivas ON unidades_productivas.id_unidad = usuarios.fk_unidad_productiva
-                    WHERE email = '${email}' and password = '${password}'
+                    WHERE email = ?
         `;
-        const [resultado] = await connection.query(sql);
+        const [resultado] = await connection.query(sql, [email]);
         
         if (resultado.length > 0) {
-            const user = resultado[0].rol
-            const unidad = resultado[0].unidad
-            const nombres = resultado[0].nombres
-            const idUnidad = resultado[0].id_unidad
-            const idUser = resultado[0].id_usuario
-            const estadoUser = resultado[0].estado
+            const user = resultado[0];
 
-            const token = jwt.sign({user: resultado}, process.env.SECRET, {expiresIn: process.env.TIME});
-            return respuesta.status(200).json({
-                "message": "Usuario autorizado",
-                "token": token,
-                "usuario": idUser,
-                "user": user,
-                "unidad": unidad,
-                "nombres": nombres,
-                "id_unidad": idUnidad,
-                "estado": estadoUser
-            })
+            //comparar constraseña 
+            //comparamos la contraseña que enviamos en el body con la que traemos del usuario a través de la función compare de bcrypt
+            const validatePassword = await bcrypt.compare(password, user.password);
+
+            if (validatePassword) {
+                const token = jwt.sign({user: user.rol}, process.env.SECRET, {expiresIn: process.env.TIME});
+                return respuesta.status(200).json({
+                    "message": "Usuario autorizado",
+                    "token": token,
+                    "usuario": user.id_usuario,
+                    "user": user.rol,
+                    "unidad": user.unidad,
+                    "nombres": user.nombres,
+                    "id_unidad": user.id_unidad,
+                    "estado": user.estado
+                })
+                
+            }else {
+                return respuesta.status(400).json({
+                    "message": "Usuario no autorizado"
+                });
+            }
+
+           
         } else {
-            return respuesta.status(400).json({
-                "message": "Usuario no autorizado"
+            return respuesta.status(404).json({
+                "message": "Usuario no encontrado"
             })
         }
     } catch (error) {

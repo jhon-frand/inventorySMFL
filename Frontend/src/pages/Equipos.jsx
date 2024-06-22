@@ -367,7 +367,7 @@ function Equipos() {
           "token": token
         }
       })
-      if(respuesta.status === 200){
+      if (respuesta.status === 200) {
         AlertSucces("Mantenimiento Registrado")
       }
       clearFormManteinment()
@@ -595,81 +595,85 @@ function Equipos() {
                   </ContentInput>
                 </div>
                 <div className="filas">
-                  <ContentInput>
-                    <TextField name="fecha_ingreso" onChange={valorInput} value={valores.fecha_ingreso} type="date" required />
-                    {
-                      errores && errores.some(([campo]) => campo === "fecha_ingreso") && (
-                        <p>
-                          {errores.find(([campo]) => campo === "fecha_ingreso")[1]}
-                        </p>
-                      )
-                    }
-                  </ContentInput>
-                  <ContentInput>
-                    <TextField name="tipo_equipo" onChange={valorInput} value={valores.tipo_equipo} type="text" label="tipo de equipo" required />
-                    {
-                      errores && errores.some(([campo]) => campo === "tipo_equipo") && (
-                        <p>
-                          {errores.find(([campo]) => campo === "tipo_equipo")[1]}
-                        </p>
-                      )
-                    }
-                  </ContentInput>
-                  <ContentInput>
-                    <FormControl>
-                      <InputLabel>Categoría</InputLabel>
-                      <Select label="Categoría" name="fk_categoria" onChange={valorInput} value={valores.fk_categoria} required>
+                  <div className="content-one">
+                    <div className="inputs-one">
+                      <ContentInput>
+                        <TextField name="fecha_ingreso" onChange={valorInput} value={valores.fecha_ingreso} type="date" required />
                         {
-                          categorias.map((categorias) => (
-                            <MenuItem key={categorias.id_categoria} value={categorias.id_categoria}>{categorias.nombre_categoria}</MenuItem>
-                          ))
+                          errores && errores.some(([campo]) => campo === "fecha_ingreso") && (
+                            <p>
+                              {errores.find(([campo]) => campo === "fecha_ingreso")[1]}
+                            </p>
+                          )
                         }
-                      </Select>
-                    </FormControl>
-                  </ContentInput>
-                </div>
-                <div className="filas">
-                  <ContentInput>
-                    <FormControl>
-                      <InputLabel>Ubicación</InputLabel>
+                      </ContentInput>
+                      <ContentInput>
+                        <TextField name="tipo_equipo" onChange={valorInput} value={valores.tipo_equipo} type="text" label="tipo de equipo" required />
+                        {
+                          errores && errores.some(([campo]) => campo === "tipo_equipo") && (
+                            <p>
+                              {errores.find(([campo]) => campo === "tipo_equipo")[1]}
+                            </p>
+                          )
+                        }
+                      </ContentInput>
+                      <ContentInput>
+                        <FormControl>
+                          <InputLabel>Categoría</InputLabel>
+                          <Select label="Categoría" name="fk_categoria" onChange={valorInput} value={valores.fk_categoria} required>
+                            {
+                              categorias.map((categorias) => (
+                                <MenuItem key={categorias.id_categoria} value={categorias.id_categoria}>{categorias.nombre_categoria}</MenuItem>
+                              ))
+                            }
+                          </Select>
+                        </FormControl>
+                      </ContentInput>
+                    </div>
+                    <div className="input-description">
+                      <TextField
+                        name="descripcion"
+                        onChange={valorInput} value={valores.descripcion}
+                        label="Descripción"
+                        required
+                        multiline
+                        rows={8}
+                      />
                       {
-                        user && user === "1" ? (
-                          <Select label="Ubicación" name="fk_ubicacion" onChange={valorInput} value={valores.fk_ubicacion} required>
-                            {
-                              ubicaciones.map((ubicaciones) => (
-                                <MenuItem key={ubicaciones.id_ubicacion} value={ubicaciones.id_ubicacion}>{ubicaciones.nombre_unidad} - {ubicaciones.ambiente} - {ubicaciones.sitio}</MenuItem>
-                              ))
-                            }
-                          </Select>
-                        ) : (
-                          <Select label="Ubicación" name="fk_ubicacion" onChange={valorInput} value={valores.fk_ubicacion} required>
-                            {
-                              ubicacionesUnidad.map((ubicaciones) => (
-                                <MenuItem key={ubicaciones.id_ubicacion} value={ubicaciones.id_ubicacion}>{ubicaciones.nombre_unidad} - {ubicaciones.ambiente} - {ubicaciones.sitio}</MenuItem>
-                              ))
-                            }
-                          </Select>
+                        errores && errores.some(([campo]) => campo === "descripcion") && (
+                          <p>
+                            {errores.find(([campo]) => campo === "descripcion")[1]}
+                          </p>
                         )
                       }
-                    </FormControl>
-                  </ContentInput>
-                  <Textarea className='description'
-                    name="descripcion"
-                    onChange={valorInput} value={valores.descripcion}
-                    placeholder="Descripción"
-                    required
-                    disabled={false}
-                    minRows={8}
-                    size="md"
-                    variant="outlined"
-                  />
-                  {
-                    errores && errores.some(([campo]) => campo === "descripcion") && (
-                      <p>
-                        {errores.find(([campo]) => campo === "descripcion")[1]}
-                      </p>
-                    )
-                  }
+                    </div>
+                  </div>
+                  <div className="input-ubication">
+                    <ContentInput>
+                      <FormControl>
+                        <InputLabel>Ubicación</InputLabel>
+                        {
+                          user && user === "1" ? (
+                            <Select label="Ubicación" name="fk_ubicacion" onChange={valorInput} value={valores.fk_ubicacion} required>
+                              {
+                                ubicaciones.map((ubicaciones) => (
+                                  <MenuItem key={ubicaciones.id_ubicacion} value={ubicaciones.id_ubicacion}>{ubicaciones.nombre_unidad} - {ubicaciones.ambiente} - {ubicaciones.sitio}</MenuItem>
+                                ))
+                              }
+                            </Select>
+                          ) : (
+                            <Select label="Ubicación" name="fk_ubicacion" onChange={valorInput} value={valores.fk_ubicacion} required>
+                              {
+                                ubicacionesUnidad.map((ubicaciones) => (
+                                  <MenuItem key={ubicaciones.id_ubicacion} value={ubicaciones.id_ubicacion}>{ubicaciones.nombre_unidad} - {ubicaciones.ambiente} - {ubicaciones.sitio}</MenuItem>
+                                ))
+                              }
+                            </Select>
+                          )
+                        }
+                      </FormControl>
+                    </ContentInput>
+                  </div>
                 </div>
               </div>
               <button>REGISTRAR</button>
@@ -769,7 +773,7 @@ function Equipos() {
                     </FormControl>
                   </ContentInput>
                 </div>
-                <div className="filas">
+                <div className="filas-three">
                   <ContentInput>
                     <FormControl>
                       <InputLabel>Ubicación: </InputLabel>
@@ -796,23 +800,23 @@ function Equipos() {
                       }
                     </FormControl>
                   </ContentInput>
-                  <Textarea className='description'
-                    name="descripcion"
-                    onChange={editValorInput} value={valores.descripcion}
-                    placeholder="Descripción"
-                    required
-                    disabled={false}
-                    minRows={8}
-                    size="md"
-                    variant="outlined"
-                  />
-                  {
-                    errores && errores.some(([campo]) => campo === "descripcion") && (
-                      <p>
-                        {errores.find(([campo]) => campo === "descripcion")[1]}
-                      </p>
-                    )
-                  }
+                  <div className="description">
+                    <TextField
+                      name="descripcion"
+                      onChange={editValorInput} value={valores.descripcion}
+                      label="Descripción"
+                      multiline
+                      required
+                      rows={8}
+                    />
+                    {
+                      errores && errores.some(([campo]) => campo === "descripcion") && (
+                        <p>
+                          {errores.find(([campo]) => campo === "descripcion")[1]}
+                        </p>
+                      )
+                    }
+                  </div>
                 </div>
               </div>
               <button>ACTUALIZAR</button>
@@ -868,79 +872,82 @@ function Equipos() {
           <Modal
             titulo="REGISTRAR MANTENIMIENTO"
             estado={modalFormMantinment}
-            cambiarEstado={() => setModalFormMantinment(false)}
+            cambiarEstado={clearFormManteinment}
           >
-            <form className="formulario" onSubmit={postManteinment}>
-              <div className="inputs-data">
-                <div className="filas">
-                  <ContentInput>
-                    <FormControl>
-                      <InputLabel>Tipo</InputLabel>
-                      <Select label="Tipo" name="tipo_mantenimiento" value={valoresManteinment.tipo_mantenimiento} onChange={valorInputManteinment} required>
-                        <MenuItem value="preventivo">Preventivo</MenuItem>
-                        <MenuItem value="tecnico">Técnico</MenuItem>
-                      </Select>
-                    </FormControl>
-
-                  </ContentInput>
-                  <ContentInput>
-                    <TextField name="fecha_mantenimiento" type="date" value={valoresManteinment.fecha_mantenimiento} onChange={valorInputManteinment} required />
-
-                  </ContentInput>
-                  <ContentInput className={`${user === "1" ? '' : 'onlyRead'}`}>
-
-                    {
-                      user && user === "2" ? (
-                        <div className="inputs-encar">
-                          <TextField
-                            label="ID"
-                            name="fk_user_responsable"
-                            type="number"
-                            value={valoresManteinment.fk_user_responsable}
-                            onChange={valorInputManteinment} readOnly
-                          />
-                          <TextField label="Nombres" value={nombresUser} readOnly />
-                        </div>
-                      ) : (
+            <form className="form-manteinment" onSubmit={postManteinment}>
+                <div className="content-rows">
+                  <div className="row-one">
+                    <div className="inputs-row-one">
+                      <ContentInput>
                         <FormControl>
-                          <InputLabel>Responsable</InputLabel>
-                          <Select label="Responsable" name="fk_user_responsable" value={valoresManteinment.fk_user_responsable} onChange={valorInputManteinment} required>
-                            {
-                              usuarios.map((usuarios) => (
-                                <MenuItem value={usuarios.id_usuario} key={usuarios.id_usuario}>{usuarios.nombres} {usuarios.apellidos}</MenuItem>
-                              ))
-                            }
+                          <InputLabel>Tipo</InputLabel>
+                          <Select label="Tipo" name="tipo_mantenimiento" value={valoresManteinment.tipo_mantenimiento} onChange={valorInputManteinment} required>
+                            <MenuItem value="preventivo">Preventivo</MenuItem>
+                            <MenuItem value="tecnico">Técnico</MenuItem>
                           </Select>
                         </FormControl>
-                      )
-                    }
 
-                  </ContentInput>
-                  <ContentInput>
-                    <TextField label="Equipo" name="fk_equipo" type="text" value={valoresManteinment.fk_equipo} required />
-                  </ContentInput>
-                </div>
-                <div className="filas">
-                  <Textarea
-                    className="description"
-                    name="descripcion"
-                    value={valoresManteinment.descripcion}
-                    onChange={valorInputManteinment}
-                    disabled={false}
-                    minRows={8}
-                    size="md"
-                    variant="outlined"
-                    placeholder="Descripción"
-                    required />
-                  {
-                    errores && errores.some(([campo]) => campo === "descripcion") && (
-                      <p>
-                        {errores.find(([campo]) => campo === "descripcion")[1]}
-                      </p>
-                    )
-                  }
-                </div>
-              </div>
+                      </ContentInput>
+                      <ContentInput>
+                        <TextField name="fecha_mantenimiento" type="date" value={valoresManteinment.fecha_mantenimiento} onChange={valorInputManteinment} required />
+
+                      </ContentInput>
+                    </div>
+                    <div className="inputs-two-row-one">
+                      <ContentInput className={`${user === "1" ? '' : 'onlyRead'}`}>
+
+                        {
+                          user && user === "2" ? (
+                            <div className="inputs-encar">
+                              <TextField
+                                label="ID"
+                                name="fk_user_responsable"
+                                type="number"
+                                value={valoresManteinment.fk_user_responsable}
+                                onChange={valorInputManteinment} readOnly
+                              />
+                              <TextField label="Nombres" value={nombresUser} readOnly />
+                            </div>
+                          ) : (
+                            <FormControl>
+                              <InputLabel>Responsable</InputLabel>
+                              <Select label="Responsable" name="fk_user_responsable" value={valoresManteinment.fk_user_responsable} onChange={valorInputManteinment} required>
+                                {
+                                  usuarios.map((usuarios) => (
+                                    <MenuItem value={usuarios.id_usuario} key={usuarios.id_usuario}>{usuarios.nombres} {usuarios.apellidos}</MenuItem>
+                                  ))
+                                }
+                              </Select>
+                            </FormControl>
+                          )
+                        }
+
+                      </ContentInput>
+                      <ContentInput>
+                        <TextField label="Equipo" name="fk_equipo" type="text" value={valoresManteinment.fk_equipo} required />
+                      </ContentInput>
+                    </div>
+                  </div>
+                  <div className="row-two">
+                    <div className="description">
+                      <TextField className="text-description"
+                        name="descripcion"
+                        value={valoresManteinment.descripcion}
+                        onChange={valorInputManteinment}
+                        rows={4}
+                        multiline
+                        label="Descripción"
+                        required />
+                      {
+                        errores && errores.some(([campo]) => campo === "descripcion") && (
+                          <p>
+                            {errores.find(([campo]) => campo === "descripcion")[1]}
+                          </p>
+                        )
+                      }
+                    </div>
+                  </div>
+                </div>   
               <button>REGISTRAR</button>
             </form>
           </Modal>

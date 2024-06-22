@@ -112,8 +112,31 @@ button{
   display: flex;
   flex-direction: column;
 
-  .description{
-    height: 220px;
+  .content-one{
+    display: flex;
+
+    .input-description{
+      padding-top: 12px;
+      display: flex;
+      flex-direction: column;
+
+      p{
+        font-size: 12px;
+        color: red;
+      }
+      
+    }
+  }
+
+  
+}
+
+.filas-three{
+  .description{    
+    p{
+      font-size: 12px;
+        color: red;
+    }
   }
 }
 
@@ -137,4 +160,57 @@ button{
       font-weight: 600;
     }
   }
+
+.form-manteinment{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+  .content-rows{
+
+    .row-one{
+      display: flex;
+
+      .inputs-row-one, .inputs-two-row-one{
+        display: flex;
+        flex-direction: column;
+        width: 200px;
+      }
+    }
+
+    .row-two{
+
+      .description{
+
+        .text-description{
+          width: 100%;
+        }
+
+        p{
+          font-size: 12px;
+          color: red;
+        }
+      }
+    }
+  }
+
+  
+button{
+  width: 200px;
+  height: 40px;
+  background: #38a800;
+  color: white;
+  font-weight: 600;
+  border-radius: 5px;
+  border: none;
+  margin-top: 20px;
+
+  &:hover{
+    cursor: pointer;
+    background: #38a80090;
+    color: green;
+  }
+}
+}
 `;

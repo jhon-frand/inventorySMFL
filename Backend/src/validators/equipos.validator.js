@@ -10,12 +10,12 @@ export const validationEquipo = () => {
         check('nombre_equipo')
         .isString().withMessage('el nombre debe ser un texto')
         .notEmpty().withMessage('el nombre no puede estar vacío')
-        .isLength({min: 5}).withMessage('Debe tener al menos 5 caracteres'),   
+        .isLength({min: 5}).withMessage('Debe tener al menos 3 caracteres'),   
 
         check('marca_equipo')
         .isString().withMessage('la marca debe ser texto')
         .notEmpty().withMessage('la marca no puede estar vacía')
-        .isLength({min: 3}).withMessage('Debe tener al menos 3 caracteres'),
+        .isLength({min: 3}).withMessage('Debe tener al menos 2 caracteres'),
 
         check('modelo_equipo')
         .isString().withMessage('el modelo debe ser texto')
@@ -29,12 +29,12 @@ export const validationEquipo = () => {
         check('descripcion')
         .isString().withMessage('la decripción debe ser texto')
         .notEmpty().withMessage('la descripción no puede estar vacía')
-        .isLength({min: 20}).withMessage('Debe tener al menos 20 caracteres'),
+        .isLength({min: 20}).withMessage('Debe tener al menos 10 caracteres'),
 
         check('tipo_equipo')
         .isString().withMessage('el tipo debe ser un texto')
-        .notEmpty().withMessage('el tipo no puede estar vacía')
-        .isLength({min: 5}).withMessage('Debe tener al menos 5 caracteres'),
+        .notEmpty().withMessage('el tipo no puede estar vacío')
+        .isLength({min: 5}).withMessage('Debe tener al menos 3 caracteres'),
 
         check('estado')
         .isString().withMessage('el estado debe ser un texto')

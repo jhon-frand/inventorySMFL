@@ -59,7 +59,7 @@ export const validationUsuario = () => {
         check('password')
         .isString().withMessage('la contraseña debe ser texto')
         .notEmpty().withMessage('la contraseña no puede estar vacíos')
-        .isLength({min: 6}).withMessage('Debe tener al menos seis caracteres'),
+        .isLength({min: 8}).withMessage('Debe tener al menos ocho caracteres'),
 
         (peticion, respuesta, next) => {
             const errores = validationResult(peticion);

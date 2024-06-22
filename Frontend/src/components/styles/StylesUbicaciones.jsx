@@ -42,26 +42,16 @@ top: 0;
 left: 0;
 z-index: 30;
 
-.formulario{
+.form-ubication{
   display: flex;
-  justify-content: center;
-  align-items: center;
   flex-direction: column;
+  align-items: center;
 
-    .inputs-data{
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      width: 90%;
+  .column{
+    width: 250px;
+  }
 
-      .filas{
-        display: flex;
-        flex-direction: column;
-        width: 100%;
-      }
-    }
-
-button{
+  button{
   width: 200px;
   height: 40px;
   background: #38a800;
@@ -77,16 +67,43 @@ button{
     color: green;
   }
 }
+
+}
+.form-unit{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .column{
+    width: 250px;
+  }
+
+  button{
+  width: 200px;
+  height: 40px;
+  background: #38a800;
+  color: white;
+  font-weight: 600;
+  border-radius: 5px;
+  border: none;
+  margin-top: 20px;
+
+  &:hover{
+    cursor: pointer;
+    background: #38a80090;
+    color: green;
+  }
 }
 
+}
+
+
+
+
+
+
+
  
-  .inputs-encar{
-    display: flex;
-    gap: 10px;
-    
-    .idUnidad {
-      width: 60px;
-    }
-  }
+
 
 `;

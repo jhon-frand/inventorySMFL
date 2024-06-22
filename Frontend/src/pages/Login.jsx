@@ -75,8 +75,13 @@ function Login() {
         }
       }
     } catch (error) {
-      AlertUser();
-      console.log(error);
+      if (error.response) {
+        console.log("Response data:", error.response.data);
+      } else if (error.request) {
+        console.log("Request error:", error.request);
+      } else {
+        console.log("Error:", error.message);
+      }
     }
   };
 

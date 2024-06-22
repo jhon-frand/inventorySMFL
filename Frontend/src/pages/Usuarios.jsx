@@ -22,6 +22,7 @@ import ContentInput from "../components/organismos/ContentInput";
 import { InputLabel } from "@mui/material";
 import { MenuItem } from "@mui/material";
 import { FormControl } from "@mui/material";
+import ToggleStatus from "../components/organismos/ToggleStatus";
 
 function Usuarios() {
 
@@ -148,7 +149,7 @@ const postUser = async (event) => {
   } catch (error) {
     AlertError();
     setErrores(error.response.data.msg);
-    console.log(error);
+    console.log(error.response.data);
   }
 }
 
@@ -265,9 +266,16 @@ const changeStatus = async (datos) => {
     options: {
       customBodyRender: (value, tableMeta, updateValue) => {
         return (
-          // <ButtonStatus text={tableMeta.rowData[8]} funcion={() => changeStatus(tableMeta.rowData)}/>
-          <ButtonStatus text={tableMeta.rowData[8]} funcion={() => AlertConfirmation(() => changeStatus(tableMeta.rowData))}/>
-        )
+          <ToggleStatus text={tableMeta.rowData[8]} 
+          funcion={() => 
+            AlertConfirmation(
+              ()=> changeStatus(tableMeta.rowData),
+              () => updateValue(value)
+            )
+          }
+          checked={tableMeta.rowData[8] === "activo"}
+           />
+         )
       }
     }
   },

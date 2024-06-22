@@ -9,7 +9,7 @@ export const validationActividad = () => {
         check('descripcion')
         .isString().withMessage('la descripción deben ser texto')
         .notEmpty().withMessage('la descripción no puede estar vacía')
-        .isLength({min: 20}).withMessage('Debe tener al menos 20 caracteres'),
+        .isLength({min: 10}).withMessage('Debe tener al menos 10 caracteres'),
 
         check('fk_mantenimiento')
         .isNumeric().withMessage('la fk_mantenimiento deben ser numérica')

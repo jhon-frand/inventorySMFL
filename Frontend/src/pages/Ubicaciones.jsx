@@ -341,9 +341,8 @@ function Ubicaciones() {
               estado={modal}
               cambiarEstado={clearFormUbi}
             >
-              <form className="formulario" onSubmit={postUbication}>
-                <div className="inputs-data">
-                  <div className="filas">
+              <form className="form-ubication" onSubmit={postUbication}>
+                  <div className="column">
                     <ContentInput>
                       <FormControl>
                         
@@ -361,7 +360,7 @@ function Ubicaciones() {
                           </Select>
                           </>
                         ) : (
-                          <div className="inputs-encar">
+                           <>
                             <TextField 
                               label="ID"
                               className="idUnidad"
@@ -377,7 +376,7 @@ function Ubicaciones() {
                               readOnly
                               required
                             />
-                          </div>
+                            </>
                         )
                       }
                       </FormControl>
@@ -403,7 +402,6 @@ function Ubicaciones() {
                       }
                     </ContentInput>
                   </div>
-                </div>
                 <button>REGISTRAR</button>
               </form>
             </Modal>
@@ -412,9 +410,8 @@ function Ubicaciones() {
               estado={modalUpdate}
               cambiarEstado={clearFormUbi}
             >
-              <form className="formulario" onSubmit={putUbication}>
-                <div className="inputs-data">
-                  <div className="filas">
+              <form className="form-ubication" onSubmit={putUbication}>
+                  <div className="column">
                     <ContentInput>
                       <FormControl>
                       
@@ -432,10 +429,9 @@ function Ubicaciones() {
                           </Select>
                           </>
                         ) : (
-                          <div className="inputs-encar">
+                          <>
                             <TextField 
                             label="ID"
-                            className="idUnidad"
                               name="fk_unidad_productiva"
                               value={valores.fk_unidad_productiva}
                               onChange={editValorInput}
@@ -448,7 +444,7 @@ function Ubicaciones() {
                               readOnly
                               required
                             />
-                          </div>
+                          </>
                         )
                       }
                       </FormControl>
@@ -475,7 +471,6 @@ function Ubicaciones() {
                       }
                     </ContentInput>
                   </div>
-                </div>
                 <button>ACTUALIZAR</button>
               </form>
             </Modal>
@@ -484,8 +479,8 @@ function Ubicaciones() {
               estado={modalUnit}
               cambiarEstado={clearFormUnit}
             >
-              <form onSubmit={postUnidad} className="formulario" >
-                <div className="inputs-data">
+              <form onSubmit={postUnidad} className="form-unit" >
+                <div className="column">
                   <ContentInput>
                     <TextField value={valoresUnit.nombre_unidad} onChange={valorInputUnit} name="nombre_unidad" id="outlined-basic" label="Nombre de la Unidad"  />
                     {
@@ -505,8 +500,8 @@ function Ubicaciones() {
               estado={modalUpdateUnit}
               cambiarEstado={clearFormUnit}
             >
-              <form onSubmit={putUnidad} className="formulario" >
-                <div className="inputs-data">
+              <form onSubmit={putUnidad} className="form-unit" >
+                <div className="column">
                   <ContentInput>
                     <TextField value={valoresUnit.nombre_unidad} onChange={editValorInputUnit} name="nombre_unidad" id="outlined-basic" label="Nombre de la Unidad" variant="outlined"  />
 

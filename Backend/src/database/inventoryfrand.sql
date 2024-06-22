@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost:3306
--- Tiempo de generación: 10-06-2024 a las 23:23:28
+-- Tiempo de generación: 22-06-2024 a las 01:50:12
 -- Versión del servidor: 8.0.30
 -- Versión de PHP: 8.1.10
 
@@ -52,7 +52,8 @@ INSERT INTO `actividades` (`id_actividad`, `fecha_actividad`, `descripcion`, `fk
 (11, '2024-04-26', 'se le cambió el teclado y la pantalla', 19, 11),
 (12, '2024-05-04', 'cambio de dispensador de a', 19, 11),
 (13, '2024-04-03', 'cambio de rutas y demás cosas para el jwt', 19, 12),
-(14, '2024-04-26', 'cambio de playlist por bronco broonco', 23, 8);
+(14, '2024-04-26', 'cambio de playlist por bronco broonco', 23, 10),
+(15, '2024-06-20', 'prueba actividad en manteinmenteee', 28, 8);
 
 -- --------------------------------------------------------
 
@@ -78,7 +79,7 @@ INSERT INTO `categorias` (`id_categoria`, `nombre_categoria`) VALUES
 (47, 'aaaag'),
 (48, 'prueba alerta'),
 (49, 'MAnuales'),
-(50, 'categoria jwt');
+(50, 'categoria mara');
 
 -- --------------------------------------------------------
 
@@ -108,12 +109,15 @@ INSERT INTO `equipos` (`id_equipo`, `serial`, `nombre_equipo`, `marca_equipo`, `
 (25, '111', 'Molino', 'MWQ', 'A2023L', '2024-02-13', 'molino triturador', 'eléctrico', 'activo', 38, 14),
 (30, '23233', 'bb', 'bb', 'v', '2024-03-08', '2222', '222', 'inactivo', 39, 14),
 (36, '12gh3g', 'pruebaequipo', 'pruebamarca', 'pruebamodelo', '2024-03-15', 'minimo 20 caracteres paradescripcion', 'manual', 'activo', 44, 46),
-(37, 'asss', 'assdf', 'sdsdhg', 'asff', '2024-04-08', 'prueba alertas después del register', 'dfdffs', 'activo', 48, 49),
+(37, 'asss', 'monitor', 'sdsdhg', 'asff', '2024-04-08', 'prueba alertas después del register', 'dfdffs', 'activo', 48, 49),
 (38, '9834ff', 'PORATTIL', 'ASUS', 'AXM3', '2024-04-11', 'portatil para el manejo del software', 'Manual', 'activo', 49, 51),
 (39, '123ndhd', 'equipment jwt', 'asd', 'dsfg', '2024-04-04', 'prueba de registro con token', 'sadfds', 'activo', 50, 51),
 (40, '34f4f3', 'adminis', 'adminsi', 'adnin', '2024-04-19', 'administrador equipo en tics', 'electrico', 'inactivo', 39, 28),
 (41, 'jh45b', 'equipo miguelon', 'marca miguel', 'model miguel', '2024-04-20', 'prueba de registro con tokenn y rol', 'electrico', 'activo', 39, 58),
-(42, 'sdssd3', 'bunbury', 'bunbury ma', 'model bunbury', '2024-04-19', 'prueba de get equipos por unidad', 'mnual', 'activo', 38, 58);
+(42, 'sdssd3', 'bunbury', 'bunbury ma', 'model bunbury', '2024-04-19', 'prueba de get equipos por unidad', 'mnual', 'excluido', 46, 58),
+(43, '223344', 'Taladro', 'CEMEX', '2024', '2024-06-18', 'equipo registrado en unidad productiva', 'eléctrico', 'activo', 39, 60),
+(44, '1234535', 'aaaaa', 'aaaa', 'aaaa', '2024-06-20', 'asdasder ff al menos 20 caracerer', 'eléctrico', 'mantenimiento', 39, 49),
+(45, 'bbb44', 'bbbbc', 'bbc', 'bbb', '2024-06-27', 'prueba estado por default', 'manual', 'activo', 39, 53);
 
 -- --------------------------------------------------------
 
@@ -126,7 +130,6 @@ CREATE TABLE `mantenimientos` (
   `tipo_mantenimiento` enum('preventivo','tecnico') NOT NULL,
   `fecha_mantenimiento` date NOT NULL,
   `descripcion` varchar(250) NOT NULL,
-  `resultado` varchar(250) NOT NULL,
   `fk_user_responsable` int NOT NULL,
   `fk_equipo` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -135,16 +138,28 @@ CREATE TABLE `mantenimientos` (
 -- Volcado de datos para la tabla `mantenimientos`
 --
 
-INSERT INTO `mantenimientos` (`id_mantenimiento`, `tipo_mantenimiento`, `fecha_mantenimiento`, `descripcion`, `resultado`, `fk_user_responsable`, `fk_equipo`) VALUES
-(3, 'tecnico', '2024-02-25', 'fallo en el funcionamiento interno', 'equipo reparado', 9, 25),
-(14, 'preventivo', '2024-03-09', 'sddsfdsfdsfdsfdsfdsfsssssssss', 'equipo reparado correctamente', 4, 30),
-(18, 'tecnico', '2024-03-14', 's mantenimientoasasassd', 'necezxcdfdf', 14, 36),
-(19, 'preventivo', '2024-04-06', 'Fallos en el teclado ay en el mosue', 'necesita cambio de fallas', 16, 38),
-(20, 'preventivo', '2024-04-05', 'prueba de mantenimiento co njwt', 'jwt funcionando', 16, 39),
-(21, 'tecnico', '2024-04-26', 'user encargado register manteinment', 'esperando el result', 16, 39),
-(22, 'preventivo', '2024-04-18', 'mary luna de mi amor como una ensoñación', 'clásicos del ayer y del hoy', 16, 38),
-(23, 'preventivo', '2024-04-26', 'prueba de listas de mantenimientosss', 'resultado esperado', 14, 42),
-(24, 'preventivo', '2024-04-12', 'description proyecto uno equipo', 'necesita mantenimiento técnico', 4, 42);
+INSERT INTO `mantenimientos` (`id_mantenimiento`, `tipo_mantenimiento`, `fecha_mantenimiento`, `descripcion`, `fk_user_responsable`, `fk_equipo`) VALUES
+(3, 'tecnico', '2024-02-25', 'fallo en el funcionamiento interno', 9, 25),
+(14, 'preventivo', '2024-03-09', 'sddsfdsfdsfdsfdsfdsfsssssssss', 4, 30),
+(18, 'tecnico', '2024-03-14', 's mantenimientoasasassd', 14, 36),
+(19, 'preventivo', '2024-04-06', 'Fallos en el teclado ay en el mosue', 16, 38),
+(20, 'preventivo', '2024-04-05', 'prueba de mantenimiento co njwt', 16, 39),
+(21, 'tecnico', '2024-04-26', 'user encargado register manteinment', 16, 39),
+(22, 'preventivo', '2024-04-18', 'mary luna de mi amor como una ensoñación', 16, 38),
+(23, 'preventivo', '2024-04-26', 'prueba de listas de mantenimientosss', 14, 42),
+(24, 'preventivo', '2024-04-12', 'description proyecto uno equipo', 4, 42),
+(25, 'preventivo', '2024-06-12', 'fallo en la funcionalidad del eje central', 9, 25),
+(26, 'tecnico', '2024-06-15', 'fallas solucionadas en el ejec central ', 9, 25),
+(27, 'preventivo', '2024-06-13', 'fallo en el caon central del eje', 3, 25),
+(28, 'preventivo', '2024-06-17', 'prueba descripción', 4, 42),
+(29, 'preventivo', '2024-06-18', 'grafica mantenimiento cafe', 15, 37),
+(30, 'preventivo', '2024-06-21', 'mantenimiento de bioconstruccion', 21, 43),
+(31, 'preventivo', '2024-06-20', 'prueba manteinment', 4, 43),
+(32, 'tecnico', '2024-06-21', 'prueba manteinment register', 4, 43),
+(33, 'preventivo', '2024-06-21', 'prueba registro', 3, 42),
+(34, 'tecnico', '2024-06-20', 'mantenimiento registro de', 14, 42),
+(35, 'preventivo', '2024-06-21', 'una año sin tu amoor', 14, 42),
+(36, 'preventivo', '2024-06-14', 'prueba admin register', 4, 43);
 
 -- --------------------------------------------------------
 
@@ -174,7 +189,7 @@ INSERT INTO `tecnicos` (`id_tecnico`, `identificacion`, `nombres`, `apellidos`, 
 (11, 756302, 'TECNISO', 'MATERIAl', 'tecnicho@gmail.com', '3456729084'),
 (12, 1212121, 'tecnico jwt', 'ape jwt', 'jwttec@gmail.com', '3241231234'),
 (13, 1234560, 'Johan', 'Perdomo', 'fgf@gmail.com', '1234567232'),
-(14, 1230949887, 'proyecto', 'uno', 'uno@gmail.com', '3213456765');
+(14, 1230949800, 'proyecto', 'uno', 'unojjh@gmail.com', '3213456765');
 
 -- --------------------------------------------------------
 
@@ -220,7 +235,8 @@ INSERT INTO `ubicaciones` (`id_ubicacion`, `fk_unidad_productiva`, `ambiente`, `
 (51, 43, 'FL-6', 'Olympo'),
 (53, 43, 'g-12', 'mesa 12'),
 (55, 43, 'sateee', 'sate'),
-(58, 34, 'ambiente miguelon', 'sitio miguelon');
+(58, 34, 'ambiente miguelon', 'sitio miguelon'),
+(60, 47, 'A-3', 'mesa-2');
 
 -- --------------------------------------------------------
 
@@ -240,9 +256,10 @@ CREATE TABLE `unidades_productivas` (
 INSERT INTO `unidades_productivas` (`id_unidad`, `nombre_unidad`) VALUES
 (12, 'Agroindustria'),
 (15, 'TICS'),
-(34, 'PruebaProyecto'),
-(42, 'por fin'),
-(43, 'FRANDCHESCO');
+(34, 'Gastronomia'),
+(42, 'Cafe'),
+(43, 'PAE'),
+(47, 'Bioconstrucción');
 
 -- --------------------------------------------------------
 
@@ -257,7 +274,7 @@ CREATE TABLE `usuarios` (
   `apellidos` varchar(50) NOT NULL,
   `email` varchar(50) NOT NULL,
   `telefono` varchar(50) NOT NULL,
-  `password` varchar(20) NOT NULL,
+  `password` varchar(60) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `estado` enum('activo','inactivo') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT 'activo',
   `fk_tipo_usuario` int NOT NULL,
   `fk_unidad_productiva` int NOT NULL
@@ -268,15 +285,17 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`id_usuario`, `identificacion`, `nombres`, `apellidos`, `email`, `telefono`, `password`, `estado`, `fk_tipo_usuario`, `fk_unidad_productiva`) VALUES
-(3, 1004233, 'Santiago', 'Motato', 'jhonfrand72@gmail.com', '3223306193', 'password123', 'activo', 1, 12),
-(4, 100426, 'Frand', 'Lebaza', 'frand@gmail.com', '3213570619', 'eee', 'activo', 1, 15),
+(3, 1004233, 'Santiago', 'Motato', 'jhonfrd72@gmail.com', '3223306193', 'frandfrand', 'activo', 1, 12),
+(4, 100426866, 'Frand', 'Lebaza', 'frand@gmail.com', '3213570610', '12345678', 'activo', 1, 15),
 (9, 1111, 'Juanete', 'cervantes', 'cervantes@gmail.com', '434343', 'juan', 'activo', 1, 15),
 (13, 123443, 'ybers', 'yber', 'yber@gmail.com', '1234232323', 'yberer', 'inactivo', 2, 15),
 (14, 10029448, 'Miguelon', 'Serrano', 'miguelon@gmail.com', '3213213214', 'miguel', 'activo', 2, 34),
-(15, 222222, 'sdsd', 'sda', 'a@gmail.com', '2234433443', 'sdfvdsv', 'activo', 2, 42),
+(15, 222222, 'carlos', 'Gomez', 'a@gmail.com', '2234433443', 'sdfvdsv', 'activo', 2, 42),
 (16, 1002355, 'Daniel', 'Maldini', 'daniel@gmail.com', '3214560923', 'daniele', 'activo', 2, 43),
-(20, 707070, 'bbb', 'bbb', 'bbb@gmail.com', '8787877883', '707070', 'activo', 2, 15),
-(21, 404040, 'joselo', 'lopez', 'joselopez@gmail.com', '2323232334', '404040', 'activo', 2, 15);
+(20, 707070, 'bbb', 'bbb', 'bbb@gmail.com', '8787877883', '707070', 'inactivo', 2, 15),
+(21, 404040, 'joselo', 'lopez', 'joselopez@gmail.com', '2323232334', '404040', 'inactivo', 2, 47),
+(22, 6060634, 'Maria', 'Magg', 'prueba0526@gmail.com', '3213213456', '6060634', 'activo', 1, 15),
+(23, 12343367, 'prueba user', 'apellidos', 'jhonfrand72@gmail.com', '3213456754', '$2b$10$ASQPa0mGf1crVRSSG8kyHek2RPztdJN1yUP0tpE8KrJ5EYfZTi3fK', 'activo', 1, 34);
 
 --
 -- Índices para tablas volcadas
@@ -357,7 +376,7 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de la tabla `actividades`
 --
 ALTER TABLE `actividades`
-  MODIFY `id_actividad` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id_actividad` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT de la tabla `categorias`
@@ -369,13 +388,13 @@ ALTER TABLE `categorias`
 -- AUTO_INCREMENT de la tabla `equipos`
 --
 ALTER TABLE `equipos`
-  MODIFY `id_equipo` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
+  MODIFY `id_equipo` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
 
 --
 -- AUTO_INCREMENT de la tabla `mantenimientos`
 --
 ALTER TABLE `mantenimientos`
-  MODIFY `id_mantenimiento` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id_mantenimiento` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- AUTO_INCREMENT de la tabla `tecnicos`
@@ -393,19 +412,19 @@ ALTER TABLE `tipo_usuario`
 -- AUTO_INCREMENT de la tabla `ubicaciones`
 --
 ALTER TABLE `ubicaciones`
-  MODIFY `id_ubicacion` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
+  MODIFY `id_ubicacion` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
 
 --
 -- AUTO_INCREMENT de la tabla `unidades_productivas`
 --
 ALTER TABLE `unidades_productivas`
-  MODIFY `id_unidad` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
+  MODIFY `id_unidad` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
 
 --
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id_usuario` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id_usuario` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- Restricciones para tablas volcadas
