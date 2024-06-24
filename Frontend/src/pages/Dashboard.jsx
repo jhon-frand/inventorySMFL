@@ -200,10 +200,10 @@ function Dashboard() {
                   <TotalEquipments />
                 </div>
                 </div>
-                <div className="status">
+                {/* <div className="status">
                   <h2>Status</h2>
                   <StatusEquipments/>
-                </div>
+                </div> */}
               </div>
             </BasicTabs>
           </div>

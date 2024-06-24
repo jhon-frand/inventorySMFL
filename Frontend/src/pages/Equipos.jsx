@@ -875,79 +875,80 @@ function Equipos() {
             cambiarEstado={clearFormManteinment}
           >
             <form className="form-manteinment" onSubmit={postManteinment}>
-                <div className="content-rows">
-                  <div className="row-one">
-                    <div className="inputs-row-one">
-                      <ContentInput>
-                        <FormControl>
-                          <InputLabel>Tipo</InputLabel>
-                          <Select label="Tipo" name="tipo_mantenimiento" value={valoresManteinment.tipo_mantenimiento} onChange={valorInputManteinment} required>
-                            <MenuItem value="preventivo">Preventivo</MenuItem>
-                            <MenuItem value="tecnico">Técnico</MenuItem>
-                          </Select>
-                        </FormControl>
+              <div className="content-rows">
+                <div className="row-one">
+                  <div className="inputs-row-one">
+                    <ContentInput>
+                      <FormControl>
+                        <InputLabel>Tipo</InputLabel>
+                        <Select label="Tipo" name="tipo_mantenimiento" value={valoresManteinment.tipo_mantenimiento} onChange={valorInputManteinment} required>
+                          <MenuItem value="preventivo">Preventivo</MenuItem>
+                          <MenuItem value="tecnico">Técnico</MenuItem>
+                        </Select>
+                      </FormControl>
 
-                      </ContentInput>
-                      <ContentInput>
-                        <TextField name="fecha_mantenimiento" type="date" value={valoresManteinment.fecha_mantenimiento} onChange={valorInputManteinment} required />
+                    </ContentInput>
+                    <ContentInput>
+                      <TextField name="fecha_mantenimiento" type="date" value={valoresManteinment.fecha_mantenimiento} onChange={valorInputManteinment} required />
 
-                      </ContentInput>
-                    </div>
-                    <div className="inputs-two-row-one">
-                      <ContentInput className={`${user === "1" ? '' : 'onlyRead'}`}>
-
-                        {
-                          user && user === "2" ? (
-                            <div className="inputs-encar">
-                              <TextField
-                                label="ID"
-                                name="fk_user_responsable"
-                                type="number"
-                                value={valoresManteinment.fk_user_responsable}
-                                onChange={valorInputManteinment} readOnly
-                              />
-                              <TextField label="Nombres" value={nombresUser} readOnly />
-                            </div>
-                          ) : (
-                            <FormControl>
-                              <InputLabel>Responsable</InputLabel>
-                              <Select label="Responsable" name="fk_user_responsable" value={valoresManteinment.fk_user_responsable} onChange={valorInputManteinment} required>
-                                {
-                                  usuarios.map((usuarios) => (
-                                    <MenuItem value={usuarios.id_usuario} key={usuarios.id_usuario}>{usuarios.nombres} {usuarios.apellidos}</MenuItem>
-                                  ))
-                                }
-                              </Select>
-                            </FormControl>
-                          )
-                        }
-
-                      </ContentInput>
-                      <ContentInput>
-                        <TextField label="Equipo" name="fk_equipo" type="text" value={valoresManteinment.fk_equipo} required />
-                      </ContentInput>
-                    </div>
+                    </ContentInput>
                   </div>
-                  <div className="row-two">
-                    <div className="description">
-                      <TextField className="text-description"
-                        name="descripcion"
-                        value={valoresManteinment.descripcion}
-                        onChange={valorInputManteinment}
-                        rows={4}
-                        multiline
-                        label="Descripción"
-                        required />
+                  <div className="inputs-two-row-one">
+                    <ContentInput className={`${user === "1" ? '' : 'onlyRead'}`}>
+
                       {
-                        errores && errores.some(([campo]) => campo === "descripcion") && (
-                          <p>
-                            {errores.find(([campo]) => campo === "descripcion")[1]}
-                          </p>
+                        user && user === "2" ? (
+                          <div className="inputs-encar">
+                            <TextField
+                              label="ID"
+                              name="fk_user_responsable"
+                              type="number"
+                              value={valoresManteinment.fk_user_responsable}
+                              onChange={valorInputManteinment} readOnly
+                              style={{ display: 'none' }}
+                            />
+                            <TextField label="Responsable" value={nombresUser} readOnly />
+                          </div>
+                        ) : (
+                          <FormControl>
+                            <InputLabel>Responsable</InputLabel>
+                            <Select label="Responsable" name="fk_user_responsable" value={valoresManteinment.fk_user_responsable} onChange={valorInputManteinment} required>
+                              {
+                                usuarios.map((usuarios) => (
+                                  <MenuItem value={usuarios.id_usuario} key={usuarios.id_usuario}>{usuarios.nombres} {usuarios.apellidos}</MenuItem>
+                                ))
+                              }
+                            </Select>
+                          </FormControl>
                         )
                       }
-                    </div>
+
+                    </ContentInput>
+                    <ContentInput>
+                      <TextField label="Equipo" name="fk_equipo" type="text" value={valoresManteinment.fk_equipo} required />
+                    </ContentInput>
                   </div>
-                </div>   
+                </div>
+                <div className="row-two">
+                  <div className="description">
+                    <TextField className="text-description"
+                      name="descripcion"
+                      value={valoresManteinment.descripcion}
+                      onChange={valorInputManteinment}
+                      rows={4}
+                      multiline
+                      label="Descripción"
+                      required />
+                    {
+                      errores && errores.some(([campo]) => campo === "descripcion") && (
+                        <p>
+                          {errores.find(([campo]) => campo === "descripcion")[1]}
+                        </p>
+                      )
+                    }
+                  </div>
+                </div>
+              </div>
               <button>REGISTRAR</button>
             </form>
           </Modal>

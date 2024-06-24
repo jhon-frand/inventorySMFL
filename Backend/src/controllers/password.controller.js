@@ -2,6 +2,9 @@ import { connection } from "../database/database.js"
 import jwt from "jsonwebtoken"
 import nodemailer from "nodemailer"
 import bcrypt from "bcrypt"
+import dotenv from 'dotenv'
+
+dotenv.config({path: './src/env/.env'});
 
 const tokenPassword = async (peticion, respuesta) => {
     try {
@@ -17,18 +20,18 @@ const tokenPassword = async (peticion, respuesta) => {
         }
         
 
-        const token = jwt.sign({ id_usuario: user[0].id_usuario }, "llavesecreta", { expiresIn: "1h" });
+        const token = jwt.sign({ id_usuario: user[0].id_usuario }, process.env.SECRET, { expiresIn: process.env.TIME });
 
         const transporter = nodemailer.createTransport({
             service: "gmail",
             auth: {
-                user: "frandlebaza@gmail.com",
-                pass: "wukswbfsfcpxrwmh"
+                user: process.env.EMAIL_USER,
+                pass: process.env.EMAIL_PASS
             }
         });
 
         const mailOptions = {
-            from: "frandlebaza@gmail.com",
+            from: process.env.EMAIL_USER,
             to: email,
             subject: "Recuperar contraseña",
             text: `Hola, da click en el siguiente enlace para restablecer la contraseña http://localhost:5173/restablecer?token=${token}`
@@ -56,7 +59,7 @@ const resetPassword = async (peticion, respuesta) => {
     try {
         const { token, password } = peticion.body;
 
-        const decoded = jwt.verify(token, "llavesecreta");
+        const decoded = jwt.verify(token, process.env.SECRET);
         const user = decoded.id_usuario
 
         const sql = "SELECT * FROM usuarios WHERE id_usuario = ?"

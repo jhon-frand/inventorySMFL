@@ -11,10 +11,10 @@ import { Contenedor } from "../components/styles/StylesPages";
 import { AlertSucces, AlertError } from "../components/alerts/Alerts";
 import { HiMiniPencilSquare } from "react-icons/hi2";
 import { Select, TextField } from "@mui/material";
-import { 
+import {
   endpointUbicacion,
   endpointUnidad
- } from "../components/endpoints/Endpoints";
+} from "../components/endpoints/Endpoints";
 import { Container, Modales } from "../components/styles/StylesUbicaciones";
 import ContentInput from "../components/organismos/ContentInput";
 import { InputLabel } from "@mui/material";
@@ -72,7 +72,7 @@ function Ubicaciones() {
       console.log(error);
     }
   }
- const getIdUnidad = () => {
+  const getIdUnidad = () => {
     try {
       setValores(prevState => ({
         ...prevState,
@@ -257,8 +257,8 @@ function Ubicaciones() {
       name: "id_ubicacion",
       label: "ID",
       options: {
-       display: 'false' // Esta opción oculta la columna en la interfaz
-     }
+        display: 'false' // Esta opción oculta la columna en la interfaz
+      }
     },
     {
       name: "nombre_unidad",
@@ -279,7 +279,7 @@ function Ubicaciones() {
         customBodyRender: (value, tableMeta, updateValue) => {
           return (
             <ButtonEdit titulo="Actualizar" icon={<HiMiniPencilSquare />
-          } funcion1={() => getData(tableMeta.rowData)} />
+            } funcion1={() => getData(tableMeta.rowData)} />
           );
         }
       }
@@ -290,8 +290,8 @@ function Ubicaciones() {
       name: "id_unidad",
       label: "ID",
       options: {
-       display: 'false' // Esta opción oculta la columna en la interfaz
-     }
+        display: 'false' // Esta opción oculta la columna en la interfaz
+      }
     },
     {
       name: "nombre_unidad",
@@ -304,7 +304,7 @@ function Ubicaciones() {
         customBodyRender: (value, tableMeta, updateValue) => {
           return (
             <ButtonEdit titulo="Actualizar" icon={<HiMiniPencilSquare />
-          } funcion1={() => getDataUnit(tableMeta.rowData)} />
+            } funcion1={() => getDataUnit(tableMeta.rowData)} />
           );
         }
       }
@@ -323,7 +323,7 @@ function Ubicaciones() {
                 funcion={() => getIdUnidad()}
                 titulo="UBICACIONES"
                 text="REGISTRAR UBICACIÓN"
-                iconButton={<AiOutlinePlus/>}
+                iconButton={<AiOutlinePlus />}
               />
             ) : (
               <HeaderPageTwo
@@ -342,26 +342,26 @@ function Ubicaciones() {
               cambiarEstado={clearFormUbi}
             >
               <form className="form-ubication" onSubmit={postUbication}>
-                  <div className="column">
-                    <ContentInput>
-                      <FormControl>
-                        
-                        {
+                <div className="column">
+                  <ContentInput>
+                    <FormControl>
+
+                      {
                         user && user === "1" ? (
                           <>
-                          <InputLabel>Unidad productiva</InputLabel>
-                          <Select label="Unidad productiva" name="fk_unidad_productiva" value={valores.fk_unidad_productiva} onChange={valorInput} required>
-                            
-                            {
-                              unidades.map((unidades) => (
-                                <MenuItem value={unidades.id_unidad} key={unidades.id_unidad}>{unidades.nombre_unidad}</MenuItem>
-                              ))
-                            }
-                          </Select>
+                            <InputLabel>Unidad productiva</InputLabel>
+                            <Select label="Unidad productiva" name="fk_unidad_productiva" value={valores.fk_unidad_productiva} onChange={valorInput} required>
+
+                              {
+                                unidades.map((unidades) => (
+                                  <MenuItem value={unidades.id_unidad} key={unidades.id_unidad}>{unidades.nombre_unidad}</MenuItem>
+                                ))
+                              }
+                            </Select>
                           </>
                         ) : (
-                           <>
-                            <TextField 
+                          <>
+                            <TextField
                               label="ID"
                               className="idUnidad"
                               name="fk_unidad_productiva"
@@ -369,39 +369,40 @@ function Ubicaciones() {
                               onChange={valorInput}
                               readOnly
                               required
+                              style={{ display: 'none' }}
                             />
                             <TextField
-                            label="Unidad productiva"
+                              label="Unidad productiva"
                               value={unidad}
                               readOnly
                               required
                             />
-                            </>
+                          </>
                         )
                       }
-                      </FormControl>
-                    </ContentInput>
-                    <ContentInput>
-                      <TextField name="ambiente" value={valores.ambiente} onChange={valorInput} label="Ambiente" variant="outlined" required />
-                     {
-                        errores && errores.some(([campo]) => campo === "ambiente") && (
-                          <p>
-                            {errores.find(([campo]) => campo === "ambiente")[1]}
-                          </p>
-                        )
-                      }
-                    </ContentInput>
-                    <ContentInput>
-                      <TextField name="sitio" value={valores.sitio} onChange={valorInput} variant="outlined" label="Sitio" required />
-                      {
-                        errores && errores.some(([campo]) => campo === "sitio") && (
-                          <p>
-                            {errores.find(([campo]) => campo === "sitio")[1]}
-                          </p>
-                        )
-                      }
-                    </ContentInput>
-                  </div>
+                    </FormControl>
+                  </ContentInput>
+                  <ContentInput>
+                    <TextField name="ambiente" value={valores.ambiente} onChange={valorInput} label="Ambiente" variant="outlined" required />
+                    {
+                      errores && errores.some(([campo]) => campo === "ambiente") && (
+                        <p>
+                          {errores.find(([campo]) => campo === "ambiente")[1]}
+                        </p>
+                      )
+                    }
+                  </ContentInput>
+                  <ContentInput>
+                    <TextField name="sitio" value={valores.sitio} onChange={valorInput} variant="outlined" label="Sitio" required />
+                    {
+                      errores && errores.some(([campo]) => campo === "sitio") && (
+                        <p>
+                          {errores.find(([campo]) => campo === "sitio")[1]}
+                        </p>
+                      )
+                    }
+                  </ContentInput>
+                </div>
                 <button>REGISTRAR</button>
               </form>
             </Modal>
@@ -411,35 +412,36 @@ function Ubicaciones() {
               cambiarEstado={clearFormUbi}
             >
               <form className="form-ubication" onSubmit={putUbication}>
-                  <div className="column">
-                    <ContentInput>
-                      <FormControl>
-                      
+                <div className="column">
+                  <ContentInput>
+                    <FormControl>
+
                       {
                         user && user === "1" ? (
                           <>
-                          <InputLabel>Unidad productiva</InputLabel>
-                          <Select label="Unidad productiva" name="fk_unidad_productiva" value={valores.fk_unidad_productiva} onChange={editValorInput} required>
-                            
-                            {
-                              unidades.map((unidades) => (
-                                <MenuItem value={unidades.id_unidad} key={unidades.id_unidad}>{unidades.nombre_unidad}</MenuItem>
-                              ))
-                            }
-                          </Select>
+                            <InputLabel>Unidad productiva</InputLabel>
+                            <Select label="Unidad productiva" name="fk_unidad_productiva" value={valores.fk_unidad_productiva} onChange={editValorInput} required>
+
+                              {
+                                unidades.map((unidades) => (
+                                  <MenuItem value={unidades.id_unidad} key={unidades.id_unidad}>{unidades.nombre_unidad}</MenuItem>
+                                ))
+                              }
+                            </Select>
                           </>
                         ) : (
                           <>
-                            <TextField 
-                            label="ID"
+                            <TextField
+                              label="ID"
                               name="fk_unidad_productiva"
                               value={valores.fk_unidad_productiva}
                               onChange={editValorInput}
                               readOnly
                               required
+                              style={{ display: 'none' }}
                             />
                             <TextField
-                            label="Unidad productiva"
+                              label="Unidad productiva"
                               value={unidad}
                               readOnly
                               required
@@ -447,30 +449,30 @@ function Ubicaciones() {
                           </>
                         )
                       }
-                      </FormControl>
-                    </ContentInput>
-                     
-                    <ContentInput>
-                      <TextField label="Ambiente" name="ambiente" value={valores.ambiente} onChange={editValorInput} type="text" placeholder="Ambiente" />
-                      {
-                        errores && errores.some(([campo]) => campo === "ambiente") && (
-                          <p>
-                            {errores.find(([campo]) => campo === "ambiente")[1]}
-                          </p>
-                        )
-                      }
-                    </ContentInput>
-                    <ContentInput>
-                      <TextField label="Sitio" name="sitio" value={valores.sitio} onChange={editValorInput} type="text" placeholder="Sitio" />
-                      {
-                        errores && errores.some(([campo]) => campo === "sitio") && (
-                          <p>
-                            {errores.find(([campo]) => campo === "sitio")[1]}
-                          </p>
-                        )
-                      }
-                    </ContentInput>
-                  </div>
+                    </FormControl>
+                  </ContentInput>
+
+                  <ContentInput>
+                    <TextField label="Ambiente" name="ambiente" value={valores.ambiente} onChange={editValorInput} type="text" placeholder="Ambiente" />
+                    {
+                      errores && errores.some(([campo]) => campo === "ambiente") && (
+                        <p>
+                          {errores.find(([campo]) => campo === "ambiente")[1]}
+                        </p>
+                      )
+                    }
+                  </ContentInput>
+                  <ContentInput>
+                    <TextField label="Sitio" name="sitio" value={valores.sitio} onChange={editValorInput} type="text" placeholder="Sitio" />
+                    {
+                      errores && errores.some(([campo]) => campo === "sitio") && (
+                        <p>
+                          {errores.find(([campo]) => campo === "sitio")[1]}
+                        </p>
+                      )
+                    }
+                  </ContentInput>
+                </div>
                 <button>ACTUALIZAR</button>
               </form>
             </Modal>
@@ -482,7 +484,7 @@ function Ubicaciones() {
               <form onSubmit={postUnidad} className="form-unit" >
                 <div className="column">
                   <ContentInput>
-                    <TextField value={valoresUnit.nombre_unidad} onChange={valorInputUnit} name="nombre_unidad" id="outlined-basic" label="Nombre de la Unidad"  />
+                    <TextField value={valoresUnit.nombre_unidad} onChange={valorInputUnit} name="nombre_unidad" id="outlined-basic" label="Nombre de la Unidad" />
                     {
                       errores && errores.some(([campo]) => campo === "nombre_unidad") && (
                         <p>
@@ -503,7 +505,7 @@ function Ubicaciones() {
               <form onSubmit={putUnidad} className="form-unit" >
                 <div className="column">
                   <ContentInput>
-                    <TextField value={valoresUnit.nombre_unidad} onChange={editValorInputUnit} name="nombre_unidad" id="outlined-basic" label="Nombre de la Unidad" variant="outlined"  />
+                    <TextField value={valoresUnit.nombre_unidad} onChange={editValorInputUnit} name="nombre_unidad" id="outlined-basic" label="Nombre de la Unidad" variant="outlined" />
 
                     {
                       errores && errores.some(([campo]) => campo === "nombre_unidad") && (
@@ -519,34 +521,34 @@ function Ubicaciones() {
             </Modal>
           </Modales>
           <div className="table-mui">
-          {
-            user && user === "1" ? (
-              <MUIDatatable  className={`table-one ${user === '1' ? 'width-48' : ''}`}
-              title="Lista de Ubicaciones"
-              data={ubicaciones}
-              columns={columnas}
-              options={options}
-            />
-            ): (
-              <MUIDatatable  className={`table-one ${user !== '1' ? 'width-90' : ''}`}
-              title="Lista de Ubicaciones"
-              data={ubicacionesUnidad}
-              columns={columnas}
-              options={options}
-            />
-            )
-          }
+            {
+              user && user === "1" ? (
+                <MUIDatatable className={`table-one ${user === '1' ? 'width-48' : ''}`}
+                  title="Lista de Ubicaciones"
+                  data={ubicaciones}
+                  columns={columnas}
+                  options={options}
+                />
+              ) : (
+                <MUIDatatable className={`table-one ${user !== '1' ? 'width-90' : ''}`}
+                  title="Lista de Ubicaciones"
+                  data={ubicacionesUnidad}
+                  columns={columnas}
+                  options={options}
+                />
+              )
+            }
 
-           {
-            user && user === "1" && (
-              <MUIDatatable className="table-two"
-              title="Unidades"
-              data={unidades}
-              columns={columnasUnidades}
-              options={options}
-            />
-            )
-           }
+            {
+              user && user === "1" && (
+                <MUIDatatable className="table-two"
+                  title="Unidades"
+                  data={unidades}
+                  columns={columnasUnidades}
+                  options={options}
+                />
+              )
+            }
           </div>
         </Contenedor>
       </Container>

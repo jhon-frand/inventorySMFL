@@ -752,6 +752,7 @@ function Mantenimientos() {
                               type="number"
                               value={valores.fk_user_responsable}
                               onChange={valorInput} readOnly
+                              style={{ display: 'none' }}
                             />
                             <TextField label="Nombres" value={nombresUser} readOnly />
                           </div>
@@ -850,7 +851,16 @@ function Mantenimientos() {
                       {
                         user && user === "2" ? (
                           <div className="inputs-encar">
-                            <TextField label="ID" className="idUnidad" name="fk_user_responsable" type="number" value={valores.fk_user_responsable} onChange={editValorInput} readOnly />
+                            <TextField 
+                            label="ID" 
+                            className="idUnidad" 
+                            name="fk_user_responsable" 
+                            type="number" 
+                            value={valores.fk_user_responsable} 
+                            onChange={editValorInput} 
+                            readOnly
+                            style={{ display: 'none' }} />
+                            
                             <TextField label="Nombres" type="text" value={nombresUser} readOnly />
                           </div>
                         ) : (
@@ -900,8 +910,8 @@ function Mantenimientos() {
             cambiarEstado={clearFormActivity}
           >
             <form className="form-activity" onSubmit={postActivity}>
-             
-                <div className="content-columns">
+
+              <div className="content-columns">
                 <div className="column-one">
                   <ContentInput>
                     <TextField value={valoresActividad.fecha_actividad} onChange={valorInputActividad} name="fecha_actividad" type="date" required />
@@ -924,25 +934,25 @@ function Mantenimientos() {
                   </ContentInput>
                 </div>
                 <div className="column-two">
-                 <div className="description">
-                 <TextField
-                    name="descripcion"
-                    value={valoresActividad.descripcion}
-                    onChange={valorInputActividad}
-                    rows={8}
-                    multiline
-                    label="Descripción" required />
-                  {
-                    errores && errores.some(([campo]) => campo === "descripcion") && (
-                      <p>
-                        {errores.find(([campo]) => campo === "descripcion")[1]}
-                      </p>
-                    )
-                  }
-                 </div>
+                  <div className="description">
+                    <TextField
+                      name="descripcion"
+                      value={valoresActividad.descripcion}
+                      onChange={valorInputActividad}
+                      rows={8}
+                      multiline
+                      label="Descripción" required />
+                    {
+                      errores && errores.some(([campo]) => campo === "descripcion") && (
+                        <p>
+                          {errores.find(([campo]) => campo === "descripcion")[1]}
+                        </p>
+                      )
+                    }
+                  </div>
                 </div>
-                </div>
-         
+              </div>
+
               <button>REGISTRAR</button>
             </form>
           </Modal>
@@ -976,22 +986,22 @@ function Mantenimientos() {
                   </ContentInput>
                 </div>
                 <div className="column-two">
-                <div className="description">
-                <TextField
-                    name="descripcion"
-                    value={valoresActividad.descripcion}
-                    onChange={editValorInputActividad}
-                    rows={8}
-                    multiline
-                    label="Ingresa una descripción" required />
-                  {
-                    errores && errores.some(([campo]) => campo === "descripcion") && (
-                      <p>
-                        {errores.find(([campo]) => campo === "descripcion")[1]}
-                      </p>
-                    )
-                  }
-                </div>
+                  <div className="description">
+                    <TextField
+                      name="descripcion"
+                      value={valoresActividad.descripcion}
+                      onChange={editValorInputActividad}
+                      rows={8}
+                      multiline
+                      label="Ingresa una descripción" required />
+                    {
+                      errores && errores.some(([campo]) => campo === "descripcion") && (
+                        <p>
+                          {errores.find(([campo]) => campo === "descripcion")[1]}
+                        </p>
+                      )
+                    }
+                  </div>
                 </div>
               </div>
               <button>ACTUALIZAR</button>
@@ -1003,59 +1013,59 @@ function Mantenimientos() {
             cambiarEstado={clearFormTecnico}
           >
             <form className="form-tecnico" onSubmit={postTecnico}>
-              
-                <div className="column">
-                  <ContentInput>
-                    <TextField name="identificacion" value={valoresTecnico.identificacion} onChange={valorInputTecnico} type="number" label="Identificación" required />
-                    {
-                      errores && errores.some(([campo]) => campo === "identificacion") && (
-                        <p>
-                          {errores.find(([campo]) => campo === "identificacion")[1]}
-                        </p>
-                      )
-                    }
-                  </ContentInput>
-                  <ContentInput>
-                    <TextField name="nombres" value={valoresTecnico.nombres} onChange={valorInputTecnico} type="text" label="Nombres" required />
-                    {
-                      errores && errores.some(([campo]) => campo === "nombres") && (
-                        <p>
-                          {errores.find(([campo]) => campo === "nombres")[1]}
-                        </p>
-                      )
-                    }
-                  </ContentInput>
-                  <ContentInput>
-                    <TextField name="apellidos" value={valoresTecnico.apellidos} onChange={valorInputTecnico} type="text" label="Ingrese Apellidos" required />
-                    {
-                      errores && errores.some(([campo]) => campo === "apellidos") && (
-                        <p>
-                          {errores.find(([campo]) => campo === "apellidos")[1]}
-                        </p>
-                      )
-                    }
-                  </ContentInput>
-                  <ContentInput>
-                    <TextField name="correo" value={valoresTecnico.correo} onChange={valorInputTecnico} type="email" label="Ingrese un Correo" required />
-                    {
-                      errores && errores.some(([campo]) => campo === "correo") && (
-                        <p>
-                          {errores.find(([campo]) => campo === "correo")[1]}
-                        </p>
-                      )
-                    }
-                  </ContentInput>
-                  <ContentInput>
-                    <TextField name="telefono" value={valoresTecnico.telefono} onChange={valorInputTecnico} type="number" label="Teléfono" required />
-                    {
-                      errores && errores.some(([campo]) => campo === "telefono") && (
-                        <p>
-                          {errores.find(([campo]) => campo === "telefono")[1]}
-                        </p>
-                      )
-                    }
-                  </ContentInput>
-                </div>
+
+              <div className="column">
+                <ContentInput>
+                  <TextField name="identificacion" value={valoresTecnico.identificacion} onChange={valorInputTecnico} type="number" label="Identificación" required />
+                  {
+                    errores && errores.some(([campo]) => campo === "identificacion") && (
+                      <p>
+                        {errores.find(([campo]) => campo === "identificacion")[1]}
+                      </p>
+                    )
+                  }
+                </ContentInput>
+                <ContentInput>
+                  <TextField name="nombres" value={valoresTecnico.nombres} onChange={valorInputTecnico} type="text" label="Nombres" required />
+                  {
+                    errores && errores.some(([campo]) => campo === "nombres") && (
+                      <p>
+                        {errores.find(([campo]) => campo === "nombres")[1]}
+                      </p>
+                    )
+                  }
+                </ContentInput>
+                <ContentInput>
+                  <TextField name="apellidos" value={valoresTecnico.apellidos} onChange={valorInputTecnico} type="text" label="Ingrese Apellidos" required />
+                  {
+                    errores && errores.some(([campo]) => campo === "apellidos") && (
+                      <p>
+                        {errores.find(([campo]) => campo === "apellidos")[1]}
+                      </p>
+                    )
+                  }
+                </ContentInput>
+                <ContentInput>
+                  <TextField name="correo" value={valoresTecnico.correo} onChange={valorInputTecnico} type="email" label="Ingrese un Correo" required />
+                  {
+                    errores && errores.some(([campo]) => campo === "correo") && (
+                      <p>
+                        {errores.find(([campo]) => campo === "correo")[1]}
+                      </p>
+                    )
+                  }
+                </ContentInput>
+                <ContentInput>
+                  <TextField name="telefono" value={valoresTecnico.telefono} onChange={valorInputTecnico} type="number" label="Teléfono" required />
+                  {
+                    errores && errores.some(([campo]) => campo === "telefono") && (
+                      <p>
+                        {errores.find(([campo]) => campo === "telefono")[1]}
+                      </p>
+                    )
+                  }
+                </ContentInput>
+              </div>
               <button>REGISTRAR</button>
             </form>
           </Modal>
@@ -1065,59 +1075,59 @@ function Mantenimientos() {
             cambiarEstado={clearFormTecnico}
           >
             <form className="form-tecnico" onSubmit={putTecnico}>
-              
-                <div className="column">
-                  <ContentInput>
-                    <TextField label="Identificación" name="identificacion" value={valoresTecnico.identificacion} onChange={editValorInputTecnico} type="number" required />
-                    {
-                      errores && errores.some(([campo]) => campo === "identificacion") && (
-                        <p>
-                          {errores.find(([campo]) => campo === "identificacion")[1]}
-                        </p>
-                      )
-                    }
-                  </ContentInput>
-                  <ContentInput >
-                    <TextField label="Nombres" name="nombres" value={valoresTecnico.nombres} onChange={editValorInputTecnico} type="text" required />
-                    {
-                      errores && errores.some(([campo]) => campo === "nombres") && (
-                        <p>
-                          {errores.find(([campo]) => campo === "nombres")[1]}
-                        </p>
-                      )
-                    }
-                  </ContentInput>
-                  <ContentInput>
-                    <TextField label="Apellidos" name="apellidos" value={valoresTecnico.apellidos} onChange={editValorInputTecnico} type="text" required />
-                    {
-                      errores && errores.some(([campo]) => campo === "apellidos") && (
-                        <p>
-                          {errores.find(([campo]) => campo === "apellidos")[1]}
-                        </p>
-                      )
-                    }
-                  </ContentInput>
-                  <ContentInput>
-                    <TextField label="Email" name="correo" value={valoresTecnico.correo} onChange={editValorInputTecnico} type="email" required />
-                    {
-                      errores && errores.some(([campo]) => campo === "correo") && (
-                        <p>
-                          {errores.find(([campo]) => campo === "correo")[1]}
-                        </p>
-                      )
-                    }
-                  </ContentInput>
-                  <ContentInput>
-                    <TextField label="Teléfono" name="telefono" value={valoresTecnico.telefono} onChange={editValorInputTecnico} type="number" required />
-                    {
-                      errores && errores.some(([campo]) => campo === "telefono") && (
-                        <p>
-                          {errores.find(([campo]) => campo === "telefono")[1]}
-                        </p>
-                      )
-                    }
-                  </ContentInput>
-                </div>
+
+              <div className="column">
+                <ContentInput>
+                  <TextField label="Identificación" name="identificacion" value={valoresTecnico.identificacion} onChange={editValorInputTecnico} type="number" required />
+                  {
+                    errores && errores.some(([campo]) => campo === "identificacion") && (
+                      <p>
+                        {errores.find(([campo]) => campo === "identificacion")[1]}
+                      </p>
+                    )
+                  }
+                </ContentInput>
+                <ContentInput >
+                  <TextField label="Nombres" name="nombres" value={valoresTecnico.nombres} onChange={editValorInputTecnico} type="text" required />
+                  {
+                    errores && errores.some(([campo]) => campo === "nombres") && (
+                      <p>
+                        {errores.find(([campo]) => campo === "nombres")[1]}
+                      </p>
+                    )
+                  }
+                </ContentInput>
+                <ContentInput>
+                  <TextField label="Apellidos" name="apellidos" value={valoresTecnico.apellidos} onChange={editValorInputTecnico} type="text" required />
+                  {
+                    errores && errores.some(([campo]) => campo === "apellidos") && (
+                      <p>
+                        {errores.find(([campo]) => campo === "apellidos")[1]}
+                      </p>
+                    )
+                  }
+                </ContentInput>
+                <ContentInput>
+                  <TextField label="Email" name="correo" value={valoresTecnico.correo} onChange={editValorInputTecnico} type="email" required />
+                  {
+                    errores && errores.some(([campo]) => campo === "correo") && (
+                      <p>
+                        {errores.find(([campo]) => campo === "correo")[1]}
+                      </p>
+                    )
+                  }
+                </ContentInput>
+                <ContentInput>
+                  <TextField label="Teléfono" name="telefono" value={valoresTecnico.telefono} onChange={editValorInputTecnico} type="number" required />
+                  {
+                    errores && errores.some(([campo]) => campo === "telefono") && (
+                      <p>
+                        {errores.find(([campo]) => campo === "telefono")[1]}
+                      </p>
+                    )
+                  }
+                </ContentInput>
+              </div>
               <button>ACTUALIZAR</button>
             </form>
           </Modal>
