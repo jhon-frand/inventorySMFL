@@ -2,7 +2,7 @@ import HeaderPageTwo from "../components/organismos/HeaderPageTwo";
 import MUIDataTable from "mui-datatables";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { options, optionsMedium } from "../components/styles/Table";
+import { ContainerTable, options, optionsMedium } from "../components/styles/Table";
 import Modal from "../components/modals/Modal";
 import ButtonEdit from "../components/organismos/ButtonEdit";
 import moment from "moment"
@@ -24,12 +24,14 @@ import { FormControl } from "@mui/material";
 import { InputLabel } from "@mui/material";
 import { MenuItem } from "@mui/material";
 import BasicTabs from "../components/tabs/TabEquipos"
-import Textarea from '@mui/joy/Textarea';
-
 import TotalEquipments from "../components/graphics/Equipments";
 import { FaSquarePlus } from "react-icons/fa6";
 import { IoEyeSharp } from "react-icons/io5";
 import TableModal from "../components/modals/TableModal";
+import EquipoManteinment from "../components/tables/EquipoManteinment";
+import EquipoActive from "../components/tables/EquipoActive";
+import EquipoInactive from "../components/tables/EquipoInactive";
+import EquipoExcluded from "../components/tables/EquipoExcluded";
 
 function Equipos() {
 
@@ -51,6 +53,7 @@ function Equipos() {
   const [mantenimientos, setMantenimientos] = useState([])
   const [errores, setErrores] = useState("")
   const [usuarios, setUsuarios] = useState([])
+  const [idEquipo, setIdEquipo] = useState("")
 
   const token = localStorage.getItem("token");
   const user = localStorage.getItem("user");
@@ -233,6 +236,7 @@ function Equipos() {
   const getIdEquipo = (datos) => {
     try {
       const equipo = datos[0]
+      setIdEquipo(equipo);
       setValoresManteinment(prevState => ({
         ...prevState,
         fk_equipo: equipo,
@@ -368,6 +372,10 @@ function Equipos() {
         }
       })
       if (respuesta.status === 200) {
+        await axios.put(`${endpointEquipo}/estado/${idEquipo}`, {
+          estado: "mantenimiento"
+        });
+        getEquipos();
         AlertSucces("Mantenimiento Registrado")
       }
       clearFormManteinment()
@@ -954,8 +962,12 @@ function Equipos() {
           </Modal>
         </Modales>
         <BasicTabs
-          text1="Equipos"
-          text2="Categorías" >
+          text1="Todos"
+          text2="Mantenimiento"
+          text3="Activos"
+          text4="Inactivos"
+          text5="Excluidos"
+          text6="Categorías" >
           <div className="table-mui">
             {
               user && user === "1" ? (
@@ -975,18 +987,27 @@ function Equipos() {
               )
             }
           </div>
-          <div className="table-mui">
-            <div className="category-graphic">
-              <h2>Equipos por categoría</h2>
-              <TotalEquipments />
-            </div>
+          <ContainerTable>
+          <EquipoManteinment/>
+          </ContainerTable>
+          <ContainerTable>
+          <EquipoActive/>
+          </ContainerTable>
+          <ContainerTable>
+          <EquipoInactive/>
+          </ContainerTable>
+          <ContainerTable>
+          <EquipoExcluded/>
+          </ContainerTable>
+          <ContainerTable>
+            
             <MUIDataTable className="table-category"
               title="Lista de Categorías"
               data={categorias}
               columns={columnasCategorias}
               options={optionsMedium}
             />
-          </div>
+          </ContainerTable>
         </BasicTabs>
         <TableModal
           estado={modalManteinment}

@@ -20,6 +20,7 @@ function NavBar() {
   const user = localStorage.getItem("user");
   const [name, setName] = useState(localStorage.getItem("nombres"));
   const idUser = localStorage.getItem("usuario");
+  const unidad = localStorage.getItem("unidad");
   const token = localStorage.getItem("token");
   const [menu, setMenu] = useState(false);
   const [errores, setErrores] = useState("");
@@ -300,13 +301,21 @@ function NavBar() {
                 }
               </ContentInput>
               <ContentInput>
-                <TextField name="fk_tipo_usuario" value={valores.fk_tipo_usuario} label="Rol" />
+                <TextField name="fk_tipo_usuario" value={valores.fk_tipo_usuario} label="Rol" style={{display: "none"}} />
+                {
+                  user && user === "1" ? (
+                    <TextField name="fk_tipo_usuario" value="Administrador" label="Rol" />
+                  ):(
+                    <TextField name="fk_tipo_usuario" value="Encargado" label="Rol" />
+                  )
+                }
               </ContentInput>
               <ContentInput>
                 <TextField name="estado" value={valores.estado} label="Estado" />
               </ContentInput>
               <ContentInput>
-                <TextField name="fk_unidad_productiva" value={valores.fk_unidad_productiva} label="Unidad Productiva" />
+                <TextField name="fk_unidad_productiva" value={valores.fk_unidad_productiva} label="Unidad Productiva" style={{display: "none"}} />
+                <TextField name="fk_unidad_productiva" value={unidad} label="Unidad Productiva" />
               </ContentInput>
               {/* <ContentInput>
           <TextField name="password" onChange={editValorInput} value={valores.password} label="Contraseña" type="password" />

@@ -12,7 +12,7 @@ import {
   getTotalManteinment,
   getTotalMantenimientoUnit
 } from "../functions/FunctionsDashboard";
-import { Contenedor } from "../components/styles/StylesPages";
+import { ContenedorDashboard } from "../components/styles/StylesPages";
 import MUIDataTable from "mui-datatables";
 import { optionsTableUnit } from "../components/styles/Table"
 import { columnasDashboard } from "../components/tables/Columnas";
@@ -21,7 +21,7 @@ import axios from "axios";
 import StackedBarChart from "../components/graphics/Manteinments";
 import TypeManteinments from "../components/graphics/Typemanteinment";
 import TotalEquipments from "../components/graphics/Equipments";
-import BasicTabs from "../components/tabs/TabEquipos";
+import BasicTabs from "../components/tabs/TabTargets";
 import StatusEquipments from "../components/graphics/StatusEquipments";
 
 function Dashboard() {
@@ -134,8 +134,8 @@ function Dashboard() {
   return (
     <>
       <Container>
-        <Contenedor>
-        <div className="contents">
+        <ContenedorDashboard>
+          <div className="contents">
             {
               user && user === "1" && (
                 <>
@@ -169,46 +169,46 @@ function Dashboard() {
 
           </div>
           <div className="targets-graphic">
-          
+
             <BasicTabs
               text1="mantenimientos"
               text2="equipos">
-              
+
               <div className="content-information">
-            {
-              user && user === "1" && (
-                <div className="content-one">
-                  <h2>Mantenimientos por Unidad</h2>
-                  <div className="graphic-bars">
-                    <StackedBarChart />
+                {
+                  user && user === "1" && (
+                    <div className="content-one">
+                      <h2>Mantenimientos por Unidad</h2>
+                      <div className="graphic-bars">
+                        <StackedBarChart />
+                      </div>
+                    </div>
+                  )
+                }
+
+                <div className="content-two">
+                  <h2>Total Mantenimientos</h2>
+                  <div className="graphic-circle">
+                    <TypeManteinments />
                   </div>
                 </div>
-              )
-            }
-
-            <div className="content-two">
-              <h2>Total Mantenimientos</h2>
-              <div className="graphic-circle">
-                <TypeManteinments />
               </div>
-            </div>
-          </div>
-          <div className="graphic-equipos">
+              <div className="graphic-equipos">
                 <div className="equipos">
-                <h2>Equipos por Unidad</h2>
-                <div>
-                  <TotalEquipments />
+                  <h2>Equipos por Unidad</h2>
+                  <div>
+                    <TotalEquipments />
+                  </div>
                 </div>
+                <div className="status">
+                  <h2>Equipos por estado</h2>
+                  <StatusEquipments />
                 </div>
-                {/* <div className="status">
-                  <h2>Status</h2>
-                  <StatusEquipments/>
-                </div> */}
               </div>
             </BasicTabs>
           </div>
-        
-        </Contenedor>
+
+        </ContenedorDashboard>
       </Container>
     </>
   )
@@ -232,21 +232,29 @@ min-width: 100%;
     padding-top: 20px;
 
     .graphic-equipos{
-      width: 100%;
-      height: 100%;
       border-radius: 20px;
       padding: 20px;
       display: flex;
       justify-content: center;
       align-items: center;
-      background-color: white;
+      gap: 20px;
 
-      .equipos{
-        width: 70%;
+      .equipos, .status{
+        padding: 20px;
+        background-color: white;
+        display: flex;
+        flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      border-radius: 20px;
+      gap: 20px;
       }
 
+      .equipo{
+        width: 600px;
+      }
       .status{
-        width: 30%;
+        width: 400px;
       }
 
       h2{

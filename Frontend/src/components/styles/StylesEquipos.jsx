@@ -17,7 +17,7 @@ gap: 20px;
     align-items: center;
     background-color: white;
     border-radius: 20px;
-    width: 70%;
+    width: 60%;
     height: 40%;
     padding: 20px;
 
@@ -54,9 +54,8 @@ gap: 20px;
     }
   }
   .table-category{
-     width: 30%;
      
-
+width: 400px;
      th{
       background: #38a800;
       color: white;

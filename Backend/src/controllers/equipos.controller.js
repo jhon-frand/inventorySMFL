@@ -151,6 +151,7 @@ const getEquipos = async (peticion, respuesta) => {
     }
 };
 
+//traer el total de quipos por estado
 const getEquiposEstado = async (peticion, respuesta) => {
     try {
 
@@ -167,6 +168,39 @@ const getEquiposEstado = async (peticion, respuesta) => {
     }
 };
 
+//listar equipos por estado
+const getEquiposStatus = async (peticion, respuesta) => {
+    try {
+        const { estado } = peticion.params;
+        const sql = `
+            SELECT equipos.*,
+                    categorias.nombre_categoria,
+                    ubicaciones.ambiente,
+                    ubicaciones.sitio,
+                    unidades_productivas.nombre_unidad
+                    FROM equipos
+                    JOIN categorias ON categorias.id_categoria = equipos.fk_categoria
+                    JOIN ubicaciones ON ubicaciones.id_ubicacion = equipos.fk_ubicacion
+                    JOIN unidades_productivas ON unidades_productivas.id_unidad = ubicaciones.fk_unidad_productiva
+            WHERE estado = ?
+        `;
+        const [equipos] = await connection.query(sql, estado);
+
+        if (equipos.length > 0) {
+            return respuesta.status(200).json(equipos)
+        } else {
+            return respuesta.status(404).json({
+                "status": 404,
+                "message": "No se encontraron equipos"
+            }) 
+        }
+
+    } catch (error) {
+        respuesta.status(500);
+        respuesta.send(error.message);
+    }
+}
+
 const getTotal = async (peticion, respuesta) => {
     try {
         const sql = "SELECT COUNT(*) AS total_equipos FROM equipos";
@@ -178,14 +212,38 @@ const getTotal = async (peticion, respuesta) => {
         respuesta.send(error.message);
     }
 }
+const putEstado = async (peticion, respuesta) => {
+    try {
+        const {id} = peticion.params;
+        const {estado} = peticion.body;
+        const sql = `UPDATE equipos SET estado = ? WHERE id_equipo =?`;
+        const [updateState] = await connection.query(sql, [estado, id]);
+        if (updateState.affectedRows > 0) {
+            return respuesta.status(200).json({
+                "status": 200,
+                "message": "Estado actualizado"
+            })
+        } else {
+            return respuesta.status(404).json({
+                "status": 404,
+                "message": "Equipo no encontrado"
+            })
+        }
+    } catch (error) {
+        respuesta.status(500);
+        respuesta.send(error.message);
+    }
+};
 
 export const equipos = {
     postEquipo,
     putEquipo,
+    putEstado,
     getEquipo,
     getEquipos,
     getEquiposUnidad,
     getTotalEquiposUnidad,
     getEquiposEstado,
+    getEquiposStatus,
     getTotal
 }

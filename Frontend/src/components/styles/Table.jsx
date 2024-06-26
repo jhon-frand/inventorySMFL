@@ -1,3 +1,17 @@
+import styled from "styled-components"
+
+export const ContainerTable = styled.div`
+
+table{
+  th{
+    background-color: #38a800;
+    color: white;
+    padding: 5px;
+  }
+
+}
+`;
+
 export const options = {
     selectableRows: 'none',
     rowsPerPage: 10,
@@ -9,7 +23,7 @@ export const optionsMedium = {
     selectableRows: 'none',
     rowsPerPage: 10,
     rowsPerPageOptions: [10, 15, 20],
-    tableBodyHeight: "70vh",
+    tableBodyHeight: "300px",
   };
 export const optionsTableModal = {
     selectableRows: 'none',

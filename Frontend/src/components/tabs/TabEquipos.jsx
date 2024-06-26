@@ -33,7 +33,7 @@ function a11yProps(index) {
   };
 }
 
-export default function BasicTabs({ children, text1, text2 }) {
+export default function BasicTabs({ children, text1, text2,  text3, text4, text5, text6 }) {
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {
@@ -71,6 +71,42 @@ export default function BasicTabs({ children, text1, text2 }) {
               color: 'white',
             },
           }}/>
+          <Tab label={text3} {...a11yProps(2)} 
+          sx={{
+            backgroundColor: 'white',
+            fontWeight: 'bold',
+            '&.Mui-selected': {
+              backgroundColor: '#38a800',
+              color: 'white',
+            },
+          }}/>
+          <Tab label={text4} {...a11yProps(3)} 
+          sx={{
+            backgroundColor: 'white',
+            fontWeight: 'bold',
+            '&.Mui-selected': {
+              backgroundColor: '#38a800',
+              color: 'white',
+            },
+          }}/>
+          <Tab label={text5} {...a11yProps(4)} 
+          sx={{
+            backgroundColor: 'white',
+            fontWeight: 'bold',
+            '&.Mui-selected': {
+              backgroundColor: '#38a800',
+              color: 'white',
+            },
+          }}/>
+          <Tab label={text6} {...a11yProps(4)} 
+          sx={{
+            backgroundColor: 'white',
+            fontWeight: 'bold',
+            '&.Mui-selected': {
+              backgroundColor: '#38a800',
+              color: 'white',
+            },
+          }}/>
         </Tabs>
       </Box>
       {React.Children.map(children, (child, index) => (
@@ -84,4 +120,10 @@ export default function BasicTabs({ children, text1, text2 }) {
 
 BasicTabs.propTypes = {
   children: PropTypes.node.isRequired,
+  text1: PropTypes.string.isRequired,
+  text2: PropTypes.string.isRequired,
+  text3: PropTypes.string.isRequired,
+  text4: PropTypes.string.isRequired,
+  text5: PropTypes.string.isRequired,
+  text6: PropTypes.string.isRequired,
 };
