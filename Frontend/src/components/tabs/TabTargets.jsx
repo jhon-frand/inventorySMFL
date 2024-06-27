@@ -41,7 +41,7 @@ export default function BasicTabs({ children, text1, text2 }) {
   };
 
   return (
-    <Box sx={{ width: '90%' }}>
+    <Box sx={{ width: '95%' }}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Tabs 
         value={value} onChange={handleChange} aria-label="basic tabs example"

@@ -132,7 +132,6 @@ function Dashboard() {
   }, [])
 
   return (
-    <>
       <Container>
         <ContenedorDashboard>
           <div className="contents">
@@ -170,7 +169,7 @@ function Dashboard() {
           </div>
           <div className="targets-graphic">
 
-            <BasicTabs
+            <BasicTabs 
               text1="mantenimientos"
               text2="equipos">
 
@@ -202,7 +201,9 @@ function Dashboard() {
                 </div>
                 <div className="status">
                   <h2>Equipos por estado</h2>
+                  <div>
                   <StatusEquipments />
+                  </div>
                 </div>
               </div>
             </BasicTabs>
@@ -210,7 +211,6 @@ function Dashboard() {
 
         </ContenedorDashboard>
       </Container>
-    </>
   )
 }
 
@@ -226,18 +226,15 @@ min-width: 100%;
     width: 90%;
   }
   .targets-graphic{
-    width: 95%;
     display: flex;
     justify-content: center;
     padding-top: 20px;
 
+
     .graphic-equipos{
-      border-radius: 20px;
-      padding: 20px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 20px;
+      width: 100%;
+    display: flex;
+    gap: 20px;
 
       .equipos, .status{
         padding: 20px;
@@ -251,7 +248,7 @@ min-width: 100%;
       }
 
       .equipo{
-        width: 600px;
+        width: 80&;
       }
       .status{
         width: 400px;
@@ -267,7 +264,6 @@ min-width: 100%;
   .content-information{
     width: 100%;
     display: flex;
-    justify-content: center;
     gap: 20px;
 
     .content-one{

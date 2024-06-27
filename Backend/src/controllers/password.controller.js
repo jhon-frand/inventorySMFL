@@ -4,7 +4,7 @@ import nodemailer from "nodemailer"
 import bcrypt from "bcrypt"
 import dotenv from 'dotenv'
 
-dotenv.config({path: './src/env/.env'});
+dotenv.config({ path: './src/env/.env' });
 
 const tokenPassword = async (peticion, respuesta) => {
     try {
@@ -18,7 +18,7 @@ const tokenPassword = async (peticion, respuesta) => {
                 "message": "Usuario no encontrado"
             });
         }
-        
+
 
         const token = jwt.sign({ id_usuario: user[0].id_usuario }, process.env.SECRET, { expiresIn: process.env.TIME });
 
@@ -34,7 +34,25 @@ const tokenPassword = async (peticion, respuesta) => {
             from: process.env.EMAIL_USER,
             to: email,
             subject: "Recuperar contraseña",
-            text: `Hola, da click en el siguiente enlace para restablecer la contraseña http://localhost:5173/restablecer?token=${token}`
+            html: `
+            <p>Hola,</p>
+            <p>Da click en el siguiente botón para restablecer tu contraseña:</p>
+            <a href="http://localhost:5173/restablecer?token=${token}" 
+            style="display: inline-block; padding: 10px 20px; font-size: 16px; color: white; 
+            background-color: #38a800; text-decoration: none; border-radius: 5px;">Restablecer contraseña</a>
+            <p>Si no solicitaste un cambio de contraseña, ignora este correo.</p>
+          <img src="cid:imagenCorreo" alt="Descripción de la imagen" style="max-width: 200px;" />
+           
+            `,
+            attachments: [
+                {
+                    filename: 'sena.png',
+                    path: './src/public/sena.png',
+                    cid: 'imagenCorreo' // cid debe coincidir con el src en el contenido HTML
+                }
+            ]
+            // text: `Hola, da click en el siguiente enlace para restablecer la contraseña: 
+            //  http://localhost:5173/restablecer?token=${token}`
             //text: ` token= ${token}`
         }
 
@@ -71,9 +89,9 @@ const resetPassword = async (peticion, respuesta) => {
             })
         }
 
-         // Encriptar la nueva contraseña antes de actualizarla
-         const saltRounds = 10;
-         const hashedPassword = await bcrypt.hash(password, saltRounds);
+        // Encriptar la nueva contraseña antes de actualizarla
+        const saltRounds = 10;
+        const hashedPassword = await bcrypt.hash(password, saltRounds);
 
 
         const sqlUpdate = "UPDATE usuarios SET password = ? WHERE id_usuario = ?";

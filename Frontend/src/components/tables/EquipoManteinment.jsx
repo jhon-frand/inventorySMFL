@@ -4,6 +4,7 @@ import { useState, useEffect } from "react"
 import { endpointEquipo } from "../endpoints/Endpoints"
 import moment from "moment"
 import { options } from "../styles/Table";
+import ButtonEdit from "../organismos/ButtonEdit"
 
 
 function EquipoManteinment() {
@@ -100,23 +101,21 @@ function EquipoManteinment() {
             display: 'false'
           }
         },
-        // {
-        //   name: "editar",
-        //   label: "ACTIONS",
-        // //   options: {
-        // //     customBodyRender: (value, tableMeta, updateValue) => {
-        // //       return (
-        // //         <>
-        // //           <div className="btns-edit">
-        // //             <ButtonEdit titulo="Actualizar" icon={<HiMiniPencilSquare />} funcion1={() => getData(tableMeta.rowData)} />
-        // //             <ButtonEdit titulo="Registrar Mantenimiento" icon={<FaSquarePlus />} funcion1={() => getIdEquipo(tableMeta.rowData)} />
-        // //             <IoEyeSharp title="Ver Mantenimientos" className="icon-activity" onClick={() => getMantenimientosEquipo(tableMeta.rowData[0])} />
-        // //           </div>
-        // //         </>
-        // //       );
-        // //     }
-        // //   }
-        // }
+         {
+          name: "editar",
+          label: "ACTIONS",
+          options: {
+             customBodyRender: (value, tableMeta, updateValue) => {
+        //       return (
+        //         <>
+        //           <div className="btns-edit">
+        //             <ButtonEdit titulo="Cambiar estado" icon={<HiMiniPencilSquare />} funcion1={() => getData(tableMeta.rowData)} />
+        //             </div>
+        //         </>
+        //       );
+            }
+          }
+         }
       ]
 
     useEffect(() => {
