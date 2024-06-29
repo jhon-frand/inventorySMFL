@@ -9,7 +9,7 @@ import ResetPassword from "./pages/ResetPassword";
 
 function App() {
 
-  const [sideBarOpen, setSideBarOpen] = useState(true);
+  const [sideBarOpen, setSideBarOpen] = useState(false);
 
   const token = localStorage.getItem('token')
 

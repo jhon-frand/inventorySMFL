@@ -95,7 +95,7 @@ const getEquiposUnidad = async (peticion, respuesta) => {
         } else {
             return respuesta.status(404).json({
                 "status": 404,
-                "message": "No se encontró el equipo"
+                "message": "No hay equipos en esta unidad"
             }) 
         }
     } catch (error) {

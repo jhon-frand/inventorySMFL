@@ -1,5 +1,6 @@
 import Swal from "sweetalert2"
 
+
 export const AlertSucces = (title) => {
   Swal.fire({
     position: "center",

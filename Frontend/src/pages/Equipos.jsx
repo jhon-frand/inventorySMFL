@@ -36,6 +36,7 @@ import EquipoExcluded from "../components/tables/EquipoExcluded";
 function Equipos() {
 
   //#region funciones
+  //#region constantes
 
   const [equipos, setEquipos] = useState([])
   const [equiposUnidad, setEquiposUnidad] = useState([])
@@ -61,6 +62,8 @@ function Equipos() {
   const nombresUser = localStorage.getItem("nombres")
   const idUser = localStorage.getItem("usuario");
 
+    //#endregion constantes
+
   const getEquipos = async () => {
     try {
       await axios.get(endpointEquipo).then((response) => {
@@ -78,7 +81,7 @@ function Equipos() {
         setEquiposUnidad(equipment);
       })
     } catch (error) {
-      console.log(error);
+      console.log(error.response.data);
     }
   }
   const getCategorias = async () => {
@@ -968,6 +971,7 @@ function Equipos() {
           text4="Inactivos"
           text5="Excluidos"
           text6="Categorías" >
+            
           <div className="table-mui">
             {
               user && user === "1" ? (

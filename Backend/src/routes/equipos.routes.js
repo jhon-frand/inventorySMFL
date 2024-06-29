@@ -18,8 +18,6 @@ rutas.get("/:id", equipos.getEquipo);
 
 // Rutas GET con parámetros generales y sin parámetros
 rutas.get("/lista/:estado", equipos.getEquiposStatus);
-
-
 rutas.get("/:unidad", equipos.getEquiposUnidad);
 rutas.get("/", equipos.getEquipos);
 
