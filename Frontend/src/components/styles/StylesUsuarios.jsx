@@ -14,6 +14,7 @@ min-width: 100%;
 
   .table{
      width: 90%;
+     border-radius: 20px;
 
      th{
       background-color: #38a800;

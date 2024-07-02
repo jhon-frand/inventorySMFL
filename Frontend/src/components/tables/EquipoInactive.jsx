@@ -4,10 +4,53 @@ import { useState, useEffect } from "react"
 import { endpointEquipo } from "../endpoints/Endpoints"
 import moment from "moment"
 import { options } from "../styles/Table";
+import ButtonEdit from "../organismos/ButtonEdit"
+import { HiMiniPencilSquare } from "react-icons/hi2"
+import Modal from "../modals/Modal"
+import { FormControl, Select } from "@mui/material"
+import { InputLabel } from "@mui/material"
+import { MenuItem } from "@mui/material"
+import { AlertSucces } from "../alerts/Alerts"
+import ModalButton from "../buttons/ModalButton"
+import styled from "styled-components"
+import { MdPublishedWithChanges } from "react-icons/md";
 
 function EquipoInactive() {
 
     const [equipos, setEquipos] = useState([])
+    const [modal, setModal] = useState(false)
+    const [idEquipo, setIdEquipo] = useState("")
+  
+    const [valor, setValor] = useState({
+      estado: ""
+    })
+  
+    const valorInput = (event) => {
+      setValor({
+        ...valor,
+        [event.target.name] : event.target.value
+      })
+    }
+  
+    const clearForm = () => {
+      setValor({
+        estado: ""
+      })
+      setModal(false)
+      setIdEquipo(null)
+    }
+  
+    const getData = (datos) => {
+      try {
+        const valueId = datos[0];
+        setIdEquipo(valueId);
+        setModal(true);
+      } catch (error) {
+        console.log(error)
+      }
+    }
+  
+  
 
     const getEquipos = async () => {
         try {
@@ -18,6 +61,19 @@ function EquipoInactive() {
         } catch (error) {
             console.log(error)
         }
+    }
+    const putStatus = async (event) => {
+      event.preventDefault();
+      try {
+        const respuesta = await axios.put(`${endpointEquipo}/estado/${idEquipo}`, valor)
+        if (respuesta.status === 200) {
+          getEquipos();
+          clearForm();
+          AlertSucces("Estado actualizado")
+        }
+      } catch (error) {
+        console.log(error.response)
+      }
     }
 
     const columnas = [
@@ -100,23 +156,22 @@ function EquipoInactive() {
             display: 'false'
           }
         },
-        // {
-        //   name: "editar",
-        //   label: "ACTIONS",
-        // //   options: {
-        // //     customBodyRender: (value, tableMeta, updateValue) => {
-        // //       return (
-        // //         <>
-        // //           <div className="btns-edit">
-        // //             <ButtonEdit titulo="Actualizar" icon={<HiMiniPencilSquare />} funcion1={() => getData(tableMeta.rowData)} />
-        // //             <ButtonEdit titulo="Registrar Mantenimiento" icon={<FaSquarePlus />} funcion1={() => getIdEquipo(tableMeta.rowData)} />
-        // //             <IoEyeSharp title="Ver Mantenimientos" className="icon-activity" onClick={() => getMantenimientosEquipo(tableMeta.rowData[0])} />
-        // //           </div>
-        // //         </>
-        // //       );
-        // //     }
-        // //   }
-        // }
+        {
+          name: "editar",
+          label: "ACTIONS",
+          options: {
+            customBodyRender: (value, tableMeta, updateValue) => {
+              return (
+                <ButtonEdit
+                  funcion1={() => getData(tableMeta.rowData)}
+                  titulo='Cambiar estado'
+                  icon={<MdPublishedWithChanges />}
+    
+                />
+              );
+            }
+          }
+        }
       ]
 
     useEffect(() => {
@@ -125,14 +180,35 @@ function EquipoInactive() {
 
   return (
     <>
-    <MUIDataTable 
+    <MUIDataTable className="table-data"
     title="Equipos inactivos"
     data={equipos}
     columns={columnas}
     options={options}
     />
+      <Modal
+        titulo="CAMBIAR ESTADO DE EQUIPO"
+        estado={modal}
+        cambiarEstado={clearForm}>
+        <FormStatus onSubmit={putStatus}>
+          <FormControl>
+          <InputLabel>Estado</InputLabel>
+          <Select label="Estado" value={valor.estado} onChange={valorInput} name="estado" required>
+            <MenuItem value="activo">Activar</MenuItem>
+            <MenuItem value="mantenimiento">En Mantenimiento</MenuItem>
+            <MenuItem value="excluido">Excluir</MenuItem>
+          </Select>
+          </FormControl>
+          <ModalButton text="CAMBIAR ESTADO"/>
+        </FormStatus>
+      </Modal>
     </>
   )
 }
+const FormStatus = styled.form`
+ display: flex;
+ flex-direction: column;
+ gap: 10px;
+`;
 
 export default EquipoInactive

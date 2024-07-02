@@ -22,6 +22,7 @@ flex-direction: column;
 
   .table{
      width: 100%;
+     border-radius: 20px;
 
      th{
       background: #38a800;

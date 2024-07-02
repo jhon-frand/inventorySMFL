@@ -123,7 +123,7 @@ function EquipoExcluded() {
     }, [])
   return (
     <>
-    <MUIDataTable 
+    <MUIDataTable className="table-data"
     title="Equipos excluidos"
     data={equipos}
     columns={columnas}

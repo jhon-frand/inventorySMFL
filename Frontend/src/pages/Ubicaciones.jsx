@@ -145,6 +145,7 @@ function Ubicaciones() {
     });
 
   };
+  
   const editValorInput = (event) => {
     setValores(prevState => ({
       ...prevState,

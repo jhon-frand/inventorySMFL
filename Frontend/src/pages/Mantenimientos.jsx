@@ -23,7 +23,6 @@ import { HiMiniPencilSquare } from "react-icons/hi2";
 import { Container, Modales } from "../components/styles/StylesMantenimientos";
 import BasicTabs from "../components/tabs/TabManteinment"
 import { Select, TextField } from "@mui/material";
-import Textarea from '@mui/joy/Textarea';
 import { FormControl } from "@mui/material";
 import { InputLabel } from "@mui/material";
 import { MenuItem } from "@mui/material";

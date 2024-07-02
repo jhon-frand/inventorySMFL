@@ -29,6 +29,7 @@ gap: 20px;
 
   .table{
      width: 100%;
+     border-radius: 20px;
 
      th{
       background: #38a800;

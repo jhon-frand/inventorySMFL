@@ -1005,7 +1005,7 @@ function Equipos() {
           </ContainerTable>
           <ContainerTable>
             
-            <MUIDataTable className="table-category"
+            <MUIDataTable className="table-data"
               title="Lista de Categorías"
               data={categorias}
               columns={columnasCategorias}

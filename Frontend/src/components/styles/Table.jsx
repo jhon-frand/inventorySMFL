@@ -2,7 +2,8 @@ import styled from "styled-components"
 
 export const ContainerTable = styled.div`
 
-table{
+.table-data{
+  border-radius: 20px;
   th{
     background-color: #38a800;
     color: white;

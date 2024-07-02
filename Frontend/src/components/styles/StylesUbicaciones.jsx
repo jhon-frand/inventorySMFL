@@ -18,6 +18,7 @@ display: flex;
   width: 90%;
 }
   .table-one{
+    border-radius: 20px;
 
      th{
       background: #38a800;
@@ -27,6 +28,7 @@ display: flex;
   }
   .table-two{
      width: 40%;
+     border-radius: 20px;
 
      th{
       background: #38a800;
