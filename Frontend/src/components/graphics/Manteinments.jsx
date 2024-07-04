@@ -31,8 +31,8 @@ function StackedBarChart() {
           width={600}
           height={300}
             series={[
-                { data: data.preventivos, label: 'preventivos', id: 'pvId', stack: 'total', color: '#38a800' },
-                { data: data.tecnicos, label: 'técnicos', id: 'uvId', stack: 'total', color: '#73d542' },
+                { data: data.tecnicos, label: 'técnicos', id: 'uvId', stack: 'total', color: '#38a800' },
+                { data: data.preventivos, label: 'preventivos', id: 'pvId', stack: 'total', color: '#73d542' },   
             ]}
             xAxis={[{ data: data.unidades, scaleType: 'band' }]}
         />

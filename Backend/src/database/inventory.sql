@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost:3306
--- Tiempo de generación: 04-07-2024 a las 00:41:31
+-- Tiempo de generación: 04-07-2024 a las 02:39:15
 -- Versión del servidor: 8.0.30
 -- Versión de PHP: 8.1.10
 
@@ -90,9 +90,12 @@ CREATE TABLE `equipos` (
 INSERT INTO `equipos` (`id_equipo`, `serial`, `nombre_equipo`, `marca_equipo`, `modelo_equipo`, `fecha_ingreso`, `descripcion`, `tipo_equipo`, `estado`, `fk_categoria`, `fk_ubicacion`) VALUES
 (47, 'ASW321', 'portatil', 'ASUS', 'MOD2020', '2024-07-03', 'portátil asus mini', 'eléctrico', 'activo', 53, 61),
 (48, '123as2', 'molino', 'Pm2', 'Mod212', '2024-07-03', 'molino triturador de hierbas', 'eléctrico', 'mantenimiento', 51, 65),
-(49, '098WER', 'tostador', 'Caf23', 'MOD2021', '2024-07-03', 'tostadora de cafe ', 'eléctrico', 'activo', 51, 64),
-(50, 'QWE321', 'Horno', 'HJ21', 'MOD212', '2024-07-05', 'horno para carnes rojas', 'eléctrico', 'activo', 51, 63),
-(51, '1234535', 'Nevera', 'HACEB', 'HC21', '2024-07-04', 'nevera para productos lácteos', 'eléctrico', 'inactivo', 51, 62);
+(49, '098WER', 'tostador', 'Caf23', 'MOD2021', '2024-07-03', 'tostadora de cafe ', 'eléctrico', 'inactivo', 51, 64),
+(50, 'QWE321', 'Horno', 'HJ21', 'MOD212', '2024-07-05', 'horno para carnes rojas', 'eléctrico', 'mantenimiento', 51, 63),
+(51, '1234535', 'Nevera', 'HACEB', 'HC21', '2024-07-04', 'nevera para productos lácteos', 'eléctrico', 'mantenimiento', 51, 62),
+(52, 'JGHJ45', 'Tetera', 'Valdez', 'MOD234', '2024-07-03', 'maquina para hacer cafe', 'eléctrico', 'activo', 51, 64),
+(53, 'BEJE4', 'Despulpadora', 'Bellota', 'MOD23', '2024-07-03', 'despulpadora de cafe especial', 'eléctrico', 'mantenimiento', 51, 64),
+(54, 'AW4I', 'Portatil asus', 'ASUS', 'XAM23', '2024-07-04', 'portatil de software inventory', 'manual', 'mantenimiento', 53, 64);
 
 -- --------------------------------------------------------
 
@@ -116,7 +119,11 @@ CREATE TABLE `mantenimientos` (
 INSERT INTO `mantenimientos` (`id_mantenimiento`, `tipo_mantenimiento`, `fecha_mantenimiento`, `descripcion`, `fk_user_responsable`, `fk_equipo`) VALUES
 (41, 'preventivo', '2024-07-04', 'fallo en la pantalla', 25, 47),
 (42, 'tecnico', '2024-07-06', 'fallo en el eje de rotación centrall', 25, 48),
-(43, 'tecnico', '2024-07-04', 'fallo en el sistema de calor', 26, 49);
+(43, 'tecnico', '2024-07-04', 'fallo en el sistema de calor', 26, 49),
+(44, 'tecnico', '2024-07-03', 'falla en la polea central', 29, 48),
+(45, 'tecnico', '2024-07-03', 'fallas en los botones de marchas', 28, 50),
+(46, 'tecnico', '2024-07-03', 'fallos en el refrigerador', 27, 51),
+(47, 'preventivo', '2024-07-05', 'Revisión de equipo', 26, 54);
 
 -- --------------------------------------------------------
 
@@ -326,13 +333,13 @@ ALTER TABLE `categorias`
 -- AUTO_INCREMENT de la tabla `equipos`
 --
 ALTER TABLE `equipos`
-  MODIFY `id_equipo` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
+  MODIFY `id_equipo` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
 
 --
 -- AUTO_INCREMENT de la tabla `mantenimientos`
 --
 ALTER TABLE `mantenimientos`
-  MODIFY `id_mantenimiento` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
+  MODIFY `id_mantenimiento` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
 
 --
 -- AUTO_INCREMENT de la tabla `tecnicos`

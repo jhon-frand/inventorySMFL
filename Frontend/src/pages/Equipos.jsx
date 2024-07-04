@@ -146,7 +146,7 @@ function Equipos() {
     fecha_ingreso: "",
     descripcion: "",
     tipo_equipo: "",
-    estado: 'activo',
+    estado: "activo",
     fk_categoria: "",
     fk_ubicacion: ""
   })
