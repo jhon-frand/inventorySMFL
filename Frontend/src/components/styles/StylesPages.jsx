@@ -15,7 +15,6 @@ export const Contenedor = styled.div`
 export const ContenedorDashboard = styled.div`
   width:100%;
   margin-top: 70px;
-  padding-top: 10px;
   padding-bottom: 20px;
   display: flex; 
   flex-direction: column;

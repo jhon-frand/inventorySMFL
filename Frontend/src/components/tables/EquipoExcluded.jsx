@@ -6,7 +6,12 @@ import moment from "moment"
 import { options } from "../styles/Table";
 
 function EquipoExcluded() {
+
     const [equipos, setEquipos] = useState([])
+    const [equiposUnit, setEquiposUnit] = useState([])
+
+    const user = localStorage.getItem("user");
+    const unidadUser = localStorage.getItem("unidad");
 
     const getEquipos = async () => {
         try {
@@ -17,6 +22,17 @@ function EquipoExcluded() {
         } catch (error) {
             console.log(error)
         }
+    }
+
+    const getEquiposUnit = async () => {
+      try {
+        await axios.get(`${endpointEquipo}/estado/${"excluido"}/unidad/${unidadUser}`).then((response) => {
+          const equipment = response.data;
+          setEquiposUnit(equipment);
+        })
+      } catch (error) {
+        console.log(error)
+      }
     }
 
     const columnas = [
@@ -98,37 +114,32 @@ function EquipoExcluded() {
           options: {
             display: 'false'
           }
-        },
-        // {
-        //   name: "editar",
-        //   label: "ACTIONS",
-        // //   options: {
-        // //     customBodyRender: (value, tableMeta, updateValue) => {
-        // //       return (
-        // //         <>
-        // //           <div className="btns-edit">
-        // //             <ButtonEdit titulo="Actualizar" icon={<HiMiniPencilSquare />} funcion1={() => getData(tableMeta.rowData)} />
-        // //             <ButtonEdit titulo="Registrar Mantenimiento" icon={<FaSquarePlus />} funcion1={() => getIdEquipo(tableMeta.rowData)} />
-        // //             <IoEyeSharp title="Ver Mantenimientos" className="icon-activity" onClick={() => getMantenimientosEquipo(tableMeta.rowData[0])} />
-        // //           </div>
-        // //         </>
-        // //       );
-        // //     }
-        // //   }
-        // }
+        }
       ]
 
     useEffect(() => {
-        getEquipos()
+        getEquipos();
+        getEquiposUnit();
     }, [])
   return (
     <>
-    <MUIDataTable className="table-data"
-    title="Equipos excluidos"
-    data={equipos}
-    columns={columnas}
-    options={options}
-    />
+         {
+      user && user === "1" ? (
+        <MUIDataTable className="table-data"
+        title="Equipos excluidos"
+        data={equipos}
+        columns={columnas}
+        options={options}
+      />
+      ): (
+        <MUIDataTable className="table-data"
+        title="Equipos excluidos"
+        data={equiposUnit}
+        columns={columnas}
+        options={options}
+      />
+      )
+     }
     </>
   )
 }

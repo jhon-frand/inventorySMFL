@@ -24,7 +24,6 @@ import { FormControl } from "@mui/material";
 import { InputLabel } from "@mui/material";
 import { MenuItem } from "@mui/material";
 import BasicTabs from "../components/tabs/TabEquipos"
-import TotalEquipments from "../components/graphics/Equipments";
 import { FaSquarePlus } from "react-icons/fa6";
 import { IoEyeSharp } from "react-icons/io5";
 import TableModal from "../components/modals/TableModal";
@@ -147,7 +146,7 @@ function Equipos() {
     fecha_ingreso: "",
     descripcion: "",
     tipo_equipo: "",
-    estado: "activo",
+    estado: 'activo',
     fk_categoria: "",
     fk_ubicacion: ""
   })
@@ -388,6 +387,7 @@ function Equipos() {
       console.log(error);
     }
   }
+
 
   const columnas = [
     {
@@ -1009,7 +1009,7 @@ function Equipos() {
               title="Lista de Categorías"
               data={categorias}
               columns={columnasCategorias}
-              options={optionsMedium}
+              options={options}
             />
           </ContainerTable>
         </BasicTabs>

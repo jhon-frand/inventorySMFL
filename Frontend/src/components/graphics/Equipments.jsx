@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { BarChart } from '@mui/x-charts/BarChart';
 import axios from 'axios';
 import { endpointUnidad } from '../endpoints/Endpoints';
@@ -42,7 +41,7 @@ function TotalEquipments() {
 
     return (
         <BarChart
-            width={600}
+            width={500}
             height={300}
             series={[
                 {

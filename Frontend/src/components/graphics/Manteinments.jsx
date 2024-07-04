@@ -28,7 +28,7 @@ function StackedBarChart() {
     return (
       <Content>
           <BarChart className='grafica'
-          width={700}
+          width={600}
           height={300}
             series={[
                 { data: data.preventivos, label: 'preventivos', id: 'pvId', stack: 'total', color: '#38a800' },

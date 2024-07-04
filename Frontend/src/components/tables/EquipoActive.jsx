@@ -1,11 +1,13 @@
 import MUIDataTable from "mui-datatables"
 import axios from "axios"
 import { useState, useEffect } from "react"
-import { endpointEquipo,
+import {
+  endpointEquipo,
   endpointCategoria,
   endpointUbicacion,
   endpointMantenimiento,
-  endpointUser } from "../endpoints/Endpoints"
+  endpointUser
+} from "../endpoints/Endpoints"
 import moment from "moment"
 
 import ButtonEdit from "../organismos/ButtonEdit"
@@ -23,14 +25,23 @@ import { InputLabel } from "@mui/material";
 import { MenuItem } from "@mui/material";
 import { IoEyeSharp } from "react-icons/io5";
 import styled from "styled-components"
+import { MdPublishedWithChanges } from "react-icons/md";
+import ModalButton from "../buttons/ModalButton"
 
 function EquipoActive() {
 
   const [equipos, setEquipos] = useState([])
+  const [equiposUnit, setEquiposUnit] = useState([])
+ 
+  const token = localStorage.getItem("token");
+  const user = localStorage.getItem("user");
+  const unidadUser = localStorage.getItem("unidad");
+  const nombresUser = localStorage.getItem("nombres")
+  const idUser = localStorage.getItem("usuario");
 
   const getEquipos = async () => {
     try {
-      const respuesta = await axios.get(`${endpointEquipo}/lista/${"activo"}`).then((response) => {
+      await axios.get(`${endpointEquipo}/lista/${"activo"}`).then((response) => {
         const equipment = response.data;
         setEquipos(equipment);
       })
@@ -38,6 +49,67 @@ function EquipoActive() {
       console.log(error)
     }
   }
+
+  const getEquiposUnit = async () => {
+    try {
+      await axios.get(`${endpointEquipo}/estado/${"activo"}/unidad/${unidadUser}`).then((response) => {
+        const equipment = response.data;
+        setEquiposUnit(equipment);
+      })
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  //#region cambiar estado
+  const [modalStatus, setModalStatus] = useState(false)
+  const [idEquipoStatus, setIdEquipoStatus] = useState("")
+
+  const [valorStatus, setValorStatus] = useState({
+    estado: ""
+  })
+  const valorInputStatus = (event) => {
+    setValorStatus({
+      ...valorStatus,
+      [event.target.name]: event.target.value
+    })
+  }
+
+  const clearFormStatus = () => {
+    setValorStatus({
+      estado: ""
+    })
+    setModalStatus(false)
+    setIdEquipoStatus(null)
+  }
+
+  const getDataStatus = (datos) => {
+    try {
+      const valueId = datos[0];
+      setIdEquipoStatus(valueId);
+      setModalStatus(true);
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const putStatus = async (event) => {
+    event.preventDefault();
+    try {
+      const respuesta = await axios.put(`${endpointEquipo}/estado/${idEquipoStatus}`, valorStatus)
+      if (respuesta.status === 200) {
+        getEquipos();
+        clearFormStatus();
+        AlertSucces("Estado actualizado")
+      }
+    } catch (error) {
+      console.log(error.response)
+    }
+  }
+
+
+  //#endregion cambiar estado
+
   //#region ver mantenimientos
   //#region constantes
 
@@ -53,24 +125,9 @@ function EquipoActive() {
   const [usuarios, setUsuarios] = useState([])
   const [idEquipo, setIdEquipo] = useState("")
 
-  const token = localStorage.getItem("token");
-  const user = localStorage.getItem("user");
-  const unidadUser = localStorage.getItem("unidad");
-  const nombresUser = localStorage.getItem("nombres")
-  const idUser = localStorage.getItem("usuario");
 
   //#endregion constantes
 
-  const getEquiposUnidad = async () => {
-    try {
-      await axios.get(`${endpointEquipo}/${unidadUser}`).then((response) => {
-        const equipment = response.data;
-        setEquiposUnidad(equipment);
-      })
-    } catch (error) {
-      console.log(error.response.data);
-    }
-  }
   const getCategorias = async () => {
     try {
       await axios.get(endpointCategoria).then((response) => {
@@ -245,7 +302,6 @@ function EquipoActive() {
       }
       clearFormEquipos();
       getEquipos();
-      getEquiposUnidad();
     } catch (error) {
       AlertError();
       setErrores(error.response.data.msg)
@@ -335,6 +391,7 @@ function EquipoActive() {
           const fecha = moment(value).format('YYYY-MM-DD');
           return fecha;
         },
+        display: 'false'
       }
     },
     {
@@ -399,6 +456,11 @@ function EquipoActive() {
           return (
             <>
               <ButtonsColumn>
+                <ButtonEdit
+                  funcion1={() => getDataStatus(tableMeta.rowData)}
+                  titulo='Cambiar estado'
+                  icon={<MdPublishedWithChanges />}
+                />
                 <ButtonEdit titulo="Actualizar" icon={<HiMiniPencilSquare />} funcion1={() => getData(tableMeta.rowData)} />
                 <ButtonEdit titulo="Registrar Mantenimiento" icon={<FaSquarePlus />} funcion1={() => getIdEquipo(tableMeta.rowData)} />
                 <IoEyeSharp title="Ver Mantenimientos" className="icon-activity" onClick={() => getMantenimientosEquipo(tableMeta.rowData[0])} />
@@ -412,8 +474,8 @@ function EquipoActive() {
 
   useEffect(() => {
     getEquipos();
+    getEquiposUnit();
     getUsers();
-    getEquiposUnidad();
     getCategorias();
     getUbicaciones();
     getUbicacionesUnidad();
@@ -421,12 +483,23 @@ function EquipoActive() {
 
   return (
     <>
-      <MUIDataTable className="table-data"
+     {
+      user && user === "1" ? (
+        <MUIDataTable className="table-data"
         title="Equipos activos"
         data={equipos}
         columns={columnas}
         options={options}
       />
+      ): (
+        <MUIDataTable className="table-data"
+        title="Equipos activos"
+        data={equiposUnit}
+        columns={columnas}
+        options={options}
+      />
+      )
+     }
       <Modales>
         <Modal
           titulo="ACTUALIZAR DATOS"
@@ -654,6 +727,22 @@ function EquipoActive() {
             <button>REGISTRAR</button>
           </form>
         </Modal>
+        <Modal
+          titulo="CAMBIAR ESTADO DE EQUIPO"
+          estado={modalStatus}
+          cambiarEstado={clearFormStatus}>
+          <FormStatus onSubmit={putStatus}>
+            <FormControl>
+              <InputLabel>Estado</InputLabel>
+              <Select label="Estado" value={valorStatus.estado} onChange={valorInputStatus} name="estado" required>
+                <MenuItem value="inactivo">Desactivar</MenuItem>
+                <MenuItem value="mantenimiento">En Mantenimiento</MenuItem>
+                <MenuItem value="excluido">Excluir</MenuItem>
+              </Select>
+            </FormControl>
+            <ModalButton text="CAMBIAR ESTADO" />
+          </FormStatus>
+        </Modal>
       </Modales>
 
       <TableModal
@@ -668,6 +757,11 @@ function EquipoActive() {
     </>
   )
 }
+const FormStatus = styled.form`
+ display: flex;
+ flex-direction: column;
+ gap: 10px;
+`;
 
 const ButtonsColumn = styled.div`
      display: flex;

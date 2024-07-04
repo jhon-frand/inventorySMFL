@@ -680,7 +680,7 @@ function Mantenimientos() {
               title="Lista de Técnicos"
               data={tecnicos}
               columns={columnasTecnicos}
-              options={optionsMedium}
+              options={options}
             />
           </div>
         </BasicTabs>

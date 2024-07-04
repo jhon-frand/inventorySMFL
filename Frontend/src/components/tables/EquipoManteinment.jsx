@@ -16,8 +16,12 @@ import { MdPublishedWithChanges } from "react-icons/md";
 function EquipoManteinment() {
 
   const [equipos, setEquipos] = useState([])
+  const [equiposUnit, setEquiposUnit] = useState([])
   const [modal, setModal] = useState(false)
   const [idEquipo, setIdEquipo] = useState("")
+
+  const user = localStorage.getItem("user");
+  const unidadUser = localStorage.getItem("unidad");
 
   const [valor, setValor] = useState({
     estado: ""
@@ -48,7 +52,16 @@ function EquipoManteinment() {
     }
   }
 
-
+  const getEquiposUnit = async () => {
+    try {
+      await axios.get(`${endpointEquipo}/estado/${"mantenimiento"}/unidad/${unidadUser}`).then((response) => {
+        const equipment = response.data;
+        setEquiposUnit(equipment);
+      })
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   const getEquipos = async () => {
     try {
@@ -175,17 +188,29 @@ function EquipoManteinment() {
   ]
 
   useEffect(() => {
-    getEquipos()
+    getEquipos();
+    getEquiposUnit();
   }, [])
 
   return (
     <>
-      <MUIDataTable className="table-data"
+      {
+      user && user === "1" ? (
+        <MUIDataTable className="table-data"
         title="Equipos en mantenimiento"
         data={equipos}
         columns={columnas}
         options={options}
       />
+      ): (
+        <MUIDataTable className="table-data"
+        title="Equipos en mantenimiento"
+        data={equiposUnit}
+        columns={columnas}
+        options={options}
+      />
+      )
+     }
       <Modal
         titulo="CAMBIAR ESTADO DE EQUIPO"
         estado={modal}

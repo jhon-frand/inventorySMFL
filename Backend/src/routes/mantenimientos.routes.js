@@ -15,7 +15,7 @@ rutas.get("/tipo", mantenimientos.getTotalMantenimientoUnidadType);
 rutas.get("/typem", mantenimientos.getTypeMantenimiento);
 rutas.get("/total", mantenimientos.getTotal);
 rutas.get("/total/:unidad", mantenimientos.getTotalMantenimientoUnidad);
-
+rutas.get("/type/:unidad", mantenimientos.getTotalMantenimientoTypeUnit);
 // Rutas específicas
 rutas.get("/equipo/:equipo", mantenimientos.getMantenimientoEquipo);
 rutas.get("/unidad/:unidad", mantenimientos.getMantenimientoUnidad);

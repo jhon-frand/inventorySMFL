@@ -116,6 +116,7 @@ const getMantenimientoEquipo = async (peticion, respuesta) => {
     }
 }
 
+//traer total de mantenimientos por unidad
 const getTotalMantenimientoUnidad = async (peticion, respuesta) => {
     try {
         const { unidad } = peticion.params;
@@ -156,6 +157,7 @@ const getMantenimiento = async (peticion, respuesta) => {
         respuesta.send(error.message);
     }
 };
+//traer total por tipo de mantenimiento
 const getTypeMantenimiento = async (peticion, respuesta) => {
     try {
         const sql = `
@@ -186,6 +188,7 @@ const getTotal = async (peticion, respuesta) => {
     }
 }
 
+//traer total de mantenimientos por tipo en todas las unidades
 const getTotalMantenimientoUnidadType = async (peticion, respuesta) => {
     try {
         const sql = `
@@ -209,6 +212,32 @@ const getTotalMantenimientoUnidadType = async (peticion, respuesta) => {
         respuesta.send(error.message);
     }
 }
+//traer total de mantenimientos por tipo y por unidad
+const getTotalMantenimientoTypeUnit = async (peticion, respuesta) => {
+    try {
+        const {unidad} = peticion.params;
+        const sql = `
+                 SELECT 
+                     unidades_productivas.nombre_unidad,
+                     SUM(CASE WHEN mantenimientos.tipo_mantenimiento = 'preventivo' THEN 1 ELSE 0 END) AS total_preventivos,
+                     SUM(CASE WHEN mantenimientos.tipo_mantenimiento = 'técnico' THEN 1 ELSE 0 END) AS total_tecnicos
+                FROM mantenimientos
+                JOIN usuarios ON usuarios.id_usuario = mantenimientos.fk_user_responsable
+                JOIN unidades_productivas ON unidades_productivas.id_unidad = usuarios.fk_unidad_productiva
+                 WHERE unidades_productivas.nombre_unidad = ?
+                GROUP BY unidades_productivas.nombre_unidad;
+                `;
+
+        const [result] = await connection.query(sql, unidad);
+        if (result.length > 0) {
+            return respuesta.status(200).json(result);
+        }
+
+    } catch (error) {
+        respuesta.status(500);
+        respuesta.send(error.message);
+    }
+}
 
 export const mantenimientos = {
     postMantenimiento,
@@ -220,5 +249,6 @@ export const mantenimientos = {
     getMantenimiento,
     getTotal,
     getTotalMantenimientoUnidadType,
+    getTotalMantenimientoTypeUnit,
     getTypeMantenimiento,
 }

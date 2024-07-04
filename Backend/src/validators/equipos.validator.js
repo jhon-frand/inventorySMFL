@@ -10,7 +10,7 @@ export const validationEquipo = () => {
         check('nombre_equipo')
         .isString().withMessage('el nombre debe ser un texto')
         .notEmpty().withMessage('el nombre no puede estar vacío')
-        .isLength({min: 5}).withMessage('Debe tener al menos 3 caracteres'),   
+        .isLength({min: 5}).withMessage('Debe tener al menos 5 caracteres'),   
 
         check('marca_equipo')
         .isString().withMessage('la marca debe ser texto')

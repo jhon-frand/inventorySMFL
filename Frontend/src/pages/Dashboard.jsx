@@ -23,6 +23,9 @@ import TypeManteinments from "../components/graphics/Typemanteinment";
 import TotalEquipments from "../components/graphics/Equipments";
 import BasicTabs from "../components/tabs/TabTargets";
 import StatusEquipments from "../components/graphics/StatusEquipments";
+import EquipmentStatus from "../components/graphics/EquipmentStatus";
+import TypeManteinmentUnit from "../components/graphics/TypeManteinmentUnit";
+import MenuList from "../components/menulist/MenuList";
 
 function Dashboard() {
 
@@ -132,85 +135,101 @@ function Dashboard() {
   }, [])
 
   return (
-      <Container>
-        <ContenedorDashboard>
-          <div className="contents">
-            {
-              user && user === "1" && (
-                <>
-                  <ContainerContent
-                    titulo="Unidades Productivas"
-                    icon={<PiBoundingBox />}
-                    to={"/ubicaciones"}
-                    total={totalUnits}
-                  />
-                  <ContainerContent
-                    titulo="Encargados"
-                    icon={<FiUsers />}
-                    to={"/usuarios"}
-                    total={totalUser}
-                  />
-                </>
-              )
-            }
-            <ContainerContent
-              titulo="Total Equipos"
-              icon={<CgToolbox />}
-              to={"/equipos"}
-              total={user && user === "1" ? totalEquipos : totalEquiposUnidad}
-            />
-            <ContainerContent
-              titulo="Total Mantenimientos"
-              icon={<GoTools />}
-              to={"/mantenimientos"}
-              total={user && user === "1" ? totalMantenimientos : totalMantenimientosUnidad}
-            />
+    <Container>
+      <ContenedorDashboard>
+        <div className="contents">
+          {
+            user && user === "1" && (
+              <>
+                <ContainerContent
+                  titulo="Unidades Productivas"
+                  icon={<PiBoundingBox />}
+                  to={"/ubicaciones"}
+                  total={totalUnits}
+                />
+                <ContainerContent
+                  titulo="Encargados"
+                  icon={<FiUsers />}
+                  to={"/usuarios"}
+                  total={totalUser}
+                />
+              </>
+            )
+          }
+          <ContainerContent
+            titulo="Total Equipos"
+            icon={<CgToolbox />}
+            to={"/equipos"}
+            total={user && user === "1" ? totalEquipos : totalEquiposUnidad}
+          />
+          <ContainerContent
+            titulo="Total Mantenimientos"
+            icon={<GoTools />}
+            to={"/mantenimientos"}
+            total={user && user === "1" ? totalMantenimientos : totalMantenimientosUnidad}
+          />
 
-          </div>
-          <div className="targets-graphic">
+        </div>
+        <div className="targets-graphic">
 
-            <BasicTabs 
-              text1="mantenimientos"
-              text2="equipos">
+          {
+            user && user === "1" ? (
+              <BasicTabs
+                text1="mantenimientos"
+                text2="equipos">
 
-              <div className="content-information">
-                {
-                  user && user === "1" && (
-                    <div className="content-one">
-                      <h2>Mantenimientos por Unidad</h2>
-                      <div className="graphic-bars">
-                        <StackedBarChart />
-                      </div>
+                <div className="content-information">
+                  <div className="content-one">
+                    <h2>Mantenimientos por Unidad</h2>
+                    <div className="graphic-bars">
+                      <StackedBarChart />
                     </div>
-                  )
-                }
-
-                <div className="content-two">
-                  <h2>Total Mantenimientos</h2>
-                  <div className="graphic-circle">
-                    <TypeManteinments />
+                  </div>
+                  <div className="content-two">
+                    <h2>Total Mantenimientos</h2>
+                    <div className="graphic-circle">
+                      <TypeManteinments />
+                    </div>
                   </div>
                 </div>
-              </div>
+                <div className="graphic-equipos">
+                  <div className="equipos">
+                    <h2>Equipos por Unidad</h2>
+                    <div>
+                      <TotalEquipments />
+                    </div>
+                  </div>
+                  <div className="status">
+                    <h2>Equipos por estado</h2>
+                    <div>
+                      <StatusEquipments />
+                    </div>
+                  </div>
+                </div>
+              </BasicTabs>
+            ) : (
               <div className="graphic-equipos">
                 <div className="equipos">
-                  <h2>Equipos por Unidad</h2>
-                  <div>
-                    <TotalEquipments />
+                  <h2>Equipos por estado</h2>
+                  <div className="">
+                    <EquipmentStatus />
                   </div>
                 </div>
                 <div className="status">
-                  <h2>Equipos por estado</h2>
-                  <div>
-                  <StatusEquipments />
+                  <h2>Total Mantenimientos</h2>
+                  <div className="">
+                    <TypeManteinmentUnit />
                   </div>
                 </div>
-              </div>
-            </BasicTabs>
-          </div>
+                </div>
+            )
+          }
 
-        </ContenedorDashboard>
-      </Container>
+
+        </div>
+
+      </ContenedorDashboard>
+    </Container>
   )
 }
 
@@ -224,17 +243,19 @@ min-width: 100%;
     justify-content: center;
     align-items: center;
     width: 90%;
+    margin-top: 20px;
   }
   .targets-graphic{
     display: flex;
     justify-content: center;
+    align-items: center;
     padding-top: 20px;
-
-
+    width: 90%;
     .graphic-equipos{
       width: 100%;
     display: flex;
     gap: 20px;
+    justify-content: center;
 
       .equipos, .status{
         padding: 20px;
@@ -247,11 +268,9 @@ min-width: 100%;
       gap: 20px;
       }
 
-      .equipo{
-        width: 80&;
-      }
       .status{
         width: 400px;
+        padding-right: 50px;
       }
 
       h2{
@@ -265,9 +284,9 @@ min-width: 100%;
     width: 100%;
     display: flex;
     gap: 20px;
+    justify-content: center;
 
     .content-one{
-      width: 80%;
       display: flex;
       flex-direction: column;
       align-items: center;

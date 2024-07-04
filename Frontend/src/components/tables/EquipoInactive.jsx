@@ -18,8 +18,12 @@ import { MdPublishedWithChanges } from "react-icons/md";
 function EquipoInactive() {
 
     const [equipos, setEquipos] = useState([])
+    const [equiposUnit, setEquiposUnit] = useState([])
     const [modal, setModal] = useState(false)
     const [idEquipo, setIdEquipo] = useState("")
+
+    const user = localStorage.getItem("user");
+    const unidadUser = localStorage.getItem("unidad");
   
     const [valor, setValor] = useState({
       estado: ""
@@ -50,7 +54,16 @@ function EquipoInactive() {
       }
     }
   
-  
+    const getEquiposUnit = async () => {
+      try {
+        await axios.get(`${endpointEquipo}/estado/${"inactivo"}/unidad/${unidadUser}`).then((response) => {
+          const equipment = response.data;
+          setEquiposUnit(equipment);
+        })
+      } catch (error) {
+        console.log(error)
+      }
+    }
 
     const getEquipos = async () => {
         try {
@@ -166,7 +179,6 @@ function EquipoInactive() {
                   funcion1={() => getData(tableMeta.rowData)}
                   titulo='Cambiar estado'
                   icon={<MdPublishedWithChanges />}
-    
                 />
               );
             }
@@ -175,17 +187,29 @@ function EquipoInactive() {
       ]
 
     useEffect(() => {
-        getEquipos()
+        getEquipos();
+        getEquiposUnit();
     }, [])
 
   return (
     <>
-    <MUIDataTable className="table-data"
-    title="Equipos inactivos"
-    data={equipos}
-    columns={columnas}
-    options={options}
-    />
+     {
+      user && user === "1" ? (
+        <MUIDataTable className="table-data"
+        title="Equipos inactivos"
+        data={equipos}
+        columns={columnas}
+        options={options}
+      />
+      ): (
+        <MUIDataTable className="table-data"
+        title="Equipos inactivos"
+        data={equiposUnit}
+        columns={columnas}
+        options={options}
+      />
+      )
+     }
       <Modal
         titulo="CAMBIAR ESTADO DE EQUIPO"
         estado={modal}
