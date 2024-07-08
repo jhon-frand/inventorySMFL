@@ -103,7 +103,6 @@ background: white;
 display: flex;
 flex-direction: column;
 justify-content: space-between;
-//box-shadow: 0 0 5px 1px gray;
 
 .content-footer{
     padding: 5px;
@@ -212,9 +211,6 @@ justify-content: space-between;
             border-radius: 10px;
             color: white;
             background: #38a800c5;
-           // width: ${({ $isOpen }) => ($isOpen ? "" : "250px")}; 
-                
-        
         }
         
         span{

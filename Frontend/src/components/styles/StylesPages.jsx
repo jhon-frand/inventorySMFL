@@ -14,6 +14,7 @@ export const Contenedor = styled.div`
 `; 
 export const ContenedorDashboard = styled.div`
   width:100%;
+  height: 100vh;
   margin-top: 70px;
   padding-bottom: 20px;
   display: flex; 
