@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import axios from "axios"
 import { useNavigate } from "react-router-dom";
 import logoInventory from "../assets/logogreen.png"
-import { AlertError, AlertSucces, AlertUser } from '../components/alerts/Alerts';
+import { AlertError, AlertNotFound, AlertSucces, AlertUser } from '../components/alerts/Alerts';
 import Modal from "../components/modals/Modal"
 import { endpointRecuperar, endpointLogin } from '../components/endpoints/Endpoints';
 import { LinearProgress, TextField } from "@mui/material";
@@ -45,7 +45,8 @@ function Login() {
 
     } catch (error) {
       console.log(error);
-      alert("Error al enviar el correo")
+      AlertNotFound("El correo no es válido");
+      setLoading(false);
     }
   }
 
