@@ -31,6 +31,8 @@ import EquipoManteinment from "../components/tables/EquipoManteinment";
 import EquipoActive from "../components/tables/EquipoActive";
 import EquipoInactive from "../components/tables/EquipoInactive";
 import EquipoExcluded from "../components/tables/EquipoExcluded";
+import ModalButton from "../components/buttons/ModalButton"
+
 
 function Equipos() {
 
@@ -687,7 +689,7 @@ function Equipos() {
                   </div>
                 </div>
               </div>
-              <button>REGISTRAR</button>
+              <ModalButton text="REGISTRAR" />
             </form>
           </Modal>
           <Modal
@@ -830,7 +832,7 @@ function Equipos() {
                   </div>
                 </div>
               </div>
-              <button>ACTUALIZAR</button>
+              <ModalButton text="ACTUALIZAR" />
             </form>
           </Modal>
           <Modal
@@ -853,7 +855,7 @@ function Equipos() {
                   </ContentInput>
                 </div>
               </div>
-              <button>REGISTRAR</button>
+              <ModalButton text="REGISTRAR" />
             </form>
           </Modal>
           <Modal
@@ -877,7 +879,7 @@ function Equipos() {
                   </ContentInput>
                 </div>
               </div>
-              <button>ACTUALIZAR</button>
+              <ModalButton text="ACTUALIZAR" />
             </form>
           </Modal>
           <Modal
@@ -960,7 +962,7 @@ function Equipos() {
                   </div>
                 </div>
               </div>
-              <button>REGISTRAR</button>
+              <ModalButton text="REGISTRAR" />
             </form>
           </Modal>
         </Modales>
@@ -1005,7 +1007,7 @@ function Equipos() {
           </ContainerTable>
           <ContainerTable>
             
-            <MUIDataTable className="table-data"
+            <MUIDataTable className="table-data-category"
               title="Lista de Categorías"
               data={categorias}
               columns={columnasCategorias}

@@ -36,6 +36,7 @@ gap: 20px;
       color: white;
       padding: 5px;
      }
+     
      .btns-edit{
       display: flex;
       justify-content: center;
@@ -53,15 +54,6 @@ gap: 20px;
      
     
     }
-  }
-  .table-category{
-     
-width: 400px;
-     th{
-      background: #38a800;
-      color: white;
-      padding: 5px;
-     }
   }
 }
 `;
@@ -91,22 +83,6 @@ z-index: 30;
       border-radius: 20px;
     }
 
-button{
-  width: 200px;
-  height: 40px;
-  background: #38a800;
-  color: white;
-  font-weight: 600;
-  border-radius: 5px;
-  border: none;
-  margin-top: 20px;
-
-  &:hover{
-    cursor: pointer;
-    background: #38a80090;
-    color: green;
-  }
-}
 }
 .filas{
   display: flex;
@@ -194,23 +170,5 @@ button{
       }
     }
   }
-
-  
-button{
-  width: 200px;
-  height: 40px;
-  background: #38a800;
-  color: white;
-  font-weight: 600;
-  border-radius: 5px;
-  border: none;
-  margin-top: 20px;
-
-  &:hover{
-    cursor: pointer;
-    background: #38a80090;
-    color: green;
-  }
-}
 }
 `;

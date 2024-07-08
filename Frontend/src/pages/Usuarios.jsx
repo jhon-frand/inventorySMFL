@@ -23,6 +23,7 @@ import { InputLabel } from "@mui/material";
 import { MenuItem } from "@mui/material";
 import { FormControl } from "@mui/material";
 import ToggleStatus from "../components/organismos/ToggleStatus";
+import ModalButton from "../components/buttons/ModalButton"
 
 function Usuarios() {
 
@@ -407,7 +408,7 @@ const changeStatus = async (datos) => {
                 </ContentInput>
             </div>
             </div>
-            <button>REGISTRAR</button>
+            <ModalButton text="REGISTRAR" />
           </form>
         </Modal>
         <Modal
@@ -504,7 +505,7 @@ const changeStatus = async (datos) => {
                 </ContentInput>
             </div>
             </div>
-            <button>ACTUALIZAR</button>
+            <ModalButton text="ACTUALIZAR" />
           </form>
         </Modal>
       </Modales>

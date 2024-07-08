@@ -641,7 +641,7 @@ function EquipoActive() {
                 </div>
               </div>
             </div>
-            <button>ACTUALIZAR</button>
+            <ModalButton text="ACTUALIZAR" />
           </form>
         </Modal>
         <Modal
@@ -724,7 +724,7 @@ function EquipoActive() {
                 </div>
               </div>
             </div>
-            <button>REGISTRAR</button>
+            <ModalButton text="REGISTRAR" />
           </form>
         </Modal>
         <Modal

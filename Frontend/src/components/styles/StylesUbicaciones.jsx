@@ -53,23 +53,6 @@ z-index: 30;
     width: 250px;
   }
 
-  button{
-  width: 200px;
-  height: 40px;
-  background: #38a800;
-  color: white;
-  font-weight: 600;
-  border-radius: 5px;
-  border: none;
-  margin-top: 20px;
-
-  &:hover{
-    cursor: pointer;
-    background: #38a80090;
-    color: green;
-  }
-}
-
 }
 .form-unit{
   display: flex;
@@ -79,24 +62,6 @@ z-index: 30;
   .column{
     width: 250px;
   }
-
-  button{
-  width: 200px;
-  height: 40px;
-  background: #38a800;
-  color: white;
-  font-weight: 600;
-  border-radius: 5px;
-  border: none;
-  margin-top: 20px;
-
-  &:hover{
-    cursor: pointer;
-    background: #38a80090;
-    color: green;
-  }
-}
-
 }
 
 

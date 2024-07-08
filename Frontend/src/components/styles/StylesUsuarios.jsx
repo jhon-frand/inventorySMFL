@@ -14,7 +14,7 @@ min-width: 100%;
 
   .table{
      width: 90%;
-     border-radius: 20px;
+     border-radius: 0px;
 
      th{
       background-color: #38a800;
@@ -48,22 +48,5 @@ z-index: 30;
       }
     
     }
-
-button{
-  width: 200px;
-  height: 40px;
-  background: #38a800;
-  color: white;
-  font-weight: 600;
-  border-radius: 5px;
-  border: none;
-  margin-top: 20px;
-
-  &:hover{
-    cursor: pointer;
-    background: #38a80090;
-    color: green;
-  }
-}
 }
 `;

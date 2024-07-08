@@ -2,14 +2,19 @@ import styled from "styled-components"
 
 export const ContainerTable = styled.div`
 
-.table-data{
+.table-data, .table-data-category{
   border-radius: 20px;
+
   th{
     background-color: #38a800;
     color: white;
     padding: 5px;
   }
 
+}
+
+.table-data-category{
+  width: 50%;
 }
 `;
 

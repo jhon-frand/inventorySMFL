@@ -21,6 +21,7 @@ import { InputLabel } from "@mui/material";
 import { MenuItem } from "@mui/material";
 import { FormControl } from "@mui/material";
 import { AiOutlinePlus } from "react-icons/ai";
+import ModalButton from "../components/buttons/ModalButton"
 
 function Ubicaciones() {
 
@@ -404,7 +405,7 @@ function Ubicaciones() {
                     }
                   </ContentInput>
                 </div>
-                <button>REGISTRAR</button>
+                <ModalButton text="REGISTRAR" />
               </form>
             </Modal>
             <Modal
@@ -474,7 +475,7 @@ function Ubicaciones() {
                     }
                   </ContentInput>
                 </div>
-                <button>ACTUALIZAR</button>
+                <ModalButton text="ACTUALIZAR" />
               </form>
             </Modal>
             <Modal
@@ -495,7 +496,7 @@ function Ubicaciones() {
                     }
                   </ContentInput>
                 </div>
-                <button>REGISTRAR</button>
+                <ModalButton text="REGISTRAR" />
               </form>
             </Modal>
             <Modal
@@ -517,7 +518,7 @@ function Ubicaciones() {
                     }
                   </ContentInput>
                 </div>
-                <button>ACTUALIZAR</button>
+                <ModalButton text="ACTUALIZAR" />
               </form>
             </Modal>
           </Modales>

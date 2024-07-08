@@ -40,6 +40,19 @@ export default function BasicTabs({ children, text1, text2, text3 }) {
     setValue(newValue);
   };
 
+  // Estilos comunes para ambos tabs
+  const commonTabStyles = {
+    backgroundColor: 'white',
+    fontWeight: 'bold',
+    borderTopLeftRadius: '8px',
+    borderTopRightRadius: '8px',
+    marginRight: '2px',
+    '&.Mui-selected': {
+      backgroundColor: '#38a800',
+      color: 'white',
+    },
+  };
+
   return (
     <Box sx={{ width: '90%' }}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
@@ -53,33 +66,14 @@ export default function BasicTabs({ children, text1, text2, text3 }) {
             },
           }} >
           <Tab label={text1}{...a11yProps(0)} 
-            sx={{
-                backgroundColor: 'white',
-                fontWeight: 'bold',
-                '&.Mui-selected': {
-                  backgroundColor: '#38a800',
-                  color: 'white',
-                },
-              }}
+            sx={commonTabStyles}
           />
           <Tab label={text2} {...a11yProps(1)} 
-          sx={{
-            backgroundColor: 'white',
-            fontWeight: 'bold',
-            '&.Mui-selected': {
-              backgroundColor: '#38a800',
-              color: 'white',
-            },
-          }}/>
+          sx={commonTabStyles}
+          />
           <Tab label={text3} {...a11yProps(2)} 
-          sx={{
-            backgroundColor: 'white',
-            fontWeight: 'bold',
-            '&.Mui-selected': {
-              backgroundColor: '#38a800',
-              color: 'white',
-            },
-          }}/>
+          sx={commonTabStyles}
+          />
         </Tabs>
       </Box>
       {React.Children.map(children, (child, index) => (

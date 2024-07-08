@@ -27,6 +27,7 @@ import { FormControl } from "@mui/material";
 import { InputLabel } from "@mui/material";
 import { MenuItem } from "@mui/material";
 import ContentInput from "../components/organismos/ContentInput";
+import ModalButton from "../components/buttons/ModalButton"
 
 function Mantenimientos() {
   //#region funciones
@@ -793,7 +794,7 @@ function Mantenimientos() {
                   </div>
                 </div>
               </div>
-              <button>REGISTRAR</button>
+              <ModalButton text="REGISTRAR" />
             </form>
           </Modal>
           <Modal
@@ -898,9 +899,7 @@ function Mantenimientos() {
                   </div>
                 </div>
               </div>
-
-
-              <button>ACTUALIZAR</button>
+              <ModalButton text="ACTUALIZAR" />
             </form>
           </Modal>
           <Modal
@@ -952,7 +951,7 @@ function Mantenimientos() {
                 </div>
               </div>
 
-              <button>REGISTRAR</button>
+              <ModalButton text="REGISTRAR" />
             </form>
           </Modal>
           <Modal
@@ -1003,7 +1002,7 @@ function Mantenimientos() {
                   </div>
                 </div>
               </div>
-              <button>ACTUALIZAR</button>
+              <ModalButton text="ACTUALIZAR" />
             </form>
           </Modal>
           <Modal
@@ -1065,7 +1064,7 @@ function Mantenimientos() {
                   }
                 </ContentInput>
               </div>
-              <button>REGISTRAR</button>
+              <ModalButton text="REGISTRAR" />
             </form>
           </Modal>
           <Modal
@@ -1127,7 +1126,7 @@ function Mantenimientos() {
                   }
                 </ContentInput>
               </div>
-              <button>ACTUALIZAR</button>
+              <ModalButton text="ACTUALIZAR" />
             </form>
           </Modal>
         </Modales>
