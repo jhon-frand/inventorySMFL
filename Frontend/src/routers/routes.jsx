@@ -4,7 +4,6 @@ import Equipos from "../pages/Equipos"
 import Mantenimientos from "../pages/Mantenimientos"
 import Ubicaciones from "../pages/Ubicaciones"
 import Usuarios from "../pages/Usuarios"
-import Unidades from "../pages/Unidades"
 
 function MyRoutes() {
 
@@ -20,7 +19,6 @@ function MyRoutes() {
             <Route path="/mantenimientos" element={<Mantenimientos />} />
             <Route path="/ubicaciones" element={<Ubicaciones />} />
             <Route path="/usuarios" element={<Usuarios />} />
-            <Route path="/unidades" element={<Unidades />} />
           </Routes>
         ) : (
           <Routes>
