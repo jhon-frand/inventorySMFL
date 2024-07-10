@@ -6,16 +6,17 @@ import { endpointMantenimientoTipo } from '../endpoints/Endpoints';
 import styled from 'styled-components';
 
 function StackedBarChart() {
-    const [data, setData] = useState({ unidades: [], preventivos: [], tecnicos: [] });
+    const [data, setData] = useState({ unidades: [], predictivos: [], preventivos: [], correctivos: [] });
 
     const getManteinmentsTipe = async () => {
         try {
             const response = await axios.get(endpointMantenimientoTipo);
             const result = response.data;
             const unidades = result.map(item => item.nombre_unidad);
+            const predictivos = result.map(item => parseInt(item.total_predictivos));
             const preventivos = result.map(item => parseInt(item.total_preventivos));
-            const tecnicos = result.map(item => parseInt(item.total_tecnicos));
-            setData({ unidades, preventivos, tecnicos });
+            const correctivos = result.map(item => parseInt(item.total_correctivos));
+            setData({ unidades, predictivos, preventivos, correctivos });
         } catch (error) {
             console.log(error);
         }
@@ -26,26 +27,19 @@ function StackedBarChart() {
     }, []);
     
     return (
-      <Content>
-          <BarChart className='grafica'
+          <BarChart 
           width={600}
           height={300}
             series={[
-                { data: data.tecnicos, label: 'técnicos', id: 'uvId', stack: 'total', color: '#38a800' },
-                { data: data.preventivos, label: 'preventivos', id: 'pvId', stack: 'total', color: '#73d542' },   
+                { data: data.correctivos, label: 'correctivos', id: 'uvId', stack: 'total', color: '#38a800' },
+                { data: data.preventivos, label: 'preventivos', id: 'pvId', stack: 'total', color: '#73d542' },
+                { data: data.predictivos, label: 'predictivos', id: 'hvId', stack: 'total', color: '#d59042' },
             ]}
             xAxis={[{ data: data.unidades, scaleType: 'band' }]}
         />
-      </Content>
     );
 }
 
-const Content = styled.div`
 
-.grafica{
-    margin: 10px;
-}
-
-`;
 
 export default StackedBarChart;

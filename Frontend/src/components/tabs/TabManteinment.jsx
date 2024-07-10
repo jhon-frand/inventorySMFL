@@ -67,12 +67,15 @@ export default function BasicTabs({ children, text1, text2, text3 }) {
           }} >
           <Tab label={text1}{...a11yProps(0)} 
             sx={commonTabStyles}
+            title="Lista de mantenimientos registrados"
           />
           <Tab label={text2} {...a11yProps(1)} 
           sx={commonTabStyles}
+          title="Lista de actividades que se han registrado a los mantenimientos"
           />
           <Tab label={text3} {...a11yProps(2)} 
           sx={commonTabStyles}
+          title="Técnicos registrados en el sistema"
           />
         </Tabs>
       </Box>

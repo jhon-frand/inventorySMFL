@@ -149,6 +149,8 @@ function Equipos() {
     descripcion: "",
     tipo_equipo: "",
     estado: "activo",
+    placa_sena: "",
+    observaciones: "",
     fk_categoria: "",
     fk_ubicacion: ""
   })
@@ -169,6 +171,8 @@ function Equipos() {
       descripcion: "",
       tipo_equipo: "",
       estado: "activo",
+      placa_sena: "",
+    observaciones: "",
       fk_categoria: "",
       fk_ubicacion: ""
     })
@@ -232,7 +236,9 @@ function Equipos() {
       tipo_equipo: datos[9],
       marca_equipo: datos[10],
       modelo_equipo: datos[11],
-      descripcion: datos[12]
+      descripcion: datos[12],
+      placa_sena: datos[13],
+    observaciones: datos[14],
     })
     setSelectId(datos[0])
     setModalUpdate(true)
@@ -470,6 +476,20 @@ function Equipos() {
       }
     },
     {
+      name: "placa_sena",
+      label: "PLACA SENA",
+      options: {
+        display: 'false'
+      }
+    },
+    {
+      name: "observaciones",
+      label: "OBSERVACIONES",
+      options: {
+        display: 'false'
+      }
+    },
+    {
       name: "editar",
       label: "ACTIONS",
       options: {
@@ -606,6 +626,16 @@ function Equipos() {
                       )
                     }
                   </ContentInput>
+                  <ContentInput>
+                    <TextField name="placa_sena" onChange={valorInput} value={valores.placa_sena} type="text" label="Placa SENA" required />
+                    {
+                      errores && errores.some(([campo]) => campo === "placa_sena") && (
+                        <p>
+                          {errores.find(([campo]) => campo === "placa_sena")[1]}
+                        </p>
+                      )
+                    }
+                  </ContentInput>
                 </div>
                 <div className="filas">
                   <div className="content-one">
@@ -642,15 +672,14 @@ function Equipos() {
                           </Select>
                         </FormControl>
                       </ContentInput>
-                    </div>
-                    <div className="input-description">
+                      <div className="input-description">
                       <TextField
                         name="descripcion"
                         onChange={valorInput} value={valores.descripcion}
                         label="Descripción"
                         required
                         multiline
-                        rows={8}
+                        rows={5}
                       />
                       {
                         errores && errores.some(([campo]) => campo === "descripcion") && (
@@ -660,8 +689,8 @@ function Equipos() {
                         )
                       }
                     </div>
-                  </div>
-                  <div className="input-ubication">
+                    </div>
+                    <div className="input-ubication">
                     <ContentInput>
                       <FormControl>
                         <InputLabel>Ubicación</InputLabel>
@@ -686,7 +715,25 @@ function Equipos() {
                         }
                       </FormControl>
                     </ContentInput>
+                    <div className="input-description">
+                      <TextField
+                        name="observaciones"
+                        onChange={valorInput} value={valores.observaciones}
+                        label="Observaciones"
+                        multiline
+                        rows={5}
+                      />
+                      {
+                        errores && errores.some(([campo]) => campo === "observaciones") && (
+                          <p>
+                            {errores.find(([campo]) => campo === "observaciones")[1]}
+                          </p>
+                        )
+                      }
+                    </div>
                   </div>
+                  </div>
+                  
                 </div>
               </div>
               <ModalButton text="REGISTRAR" />
@@ -736,6 +783,16 @@ function Equipos() {
                       errores && errores.some(([campo]) => campo === "modelo_equipo") && (
                         <p>
                           {errores.find(([campo]) => campo === "modelo_equipo")[1]}
+                        </p>
+                      )
+                    }
+                  </ContentInput>
+                  <ContentInput>
+                    <TextField name="placa_sena" onChange={editValorInput} value={valores.placa_sena} type="text" label="Placa SENA" required />
+                    {
+                      errores && errores.some(([campo]) => campo === "placa_sena") && (
+                        <p>
+                          {errores.find(([campo]) => campo === "placa_sena")[1]}
                         </p>
                       )
                     }
@@ -820,12 +877,28 @@ function Equipos() {
                       label="Descripción"
                       multiline
                       required
-                      rows={8}
+                      rows={5}
                     />
                     {
                       errores && errores.some(([campo]) => campo === "descripcion") && (
                         <p>
                           {errores.find(([campo]) => campo === "descripcion")[1]}
+                        </p>
+                      )
+                    }
+                  </div>
+                  <div className="description">
+                    <TextField
+                      name="observaciones"
+                      onChange={editValorInput} value={valores.observaciones}
+                      label="Observaciones"
+                      multiline
+                      rows={5}
+                    />
+                    {
+                      errores && errores.some(([campo]) => campo === "observaciones") && (
+                        <p>
+                          {errores.find(([campo]) => campo === "observaciones")[1]}
                         </p>
                       )
                     }
@@ -895,8 +968,9 @@ function Equipos() {
                       <FormControl>
                         <InputLabel>Tipo</InputLabel>
                         <Select label="Tipo" name="tipo_mantenimiento" value={valoresManteinment.tipo_mantenimiento} onChange={valorInputManteinment} required>
+                          <MenuItem value="predictivo">Predictivo</MenuItem>
                           <MenuItem value="preventivo">Preventivo</MenuItem>
-                          <MenuItem value="tecnico">Técnico</MenuItem>
+                          <MenuItem value="correctivo">Correctivo</MenuItem>
                         </Select>
                       </FormControl>
 

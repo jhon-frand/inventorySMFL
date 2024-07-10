@@ -41,8 +41,10 @@ function SideBar({ openSide, setOpenSide }) {
             <div className="content-links">
                 {
                     filteredLinksArray.map(({ icon, label, to }) => (
-                        <div className="linkContainer" key={label}>
-                            <NavLink to={to} className={({ isActive }) => `links ${isActive ? `active` : ``}`}>
+                        <div className="linkContainer" key={label} >
+                            <NavLink to={to}
+                             className={({ isActive }) => `links ${isActive ? `active` : ``}`}
+                             data-title={label} >
                                 <div className="linkIcon">
                                     {icon}
                                 </div>
@@ -194,9 +196,8 @@ justify-content: space-between;
 }
 }
 
-
-
 .linkContainer{
+    position: relative;
 
     .links{
         display: flex;
@@ -211,6 +212,23 @@ justify-content: space-between;
             border-radius: 10px;
             color: white;
             background: #38a800c5;
+
+            &::after {
+                content: attr(data-title);
+                display: ${({$isOpen}) => ($isOpen ? 'none' : 'block')} ;
+                position: absolute;
+                left: 100%;
+                top: 50%;
+                transform: translateY(-50%);
+                background:#38a800;
+                font-size: 12px;
+                padding: 4px 8px;
+                color: white;
+                border-radius: 5px;
+                white-space: nowrap;
+                margin-left: 3px;
+                z-index: 1000;
+            }
         }
         
         span{

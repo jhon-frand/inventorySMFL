@@ -191,7 +191,9 @@ function EquipoActive() {
     fecha_ingreso: "",
     descripcion: "",
     tipo_equipo: "",
-    estado: "activo",
+    estado: "",
+    placa_sena: "",
+  observaciones: "",
     fk_categoria: "",
     fk_ubicacion: ""
   })
@@ -203,22 +205,11 @@ function EquipoActive() {
     fk_equipo: ""
   })
   const clearFormEquipos = () => {
-    setValores({
-      serial: "",
-      nombre_equipo: "",
-      marca_equipo: "",
-      modelo_equipo: "",
-      fecha_ingreso: "",
-      descripcion: "",
-      tipo_equipo: "",
-      estado: "",
-      fk_categoria: "",
-      fk_ubicacion: ""
-    })
     setErrores("")
     setSelectId(null)
     setModalUpdate(false)
   }
+
   const clearFormManteinment = () => {
     setValoresManteinment({
       tipo_mantenimiento: "",
@@ -255,7 +246,9 @@ function EquipoActive() {
       tipo_equipo: datos[9],
       marca_equipo: datos[10],
       modelo_equipo: datos[11],
-      descripcion: datos[12]
+      descripcion: datos[12],
+      placa_sena: datos[13],
+    observaciones: datos[14],
     })
     setSelectId(datos[0])
     setModalUpdate(true)
@@ -449,6 +442,20 @@ function EquipoActive() {
       }
     },
     {
+      name: "placa_sena",
+      label: "PLACA SENA",
+      options: {
+        display: 'false'
+      }
+    },
+    {
+      name: "observaciones",
+      label: "OBSERVACIONES",
+      options: {
+        display: 'false'
+      }
+    },
+    {
       name: "editar",
       label: "ACTIONS",
       options: {
@@ -549,6 +556,16 @@ function EquipoActive() {
                     )
                   }
                 </ContentInput>
+                <ContentInput>
+                    <TextField name="placa_sena" onChange={editValorInput} value={valores.placa_sena} type="text" label="Placa SENA" required />
+                    {
+                      errores && errores.some(([campo]) => campo === "placa_sena") && (
+                        <p>
+                          {errores.find(([campo]) => campo === "placa_sena")[1]}
+                        </p>
+                      )
+                    }
+                  </ContentInput>
               </div>
               <div className="filas">
                 <ContentInput>
@@ -639,6 +656,23 @@ function EquipoActive() {
                     )
                   }
                 </div>
+                <div className="description">
+                    <TextField
+                      name="observaciones"
+                      onChange={editValorInput} value={valores.observaciones}
+                      label="Observaciones"
+                      multiline
+                      required
+                      rows={5}
+                    />
+                    {
+                      errores && errores.some(([campo]) => campo === "observaciones") && (
+                        <p>
+                          {errores.find(([campo]) => campo === "observaciones")[1]}
+                        </p>
+                      )
+                    }
+                  </div>
               </div>
             </div>
             <ModalButton text="ACTUALIZAR" />
@@ -657,8 +691,9 @@ function EquipoActive() {
                     <FormControl>
                       <InputLabel>Tipo</InputLabel>
                       <Select label="Tipo" name="tipo_mantenimiento" value={valoresManteinment.tipo_mantenimiento} onChange={valorInputManteinment} required>
+                      <MenuItem value="predictivo">Predictivo</MenuItem>
                         <MenuItem value="preventivo">Preventivo</MenuItem>
-                        <MenuItem value="tecnico">Técnico</MenuItem>
+                        <MenuItem value="correctivo">Técnico</MenuItem>
                       </Select>
                     </FormControl>
 

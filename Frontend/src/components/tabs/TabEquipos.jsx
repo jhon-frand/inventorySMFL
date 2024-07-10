@@ -67,21 +67,27 @@ export default function BasicTabs({ children, text1, text2,  text3, text4, text5
           }} >
           <Tab label={text1}{...a11yProps(0)} 
             sx={commonTabStyles}
+            title="Todos los equipos registrados"
           />
           <Tab label={text2} {...a11yProps(1)} 
           sx={commonTabStyles}
+          title="Todos los equipos que se encuentran en mantenimiento"
           />
           <Tab label={text3} {...a11yProps(2)} 
           sx={commonTabStyles}
+          title="Todos los equipos que se encuentran activos"
           />
           <Tab label={text4} {...a11yProps(3)} 
           sx={commonTabStyles}
+          title="Todos los equipos que se encuentran inactivos"
           />
           <Tab label={text5} {...a11yProps(4)} 
           sx={commonTabStyles}
+          title="Todos los equipos dados de baja"
           />
           <Tab label={text6} {...a11yProps(4)} 
           sx={commonTabStyles}
+          title="Categorías registradas para los equipos"
           />
         </Tabs>
       </Box>

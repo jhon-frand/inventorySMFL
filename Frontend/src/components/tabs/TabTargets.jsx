@@ -67,9 +67,11 @@ export default function BasicTabs({ children, text1, text2 }) {
           }} >
           <Tab label={text1}{...a11yProps(0)} 
             sx={commonTabStyles}
+            title="Estadísticas de mantenimientos en las unidades productivas"
           />
           <Tab label={text2} {...a11yProps(1)} 
           sx={commonTabStyles}
+          title="Estadísticas de equipos en las unidades productivas"
           />
           </Tabs>
           </Box>

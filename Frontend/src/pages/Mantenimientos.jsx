@@ -700,8 +700,9 @@ function Mantenimientos() {
                       <FormControl>
                         <InputLabel>Tipo</InputLabel>
                         <Select label="Tipo" name="tipo_mantenimiento" value={valores.tipo_mantenimiento} onChange={valorInput} required>
+                        <MenuItem value="predictivo">Predictivo</MenuItem>
                           <MenuItem value="preventivo">Preventivo</MenuItem>
-                          <MenuItem value="tecnico">Técnico</MenuItem>
+                          <MenuItem value="correctivo">Correctivo</MenuItem>
                         </Select>
                       </FormControl>
 
@@ -811,8 +812,9 @@ function Mantenimientos() {
                       <FormControl>
                         <InputLabel>Tipo</InputLabel>
                         <Select label="Tipo" name="tipo_mantenimiento" value={valores.tipo_mantenimiento} onChange={editValorInput} required>
+                          <MenuItem value="predictivo">Predictivo</MenuItem>
                           <MenuItem value="preventivo">Preventivo</MenuItem>
-                          <MenuItem value="tecnico">Técnico</MenuItem>
+                          <MenuItem value="correctivo">Correctivo</MenuItem>
                         </Select>
                       </FormControl>
                     </ContentInput>
@@ -851,16 +853,16 @@ function Mantenimientos() {
                       {
                         user && user === "2" ? (
                           <div className="inputs-encar">
-                            <TextField 
-                            label="ID" 
-                            className="idUnidad" 
-                            name="fk_user_responsable" 
-                            type="number" 
-                            value={valores.fk_user_responsable} 
-                            onChange={editValorInput} 
-                            readOnly
-                            style={{ display: 'none' }} />
-                            
+                            <TextField
+                              label="ID"
+                              className="idUnidad"
+                              name="fk_user_responsable"
+                              type="number"
+                              value={valores.fk_user_responsable}
+                              onChange={editValorInput}
+                              readOnly
+                              style={{ display: 'none' }} />
+
                             <TextField label="Nombres" type="text" value={nombresUser} readOnly />
                           </div>
                         ) : (

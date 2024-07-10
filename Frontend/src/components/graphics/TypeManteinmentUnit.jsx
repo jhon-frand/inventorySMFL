@@ -16,7 +16,7 @@ function TypeManteinmentUnit() {
                 // Transformar los datos al formato adecuado para PieChart
                 const formattedData = [
                     { id: 'Preventivo', label: 'Preventivo', value: parseInt(result.total_preventivos) },
-                    { id: 'Técnico', label: 'Técnico', value: parseInt(result.total_tecnicos) }
+                    { id: 'Correctivo', label: 'Correctivo', value: parseInt(result.total_correctivos) }
                 ];
 
                 setData(formattedData);
@@ -24,7 +24,7 @@ function TypeManteinmentUnit() {
                 // Si no hay datos, inicializar con valores por defecto
                 setData([
                     { id: 'Preventivo', label: 'Preventivo', value: 0 },
-                    { id: 'Técnico', label: 'Técnico', value: 0 }
+                    { id: 'Correctivo', label: 'Correctivo', value: 0 }
                 ]);
             }
         } catch (error) {

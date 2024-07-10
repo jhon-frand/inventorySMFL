@@ -194,8 +194,9 @@ const getTotalMantenimientoUnidadType = async (peticion, respuesta) => {
         const sql = `
                  SELECT 
                      unidades_productivas.nombre_unidad,
+                     SUM(CASE WHEN mantenimientos.tipo_mantenimiento = 'predictivo' THEN 1 ELSE 0 END) AS total_predictivos,
                      SUM(CASE WHEN mantenimientos.tipo_mantenimiento = 'preventivo' THEN 1 ELSE 0 END) AS total_preventivos,
-                     SUM(CASE WHEN mantenimientos.tipo_mantenimiento = 'técnico' THEN 1 ELSE 0 END) AS total_tecnicos
+                     SUM(CASE WHEN mantenimientos.tipo_mantenimiento = 'correctivo' THEN 1 ELSE 0 END) AS total_correctivos
                 FROM mantenimientos
                 JOIN usuarios ON usuarios.id_usuario = mantenimientos.fk_user_responsable
                 JOIN unidades_productivas ON unidades_productivas.id_unidad = usuarios.fk_unidad_productiva
@@ -220,7 +221,7 @@ const getTotalMantenimientoTypeUnit = async (peticion, respuesta) => {
                  SELECT 
                      unidades_productivas.nombre_unidad,
                      SUM(CASE WHEN mantenimientos.tipo_mantenimiento = 'preventivo' THEN 1 ELSE 0 END) AS total_preventivos,
-                     SUM(CASE WHEN mantenimientos.tipo_mantenimiento = 'técnico' THEN 1 ELSE 0 END) AS total_tecnicos
+                     SUM(CASE WHEN mantenimientos.tipo_mantenimiento = 'correctivo' THEN 1 ELSE 0 END) AS total_correctivos
                 FROM mantenimientos
                 JOIN usuarios ON usuarios.id_usuario = mantenimientos.fk_user_responsable
                 JOIN unidades_productivas ON unidades_productivas.id_unidad = usuarios.fk_unidad_productiva
