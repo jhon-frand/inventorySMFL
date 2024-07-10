@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost:3306
--- Tiempo de generación: 04-07-2024 a las 02:39:15
+-- Tiempo de generación: 10-07-2024 a las 03:33:08
 -- Versión del servidor: 8.0.30
 -- Versión de PHP: 8.1.10
 
@@ -79,6 +79,8 @@ CREATE TABLE `equipos` (
   `descripcion` varchar(250) NOT NULL,
   `tipo_equipo` varchar(50) NOT NULL,
   `estado` enum('activo','inactivo','mantenimiento','excluido') NOT NULL,
+  `placa_sena` varchar(30) NOT NULL,
+  `observaciones` varchar(250) DEFAULT NULL,
   `fk_categoria` int NOT NULL,
   `fk_ubicacion` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -87,15 +89,19 @@ CREATE TABLE `equipos` (
 -- Volcado de datos para la tabla `equipos`
 --
 
-INSERT INTO `equipos` (`id_equipo`, `serial`, `nombre_equipo`, `marca_equipo`, `modelo_equipo`, `fecha_ingreso`, `descripcion`, `tipo_equipo`, `estado`, `fk_categoria`, `fk_ubicacion`) VALUES
-(47, 'ASW321', 'portatil', 'ASUS', 'MOD2020', '2024-07-03', 'portátil asus mini', 'eléctrico', 'activo', 53, 61),
-(48, '123as2', 'molino', 'Pm2', 'Mod212', '2024-07-03', 'molino triturador de hierbas', 'eléctrico', 'mantenimiento', 51, 65),
-(49, '098WER', 'tostador', 'Caf23', 'MOD2021', '2024-07-03', 'tostadora de cafe ', 'eléctrico', 'inactivo', 51, 64),
-(50, 'QWE321', 'Horno', 'HJ21', 'MOD212', '2024-07-05', 'horno para carnes rojas', 'eléctrico', 'mantenimiento', 51, 63),
-(51, '1234535', 'Nevera', 'HACEB', 'HC21', '2024-07-04', 'nevera para productos lácteos', 'eléctrico', 'mantenimiento', 51, 62),
-(52, 'JGHJ45', 'Tetera', 'Valdez', 'MOD234', '2024-07-03', 'maquina para hacer cafe', 'eléctrico', 'activo', 51, 64),
-(53, 'BEJE4', 'Despulpadora', 'Bellota', 'MOD23', '2024-07-03', 'despulpadora de cafe especial', 'eléctrico', 'mantenimiento', 51, 64),
-(54, 'AW4I', 'Portatil asus', 'ASUS', 'XAM23', '2024-07-04', 'portatil de software inventory', 'manual', 'mantenimiento', 53, 64);
+INSERT INTO `equipos` (`id_equipo`, `serial`, `nombre_equipo`, `marca_equipo`, `modelo_equipo`, `fecha_ingreso`, `descripcion`, `tipo_equipo`, `estado`, `placa_sena`, `observaciones`, `fk_categoria`, `fk_ubicacion`) VALUES
+(47, 'ASW321', 'portatil', 'ASUS', 'MOD2020', '2024-07-03', 'portátil asus mini', 'eléctrico', 'activo', '', NULL, 53, 61),
+(48, '123as2', 'molino', 'Pm2', 'Mod212', '2024-07-03', 'molino triturador de hierbas', 'eléctrico', 'mantenimiento', '', NULL, 51, 65),
+(49, '098WER', 'tostador', 'Caf23', 'MOD2021', '2024-07-03', 'tostadora de cafe ', 'eléctrico', 'inactivo', '', NULL, 51, 64),
+(50, 'QWE321', 'Horno', 'HJ21', 'MOD212', '2024-07-05', 'horno para carnes rojas', 'eléctrico', 'mantenimiento', '', NULL, 51, 63),
+(51, '1234535', 'Nevera', 'HACEB', 'HC21', '2024-07-04', 'nevera para productos lácteos', 'eléctrico', 'mantenimiento', '', NULL, 51, 62),
+(52, 'JGHJ45', 'Tetera', 'Valdez', 'MOD234', '2024-07-03', 'maquina para hacer cafe', 'eléctrico', 'activo', '', NULL, 51, 64),
+(53, 'BEJE4', 'Despulpadora', 'Bellota', 'MOD23', '2024-07-03', 'despulpadora de cafe especial', 'eléctrico', 'mantenimiento', '', NULL, 51, 64),
+(54, 'AW4I', 'Portatil asus', 'ASUS', 'XAM23', '2024-07-04', 'portatil de software inventory', 'manual', 'mantenimiento', '', NULL, 53, 64),
+(55, 'AXS32D', 'Portatil', 'DELL', 'MOD234', '2024-07-07', 'computador dell core i5', 'eléctrico', 'activo', '', NULL, 53, 61),
+(56, '67SAER23', 'Microscopio', 'MCR', 'MOD56', '2024-07-07', 'microscopio de sustancias', 'manual', 'activo', '', NULL, 52, 62),
+(57, 'HJS45', 'CPU', 'HP', 'MOD89', '2024-07-07', 'torre CPU de servidor', 'eléctrico', 'activo', '', NULL, 53, 61),
+(58, '875GY', 'Tractor', 'TRCER', 'MOD74', '2024-07-07', 'tractor de maiz', 'combustible', 'activo', '', NULL, 51, 65);
 
 -- --------------------------------------------------------
 
@@ -105,7 +111,7 @@ INSERT INTO `equipos` (`id_equipo`, `serial`, `nombre_equipo`, `marca_equipo`, `
 
 CREATE TABLE `mantenimientos` (
   `id_mantenimiento` int NOT NULL,
-  `tipo_mantenimiento` enum('preventivo','tecnico') NOT NULL,
+  `tipo_mantenimiento` enum('predictivo','preventivo','correctivo') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `fecha_mantenimiento` date NOT NULL,
   `descripcion` varchar(250) NOT NULL,
   `fk_user_responsable` int NOT NULL,
@@ -118,11 +124,11 @@ CREATE TABLE `mantenimientos` (
 
 INSERT INTO `mantenimientos` (`id_mantenimiento`, `tipo_mantenimiento`, `fecha_mantenimiento`, `descripcion`, `fk_user_responsable`, `fk_equipo`) VALUES
 (41, 'preventivo', '2024-07-04', 'fallo en la pantalla', 25, 47),
-(42, 'tecnico', '2024-07-06', 'fallo en el eje de rotación centrall', 25, 48),
-(43, 'tecnico', '2024-07-04', 'fallo en el sistema de calor', 26, 49),
-(44, 'tecnico', '2024-07-03', 'falla en la polea central', 29, 48),
-(45, 'tecnico', '2024-07-03', 'fallas en los botones de marchas', 28, 50),
-(46, 'tecnico', '2024-07-03', 'fallos en el refrigerador', 27, 51),
+(42, 'preventivo', '2024-07-06', 'fallo en el eje de rotación centrall', 25, 48),
+(43, 'preventivo', '2024-07-04', 'fallo en el sistema de calor', 26, 49),
+(44, 'preventivo', '2024-07-03', 'falla en la polea central', 29, 48),
+(45, 'preventivo', '2024-07-03', 'fallas en los botones de marchas', 28, 50),
+(46, 'preventivo', '2024-07-03', 'fallos en el refrigerador', 27, 51),
 (47, 'preventivo', '2024-07-05', 'Revisión de equipo', 26, 54);
 
 -- --------------------------------------------------------
@@ -333,7 +339,7 @@ ALTER TABLE `categorias`
 -- AUTO_INCREMENT de la tabla `equipos`
 --
 ALTER TABLE `equipos`
-  MODIFY `id_equipo` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
+  MODIFY `id_equipo` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
 
 --
 -- AUTO_INCREMENT de la tabla `mantenimientos`
