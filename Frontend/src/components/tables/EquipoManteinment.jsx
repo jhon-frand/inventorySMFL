@@ -1,7 +1,7 @@
 import MUIDataTable from "mui-datatables"
 import axios from "axios"
-import { useState, useEffect } from "react"
-import { endpointEquipo } from "../endpoints/Endpoints"
+import { useState, useEffect, useRef } from "react"
+import { endpointEquipo, endpoint } from "../endpoints/Endpoints"
 import moment from "moment"
 import { options } from "../styles/Table";
 import ButtonEdit from "../organismos/ButtonEdit"
@@ -11,7 +11,8 @@ import { AlertSucces } from "../alerts/Alerts"
 import ModalButton from "../buttons/ModalButton"
 import styled from "styled-components"
 import { MdPublishedWithChanges } from "react-icons/md";
-
+import ModalImg from "../modals/ModalImg"
+import { Button } from "@mui/material"
 
 function EquipoManteinment() {
 
@@ -22,6 +23,28 @@ function EquipoManteinment() {
 
   const user = localStorage.getItem("user");
   const unidadUser = localStorage.getItem("unidad");
+
+  //imagen
+  const [modalOpen, setModalOpen] = useState(false);
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [idUpdateImg, setIdUpdateImg] = useState(null)
+
+  // Función para manejar el clic en la imagen
+  const handleImageClick = (imagePath, idEquipo) => {
+    //si la imagen es nula o indefinida no se va a abrir el modal
+    if (imagePath && imagePath !== `${endpoint}/public/images/null` && imagePath !== `${endpoint}/public/images/undefined`) {
+      setSelectedImage(imagePath);
+      setModalOpen(true);
+      setIdUpdateImg(idEquipo);
+    }
+  };
+
+  const handleCloseModal = () => {
+    setModalOpen(false);
+    setSelectedImage(null);
+    setIdUpdateImg(null);
+  };
+
 
   const [valor, setValor] = useState({
     estado: ""
@@ -170,6 +193,23 @@ function EquipoManteinment() {
       }
     },
     {
+      name: "imagen",
+      label: "IMAGEN",
+      options: {
+        customBodyRender: (value, tableMeta, updateValue) => {
+          const imagePath = `${endpoint}/public/images/${value}`;
+          const idEquipo = tableMeta.rowData[0];
+          return (
+            <Button variant="text" color="success" size="small" onClick={() => handleImageClick(imagePath, idEquipo)}
+              //si el valor del botón no existe, es nulo o indefinido, no va a permitir dar click
+              disabled={!value || value === 'null' || value === 'undefined'}>
+              Ver Imagen
+            </Button>
+          );
+        }
+      }
+    },
+    {
       name: "editar",
       label: "ACTIONS",
       options: {
@@ -211,6 +251,18 @@ function EquipoManteinment() {
       />
       )
      }
+        <ModalImg
+            estado={modalOpen}
+            cambiarEstado={handleCloseModal}
+            idUpdate={idUpdateImg}
+            actualizarEquipos={getEquipos}
+          >
+            {selectedImage && (
+
+              <img src={selectedImage} alt="Equipo" />
+
+            )}
+          </ModalImg>
       <Modal
         titulo="CAMBIAR ESTADO DE EQUIPO"
         estado={modal}
