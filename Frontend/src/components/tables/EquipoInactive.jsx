@@ -252,7 +252,7 @@ function EquipoInactive() {
             estado={modalOpen}
             cambiarEstado={handleCloseModal}
             idUpdate={idUpdateImg}
-            actualizarEquipos={getEquipos}
+            actualizarEquipos={user && user === "1" ? getEquipos : getEquiposUnit}
           >
             {selectedImage && (
 

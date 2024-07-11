@@ -207,6 +207,7 @@ justify-content: space-between;
         color: black;
         padding: 15px;
         margin: 2px;
+        position: relative;
 
         &:hover{
             border-radius: 10px;
@@ -220,14 +221,13 @@ justify-content: space-between;
                 left: 100%;
                 top: 50%;
                 transform: translateY(-50%);
-                background:#38a800;
+                background:#385c57;
                 font-size: 12px;
                 padding: 4px 8px;
                 color: white;
                 border-radius: 5px;
                 white-space: nowrap;
                 margin-left: 3px;
-                z-index: 1000;
             }
         }
         

@@ -168,6 +168,7 @@ const getTotalEquiposUnidad = async (peticion, respuesta) => {
                      JOIN ubicaciones ON ubicaciones.id_ubicacion = equipos.fk_ubicacion
                      JOIN unidades_productivas ON unidades_productivas.id_unidad = ubicaciones.fk_unidad_productiva
                      WHERE unidades_productivas.nombre_unidad = ?
+
                     `;
         const [equipos] = await connection.query(sql, unidad);
         const total = equipos[0].totalEquipos;
@@ -212,7 +213,8 @@ const getEquiposEstado = async (peticion, respuesta) => {
 
         const sql = `SELECT COUNT(*) AS total,
                      estado FROM equipos 
-                    GROUP BY equipos.estado`;
+                    GROUP BY equipos.estado
+                    `;
         const [resultado] = await connection.query(sql);
         if (resultado.length > 0) {
             return respuesta.status(200).json(resultado)
@@ -259,6 +261,7 @@ const getEquiposStatus = async (peticion, respuesta) => {
                     JOIN ubicaciones ON ubicaciones.id_ubicacion = equipos.fk_ubicacion
                     JOIN unidades_productivas ON unidades_productivas.id_unidad = ubicaciones.fk_unidad_productiva
             WHERE estado = ?
+            ORDER BY equipos.id_equipo DESC
         `;
         const [equipos] = await connection.query(sql, estado);
 
@@ -291,6 +294,7 @@ const getEquiposStatusUnit = async (peticion, respuesta) => {
             JOIN ubicaciones ON ubicaciones.id_ubicacion = equipos.fk_ubicacion
             JOIN unidades_productivas ON unidades_productivas.id_unidad = ubicaciones.fk_unidad_productiva
             WHERE equipos.estado = ? AND unidades_productivas.nombre_unidad = ?
+            ORDER BY equipos.id_equipo DESC
         `;
         const [equipos] = await connection.query(sql, [estado, unidad]);
 

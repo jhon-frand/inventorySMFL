@@ -56,6 +56,7 @@ const SideBarContainer = styled.div`
   position: absolute; 
   top: 0; 
   bottom: 0; 
+  z-index: 30;
 `;
 
 const Content = styled.div`
