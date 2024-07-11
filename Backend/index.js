@@ -14,8 +14,13 @@ import rutasActividades from "./src/routes/actividades.routes.js";
 import rutasTipo from "./src/routes/tipousuario.routes.js";
 import rutasLogin from "./src/routes/validator.routes.js";
 import rutasPassword from "./src/routes/password.routes.js";
+import path from 'path';
 
 const app = express();
+
+// Ruta absoluta a la carpeta 'public'
+const __dirname = path.resolve();
+app.use('/public', express.static(path.join(__dirname, 'src/public')));
 
 app.use(cors());
 app.use(bodyParser.json());

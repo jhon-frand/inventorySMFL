@@ -1,13 +1,13 @@
 import {Router} from 'express'
-import { equipos } from '../controllers/equipos.controller.js';
+import { equipos, upload } from '../controllers/equipos.controller.js';
 import { validationEquipo } from '../validators/equipos.validator.js';
 import { validationToken } from '../controllers/validator.controller.js';
 
 const rutas = Router();
 
 // Rutas POST y PUT
-rutas.post("/", validationEquipo(), validationToken, equipos.postEquipo);
-rutas.put("/:id", validationEquipo(), validationToken, equipos.putEquipo);
+rutas.post("/", upload.single('imagen'), validationEquipo, validationToken, equipos.postEquipo);
+rutas.put("/:id", validationEquipo, validationToken, equipos.putEquipo);
 rutas.put("/estado/:id", equipos.putEstado);
 
 // Rutas GET específicas

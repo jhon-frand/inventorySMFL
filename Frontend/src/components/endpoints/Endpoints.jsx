@@ -1,4 +1,4 @@
-const endpoint = "http://localhost:3000";
+export const endpoint = "http://localhost:3000";
 export const endpointActividad = `${endpoint}/actividades`;
 export const endpointTecnico = `${endpoint}/tecnicos`;
 export const endpointMantenimiento = `${endpoint}/mantenimientos`;

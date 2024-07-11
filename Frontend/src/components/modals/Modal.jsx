@@ -12,6 +12,7 @@ function Modal({children, titulo, estado, cambiarEstado}) {
          </EncabezadoModal>
          <BotonCerrar onClick={() => cambiarEstado()} > <IoMdClose /> </BotonCerrar>
          {children}
+        
      </ContenedorModal>
  </Overlay>
    }
@@ -42,6 +43,10 @@ const ContenedorModal = styled.div`
     border-radius: 10px;
     padding: 20px;
     box-shadow: 0 0 5px white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 
 `;
 
@@ -52,6 +57,7 @@ const EncabezadoModal = styled.div`
     margin-bottom: 20px;
     padding-bottom: 10px;
     border-bottom: 1px solid gray;
+    width: 100%;
 
     h3{
         font-size: 16px;

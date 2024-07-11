@@ -1,8 +1,8 @@
 import HeaderPageTwo from "../components/organismos/HeaderPageTwo";
 import MUIDataTable from "mui-datatables";
 import axios from "axios";
-import { useEffect, useState } from "react";
-import { ContainerTable, options, optionsMedium } from "../components/styles/Table";
+import { useEffect, useRef, useState } from "react";
+import { ContainerTable, options } from "../components/styles/Table";
 import Modal from "../components/modals/Modal";
 import ButtonEdit from "../components/organismos/ButtonEdit";
 import moment from "moment"
@@ -16,7 +16,8 @@ import {
   endpointCategoria,
   endpointUbicacion,
   endpointMantenimiento,
-  endpointUser
+  endpointUser,
+  endpoint
 } from "../components/endpoints/Endpoints";
 import { Container, Modales } from "../components/styles/StylesEquipos";
 import ContentInput from "../components/organismos/ContentInput";
@@ -32,7 +33,9 @@ import EquipoActive from "../components/tables/EquipoActive";
 import EquipoInactive from "../components/tables/EquipoInactive";
 import EquipoExcluded from "../components/tables/EquipoExcluded";
 import ModalButton from "../components/buttons/ModalButton"
-
+import { MdPermMedia } from "react-icons/md";
+import { Button } from "@mui/material";
+import ModalImg from "../components/modals/ModalImg";
 
 function Equipos() {
 
@@ -63,7 +66,27 @@ function Equipos() {
   const nombresUser = localStorage.getItem("nombres")
   const idUser = localStorage.getItem("usuario");
 
-    //#endregion constantes
+  //#endregion constantes
+
+  const [modalOpen, setModalOpen] = useState(false);
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [preview, setPreview] = useState(null);
+  const fileInputRef = useRef(null);
+
+ // Función para manejar el clic en la imagen
+const handleImageClick = (imagePath) => {
+  //si la imagen es nula o indefinida no se va a abrir el modal
+  if (imagePath && imagePath !== `${endpoint}/public/images/null` && imagePath !== `${endpoint}/public/images/undefined`) {
+    setSelectedImage(imagePath);
+    setModalOpen(true);
+  }
+};
+
+  const handleCloseModal = () => {
+    setModalOpen(false);
+    setSelectedImage(null);
+  };
+
 
   const getEquipos = async () => {
     try {
@@ -152,7 +175,8 @@ function Equipos() {
     placa_sena: "",
     observaciones: "",
     fk_categoria: "",
-    fk_ubicacion: ""
+    fk_ubicacion: "",
+    imagen: null
   })
   const [valoresManteinment, setValoresManteinment] = useState({
     tipo_mantenimiento: "",
@@ -161,6 +185,9 @@ function Equipos() {
     fk_user_responsable: "",
     fk_equipo: ""
   })
+
+
+
   const clearFormEquipos = () => {
     setValores({
       serial: "",
@@ -172,10 +199,12 @@ function Equipos() {
       tipo_equipo: "",
       estado: "activo",
       placa_sena: "",
-    observaciones: "",
+      observaciones: "",
       fk_categoria: "",
-      fk_ubicacion: ""
+      fk_ubicacion: "",
+      imagen: null
     })
+    setPreview(null);
     setErrores("")
     setSelectId(null)
     setModalUpdate(false)
@@ -238,7 +267,7 @@ function Equipos() {
       modelo_equipo: datos[11],
       descripcion: datos[12],
       placa_sena: datos[13],
-    observaciones: datos[14],
+      observaciones: datos[14],
     })
     setSelectId(datos[0])
     setModalUpdate(true)
@@ -312,12 +341,24 @@ function Equipos() {
       console.log(error);
     }
   }
+
   const valorInput = (event) => {
-    setValores({
-      ...valores,
-      [event.target.name]: event.target.value
-    })
-  }
+    const { name, value, files } = event.target;
+    if (name === 'imagen') {
+      const file = files[0];
+      setValores({
+        ...valores,
+        imagen: file
+      });
+      setPreview(URL.createObjectURL(file));
+    } else {
+      setValores({
+        ...valores,
+        [name]: value
+      });
+    }
+  };
+
   const valorInputCategory = (event) => {
     setValoresCategory({
       ...valoresCategory,
@@ -334,11 +375,18 @@ function Equipos() {
   const postEquipo = async (event) => {
     event.preventDefault();
     try {
-      const respuesta = await axios.post(endpointEquipo, valores, {
+      const formData = new FormData();
+      for (const key in valores) {
+        formData.append(key, valores[key]);
+      }
+
+      const respuesta = await axios.post(endpointEquipo, formData, {
         headers: {
+          "Content-Type": "multipart/form-data",
           "token": token
         }
-      })
+      });
+
       if (respuesta.status === 200) {
         const msg = respuesta.data.message;
         AlertSucces(msg);
@@ -348,10 +396,15 @@ function Equipos() {
       getEquiposUnidad();
     } catch (error) {
       AlertError();
-      setErrores(error.response.data.msg)
+      setErrores(error.response.data.msg);
       console.log(error.response.data.msg);
     }
-  }
+  };
+
+  const handleFileButtonClick = () => {
+    fileInputRef.current.click();
+  };
+
   const postCategory = async (event) => {
     event.preventDefault();
     try {
@@ -490,6 +543,22 @@ function Equipos() {
       }
     },
     {
+      name: "imagen",
+      label: "IMAGEN",
+      options: {
+        customBodyRender: (value, tableMeta, updateValue) => {
+          const imagePath = `${endpoint}/public/images/${value}`;
+          return (
+            <Button variant="text" color="success" size="small" onClick={() => handleImageClick(imagePath)}
+            //si el valor del botón no existe, es nulo o indefinido, no va a permitir dar click
+            disabled={!value || value === 'null' || value === 'undefined'}>
+              Ver Imagen
+            </Button>
+          );
+        }
+      }
+    },
+    {
       name: "editar",
       label: "ACTIONS",
       options: {
@@ -578,6 +647,16 @@ function Equipos() {
           funcion1={() => setModal(true)}
           funcion2={() => setModalCategory(true)} />
         <Modales>
+          <ModalImg
+            estado={modalOpen}
+            cambiarEstado={handleCloseModal}
+          >
+              {selectedImage && (
+             
+                <img src={selectedImage} alt="Equipo" />
+                
+              )}
+          </ModalImg>
           <Modal
             titulo="REGISTRAR EQUIPO"
             estado={modal}
@@ -585,7 +664,7 @@ function Equipos() {
           >
             <form className="formulario" onSubmit={postEquipo}>
               <div className="inputs-data">
-                <div className="filas">
+                <div className="fila-one">
                   <ContentInput>
                     <TextField name="serial" onChange={valorInput} value={valores.serial} type="text" label="Serial" required />
                     {
@@ -637,9 +716,7 @@ function Equipos() {
                     }
                   </ContentInput>
                 </div>
-                <div className="filas">
-                  <div className="content-one">
-                    <div className="inputs-one">
+                <div className="fila-two">
                       <ContentInput>
                         <TextField name="fecha_ingreso" onChange={valorInput} value={valores.fecha_ingreso} type="date" required />
                         {
@@ -673,70 +750,82 @@ function Equipos() {
                         </FormControl>
                       </ContentInput>
                       <div className="input-description">
-                      <TextField
-                        name="descripcion"
-                        onChange={valorInput} value={valores.descripcion}
-                        label="Descripción"
-                        required
-                        multiline
-                        rows={5}
-                      />
-                      {
-                        errores && errores.some(([campo]) => campo === "descripcion") && (
-                          <p>
-                            {errores.find(([campo]) => campo === "descripcion")[1]}
-                          </p>
-                        )
-                      }
-                    </div>
-                    </div>
-                    <div className="input-ubication">
-                    <ContentInput>
-                      <FormControl>
-                        <InputLabel>Ubicación</InputLabel>
+                        <TextField
+                          name="descripcion"
+                          onChange={valorInput} value={valores.descripcion}
+                          label="Descripción"
+                          required
+                          multiline
+                          rows={4}
+                        />
                         {
-                          user && user === "1" ? (
-                            <Select label="Ubicación" name="fk_ubicacion" onChange={valorInput} value={valores.fk_ubicacion} required>
-                              {
-                                ubicaciones.map((ubicaciones) => (
-                                  <MenuItem key={ubicaciones.id_ubicacion} value={ubicaciones.id_ubicacion}>{ubicaciones.nombre_unidad} - {ubicaciones.ambiente} - {ubicaciones.sitio}</MenuItem>
-                                ))
-                              }
-                            </Select>
-                          ) : (
-                            <Select label="Ubicación" name="fk_ubicacion" onChange={valorInput} value={valores.fk_ubicacion} required>
-                              {
-                                ubicacionesUnidad.map((ubicaciones) => (
-                                  <MenuItem key={ubicaciones.id_ubicacion} value={ubicaciones.id_ubicacion}>{ubicaciones.nombre_unidad} - {ubicaciones.ambiente} - {ubicaciones.sitio}</MenuItem>
-                                ))
-                              }
-                            </Select>
+                          errores && errores.some(([campo]) => campo === "descripcion") && (
+                            <p>
+                              {errores.find(([campo]) => campo === "descripcion")[1]}
+                            </p>
                           )
                         }
-                      </FormControl>
-                    </ContentInput>
-                    <div className="input-description">
-                      <TextField
-                        name="observaciones"
-                        onChange={valorInput} value={valores.observaciones}
-                        label="Observaciones"
-                        multiline
-                        rows={5}
-                      />
-                      {
-                        errores && errores.some(([campo]) => campo === "observaciones") && (
-                          <p>
-                            {errores.find(([campo]) => campo === "observaciones")[1]}
-                          </p>
-                        )
-                      }
-                    </div>
-                  </div>
-                  </div>
-                  
+                      </div>
                 </div>
+                <div className="fila-three">
+                      <ContentInput>
+                        <FormControl>
+                          <InputLabel>Ubicación</InputLabel>
+                          {
+                            user && user === "1" ? (
+                              <Select label="Ubicación" name="fk_ubicacion" onChange={valorInput} value={valores.fk_ubicacion} required>
+                                {
+                                  ubicaciones.map((ubicaciones) => (
+                                    <MenuItem key={ubicaciones.id_ubicacion} value={ubicaciones.id_ubicacion}>{ubicaciones.nombre_unidad} - {ubicaciones.ambiente} - {ubicaciones.sitio}</MenuItem>
+                                  ))
+                                }
+                              </Select>
+                            ) : (
+                              <Select label="Ubicación" name="fk_ubicacion" onChange={valorInput} value={valores.fk_ubicacion} required>
+                                {
+                                  ubicacionesUnidad.map((ubicaciones) => (
+                                    <MenuItem key={ubicaciones.id_ubicacion} value={ubicaciones.id_ubicacion}>{ubicaciones.nombre_unidad} - {ubicaciones.ambiente} - {ubicaciones.sitio}</MenuItem>
+                                  ))
+                                }
+                              </Select>
+                            )
+                          }
+                        </FormControl>
+                      </ContentInput>
+                      <div className="input-observation">
+                        <TextField
+                          name="observaciones"
+                          onChange={valorInput} value={valores.observaciones}
+                          label="Observaciones"
+                          multiline
+                          rows={3}
+                        />
+                        {
+                          errores && errores.some(([campo]) => campo === "observaciones") && (
+                            <p>
+                              {errores.find(([campo]) => campo === "observaciones")[1]}
+                            </p>
+                          )
+                        }
+                      </div>
+                      <div className="imagen-input">
+                        <button className="btn-img" type="button" title="Cargar imagen del equipo" onClick={handleFileButtonClick}><MdPermMedia />Cargar Imagen</button>
+                        <input
+                          type="file"
+                          name="imagen"
+                          onChange={valorInput}
+                          accept="image/*"
+                          ref={fileInputRef}
+                          style={{ display: 'none' }}
+                        /><div>
+                          {preview && <img src={preview} alt="Vista previa" style={{ maxHeight: '150px', maxWidth: '150px' }} />}
+                        </div>
+
+                      </div>
+                    </div>
               </div>
-              <ModalButton text="REGISTRAR" />
+              <ModalButton 
+         text="REGISTRAR"/>
             </form>
           </Modal>
           <Modal
@@ -745,8 +834,8 @@ function Equipos() {
             cambiarEstado={clearFormEquipos}
           >
             <form className="formulario" onSubmit={putEquipo}>
-              <div className="inputs-data">
-                <div className="filas">
+            <div className="inputs-data">
+                <div className="fila-one">
                   <ContentInput>
                     <TextField label="Serial" name="serial" onChange={editValorInput} value={valores.serial} type="text" required />
                     {
@@ -787,18 +876,9 @@ function Equipos() {
                       )
                     }
                   </ContentInput>
-                  <ContentInput>
-                    <TextField name="placa_sena" onChange={editValorInput} value={valores.placa_sena} type="text" label="Placa SENA" required />
-                    {
-                      errores && errores.some(([campo]) => campo === "placa_sena") && (
-                        <p>
-                          {errores.find(([campo]) => campo === "placa_sena")[1]}
-                        </p>
-                      )
-                    }
-                  </ContentInput>
+               
                 </div>
-                <div className="filas">
+                <div className="fila-two">
                   <ContentInput>
                     <TextField name="fecha_ingreso" onChange={editValorInput} value={valores.fecha_ingreso} type="date" required />
                     {
@@ -832,18 +912,17 @@ function Equipos() {
                     </FormControl>
                   </ContentInput>
                   <ContentInput>
-                    <FormControl>
-                      <InputLabel>Estado: </InputLabel>
-                      <Select label="Estado" name="estado" onChange={editValorInput} value={valores.estado} required>
-                        <MenuItem value="activo">Activo</MenuItem>
-                        <MenuItem value="inactivo">Inactivo</MenuItem>
-                        <MenuItem value="mantenimiento">Mantenimiento</MenuItem>
-                        <MenuItem value="excluido">Excluido</MenuItem>
-                      </Select>
-                    </FormControl>
+                    <TextField name="placa_sena" onChange={editValorInput} value={valores.placa_sena} type="text" label="Placa SENA" required />
+                    {
+                      errores && errores.some(([campo]) => campo === "placa_sena") && (
+                        <p>
+                          {errores.find(([campo]) => campo === "placa_sena")[1]}
+                        </p>
+                      )
+                    }
                   </ContentInput>
                 </div>
-                <div className="filas-three">
+                <div className="fila-three">
                   <ContentInput>
                     <FormControl>
                       <InputLabel>Ubicación: </InputLabel>
@@ -870,14 +949,14 @@ function Equipos() {
                       }
                     </FormControl>
                   </ContentInput>
-                  <div className="description">
+                  <div className="input-description-update">
                     <TextField
                       name="descripcion"
                       onChange={editValorInput} value={valores.descripcion}
                       label="Descripción"
                       multiline
                       required
-                      rows={5}
+                      rows={3}
                     />
                     {
                       errores && errores.some(([campo]) => campo === "descripcion") && (
@@ -887,13 +966,13 @@ function Equipos() {
                       )
                     }
                   </div>
-                  <div className="description">
+                  <div className="input-observation-update">
                     <TextField
                       name="observaciones"
                       onChange={editValorInput} value={valores.observaciones}
                       label="Observaciones"
                       multiline
-                      rows={5}
+                      rows={3}
                     />
                     {
                       errores && errores.some(([campo]) => campo === "observaciones") && (
@@ -903,9 +982,11 @@ function Equipos() {
                       )
                     }
                   </div>
+
                 </div>
               </div>
-              <ModalButton text="ACTUALIZAR" />
+              <ModalButton 
+         text="ACTUALIZAR"/>
             </form>
           </Modal>
           <Modal
@@ -928,7 +1009,8 @@ function Equipos() {
                   </ContentInput>
                 </div>
               </div>
-              <ModalButton text="REGISTRAR" />
+              <ModalButton 
+         text="REGISTRAR"/>
             </form>
           </Modal>
           <Modal
@@ -1036,7 +1118,8 @@ function Equipos() {
                   </div>
                 </div>
               </div>
-              <ModalButton text="REGISTRAR" />
+              <ModalButton 
+         text="REGISTRAR"/>
             </form>
           </Modal>
         </Modales>
@@ -1047,7 +1130,7 @@ function Equipos() {
           text4="Inactivos"
           text5="Excluidos"
           text6="Categorías" >
-            
+
           <div className="table-mui">
             {
               user && user === "1" ? (
@@ -1068,19 +1151,19 @@ function Equipos() {
             }
           </div>
           <ContainerTable>
-          <EquipoManteinment/>
+            <EquipoManteinment />
           </ContainerTable>
           <ContainerTable>
-          <EquipoActive/>
+            <EquipoActive />
           </ContainerTable>
           <ContainerTable>
-          <EquipoInactive/>
+            <EquipoInactive />
           </ContainerTable>
           <ContainerTable>
-          <EquipoExcluded/>
+            <EquipoExcluded />
           </ContainerTable>
           <ContainerTable>
-            
+
             <MUIDataTable className="table-data-category"
               title="Lista de Categorías"
               data={categorias}

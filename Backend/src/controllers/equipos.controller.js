@@ -1,24 +1,48 @@
-import { connection } from '../database/database.js'
+import multer from 'multer';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import { connection } from '../database/database.js';
 
-const postEquipo = async (peticion, respuesta) => {
+// Obtener el nombre del archivo y el directorio
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// Configuración de almacenamiento de Multer
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, path.join(__dirname, '../public/images'));
+    },
+    filename: (req, file, cb) => {
+        // Obtén el nombre original del archivo
+        const originalName = file.originalname;
+        // Elimina cualquier prefijo numérico
+        const cleanedName = originalName.replace(/^\d+-/, '');
+        cb(null, cleanedName);
+    }
+});
+
+const upload = multer({ storage: storage });
+
+const postEquipo = async (req, res) => {
     try {
-        const equipo = peticion.body;
+        const equipo = req.body;
+        equipo.imagen = req.file.filename;  // Nombre de la imagen
         const sql = "INSERT INTO equipos SET ?";
         const [registro] = await connection.query(sql, equipo);
         if (registro.affectedRows > 0) {
-            return respuesta.status(200).json({
+            return res.status(200).json({
                 "status": 200,
                 message: "Equipo registrado"
             })
         } else {
-            return respuesta.status(403).json({
+            return res.status(403).json({
                 "status": 403,
                 "message": "Error al registrar equipo"
             })
         }
     } catch (error) {
-        respuesta.status(500);
-        respuesta.send(error.message);
+        res.status(500);
+        res.send(error.message);
     }
 };
 
@@ -289,7 +313,7 @@ const putEstado = async (peticion, respuesta) => {
         respuesta.send(error.message);
     }
 };
-
+export { upload };
 export const equipos = {
     postEquipo,
     putEquipo,
