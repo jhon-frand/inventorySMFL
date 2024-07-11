@@ -7,7 +7,8 @@ const rutas = Router();
 
 // Rutas POST y PUT
 rutas.post("/", upload.single('imagen'), validationEquipo, validationToken, equipos.postEquipo);
-rutas.put("/:id", validationEquipo, validationToken, equipos.putEquipo);
+rutas.put("/:id", upload.single('imagen'), validationEquipo, validationToken, equipos.putEquipo);
+rutas.put("/imagen/:id", upload.single('imagen'), equipos.putImgEquipo)
 rutas.put("/estado/:id", equipos.putEstado);
 
 // Rutas GET específicas

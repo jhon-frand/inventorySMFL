@@ -72,19 +72,22 @@ function Equipos() {
   const [selectedImage, setSelectedImage] = useState(null);
   const [preview, setPreview] = useState(null);
   const fileInputRef = useRef(null);
+  const [idUpdateImg, setIdUpdateImg] = useState(null)
 
- // Función para manejar el clic en la imagen
-const handleImageClick = (imagePath) => {
-  //si la imagen es nula o indefinida no se va a abrir el modal
-  if (imagePath && imagePath !== `${endpoint}/public/images/null` && imagePath !== `${endpoint}/public/images/undefined`) {
-    setSelectedImage(imagePath);
-    setModalOpen(true);
-  }
-};
+  // Función para manejar el clic en la imagen
+  const handleImageClick = (imagePath, idEquipo) => {
+    //si la imagen es nula o indefinida no se va a abrir el modal
+    if (imagePath && imagePath !== `${endpoint}/public/images/null` && imagePath !== `${endpoint}/public/images/undefined`) {
+      setSelectedImage(imagePath);
+      setModalOpen(true);
+      setIdUpdateImg(idEquipo);
+    }
+  };
 
   const handleCloseModal = () => {
     setModalOpen(false);
     setSelectedImage(null);
+    setIdUpdateImg(null);
   };
 
 
@@ -185,8 +188,6 @@ const handleImageClick = (imagePath) => {
     fk_user_responsable: "",
     fk_equipo: ""
   })
-
-
 
   const clearFormEquipos = () => {
     setValores({
@@ -548,10 +549,11 @@ const handleImageClick = (imagePath) => {
       options: {
         customBodyRender: (value, tableMeta, updateValue) => {
           const imagePath = `${endpoint}/public/images/${value}`;
+          const idEquipo = tableMeta.rowData[0];
           return (
-            <Button variant="text" color="success" size="small" onClick={() => handleImageClick(imagePath)}
-            //si el valor del botón no existe, es nulo o indefinido, no va a permitir dar click
-            disabled={!value || value === 'null' || value === 'undefined'}>
+            <Button variant="text" color="success" size="small" onClick={() => handleImageClick(imagePath, idEquipo)}
+              //si el valor del botón no existe, es nulo o indefinido, no va a permitir dar click
+              disabled={!value || value === 'null' || value === 'undefined'}>
               Ver Imagen
             </Button>
           );
@@ -650,12 +652,14 @@ const handleImageClick = (imagePath) => {
           <ModalImg
             estado={modalOpen}
             cambiarEstado={handleCloseModal}
+            idUpdate={idUpdateImg}
+            actualizarEquipos={getEquipos}
           >
-              {selectedImage && (
-             
-                <img src={selectedImage} alt="Equipo" />
-                
-              )}
+            {selectedImage && (
+
+              <img src={selectedImage} alt="Equipo" />
+
+            )}
           </ModalImg>
           <Modal
             titulo="REGISTRAR EQUIPO"
@@ -717,115 +721,116 @@ const handleImageClick = (imagePath) => {
                   </ContentInput>
                 </div>
                 <div className="fila-two">
-                      <ContentInput>
-                        <TextField name="fecha_ingreso" onChange={valorInput} value={valores.fecha_ingreso} type="date" required />
+                  <ContentInput>
+                    <TextField name="fecha_ingreso" onChange={valorInput} value={valores.fecha_ingreso} type="date" required />
+                    {
+                      errores && errores.some(([campo]) => campo === "fecha_ingreso") && (
+                        <p>
+                          {errores.find(([campo]) => campo === "fecha_ingreso")[1]}
+                        </p>
+                      )
+                    }
+                  </ContentInput>
+                  <ContentInput>
+                    <TextField name="tipo_equipo" onChange={valorInput} value={valores.tipo_equipo} type="text" label="tipo de equipo" required />
+                    {
+                      errores && errores.some(([campo]) => campo === "tipo_equipo") && (
+                        <p>
+                          {errores.find(([campo]) => campo === "tipo_equipo")[1]}
+                        </p>
+                      )
+                    }
+                  </ContentInput>
+                  <ContentInput>
+                    <FormControl>
+                      <InputLabel>Categoría</InputLabel>
+                      <Select label="Categoría" name="fk_categoria" onChange={valorInput} value={valores.fk_categoria} required>
                         {
-                          errores && errores.some(([campo]) => campo === "fecha_ingreso") && (
-                            <p>
-                              {errores.find(([campo]) => campo === "fecha_ingreso")[1]}
-                            </p>
-                          )
+                          categorias.map((categorias) => (
+                            <MenuItem key={categorias.id_categoria} value={categorias.id_categoria}>{categorias.nombre_categoria}</MenuItem>
+                          ))
                         }
-                      </ContentInput>
-                      <ContentInput>
-                        <TextField name="tipo_equipo" onChange={valorInput} value={valores.tipo_equipo} type="text" label="tipo de equipo" required />
-                        {
-                          errores && errores.some(([campo]) => campo === "tipo_equipo") && (
-                            <p>
-                              {errores.find(([campo]) => campo === "tipo_equipo")[1]}
-                            </p>
-                          )
-                        }
-                      </ContentInput>
-                      <ContentInput>
-                        <FormControl>
-                          <InputLabel>Categoría</InputLabel>
-                          <Select label="Categoría" name="fk_categoria" onChange={valorInput} value={valores.fk_categoria} required>
+                      </Select>
+                    </FormControl>
+                  </ContentInput>
+                  <div className="input-description">
+                    <TextField
+                      name="descripcion"
+                      onChange={valorInput} value={valores.descripcion}
+                      label="Descripción"
+                      required
+                      multiline
+                      rows={4}
+                    />
+                    {
+                      errores && errores.some(([campo]) => campo === "descripcion") && (
+                        <p>
+                          {errores.find(([campo]) => campo === "descripcion")[1]}
+                        </p>
+                      )
+                    }
+                  </div>
+                </div>
+                <div className="fila-three">
+                  <ContentInput>
+                    <FormControl>
+                      <InputLabel>Ubicación</InputLabel>
+                      {
+                        user && user === "1" ? (
+                          <Select label="Ubicación" name="fk_ubicacion" onChange={valorInput} value={valores.fk_ubicacion} required>
                             {
-                              categorias.map((categorias) => (
-                                <MenuItem key={categorias.id_categoria} value={categorias.id_categoria}>{categorias.nombre_categoria}</MenuItem>
+                              ubicaciones.map((ubicaciones) => (
+                                <MenuItem key={ubicaciones.id_ubicacion} value={ubicaciones.id_ubicacion}>{ubicaciones.nombre_unidad} - {ubicaciones.ambiente} - {ubicaciones.sitio}</MenuItem>
                               ))
                             }
                           </Select>
-                        </FormControl>
-                      </ContentInput>
-                      <div className="input-description">
-                        <TextField
-                          name="descripcion"
-                          onChange={valorInput} value={valores.descripcion}
-                          label="Descripción"
-                          required
-                          multiline
-                          rows={4}
-                        />
-                        {
-                          errores && errores.some(([campo]) => campo === "descripcion") && (
-                            <p>
-                              {errores.find(([campo]) => campo === "descripcion")[1]}
-                            </p>
-                          )
-                        }
-                      </div>
-                </div>
-                <div className="fila-three">
-                      <ContentInput>
-                        <FormControl>
-                          <InputLabel>Ubicación</InputLabel>
-                          {
-                            user && user === "1" ? (
-                              <Select label="Ubicación" name="fk_ubicacion" onChange={valorInput} value={valores.fk_ubicacion} required>
-                                {
-                                  ubicaciones.map((ubicaciones) => (
-                                    <MenuItem key={ubicaciones.id_ubicacion} value={ubicaciones.id_ubicacion}>{ubicaciones.nombre_unidad} - {ubicaciones.ambiente} - {ubicaciones.sitio}</MenuItem>
-                                  ))
-                                }
-                              </Select>
-                            ) : (
-                              <Select label="Ubicación" name="fk_ubicacion" onChange={valorInput} value={valores.fk_ubicacion} required>
-                                {
-                                  ubicacionesUnidad.map((ubicaciones) => (
-                                    <MenuItem key={ubicaciones.id_ubicacion} value={ubicaciones.id_ubicacion}>{ubicaciones.nombre_unidad} - {ubicaciones.ambiente} - {ubicaciones.sitio}</MenuItem>
-                                  ))
-                                }
-                              </Select>
-                            )
-                          }
-                        </FormControl>
-                      </ContentInput>
-                      <div className="input-observation">
-                        <TextField
-                          name="observaciones"
-                          onChange={valorInput} value={valores.observaciones}
-                          label="Observaciones"
-                          multiline
-                          rows={3}
-                        />
-                        {
-                          errores && errores.some(([campo]) => campo === "observaciones") && (
-                            <p>
-                              {errores.find(([campo]) => campo === "observaciones")[1]}
-                            </p>
-                          )
-                        }
-                      </div>
-                      <div className="imagen-input">
-                        <button className="btn-img" type="button" title="Cargar imagen del equipo" onClick={handleFileButtonClick}><MdPermMedia />Cargar Imagen</button>
-                        <input
-                          type="file"
-                          name="imagen"
-                          onChange={valorInput}
-                          accept="image/*"
-                          ref={fileInputRef}
-                          style={{ display: 'none' }}
-                        /><div>
-                          {preview && <img src={preview} alt="Vista previa" style={{ maxHeight: '150px', maxWidth: '150px' }} />}
-                        </div>
-
-                      </div>
+                        ) : (
+                          <Select label="Ubicación" name="fk_ubicacion" onChange={valorInput} value={valores.fk_ubicacion} required>
+                            {
+                              ubicacionesUnidad.map((ubicaciones) => (
+                                <MenuItem key={ubicaciones.id_ubicacion} value={ubicaciones.id_ubicacion}>{ubicaciones.nombre_unidad} - {ubicaciones.ambiente} - {ubicaciones.sitio}</MenuItem>
+                              ))
+                            }
+                          </Select>
+                        )
+                      }
+                    </FormControl>
+                  </ContentInput>
+                  <div className="input-observation">
+                    <TextField
+                      name="observaciones"
+                      onChange={valorInput} value={valores.observaciones}
+                      label="Observaciones"
+                      multiline
+                      rows={3}
+                    />
+                    {
+                      errores && errores.some(([campo]) => campo === "observaciones") && (
+                        <p>
+                          {errores.find(([campo]) => campo === "observaciones")[1]}
+                        </p>
+                      )
+                    }
+                  </div>
+                  <div className="imagen-input">
+                    <button className="btn-img" type="button" title="Cargar imagen del equipo" onClick={handleFileButtonClick}><MdPermMedia />Cargar Imagen</button>
+                    <input
+                      type="file"
+                      name="imagen"
+                      onChange={valorInput}
+                      accept="image/*"
+                      ref={fileInputRef}
+                      style={{ display: 'none' }}
+                    />
+                    <div>
+                      {preview && <img src={preview} alt="Vista previa" style={{ maxHeight: '150px', maxWidth: '150px' }} />}
                     </div>
+
+                  </div>
+                </div>
               </div>
-              <ModalButton 
-         text="REGISTRAR"/>
+              <ModalButton
+                text="REGISTRAR" />
             </form>
           </Modal>
           <Modal
@@ -834,7 +839,7 @@ const handleImageClick = (imagePath) => {
             cambiarEstado={clearFormEquipos}
           >
             <form className="formulario" onSubmit={putEquipo}>
-            <div className="inputs-data">
+              <div className="inputs-data">
                 <div className="fila-one">
                   <ContentInput>
                     <TextField label="Serial" name="serial" onChange={editValorInput} value={valores.serial} type="text" required />
@@ -876,7 +881,7 @@ const handleImageClick = (imagePath) => {
                       )
                     }
                   </ContentInput>
-               
+
                 </div>
                 <div className="fila-two">
                   <ContentInput>
@@ -985,8 +990,8 @@ const handleImageClick = (imagePath) => {
 
                 </div>
               </div>
-              <ModalButton 
-         text="ACTUALIZAR"/>
+              <ModalButton
+                text="ACTUALIZAR" />
             </form>
           </Modal>
           <Modal
@@ -1009,8 +1014,8 @@ const handleImageClick = (imagePath) => {
                   </ContentInput>
                 </div>
               </div>
-              <ModalButton 
-         text="REGISTRAR"/>
+              <ModalButton
+                text="REGISTRAR" />
             </form>
           </Modal>
           <Modal
@@ -1118,8 +1123,8 @@ const handleImageClick = (imagePath) => {
                   </div>
                 </div>
               </div>
-              <ModalButton 
-         text="REGISTRAR"/>
+              <ModalButton
+                text="REGISTRAR" />
             </form>
           </Modal>
         </Modales>

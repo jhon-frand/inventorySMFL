@@ -69,6 +69,35 @@ const putEquipo = async (peticion, respuesta) => {
     }
 };
 
+const putImgEquipo = async (req, res) => {
+    try {
+      const { id } = req.params;
+      let imagen = req.body.imagen;
+  
+      if (req.file) {
+        imagen = req.file.filename; // Nombre de la imagen nueva
+      }
+  
+      const sql = "UPDATE equipos SET imagen = ? WHERE id_equipo = ?";
+      const [actualizar] = await connection.query(sql, [imagen, id]);
+  
+      if (actualizar.affectedRows > 0) {
+        return res.status(200).json({
+          "status": 200,
+          message: "Imagen actualizada"
+        });
+      } else {
+        return res.status(403).json({
+          "status": 403,
+          "message": "Error al actualizar imagen"
+        });
+      }
+    } catch (error) {
+      res.status(500);
+      res.send(error.message);
+    }
+  };
+
 const getEquipo = async (peticion, respuesta) => {
     try {
         const { id } = peticion.params;
@@ -317,6 +346,7 @@ export { upload };
 export const equipos = {
     postEquipo,
     putEquipo,
+    putImgEquipo,
     putEstado,
     getEquipo,
     getEquipos,
