@@ -37,7 +37,7 @@ function EquipmentStatus() {
             series={[{ 
                 data: data.totales ,
                 label: 'Equipos',
-                color: '#38a800'
+                color: '#385c57'
             }]}
         />
     );

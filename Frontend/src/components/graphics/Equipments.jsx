@@ -1,59 +1,45 @@
 import { BarChart } from '@mui/x-charts/BarChart';
-import axios from 'axios';
-import { endpointUnidad } from '../endpoints/Endpoints';
 import { useState, useEffect } from 'react';
+import axios from 'axios';
+import { endpointEquipo } from '../endpoints/Endpoints';
+
 
 function TotalEquipments() {
-    const [data, setData] = useState([]);
+    const [data, setData] = useState({ unidades: [], activos: [], inactivos: [], mantenimientos: [] });
 
-    const getTotalEquiposUnit = async (nombre_unidad) => {
+    const getEquiposEstado = async () => {
         try {
-            const respuesta = await axios.get(`${endpointUnidad}/equipos/${nombre_unidad}`);
-            return respuesta.data.total_equipos;
-        } catch (error) {
-            console.log(error);
-            return 0;
-        }
-    };
-
-    const getUnidades = async () => {
-        try {
-            const response = await axios.get(endpointUnidad);
-            const unidades = response.data;
-
-            // Iterar sobre cada unidad y obtener el total de equipos
-            const newData = await Promise.all(
-                unidades.map(async (unidad) => {
-                    const totalEquipos = await getTotalEquiposUnit(unidad.nombre_unidad);
-                    return { unidad: unidad.nombre_unidad, totalEquipos: totalEquipos };
-                })
-            );
-
-            setData(newData);
+            const response = await axios.get(`${endpointEquipo}/total/equipos/estado`);
+            const result = response.data;
+            console.log("API Result:", result);
+            const unidades = result.map(item => item.nombre_unidad);
+            const activos = result.map(item => parseInt(item.total_activos));
+            const inactivos = result.map(item => parseInt(item.total_inactivos));
+            const mantenimientos = result.map(item => parseInt(item.total_mantenimiento));
+            setData({ unidades, activos, inactivos, mantenimientos });
         } catch (error) {
             console.log(error);
         }
     };
 
     useEffect(() => {
-        getUnidades();
+        getEquiposEstado();
     }, []);
 
     return (
         <BarChart
-            width={500}
+            width={600}
             height={300}
             series={[
-                {
-                    data: data.map((item) => item.totalEquipos),
-                    label: 'Equipos',
-                    color: '#38a800'
-                },
+                { data: data.activos, label: 'Activos', id: 'uId', stack: 'total', color: '#38a800' },
+                { data: data.inactivos, label: 'Inactivos', id: 'pvId', stack: 'total', color: '#73d542' },
+                { data: data.mantenimientos, label: 'Mantenimiento', id: 'hvId', stack: 'total', color: '#d59042' },
             ]}
-            xAxis={[{ data: data.map((item) => item.unidad), scaleType: 'band' }]}
+            xAxis={[{ data: data.unidades, scaleType: 'band' }]}
         />
     );
 }
 
 export default TotalEquipments;
+
 

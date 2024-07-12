@@ -435,10 +435,12 @@ function Equipos() {
           "token": token
         }
       })
+
       if (respuesta.status === 200) {
         await axios.put(`${endpointEquipo}/estado/${idEquipo}`, {
           estado: "mantenimiento"
         });
+        
         getEquipos();
         AlertSucces("Mantenimiento Registrado")
       }

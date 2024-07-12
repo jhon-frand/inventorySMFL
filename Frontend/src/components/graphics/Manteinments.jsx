@@ -3,7 +3,6 @@ import { BarChart } from '@mui/x-charts/BarChart';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { endpointMantenimientoTipo } from '../endpoints/Endpoints';
-import styled from 'styled-components';
 
 function StackedBarChart() {
     const [data, setData] = useState({ unidades: [], predictivos: [], preventivos: [], correctivos: [] });

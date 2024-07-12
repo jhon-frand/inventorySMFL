@@ -25,7 +25,7 @@ function StatusEquipments() {
             <Box width={420} >
                 <PieChart 
                 height={200}
-                    colors={['#73d542', '#38a800', '#385c57', '#cb7755']}
+                    colors={['#38a800', '#cb7755', '#73d542', '#385c57']}
                     series={
 
                         [

@@ -157,22 +157,25 @@ const getEquiposUnidad = async (peticion, respuesta) => {
         respuesta.send(error.message);
     }
 };
+
 //traer total de equipos por unidad
 const getTotalEquiposUnidad = async (peticion, respuesta) => {
     try {
-        const { unidad } = peticion.params;
         const sql = `
-                    SELECT COUNT(*) AS totalEquipos,
-                     unidades_productivas.nombre_unidad
+                    SELECT 
+                     unidades_productivas.nombre_unidad,
+                      SUM(CASE WHEN equipos.estado = 'activo' THEN 1 ELSE 0 END) AS total_activos,
+                     SUM(CASE WHEN equipos.estado = 'inactivo' THEN 1 ELSE 0 END) AS total_inactivos,
+                     SUM(CASE WHEN equipos.estado = 'mantenimiento' THEN 1 ELSE 0 END) AS total_mantenimiento
                      FROM equipos
                      JOIN ubicaciones ON ubicaciones.id_ubicacion = equipos.fk_ubicacion
                      JOIN unidades_productivas ON unidades_productivas.id_unidad = ubicaciones.fk_unidad_productiva
-                     WHERE unidades_productivas.nombre_unidad = ?
-
+                     GROUP BY unidades_productivas.nombre_unidad
                     `;
-        const [equipos] = await connection.query(sql, unidad);
-        const total = equipos[0].totalEquipos;
-        respuesta.status(200).json(total);
+                    const [result] = await connection.query(sql);
+                    if (result.length > 0) {
+                        return respuesta.status(200).json(result);
+                    }
     } catch (error) {
         respuesta.status(500);
         respuesta.send(error.message);
