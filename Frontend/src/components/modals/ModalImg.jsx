@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { IoMdClose } from "react-icons/io";;
 import { Button } from "@mui/material";
 import axios from "axios";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { endpointEquipo } from "../endpoints/Endpoints";
 import { MdPermMedia } from "react-icons/md";
 import { AlertSucces } from "../alerts/Alerts";
@@ -49,24 +49,27 @@ function ModalImg({ children, estado, cambiarEstado, idUpdate, actualizarEquipos
     }
   };
 
-  useEffect(() => {
-    if (estado) {
-      // Fetch the original image URL when the modal opens
-      const fetchOriginalImage = async () => {
-        try {
-          const response = await axios.get(`${endpointEquipo}/imagen/${idUpdate}`);
-          setPreview(response.data.imagen); // Mostrar la imagen original cuando se abre el modal
-        } catch (error) {
-          console.error("Error fetching original image:", error);
-        }
-      };
+  const fetchOriginalImage = useCallback(async () => {
+    try {
+      const response = await axios.get(`${endpointEquipo}/imagen/${idUpdate}`);
+      if (response.data && response.data.imagen) {
+        setPreview(response.data.imagen);
+      } else {
+        setPreview(null);
+      }
+    } catch (error) {
+      setPreview(null);
+    }
+  }, [idUpdate]);
 
+   useEffect(() => {
+    if (estado) {
       fetchOriginalImage();
     } else {
       setImage(null);
       setPreview(null);
     }
-  }, [estado, idUpdate]);
+  }, [estado, fetchOriginalImage]);
 
   return (
     <>
@@ -79,7 +82,7 @@ function ModalImg({ children, estado, cambiarEstado, idUpdate, actualizarEquipos
             <form onSubmit={putImgEquipo}>
             <div className="content">
             {preview ? (
-                <img src={preview} alt="Preview" />
+                <img src={preview} alt="Imagen del equipo" />
               ) : (
                 children
               )}

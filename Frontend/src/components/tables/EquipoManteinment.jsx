@@ -77,12 +77,16 @@ function EquipoManteinment() {
 
   const getEquiposUnit = async () => {
     try {
-      await axios.get(`${endpointEquipo}/estado/${"mantenimiento"}/unidad/${unidadUser}`).then((response) => {
+      const respuesta = await axios.get(`${endpointEquipo}/estado/${"mantenimiento"}/unidad/${unidadUser}`).then((response) => {
         const equipment = response.data;
         setEquiposUnit(equipment);
       })
     } catch (error) {
-      console.log(error)
+      if (error.status === 500) {
+        console.log(error.response.data)
+      } else {
+      console.log(error.response.data.message )
+      }
     }
   }
 

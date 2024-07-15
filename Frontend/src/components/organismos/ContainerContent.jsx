@@ -34,13 +34,15 @@ min-height: 100px;
 border-bottom-left-radius: 20px;
 border-bottom-right-radius: 20px;
 color: #153f39;
-box-shadow: 0 1px 1px 0 #38a800;
+box-shadow: 1px 5px 15px 1px #9fa09e;
 
  &:hover{
   .top-line{
-    background: #38a800b3;
+    background: #385c57;
     transition: all 0.5s ease-out;
   }
+  transition: all 0.8s ease-in-out;
+  box-shadow: 1px 5px 15px 1px gray;
 }
 
 .top-line{

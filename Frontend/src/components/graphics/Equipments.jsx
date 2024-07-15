@@ -11,7 +11,6 @@ function TotalEquipments() {
         try {
             const response = await axios.get(`${endpointEquipo}/total/equipos/estado`);
             const result = response.data;
-            console.log("API Result:", result);
             const unidades = result.map(item => item.nombre_unidad);
             const activos = result.map(item => parseInt(item.total_activos));
             const inactivos = result.map(item => parseInt(item.total_inactivos));

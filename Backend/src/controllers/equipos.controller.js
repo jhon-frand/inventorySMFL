@@ -43,6 +43,7 @@ const postEquipo = async (req, res) => {
     } catch (error) {
         res.status(500);
         res.send(error.message);
+        console.log(error);
     }
 };
 
@@ -305,8 +306,7 @@ const getEquiposStatusUnit = async (peticion, respuesta) => {
             return respuesta.status(200).json(equipos);
         } else {
             return respuesta.status(404).json({
-                "status": 404,
-                "message": "No se encontraron equipos"
+                "message": `No se encontraron equipos en ${estado} en ${unidad}`
             });
         }
 

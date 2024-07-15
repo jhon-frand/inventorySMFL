@@ -19,6 +19,7 @@ import path from 'path';
 const app = express();
 
 // Ruta absoluta a la carpeta 'public'
+// estas lineas me permiten acceder a la imagen del equipo en el frontend
 const __dirname = path.resolve();
 app.use('/public', express.static(path.join(__dirname, 'src/public')));
 

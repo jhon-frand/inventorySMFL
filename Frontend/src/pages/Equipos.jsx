@@ -659,9 +659,10 @@ function Equipos() {
           >
             {selectedImage && (
 
-              <img src={selectedImage} alt="Equipo" />
+              <img src={selectedImage} alt="Img del Equipo" />
 
             )}
+            
           </ModalImg>
           <Modal
             titulo="REGISTRAR EQUIPO"

@@ -16,6 +16,7 @@ function TypeManteinmentUnit() {
                 // Transformar los datos al formato adecuado para PieChart
                 const formattedData = [
                     { id: 'Preventivo', label: 'Preventivo', value: parseInt(result.total_preventivos) },
+                    { id: 'Predictivo', label: 'Predictivo', value: parseInt(result.total_predictivos) },
                     { id: 'Correctivo', label: 'Correctivo', value: parseInt(result.total_correctivos) }
                 ];
 
@@ -38,11 +39,9 @@ function TypeManteinmentUnit() {
 
     return (
         <PieChart
-            colors={['#73d542', '#38a800']}
+        colors={['#73d542',  '#d59042', '#38a800']}
             series={[{
                 data: data.map(item => ({ ...item })),
-                startAngle: 400,
-                endAngle: 120,
                 highlightScope: { faded: 'global', highlighted: 'item' },
                 faded: { innerRadius: 30, additionalRadius: -30, color: 'gray' },
                 innerRadius: 20,
@@ -50,7 +49,18 @@ function TypeManteinmentUnit() {
                 cornerRadius: 5,
             }]}
             width={300}
-            height={200}
+            height={300}
+            slotProps={{
+                legend: {
+                  direction: 'row',
+                  position: { vertical: 'top', horizontal: 'middle' },
+                  padding: 0,
+                  labelStyle:{
+                    fontSize: 14
+                  }
+                },
+              }}
+            margin={{ top: 40, bottom: 20, left: 0, right:0 }}
         />
     );
 }

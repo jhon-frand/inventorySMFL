@@ -31,21 +31,33 @@ function TypeManteinments() {
             colors={['#73d542', '#d59042', '#38a800']}
             series={[
                 {
-                    startAngle: 400,
-                    endAngle: 120,
+                    
                     data: mantenimientos.map(({ tipo_mantenimiento, total_mantenimientos }) => ({
                         label: tipo_mantenimiento,
                         value: parseInt(total_mantenimientos),
                     })),
                     highlightScope: { faded: 'global', highlighted: 'item' },
                     faded: { innerRadius: 30, additionalRadius: -30, color: 'gray' },
-                    innerRadius: 20,
-                    paddingAngle: 5,
+                    innerRadius: 50,
+                    paddingAngle: 3,
                     cornerRadius: 5,
                 },
             ]}
-            width={300}
-            height={200}
+
+            slotProps={{
+                legend: {
+                  direction: 'row',
+                  position: { vertical: 'bottom', horizontal: 'middle' },
+                  padding: 0,
+                  labelStyle:{
+                    fontSize: 14
+                  }
+                },
+              }}
+
+            width={310}
+            height={300}
+            margin={{ top: 20, bottom: 40, left: 0, right:0 }}
         />
     );
 }
