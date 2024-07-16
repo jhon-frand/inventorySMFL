@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom"
 import axios from "axios"
 import { TextField } from "@mui/material";
+import { endpoint } from "../components/endpoints/Endpoints"
 
 function ResetPassword() {
 
@@ -38,7 +39,7 @@ function ResetPassword() {
     event.preventDefault();
     try {
       if (password.password === confirm.confirm ) {
-        await axios.put('http://localhost:3000/password/reset', { token, password: password.password });
+        await axios.put(`${endpoint}/password/reset`, { token, password: password.password });
         alert('Contraseña restablecida con éxito');
         navigate('/');
       } else {

@@ -8,13 +8,20 @@ import Modal from "../components/modals/Modal"
 import { endpointRecuperar, endpointLogin } from '../components/endpoints/Endpoints';
 import { LinearProgress, TextField } from "@mui/material";
 import { HiOutlineMail } from "react-icons/hi";
-import CircularIntegration from "../components/progress/CircularIntegration"
+import { HiOutlineEye, HiOutlineEyeOff } from "react-icons/hi";
 
 function Login() {
 
   const navigate = useNavigate();
   const [modal, setModal] = useState(false)
   const [loading, setLoading] = useState(false)
+
+
+  //ver contraseña
+  const [showPassword, setShowPassword] = useState(false);
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
 
   const [email, setEmail] = useState({
     email: ""
@@ -116,8 +123,24 @@ function Login() {
 
             <TextField label="Correo electrónico" name="email" className='input' value={valores.email} onChange={valorInput} type="email" required />
 
-            <TextField label="Contraseña" name="password" className='input' value={valores.password} onChange={valorInput} type="password" required />
-
+            <div className="password-field">
+              <TextField
+                label="Contraseña"
+                name="password"
+                className='input'
+                value={valores.password}
+                onChange={valorInput}
+                type={showPassword ? "text" : "password"}
+                required
+              />
+              <button
+                type="button"
+                className="toggle-password"
+                onClick={togglePasswordVisibility}
+              >
+                {showPassword ? <HiOutlineEyeOff /> : <HiOutlineEye />}
+              </button>
+            </div>
             <button className="submit">Iniciar sesión</button>
 
             <div className="reset">
@@ -159,6 +182,23 @@ const Container = styled.div`
       align-items: center;
       height: 100vh;
       background-color: #f1f1f1;
+
+      .password-field {
+    position: relative;
+    width: 100%;
+  }
+
+  .toggle-password {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 20px;
+    color: gray;
+  }
 
       .content-formulario{
         display: flex;
