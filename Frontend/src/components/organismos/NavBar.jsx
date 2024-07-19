@@ -362,7 +362,7 @@ function NavBar() {
                    onChange={(event) => setConfirmNewPassword(event.target.value)}
                    required
                    type="password"
-                   error={errorPassword ? "Las contraseñas no coinciden" : ""} />
+                   error={errorPassword} />
 
                     {
                   errorPassword && (

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost:3306
--- Tiempo de generación: 11-07-2024 a las 17:40:30
+-- Tiempo de generación: 18-07-2024 a las 22:36:45
 -- Versión del servidor: 8.0.30
 -- Versión de PHP: 8.1.10
 
@@ -35,14 +35,6 @@ CREATE TABLE `actividades` (
   `fk_tecnico` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
---
--- Volcado de datos para la tabla `actividades`
---
-
-INSERT INTO `actividades` (`id_actividad`, `fecha_actividad`, `descripcion`, `fk_mantenimiento`, `fk_tecnico`) VALUES
-(17, '2024-07-05', 'cambio del display de la pantalla', 41, 15),
-(18, '2024-07-06', 'cambio de eje rotador de manila', 42, 15);
-
 -- --------------------------------------------------------
 
 --
@@ -53,15 +45,6 @@ CREATE TABLE `categorias` (
   `id_categoria` int NOT NULL,
   `nombre_categoria` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
---
--- Volcado de datos para la tabla `categorias`
---
-
-INSERT INTO `categorias` (`id_categoria`, `nombre_categoria`) VALUES
-(51, 'Maquinaria'),
-(52, 'Laboratorio'),
-(53, 'computador');
 
 -- --------------------------------------------------------
 
@@ -86,26 +69,6 @@ CREATE TABLE `equipos` (
   `fk_ubicacion` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
---
--- Volcado de datos para la tabla `equipos`
---
-
-INSERT INTO `equipos` (`id_equipo`, `serial`, `nombre_equipo`, `marca_equipo`, `modelo_equipo`, `fecha_ingreso`, `descripcion`, `tipo_equipo`, `estado`, `placa_sena`, `observaciones`, `imagen`, `fk_categoria`, `fk_ubicacion`) VALUES
-(47, 'ASW321', 'portatil', 'ASUS', 'MOD2020', '2024-07-03', 'portátil asus mini', 'eléctrico', 'activo', '', NULL, NULL, 53, 61),
-(48, '123as2', 'molino', 'Pm2', 'Mod212', '2024-07-03', 'molino triturador de hierbas', 'eléctrico', 'mantenimiento', '', NULL, NULL, 51, 65),
-(49, '098WER', 'tostador', 'Caf23', 'MOD2021', '2024-07-03', 'tostadora de cafe ', 'eléctrico', 'inactivo', '', NULL, NULL, 51, 64),
-(50, 'QWE321', 'Horno', 'HJ21', 'MOD212', '2024-07-05', 'horno para carnes rojas', 'eléctrico', 'mantenimiento', '', NULL, NULL, 51, 63),
-(51, '1234535', 'Nevera', 'HACEB', 'HC21', '2024-07-04', 'nevera para productos lácteos', 'eléctrico', 'mantenimiento', '', NULL, NULL, 51, 62),
-(52, 'JGHJ45', 'Tetera', 'Valdez', 'MOD234', '2024-07-03', 'maquina para hacer cafe', 'eléctrico', 'activo', '', NULL, NULL, 51, 64),
-(53, 'BEJE4', 'Despulpadora', 'Bellota', 'MOD23', '2024-07-03', 'despulpadora de cafe especial', 'eléctrico', 'mantenimiento', '', NULL, NULL, 51, 64),
-(54, 'AW4I', 'Portatil asus', 'ASUS', 'XAM23', '2024-07-04', 'portatil de software inventory', 'manual', 'mantenimiento', '', NULL, NULL, 53, 64),
-(55, 'AXS32D', 'Portatil', 'DELL', 'MOD234', '2024-07-07', 'computador dell core i5', 'eléctrico', 'activo', '', NULL, NULL, 53, 61),
-(56, '67SAER23', 'Microscopio', 'MCR', 'MOD56', '2024-07-07', 'microscopio de sustancias', 'manual', 'activo', '', NULL, NULL, 52, 62),
-(57, 'HJS45', 'CPU', 'HP', 'MOD89', '2024-07-07', 'torre CPU de servidor', 'eléctrico', 'activo', '', NULL, NULL, 53, 61),
-(58, '875GY', 'Tractor', 'TRCER', 'MOD74', '2024-07-07', 'tractor de maiz', 'combustible', 'activo', '', NULL, NULL, 51, 65),
-(64, '1234535', 'Molino', 'ASUS', '2024', '2024-07-11', 'lonino de carfnicos ', 'eléctrico', 'activo', 'aksh3', '', 'MOLINO-32-TORREY-3HP.jpg', 52, 62),
-(65, 'gggg', 'ggg', 'gg', 'ggg', '2024-07-11', 'gggggggg g g', 'ggr', 'activo', 'g', '', 'logoFL.png', 53, 64);
-
 -- --------------------------------------------------------
 
 --
@@ -121,19 +84,6 @@ CREATE TABLE `mantenimientos` (
   `fk_equipo` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
---
--- Volcado de datos para la tabla `mantenimientos`
---
-
-INSERT INTO `mantenimientos` (`id_mantenimiento`, `tipo_mantenimiento`, `fecha_mantenimiento`, `descripcion`, `fk_user_responsable`, `fk_equipo`) VALUES
-(41, 'preventivo', '2024-07-04', 'fallo en la pantalla', 25, 47),
-(42, 'predictivo', '2024-07-06', 'fallo en el eje de rotación centrall', 25, 48),
-(43, 'preventivo', '2024-07-04', 'fallo en el sistema de calor', 26, 49),
-(44, 'preventivo', '2024-07-03', 'falla en la polea central', 29, 48),
-(45, 'correctivo', '2024-07-03', 'fallas en los botones de marchas', 28, 50),
-(46, 'predictivo', '2024-07-03', 'fallos en el refrigerador', 27, 51),
-(47, 'preventivo', '2024-07-05', 'Revisión de equipo', 26, 54);
-
 -- --------------------------------------------------------
 
 --
@@ -148,13 +98,6 @@ CREATE TABLE `tecnicos` (
   `correo` varchar(50) NOT NULL,
   `telefono` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
---
--- Volcado de datos para la tabla `tecnicos`
---
-
-INSERT INTO `tecnicos` (`id_tecnico`, `identificacion`, `nombres`, `apellidos`, `correo`, `telefono`) VALUES
-(15, 1002343567, 'Dario', 'Guaca', 'dario@gmail.com', '3213456543');
 
 -- --------------------------------------------------------
 
@@ -188,17 +131,6 @@ CREATE TABLE `ubicaciones` (
   `sitio` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
---
--- Volcado de datos para la tabla `ubicaciones`
---
-
-INSERT INTO `ubicaciones` (`id_ubicacion`, `fk_unidad_productiva`, `ambiente`, `sitio`) VALUES
-(61, 48, 'Y-12', 'mesa 1'),
-(62, 52, 'A-3', 'meson'),
-(63, 51, 'G-1', 'mesa 1'),
-(64, 50, 'C-3', 'mesa 1'),
-(65, 49, 'P-2', 'mesa 3');
-
 -- --------------------------------------------------------
 
 --
@@ -215,11 +147,7 @@ CREATE TABLE `unidades_productivas` (
 --
 
 INSERT INTO `unidades_productivas` (`id_unidad`, `nombre_unidad`) VALUES
-(48, 'tics'),
-(49, 'pae'),
-(50, 'cafe'),
-(51, 'gastronomia'),
-(52, 'agroindustria');
+(1, 'TICS');
 
 -- --------------------------------------------------------
 
@@ -245,11 +173,7 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`id_usuario`, `identificacion`, `nombres`, `apellidos`, `email`, `telefono`, `password`, `estado`, `fk_tipo_usuario`, `fk_unidad_productiva`) VALUES
-(25, 1004268668, 'Frand', 'Lebaza', 'frandlebaza@gmail.com', '3213570619', '$2b$10$J.W2IQUc6YQhH05OxRV4du8E7K99NxnFshEouo1ftji9O2MUqE6JS', 'activo', 1, 48),
-(26, 1007520867, 'Santiago', 'Motato', 'santsaintcode@gmail.com', '3113880114', '$2b$10$teHM8NBAhZQtucd9GF8TxeTkaL0eTfznoXEHJ1.MeylEIyMuMBGte', 'activo', 2, 50),
-(27, 123456789, 'Julian', 'Alvarez', 'julian@gmail.com', '3103234765', '$2b$10$uxu88NjY0fejkQE1UBsAqOG426c7GNSBHgqXxiCb.su7m8oaOZvg.', 'activo', 2, 52),
-(28, 830286458, 'Jorge', 'Sanchez', 'jorge@gmail.com', '3213450798', '$2b$10$S/QHtu0rTRTUJL/cwfwPhuM7JxjF.XC32C4Deahw.67jsrHLys49K', 'activo', 2, 51),
-(29, 260983645, 'Daniel', 'Lopez', 'daniel@gmail.com', '3203459812', '$2b$10$ifLjA6diMY7MQ9QWzpgj3.gGxzN7.K.V6BCblZF4X/N7lNLPLTUGO', 'activo', 2, 49);
+(1, 1004268668, 'Inventory', 'Inventory', 'inventory.soporte@gmail.com', '3213570619', '$2b$10$MlRnxM4.ZrdiUyBZXrGFReI4wKTc/vd4GY6x66QfCl9Eme1Vw1AkS', 'activo', 1, 1);
 
 --
 -- Índices para tablas volcadas
@@ -330,31 +254,31 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de la tabla `actividades`
 --
 ALTER TABLE `actividades`
-  MODIFY `id_actividad` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id_actividad` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `categorias`
 --
 ALTER TABLE `categorias`
-  MODIFY `id_categoria` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
+  MODIFY `id_categoria` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `equipos`
 --
 ALTER TABLE `equipos`
-  MODIFY `id_equipo` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
+  MODIFY `id_equipo` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `mantenimientos`
 --
 ALTER TABLE `mantenimientos`
-  MODIFY `id_mantenimiento` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
+  MODIFY `id_mantenimiento` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `tecnicos`
 --
 ALTER TABLE `tecnicos`
-  MODIFY `id_tecnico` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id_tecnico` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `tipo_usuario`
@@ -366,19 +290,19 @@ ALTER TABLE `tipo_usuario`
 -- AUTO_INCREMENT de la tabla `ubicaciones`
 --
 ALTER TABLE `ubicaciones`
-  MODIFY `id_ubicacion` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
+  MODIFY `id_ubicacion` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `unidades_productivas`
 --
 ALTER TABLE `unidades_productivas`
-  MODIFY `id_unidad` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
+  MODIFY `id_unidad` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id_usuario` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `id_usuario` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Restricciones para tablas volcadas
